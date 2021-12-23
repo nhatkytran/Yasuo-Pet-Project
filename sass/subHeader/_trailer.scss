@@ -1,0 +1,109 @@
+.trailer {
+  grid-column: full-start / full-end;
+  position: relative;
+
+  // Big background
+  &__bg-big {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    filter: blur(10px);
+
+    &-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  // Small background
+  &__bg-small {
+    @include absolute-top-left-50;
+    transform: translate(-50%, -38%);
+    width: calc(100% - 12rem);
+    height: 100%;
+    z-index: 1;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+
+    &-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(105%);
+    }
+
+    &-canvas {
+      border: 1px solid $canvas-color;
+      @include center-absolute;
+      z-index: 2;
+      clip-path: polygon(0 0, calc(100% - 3rem) 0, 100% 3rem, 100% 100%, 0 100%);
+      -webkit-clip-path: polygon(0 0, calc(100% - 3rem) 0, 100% 3rem, 100% 100%, 0 100%);
+    }
+  }
+
+  &__content {
+    @include absolute-top-left-50;
+    transform: translate(-50%, -30%);
+    width: 40vw;
+    z-index: 2;
+    text-align: center;
+
+    &-img {
+      width: 100%;
+      opacity: 0;
+      transition: all linear 0.2s;
+
+      &.out {
+        opacity: 1;
+      }
+    }
+
+    &-button {
+      min-width: 19.5rem;
+      height: 5.6rem;
+      padding: 0 4rem;
+      margin-top: 1rem;
+      position: relative;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+
+      .play-for-free {
+        color: $text-color;
+        font-family: Spiegel-Bold, Arial, sans-serif;
+        font-size: 1.3rem;
+        letter-spacing: 0.1rem;
+      }
+
+      &::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $button-color-blue-hover;
+        transition: all linear 0.3s;
+        z-index: -1;
+        animation: changeColorAfterButton linear 0.3s 1s;
+      }
+
+      &:hover::after {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+
+      .button__canvas {
+        border: 2px solid $canvas-color;
+        @include center-absolute;
+        clip-path: polygon(2rem 0, 100% 0, 100% calc(100% - 2rem), calc(100% - 2rem) 100%, 0 100%, 0 2rem);
+        z-index: 3;
+      }
+    }
+  }
+}

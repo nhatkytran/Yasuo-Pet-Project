@@ -1,0 +1,18 @@
+.sh-footer {
+  grid-column: full-start / full-end;
+  @include bg-sub-header;
+  position: relative;
+  border-bottom: 1px solid $color-primary-dark;
+
+  &-text {
+    @include absolute-top-left-50;
+    transform: translate(-50%, -16%);
+    @include primary-background(1);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-transform: uppercase;
+    font-family: Beaufort-Regular, Arial, sans-serif;
+    font-size: 6rem;
+  }
+}

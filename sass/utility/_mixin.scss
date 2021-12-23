@@ -1,0 +1,25 @@
+@mixin primary-background($opa) {
+  background-image: linear-gradient(to bottom, rgba($color-primary-dark, $opa), rgba($color-primary-light, $opa));
+  -webkit-background-image: -webkit-linear-gradient(
+    to bottom,
+    rgba($color-primary-dark, $opa),
+    rgba($color-primary-light, $opa)
+  );
+}
+
+@mixin center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin absolute-top-left-50 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+@mixin bg-sub-header {
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}

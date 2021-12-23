@@ -1,0 +1,21 @@
+@import "./configuration/config.scss";
+@import "./utility/button.scss";
+
+@import "./utility/mixin.scss";
+@import "./utility/keyframes.scss";
+@import "./utility/help-functions.scss";
+
+@import "./base.scss";
+
+@import "./subHeader/sub-header.scss";
+@import "./subHeader/trailer.scss";
+@import "./subHeader/sh-footer.scss";
+
+@import "./main-header.scss";
+
+.scroll {
+    grid-column: full-start / full-end;
+    content: "";
+    background-color: pink;
+    height: 200rem;
+}
