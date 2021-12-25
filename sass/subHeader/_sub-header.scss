@@ -2,6 +2,7 @@
   grid-column: full-start / full-end;
   position: relative;
   overflow: hidden;
+  z-index: 1;
 
   // Background star
   @include bg-sub-header;
