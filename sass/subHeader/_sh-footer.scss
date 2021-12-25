@@ -3,6 +3,7 @@
   @include bg-sub-header;
   position: relative;
   border-bottom: 1px solid $color-primary-dark;
+  overflow: hidden;
 
   &-text {
     @include absolute-top-left-50;
