@@ -1,21 +1,22 @@
-@import "./configuration/config.scss";
-@import "./utility/button.scss";
+@import './configuration/config.scss';
+@import './utility/button.scss';
 
-@import "./utility/mixin.scss";
-@import "./utility/keyframes.scss";
-@import "./utility/help-functions.scss";
+@import './utility/mixin.scss';
+@import './utility/keyframes.scss';
+@import './utility/help-functions.scss';
 
-@import "./base.scss";
+@import './base.scss';
 
-@import "./subHeader/sub-header.scss";
-@import "./subHeader/trailer.scss";
-@import "./subHeader/sh-footer.scss";
+@import './subHeader/sub-header.scss';
+@import './subHeader/trailer.scss';
+@import './subHeader/sh-footer.scss';
 
-@import "./main-header.scss";
+@import './main-header.scss';
+@import './information.scss';
 
 .scroll {
-    grid-column: Full-start / Full-end;
-    content: "";
-    background-color: pink;
-    height: 200rem;
+  grid-column: Full-start / Full-end;
+  content: '';
+  background-color: pink;
+  height: 200rem;
 }

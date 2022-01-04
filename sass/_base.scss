@@ -41,12 +41,13 @@ body {
 
 .Big-container {
   display: grid;
-  grid-template-rows: 1fr 8rem;
+  grid-template-rows: 1fr 8rem 1fr;
   grid-template-columns:
-    [Full-start] minmax(6rem, 1fr) [Center-start] repeat(12, [Col-start] minmax(min-content, 9.5rem) [Col-end]) [Center-end] minmax(
-      6rem,
-      1fr
+    [Full-start] minmax(6rem, 1fr) [Center-start] repeat(
+      12,
+      [Col-start] minmax(min-content, 9.5rem) [Col-end]
     )
+    [Center-end] minmax(6rem, 1fr)
     [Full-end];
 }
 
@@ -57,10 +58,11 @@ body {
   display: grid;
   grid-template-rows: 8rem 0 500px 16rem;
   grid-template-columns:
-    [full-start] minmax(6rem, 1fr) [center-start] repeat(12, [col-start] minmax(min-content, 9.5rem) [col-end]) [center-end] minmax(
-      6rem,
-      1fr
+    [full-start] minmax(6rem, 1fr) [center-start] repeat(
+      12,
+      [col-start] minmax(min-content, 9.5rem) [col-end]
     )
+    [center-end] minmax(6rem, 1fr)
     [full-end];
   background-color: rgb(46, 46, 46);
 }
