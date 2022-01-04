@@ -127,7 +127,7 @@
         }
 
         &::before {
-          content: "";
+          content: '';
           background-color: $color-button-blue;
           border-radius: 00.2rem;
           position: absolute;
@@ -172,7 +172,7 @@
     position: relative;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       top: 3rem;
       left: 0;
@@ -196,7 +196,7 @@
     top: 4.6rem;
     left: 0;
     min-width: 21rem;
-    height: 19rem;
+    min-height: 19rem;
     list-style: none;
     background-color: $color-layer;
     border-radius: 0.6rem;
@@ -207,10 +207,11 @@
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     border-top: 0.4rem solid $color-button-blue;
-    // pointer-events: none;
-    opacity: 1;
+    pointer-events: none;
+    opacity: 0;
     transform: translateY(-1.5rem);
     transition: all linear 0.2s;
+    z-index: 10;
 
     &__item {
       display: block;
@@ -248,9 +249,71 @@
       height: 1.25rem;
       transition: all linear 0.1s;
     }
+
+    &__link-icon.universe-icon {
+      transform: rotate(45deg);
+    }
   }
 
-  // Part 3
+  //Part 2 Layer 2
+  .list-2.open {
+    height: 6.4rem;
+    opacity: 1;
+  }
+
+  .list-2__item.open {
+    height: 100%;
+  }
+
+  .list-2 {
+    list-style: none;
+    padding: 0 2rem 0.4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 0;
+    overflow: hidden;
+    transition: all linear 0.3s;
+    opacity: 0;
+
+    &__item {
+      height: 0;
+      overflow: hidden;
+    }
+
+    &__link:link,
+    &__link:visited {
+      display: block;
+      font-family: FF-Mark-Bold, Arial, sans-serif;
+      text-decoration: none;
+      color: rgb(217, 217, 217);
+      font-size: 1rem;
+      letter-spacing: 0.1rem;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      border-radius: 0.6rem;
+      transition: all linear 0.1s;
+    }
+
+    &__link:hover {
+      background-color: $color-layer;
+      color: $color-button-blue;
+
+      .list-2__link-icon {
+        fill: $color-button-blue;
+      }
+    }
+
+    &__link-icon {
+      fill: $arrow-color;
+      width: 1.6rem;
+      height: 0.8rem;
+      transition: all linear 0.1s;
+    }
+  }
+
+  // Part 3 ////////////////////////////////////////////////////
   &__play {
     margin-right: 6rem;
     display: flex;

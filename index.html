@@ -80,7 +80,7 @@
             Your browser does not support video!
           </video>
 
-          <canvas class="trailer__bg-small-canvas"></canvas>
+          <!-- <canvas class="trailer__bg-small-canvas"></canvas> -->
         </div>
 
         <div class="trailer__content">
@@ -91,7 +91,7 @@
           />
           <button class="button button-blue trailer__content-button">
             <span class="play-for-free"> Play for free </span>
-            <canvas class="button__canvas"></canvas>
+            <!-- <canvas class="button__canvas"></canvas> -->
           </button>
         </div>
       </section>
@@ -226,18 +226,45 @@
                     </svg>
                   </a>
                 </li>
-                <li class="list-1__item">
+                <li class="list-1__item list-1__link-universe universe">
                   <a class="list-1__link" href="#">
                     Universe
-                    <svg class="list-1__link-icon">
+                    <svg class="list-1__link-icon universe-x">
                       <use href="./src/img/sprite.svg#icon-plus"></use>
                     </svg>
                   </a>
 
                   <ul class="list-2">
-                    <li>Star Guardian</li>
-                    <li>Odyssey</li>
-                    <li>K/DA</li>
+                    <li class="list-2__item">
+                      <a class="list-2__link" href="#">
+                        Star Guardian
+                        <svg class="list-2__link-icon">
+                          <use
+                            href="./src/img/sprite.svg#icon-arrow-up-right"
+                          ></use>
+                        </svg>
+                      </a>
+                    </li>
+                    <li class="list-2__item">
+                      <a class="list-2__link" href="#">
+                        Odyssey
+                        <svg class="list-2__link-icon">
+                          <use
+                            href="./src/img/sprite.svg#icon-arrow-up-right"
+                          ></use>
+                        </svg>
+                      </a>
+                    </li>
+                    <li class="list-2__item">
+                      <a class="list-2__link" href="#">
+                        K/DA
+                        <svg class="list-2__link-icon">
+                          <use
+                            href="./src/img/sprite.svg#icon-arrow-up-right"
+                          ></use>
+                        </svg>
+                      </a>
+                    </li>
                   </ul>
                 </li>
                 <li class="list-1__item">
@@ -280,6 +307,27 @@
         </div>
       </div>
     </header>
+
+    <section class="information">
+      <div class="information-img-bg">
+        <img
+          class="information-img-bg-img"
+          src="./src/img/Yasuo.About-Slow.jpg"
+          alt="Yasuo"
+        />
+        <div class="information-img-bg-overlay"></div>
+      </div>
+
+      <div class="information-img">
+        <img
+          class="information-img-img"
+          src="./src/img/Yasuo.About.jpg"
+          alt="Yasuo"
+        />
+        <div class="information-img-overlay"></div>
+        <span class="information-img-text">Overview</span>
+      </div>
+    </section>
 
     <div class="scroll"></div>
   </body>
