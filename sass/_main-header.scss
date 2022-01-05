@@ -186,7 +186,7 @@
       .list-1 {
         opacity: 1;
         pointer-events: all;
-        transform: translateX(0);
+        transform: translateY(0);
       }
     }
   }
@@ -324,17 +324,118 @@
       width: 6rem;
       height: 6rem;
       display: flex;
+      justify-content: center;
       align-items: center;
+      position: relative;
       cursor: pointer;
+
+      &:hover &-icon {
+        fill: $color-small-lol-logo;
+      }
 
       &-icon {
         width: 5.25rem;
         height: 2.625rem;
         fill: $header-text-color;
         transition: all linear 0.2s;
+      }
 
-        &:hover {
-          fill: $color-small-lol-logo;
+      &:hover .languages-list {
+        pointer-events: auto;
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      // Earth
+      .languages-list {
+        position: absolute;
+        top: 5.6rem;
+        left: -8.2rem;
+        min-width: 21rem;
+        height: 19rem;
+        list-style: none;
+        background-color: #202020;
+        border-radius: 0.6rem;
+        padding: 2rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        overflow-y: scroll;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateX(1.5rem);
+        transition: all linear 0.2s;
+        z-index: 11;
+
+        // https://codepen.io/zkreations/pen/bZRgqd
+        &::-webkit-scrollbar {
+          width: 0.6rem;
+        }
+
+        &::-webkit-scrollbar-track {
+          border-bottom-right-radius: 0.6rem;
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: $color-button-blue;
+          border-top-right-radius: 0.6rem;
+          border-bottom-right-radius: 0.6rem;
+          box-shadow: rgba(0, 0, 0, 0.12) 0 3px 13px 1px;
+          -webkit-box-shadow: rgba(0, 0, 0, 0.12) 0 3px 13px 1px;
+        }
+        // ///////
+
+        .languages-item {
+          display: block;
+
+          .languages-link {
+            &:link,
+            &:visited {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              font-family: FF-Mark-Bold, Arial, sans-serif;
+              color: #fff;
+              font-size: 1.3rem;
+              text-decoration: none;
+              padding: 0.6rem 1rem;
+              letter-spacing: 0.1rem;
+              border-radius: 0.6rem;
+              transition: all linear 0.1s;
+            }
+
+            &:link:hover,
+            &:visited:hover {
+              background-color: $color-link-header;
+            }
+
+            &:link:hover .languages-language,
+            &:visited:hover .languages-language {
+              color: $color-button-blue;
+            }
+
+            .languages-language {
+              color: inherit;
+
+              &.checked {
+                color: $color-button-blue;
+              }
+            }
+
+            .languages-used {
+              position: relative;
+              top: 0.1rem;
+              width: 2rem;
+              height: 1rem;
+              fill: currentColor;
+              color: $color-button-blue;
+              opacity: 0;
+              transition: all linear 0.1s;
+
+              &.checked {
+                opacity: 1;
+              }
+            }
+          }
         }
       }
     }
