@@ -56,7 +56,7 @@ body {
   overflow: hidden;
 
   display: grid;
-  grid-template-rows: 8rem 0 500px 16rem;
+  grid-template-rows: 8rem 0 500px 15rem;
   grid-template-columns:
     [full-start] minmax(6rem, 1fr) [center-start] repeat(
       12,
