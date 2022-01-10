@@ -33,6 +33,21 @@ html {
   src: url(../src/font/FontFont_FF.Mark.Pro.Bold.otf);
 }
 
+@font-face {
+  font-family: FF-Mark-Medium;
+  src: url(../src/font/FontFont_FF.Mark.Pro.Medium.otf);
+}
+
+@font-face {
+  font-family: FF-Mark;
+  src: url(../src/font/FontFont_FF.Mark.Pro.otf);
+}
+
+@font-face {
+  font-family: FF-Mark-Hair;
+  src: url(../src/font/FontFont_FF.Mark.Pro.Hairline.otf);
+}
+
 body {
   // font-family: "Roboto", sans-serif;
   font-weight: 400;
@@ -40,6 +55,7 @@ body {
 }
 
 .Big-container {
+  position: relative;
   display: grid;
   grid-template-rows: 1fr 8rem 1fr;
   grid-template-columns:

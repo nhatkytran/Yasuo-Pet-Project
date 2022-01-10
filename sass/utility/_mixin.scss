@@ -1,5 +1,9 @@
 @mixin primary-background($opa) {
-  background-image: linear-gradient(to bottom, rgba($color-primary-dark, $opa), rgba($color-primary-light, $opa));
+  background-image: linear-gradient(
+    to bottom,
+    rgba($color-primary-dark, $opa),
+    rgba($color-primary-light, $opa)
+  );
   -webkit-background-image: -webkit-linear-gradient(
     to bottom,
     rgba($color-primary-dark, $opa),
@@ -22,4 +26,10 @@
 
 @mixin bg-sub-header {
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
