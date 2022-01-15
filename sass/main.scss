@@ -14,6 +14,9 @@
 @import './main-header.scss';
 @import './information.scss';
 
+@import './sidebar/sb-all-games.scss';
+@import './sidebar/sb-explore-games.scss';
+
 .scroll {
   grid-column: Full-start / Full-end;
   content: '';
