@@ -1,7 +1,133 @@
-.explore-games {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.explore-games-container {
+  @include sidebar-container;
+  display: none;
+
+  .explore-games {
+    width: 100%;
+    min-height: 32rem;
+    max-height: 62rem;
+    background-color: $header-bg-color;
+    display: flex;
+    flex-direction: column;
+
+    // Header //////////////////
+    &__header {
+      text-transform: uppercase;
+      color: $header-text-color;
+      height: 7.2rem;
+      padding: 2.4rem;
+      @include flex-between;
+
+      // Left ////////
+      &-riot {
+        margin: 0 1.6rem;
+        cursor: pointer;
+
+        &-games {
+          font-family: FF-Mark-Bold, Arial, sans-serif;
+          font-size: 2rem;
+        }
+      }
+
+      //Right ////////
+      &-more {
+        margin-right: 1.6rem;
+        @include flex-between;
+
+        &-visit {
+          font-family: FF-Mark, Arial, sans-serif;
+          font-size: 1.1rem;
+          padding: 0.43rem 1.2rem;
+          margin-right: 1rem;
+          position: relative;
+          top: 0.1rem;
+          border-radius: 0.6rem;
+          transition: background-color linear 0.1s;
+
+          &:hover {
+            background-color: rgb(56, 56, 56);
+          }
+        }
+
+        &-visit,
+        &-close {
+          cursor: pointer;
+        }
+
+        &-close {
+          width: 2.4rem;
+          height: 2.4rem;
+          background-color: rgb(56, 56, 56);
+          border-radius: 0.6rem;
+          @include flex-between;
+          justify-content: space-around;
+
+          &-icon {
+            width: 1.6rem;
+            height: 1.6rem;
+            fill: #fff;
+          }
+        }
+      }
+    }
+
+    // Body //////////////////
+    &__body {
+      flex: 1;
+      padding: 0 3.2rem 3.2rem;
+      display: grid;
+      grid-gap: 0.8rem;
+      grid-template-columns: repeat(8, 1fr);
+
+      // General structure of posters
+      .egbl-poster:link,
+      .egbl-poster:visited {
+        text-decoration: none;
+      }
+      .egbl-poster {
+        &:hover {
+          .egbl-poster__poster-img {
+            box-shadow: 0 14px 20px rgba(#fff, 0.05),
+              0 10px 10px rgba(#fff, 0.08);
+          }
+        }
+
+        &__poster {
+          &-img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.4rem;
+            box-shadow: 0 1px 3px rgba(rgb(115, 115, 115), 0.12),
+              0 1px 2px rgba(rgb(136, 136, 136), 0.24);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+          }
+        }
+
+        &__description {
+          margin-top: 1rem;
+
+          &-text {
+            font-family: FF-Mark, Arial, sans-serif;
+            font-size: 1.1rem;
+            color: rgb(209, 209, 209);
+          }
+        }
+
+        &__download {
+          fill: rgb(209, 209, 209);
+          margin-top: 0.8rem;
+          display: flex;
+          gap: 0.8rem;
+        }
+      }
+    }
+
+    &__body--1 {
+      grid-column: span 2;
+    }
+
+    &__body--2 {
+      grid-column: span 2;
+    }
+  }
 }
