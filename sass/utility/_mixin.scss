@@ -40,6 +40,11 @@
   display: block;
 }
 
+@mixin zero-zero {
+  top: 0;
+  left: 0;
+}
+
 @mixin fifty-fifty {
   top: 50%;
   left: 50%;
@@ -101,4 +106,10 @@
   height: 1px;
   margin-left: 0.5rem;
   background-color: currentcolor;
+}
+
+// Other things
+@mixin video {
+  object-fit: cover;
+  object-position: center;
 }

@@ -1,14 +1,13 @@
 .button {
+  border: none;
+  outline: none;
   text-transform: uppercase;
 }
 
 .button-blue {
   background-color: $button-color-blue;
-  border: none;
-  outline: none;
-  font-family: inherit;
+  transition: all linear 0.2s;
   cursor: pointer;
-  transition: all 0.2s;
 
   &:hover {
     background-color: $button-color-blue-hover;
