@@ -8,14 +8,22 @@
   position: relative;
 
   &-text {
+    width: 100%;
     font-family: Beaufort-Regular, Arial, sans-serif;
     font-size: 6rem;
     text-transform: uppercase;
+    text-align: center;
 
-    @include primary-background(1);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
+    // border: 0.8rem solid transparent;
+
+    &::after {
+      content: 'The Unforgiven';
+      border: 0.4rem solid transparent;
+      @include primary-background(1);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
     @include abs;
     @include fifty-fifty;
