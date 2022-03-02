@@ -1,23 +1,30 @@
+// Config
 @import './configuration/config.scss';
-@import './utility/button.scss';
 
+// Utility
 @import './utility/mixin.scss';
 @import './utility/keyframes.scss';
 @import './utility/help-functions.scss';
+@import './utility/button.scss';
 
+// Base
 @import './base.scss';
 
+// Sub website
 @import './subHeader/sub-header.scss';
 @import './subHeader/trailer.scss';
 @import './subHeader/sh-footer.scss';
 
-@import './main-header.scss';
-@import './information.scss';
-@import './abilities.scss';
+// Main website
+@import './main/main-header.scss';
+@import './main/information.scss';
+@import './main/abilities.scss';
 
+// Components
 @import './sidebar/sb-all-games.scss';
 @import './sidebar/sb-explore-games.scss';
 
+// Test
 .scroll {
   grid-column: Full-start / Full-end;
   content: '';

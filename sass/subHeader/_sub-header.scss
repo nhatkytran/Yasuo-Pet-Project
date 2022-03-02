@@ -1,80 +1,57 @@
 .sub-header {
   grid-column: full-start / full-end;
-  position: relative;
-  overflow: hidden;
+
+  @include bg-sub-header;
   z-index: 1;
 
-  // Background star
-  @include bg-sub-header;
-
-  // LOL logo
-  .lol-logo {
-    display: inline-block;
-    width: 8rem;
-    position: absolute;
-    top: 50%;
-    left: 12rem;
-    opacity: 0;
-    transform: translateY(-30%);
-    // animation: toggleFade linear 5s infinite 1.5s;
-
-    &__img {
-      width: 100%;
-      opacity: 0.4;
-    }
-  }
+  position: relative;
 
   // Yasuo heading
   .yasuo-heading {
     font-family: Beaufort-Regular, Arial, sans-serif;
     font-size: 6rem;
+    @include fadeInOpa(1.5s);
+
     @include center-absolute;
 
     .yasuo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-65%, -55%);
-      display: inline-block;
       @include primary-background(1);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
       letter-spacing: 1rem;
+
+      @include abs;
+      @include fifty-fifty;
+      transform: translate(-65%, -55%);
     }
 
     .yasuo-round {
       width: 5rem;
       height: 5rem;
       border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
       transform: translate(140%, -55%);
-      background-image: url("../src/img/yasuo.jpg");
+      background-image: url('../src/img/yasuo.jpg');
       background-position: 87.9835% 31.3808%;
       background-size: 350%;
 
+      @include abs;
+      @include fifty-fifty;
+
       &::before {
-        content: "";
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 100%;
         border-radius: 50%;
+        @include dimension100;
+        @include sub-abs;
         @include primary-background(0.7);
       }
 
       &__frame {
-        position: absolute;
         width: 5.6rem;
         height: 5.6rem;
+
+        @include abs;
         top: -0.26rem;
         left: -0.26rem;
-        animation: fadeInOpa linear 1.5s;
-        -webkit-animation: fadeInOpa linear 1.5s;
-        /* -webkit-animation: spin 2s linear infinite 1.5s;
-          animation: spin 2s linear infinite 1.5s; */
       }
     }
   }
@@ -83,16 +60,18 @@
 .sub-header-line {
   grid-column: full-start / full-end;
 
+  text-align: center;
+
   &__img {
     width: 100%;
-    position: relative;
-    right: 0;
-    bottom: 2rem;
-    transform-origin: center;
-    animation: fadeInOpa 1.5s linear;
-    -webkit-animation: fadeInOpa 1.5s linear;
-    animation: goUp 1.5s linear;
-    -webkit-animation: goUp 1.5s linear;
+    max-width: 138.6rem;
     z-index: 2;
+
+    transform-origin: center;
+    animation: goUp 1s linear, fadeInOpa 1s linear;
+    -webkit-animation: goUp 1s linear, fadeInOpa 1s linear;
+
+    position: relative;
+    bottom: 2rem;
   }
 }
