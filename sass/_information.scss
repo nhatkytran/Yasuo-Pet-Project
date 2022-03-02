@@ -5,7 +5,6 @@
 
   //background image
   &-img-bg {
-    position: absolute;
     width: 100%;
     height: auto;
 
@@ -30,8 +29,9 @@
     }
   }
 
-  // Main image
+  // Main image //////////////////////////
   &-img {
+    // display: none;
     position: absolute;
     top: 3rem;
     left: 50%;
@@ -51,12 +51,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      // background-image: linear-gradient(
-      //   to top,
-      //   rgba(0, 0, 0, 1) 20%,
-      //   rgba(0, 0, 0, 0.7) 100%,
-      //   transparent 0
-      // );
+      background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.9) 20%,
+        rgba(0, 0, 0, 0.1) 100%,
+        transparent 0
+      );
     }
 
     &-text {
@@ -71,14 +71,97 @@
       letter-spacing: 0.3rem;
 
       &::after {
-        content: '';
-        display: inline-block;
-        vertical-align: middle;
-        width: 1.4em;
-        height: 1px;
-        margin-left: 0.5em;
-        background-color: currentcolor;
+        @include line-after;
       }
     }
   }
+}
+
+.champion-list {
+  width: 14rem;
+  height: 6rem;
+  background-color: transparent;
+  color: $header-text-color;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  border: 1px solid currentColor;
+  border-radius: 0.6rem;
+  cursor: pointer;
+
+  &:hover {
+    .view-all-champions {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .champion-list__title {
+      color: rgb(7, 239, 239);
+    }
+  }
+
+  &__wrap {
+    height: 100%;
+    margin: 0 auto;
+    @include flex-align;
+    justify-content: space-evenly;
+    flex-direction: column;
+  }
+
+  &__icon {
+    width: 2.8rem;
+    height: 2.8rem;
+    fill: currentColor;
+  }
+
+  &__title {
+    font-family: Spiegel-Bold, Arial, sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    z-index: 1;
+
+    &::before {
+      @include line-before;
+    }
+
+    &::after {
+      @include line-after;
+    }
+  }
+
+  .view-all-champions {
+    position: absolute;
+    width: 16rem;
+    height: 50%;
+    top: 6.5rem;
+    left: -1rem;
+    border: 1px solid $header-text-color;
+    border: 1px solid rgb(0, 207, 207);
+    border-radius: 0.6rem;
+    background-color: rgb(44, 44, 44);
+    @include flex-around;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-3rem);
+    transition: all linear 0.2s;
+
+    &__title {
+      color: rgb(0, 207, 207);
+      font-family: Spiegel-Bold, Arial, sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.2rem;
+      text-transform: uppercase;
+    }
+  }
+}
+
+// Yasuo
+.information-yasuo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
 }

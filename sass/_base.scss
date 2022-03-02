@@ -57,7 +57,7 @@ body {
 .Big-container {
   position: relative;
   display: grid;
-  grid-template-rows: 1fr 8rem 1fr;
+  grid-template-rows: 1fr 8rem auto auto 2000px;
   grid-template-columns:
     [Full-start] minmax(6rem, 1fr) [Center-start] repeat(
       12,
