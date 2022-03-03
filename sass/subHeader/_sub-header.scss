@@ -14,6 +14,21 @@
 
     @include center-absolute;
 
+    // 1040px
+    @media only screen and (max-width: 65em) {
+      font-size: 5.5rem;
+    }
+
+    // 640px
+    @media only screen and (max-width: 40em) {
+      font-size: 5rem;
+    }
+
+    // 440px
+    @media only screen and (max-width: 27.5em) {
+      font-size: 4rem;
+    }
+
     .yasuo {
       letter-spacing: 1rem;
       @include abs;
@@ -42,6 +57,24 @@
       @include abs;
       @include fifty-fifty;
 
+      // 1040px
+      @media only screen and (max-width: 65em) {
+        width: 4.5rem;
+        height: 4.5rem;
+      }
+
+      // 640px
+      @media only screen and (max-width: 40em) {
+        width: 4rem;
+        height: 4rem;
+      }
+
+      // 440px
+      @media only screen and (max-width: 27.5em) {
+        width: 3.8rem;
+        height: 3.8rem;
+      }
+
       &::before {
         border-radius: 50%;
         @include dimension100;
@@ -52,6 +85,23 @@
       &__frame {
         width: 5.6rem;
         height: 5.6rem;
+
+        @media only screen and (max-width: 65em) {
+          width: 5rem;
+          height: 5rem;
+        }
+
+        // 640px
+        @media only screen and (max-width: 40em) {
+          width: 4.6rem;
+          height: 4.6rem;
+        }
+
+        // 440px
+        @media only screen and (max-width: 27.5em) {
+          width: 4.4rem;
+          height: 4.4rem;
+        }
 
         @include abs;
         top: -0.26rem;
@@ -77,5 +127,40 @@
 
     position: relative;
     bottom: 2rem;
+
+    // 1140px
+    @media only screen and (max-width: 71.25em) {
+      bottom: 1.95rem;
+    }
+
+    // 1040px
+    @media only screen and (max-width: 65em) {
+      bottom: 1.85rem;
+    }
+
+    // 940px
+    @media only screen and (max-width: 58.75em) {
+      bottom: 1.75rem;
+    }
+
+    // 840px
+    @media only screen and (max-width: 52.5em) {
+      bottom: 1.65rem;
+    }
+
+    // 740px
+    @media only screen and (max-width: 46.25em) {
+      bottom: 1.55rem;
+    }
+
+    // 640px
+    @media only screen and (max-width: 40em) {
+      bottom: 1.2rem;
+    }
+
+    // 540px
+    @media only screen and (max-width: 33.75em) {
+      bottom: 1rem;
+    }
   }
 }

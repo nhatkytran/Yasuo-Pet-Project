@@ -38,10 +38,24 @@
     @include fifty-fifty;
     transform: translate(-50%, -38%);
 
+    // 640px
+    @media only screen and (max-width: 40em) {
+      width: calc(100% - 4rem);
+      height: 110%;
+      top: 46%;
+    }
+
     &-video {
       @include dimension100;
       @include video;
+      // object-fit: cover;
+      // object-position: center;
       filter: brightness(90%);
+
+      // 640px
+      @media only screen and (max-width: 40em) {
+        object-position: 80% 50%;
+      }
     }
 
     &-canvas {
@@ -67,6 +81,7 @@
     }
   }
 
+  // Content
   &__content {
     width: 50rem;
     text-align: center;
@@ -76,13 +91,33 @@
     @include fifty-fifty;
     transform: translate(-50%, -30%);
 
+    // 1040px
+    @media only screen and (max-width: 65em) {
+      width: 45rem;
+    }
+
+    // 640px
+    @media only screen and (max-width: 40em) {
+      width: 35rem;
+    }
+
+    // 540px
+    @media only screen and (max-width: 33.75em) {
+      width: 30rem;
+    }
+
+    // 440px
+    @media only screen and (max-width: 27.5em) {
+      width: 25rem;
+    }
+
     &-img {
       width: 100%;
       transition: all linear 0.2s;
     }
 
     &-button {
-      min-width: 19.5rem;
+      width: 19.5rem;
       height: 5.6rem;
       padding: 0 4rem;
       margin-top: 1rem;
@@ -90,11 +125,23 @@
 
       position: relative;
 
+      // 640px
+      @media only screen and (max-width: 40em) {
+        width: 15.5rem;
+        height: 4.6rem;
+        padding: 0 1.5rem;
+      }
+
       .play-for-free {
         color: $text-color;
         font-family: Spiegel-Bold, Arial, sans-serif;
         font-size: 1.3rem;
         letter-spacing: 0.1rem;
+
+        // 640px
+        @media only screen and (max-width: 40em) {
+          font-size: 1rem;
+        }
       }
 
       &::after {

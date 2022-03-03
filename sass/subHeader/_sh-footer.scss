@@ -14,7 +14,21 @@
     text-transform: uppercase;
     text-align: center;
 
-    // border: 0.8rem solid transparent;
+    @include abs;
+    @include fifty-fifty;
+    transform: translate(-50%, -18%);
+
+    // 840px
+    @media only screen and (max-width: 52.5em) {
+      font-size: 5rem;
+      transform: translate(-50%, -10%);
+    }
+
+    // 640px
+    @media only screen and (max-width: 40em) {
+      font-size: 3.5rem;
+      transform: translate(-50%, 20%);
+    }
 
     &::after {
       content: 'The Unforgiven';
@@ -24,9 +38,5 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
-    @include abs;
-    @include fifty-fifty;
-    transform: translate(-50%, -18%);
   }
 }

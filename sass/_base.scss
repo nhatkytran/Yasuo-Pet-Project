@@ -64,4 +64,54 @@ body {
   background-color: rgb(46, 46, 46);
 
   overflow: hidden;
+
+  // 640px
+  @media only screen and (max-width: 40em) {
+    grid-template-rows: 6rem 0 500px 13.5rem;
+  }
 }
+
+// 1140px
+// @media only screen and (max-width: 71.25em) {
+//   bottom: 1.9rem;
+// }
+
+// // 1040px
+// @media only screen and (max-width: 65em) {
+//   bottom: 1.8rem;
+// }
+
+// // 940px
+// @media only screen and (max-width: 58.75em) {
+//   bottom: 1.7rem;
+// }
+
+// // 840px
+// @media only screen and (max-width: 52.5em) {
+//   bottom: 1.6rem;
+// }
+
+// // 740px
+// @media only screen and (max-width: 46.25em) {
+//   bottom: 1.5rem;
+// }
+
+// // 640px
+// @media only screen and (max-width: 40em) {
+//   bottom: 1.4rem;
+// }
+
+// // 540px
+// @media only screen and (max-width: 33.75em) {
+//   bottom: 1.3rem;
+// }
+
+// // 440px
+// @media only screen and (max-width: 27.5em) {
+//   bottom: 1.2rem;
+// }
+
+// // 340px
+// @media only screen and (max-width: 21.25em) {
+//   bottom: 1.1rem;
+// }
