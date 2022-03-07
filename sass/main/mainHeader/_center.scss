@@ -1,0 +1,109 @@
+.main-header-about,
+.main-header-about__list {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+}
+
+.main-header {
+  &-about {
+    height: 100%;
+    border-radius: 1rem;
+    border-bottom: 1px groove $color-button-blue;
+
+    &__list {
+      justify-content: space-around;
+
+      list-style: none;
+    }
+
+    &__item {
+      transition: all linear 0.2s;
+
+      position: relative;
+
+      &:hover {
+        background-color: $bg-link-header;
+        border-radius: 0.6rem;
+
+        &::before {
+          transform: scaleX(1);
+        }
+
+        .more {
+          color: $color-button-blue;
+        }
+      }
+
+      &:last-child:hover {
+        .arrow-down-more {
+          fill: $color-button-blue;
+        }
+      }
+
+      &::before {
+        content: '';
+
+        width: 100%;
+        height: 0.4rem;
+        background-color: $color-button-blue;
+        border-radius: 0.2rem;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: all cubic-bezier(1, 0, 0, 1) 0.4s;
+        z-index: 1;
+
+        position: absolute;
+        left: 0;
+        bottom: -2rem;
+      }
+
+      &:last-child::before {
+        width: 0;
+      }
+    }
+
+    &__link:link,
+    &__link:visited {
+      min-width: 8rem;
+      height: 100%;
+      font-family: FF-Mark-Bold, Arial, sans-serif;
+      font-size: 1.3rem;
+      line-height: 3rem;
+      color: inherit;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      text-transform: uppercase;
+
+      .arrow-down-more {
+        position: relative;
+        top: 0.3rem;
+      }
+    }
+
+    .find-more {
+      position: relative;
+
+      &::after {
+        content: '';
+
+        width: 100%;
+        height: 2rem;
+        opacity: 0;
+
+        position: absolute;
+        top: 3rem;
+        left: 0;
+      }
+
+      &:hover {
+        .list-1 {
+          opacity: 1;
+          pointer-events: all;
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+}

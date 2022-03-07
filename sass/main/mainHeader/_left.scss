@@ -1,0 +1,54 @@
+.main-header {
+  // Item 1
+  &__riot-logo {
+    display: flex;
+    align-items: center;
+
+    &-svg {
+      fill: $header-text-color;
+      transition: all linear 0.2s;
+    }
+
+    &:hover &-svg,
+    &:hover .arrow-down-red {
+      fill: red;
+    }
+  }
+
+  // Item 2
+  &__lol-symbol {
+    margin: 0 2rem;
+
+    position: relative;
+    top: 0.2rem;
+
+    &-logo {
+      width: 4.2rem;
+      height: 3rem;
+    }
+  }
+
+  // Item 3
+  &__games {
+    display: flex;
+    align-items: center;
+
+    line-height: 3rem;
+
+    &-all {
+      font-size: 1.8rem;
+      transition: all linear 0.2s;
+    }
+
+    .arrow-down-games-all {
+      position: relative;
+      top: 0.3rem;
+    }
+  }
+
+  &__games:hover .arrow-down-games-all,
+  &__games:hover &__games-all {
+    color: red;
+    fill: red;
+  }
+}

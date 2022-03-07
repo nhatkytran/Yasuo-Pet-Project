@@ -56,26 +56,29 @@
   transform: translate(-50%, -50%);
 }
 
-@mixin absolute-top-left-50 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
+// Display
+// ???
 @mixin flex-align {
   display: flex;
   align-items: center;
 }
-
+// ???
 @mixin flex-between {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+// ???
 @mixin flex-around {
   display: flex;
   align-items: center;
   justify-content: space-around;
+}
+
+// Other things
+@mixin video {
+  object-fit: cover;
+  object-position: center;
 }
 
 @mixin sidebar-container {
@@ -106,10 +109,4 @@
   height: 1px;
   margin-left: 0.5rem;
   background-color: currentcolor;
-}
-
-// Other things
-@mixin video {
-  object-fit: cover;
-  object-position: center;
 }

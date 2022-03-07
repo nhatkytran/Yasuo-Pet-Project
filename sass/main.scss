@@ -17,7 +17,6 @@
 
 // Main website {
 // // Main header
-@import './main/main-header.scss';
 
 @import './main/mainHeader/main.scss';
 
@@ -25,7 +24,13 @@
 @import './main/mainHeader/center.scss';
 @import './main/mainHeader/right.scss';
 
+@import './main/mainHeader/navbar1.scss';
+@import './main/mainHeader/navbar2.scss';
+
+// //
 @import './main/information.scss';
+
+// //
 @import './main/abilities.scss';
 // }
 

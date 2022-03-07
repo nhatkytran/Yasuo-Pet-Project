@@ -49,28 +49,28 @@
 // });
 
 // // Universe ////////////////////////////////////////////////////////
-// const more = document.querySelector('.find-more');
-// const universe = document.querySelector('.universe');
-// const universeX = document.querySelector('.universe-x');
-// const list2 = document.querySelector('.list-2');
-// const list2Items = document.querySelectorAll('.list-2__item');
+const more = document.querySelector('.find-more');
+const universe = document.querySelector('.universe');
+const universeX = document.querySelector('.universe-x');
+const list2 = document.querySelector('.list-2');
+const list2Items = document.querySelectorAll('.list-2__item');
 
-// universe.addEventListener('click', function (event) {
-//   event.preventDefault();
+universe.addEventListener('click', function (event) {
+  event.preventDefault();
 
-//   universeX.classList.toggle('universe-icon');
-//   list2.classList.toggle('open');
+  universeX.classList.toggle('universe-icon');
+  list2.classList.toggle('open');
 
-//   for (let list2Item of list2Items) {
-//     list2Item.classList.toggle('open');
-//   }
-// });
+  for (let list2Item of list2Items) {
+    list2Item.classList.toggle('open');
+  }
+});
 
-// more.addEventListener('mouseleave', function () {
-//   universeX.classList.remove('universe-icon');
-//   list2.classList.remove('open');
+more.addEventListener('mouseleave', function () {
+  universeX.classList.remove('universe-icon');
+  list2.classList.remove('open');
 
-//   for (let list2Item of list2Items) {
-//     list2Item.classList.remove('open');
-//   }
-// });
+  for (let list2Item of list2Items) {
+    list2Item.classList.remove('open');
+  }
+});
