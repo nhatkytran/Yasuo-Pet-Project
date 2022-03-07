@@ -1,0 +1,17 @@
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  // max-width: 160rem;
+  height: 8rem;
+  background-color: $header-bg-color;
+  color: $header-text-color;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+
+  position: sticky;
+  top: -1px !important;
+  left: 0;
+}
