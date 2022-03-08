@@ -4,6 +4,17 @@
     align-items: center;
     justify-content: space-between;
 
+    // 1140px
+    @media only screen and (max-width: 71.25em) {
+      justify-content: end;
+      margin-right: 0.6rem;
+    }
+
+    // 740px
+    @media only screen and (max-width: 46.25em) {
+      flex: 1;
+    }
+
     &-languages {
       display: flex;
       justify-content: center;
@@ -14,6 +25,12 @@
 
       position: relative;
 
+      // 440px
+      @media only screen and (max-width: 27.5em) {
+        width: 4rem;
+        height: 4rem;
+      }
+
       &:hover &-icon {
         fill: $color-globe;
       }
@@ -23,6 +40,12 @@
         height: 2.625rem;
         fill: $header-text-color;
         transition: all linear 0.2s;
+
+        // 440px
+        @media only screen and (max-width: 27.5em) {
+          width: 4rem;
+          height: 2rem;
+        }
       }
 
       &:hover .languages-list {
@@ -133,6 +156,11 @@
       border-radius: 0.6rem;
       text-transform: uppercase;
       transition: all linear 0.2s;
+
+      // 1140px
+      @media only screen and (max-width: 71.25em) {
+        display: none;
+      }
     }
 
     &-sign-in {
@@ -158,5 +186,37 @@
         filter: brightness(120%);
       }
     }
+  }
+}
+
+.mh-menu {
+  display: none;
+
+  background-color: #222222;
+  padding: 1rem 0.6rem;
+  border-radius: 0.6rem;
+  transition: all linear 0.1s;
+
+  // 440px
+  @media only screen and (max-width: 27.5em) {
+    padding: 0.5rem 0.3rem;
+  }
+
+  // 1140px
+  @media only screen and (max-width: 71.25em) {
+    display: block;
+  }
+
+  &:hover {
+    background-color: $bg-link-header;
+  }
+
+  &__icon {
+    width: 4rem;
+    height: 2rem;
+    fill: currentColor;
+
+    position: relative;
+    top: 0.1rem;
   }
 }
