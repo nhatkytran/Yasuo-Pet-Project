@@ -74,3 +74,42 @@ more.addEventListener('mouseleave', function () {
     list2Item.classList.remove('open');
   }
 });
+
+// Universe Mobile
+const menuMobileOpenBtn = document.querySelector('.mh-menu');
+const menuMobile = document.querySelector('.mh-table');
+const universeMobile = document.querySelector('.universe-mobile');
+const universeMobileMore = document.querySelector('.universe-mobile__more');
+const universeMobileClose = document.querySelector('.mh-table__header-close');
+const universeMobileOverlay = document.querySelector('.mh-table__cover');
+const iconOfUniverse = document.querySelector('.mh-table__universe-x');
+
+menuMobileOpenBtn.addEventListener('click', function () {
+  universeMobileOverlay.classList.remove('hide');
+  menuMobile.classList.add('show');
+});
+
+universeMobile.addEventListener('click', function (event) {
+  event.preventDefault();
+  universeMobileMore.classList.toggle('show');
+  iconOfUniverse.classList.toggle('universe-x');
+});
+
+universeMobileClose.addEventListener('click', function () {
+  menuMobile.classList.remove('show');
+
+  universeMobileMore.classList.remove('show');
+  iconOfUniverse.classList.remove('universe-x');
+
+  universeMobileOverlay.classList.add('hide');
+  menuMobile.classList.remove('show');
+});
+
+universeMobileOverlay.addEventListener('click', function (event) {
+  if (event.target.closest('.mh-table')) return;
+  universeMobileMore.classList.remove('show');
+  iconOfUniverse.classList.remove('universe-x');
+
+  universeMobileOverlay.classList.add('hide');
+  menuMobile.classList.remove('show');
+});
