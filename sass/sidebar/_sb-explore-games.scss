@@ -13,11 +13,26 @@
     flex-direction: column;
 
     width: 100%;
+    max-width: 160rem;
     background-color: $header-bg-color;
     border-bottom: 1px groove $color-button-blue;
 
+    box-shadow: 0 1px 3px rgba(rgb(115, 115, 115), 0.2),
+      0 1px 2px rgba(rgb(136, 136, 136), 0.4);
+
     position: fixed;
     @include zero-zero;
+    left: 50%;
+    transform: translateX(-50%);
+
+    // 1040px
+    @media only screen and (max-width: 65em) {
+      max-width: 104rem;
+      height: 100vh;
+      border-bottom: none;
+
+      overflow-y: scroll;
+    }
 
     // Header /////////////////////////////////////
     &__header {
@@ -30,13 +45,38 @@
       padding: 2.4rem;
       text-transform: uppercase;
 
+      // 1040px
+      @media only screen and (max-width: 65em) {
+        padding: 1.2rem 1.8rem;
+      }
+
+      // 640px
+      @media only screen and (max-width: 40em) {
+        padding: 1.6rem 1.2rem 0.6rem;
+      }
+
       &-riot {
         margin: 0 1.6rem;
         cursor: pointer;
 
+        // 1040px
+        @media only screen and (max-width: 65em) {
+          margin: 0;
+        }
+
+        // 340px
+        @media only screen and (max-width: 21.25em) {
+          display: none;
+        }
+
         &-games {
           font-family: FF-Mark-Bold, Arial, sans-serif;
           font-size: 2rem;
+
+          // 640px
+          @media only screen and (max-width: 40em) {
+            font-size: 1.8rem;
+          }
         }
       }
 
@@ -46,6 +86,16 @@
         justify-content: space-between;
 
         margin-right: 1.6rem;
+
+        // 1040px
+        @media only screen and (max-width: 65em) {
+          margin-right: 0;
+        }
+
+        // 340px
+        @media only screen and (max-width: 21.25em) {
+          flex: 1;
+        }
 
         &-visit {
           font-family: FF-Mark, Arial, sans-serif;
@@ -57,6 +107,11 @@
 
           position: relative;
           top: 0.1rem;
+
+          @media only screen and (max-width: 21.25em) {
+            font-size: 1.4rem;
+            padding: 0;
+          }
 
           &:hover {
             background-color: rgb(56, 56, 56);
@@ -78,6 +133,18 @@
           background-color: rgb(56, 56, 56);
           border-radius: 0.6rem;
 
+          // 1040px
+          @media only screen and (max-width: 65em) {
+            width: 3.6rem;
+            height: 3.6rem;
+          }
+
+          // 640px
+          @media only screen and (max-width: 40em) {
+            width: 3.6rem;
+            height: 3.6rem;
+          }
+
           &-icon {
             width: 1.6rem;
             height: 1.6rem;
@@ -96,6 +163,20 @@
       grid-template-columns: repeat(8, 1fr);
 
       padding: 0 3.2rem 3.2rem;
+
+      // 1040px
+      @media only screen and (max-width: 65em) {
+        grid-gap: 1.6rem;
+        grid-template-columns: repeat(2, 1fr);
+
+        padding: 0 2rem 2rem;
+      }
+
+      // 640px
+      @media only screen and (max-width: 40em) {
+        grid-gap: 0.8rem;
+        padding: 1rem;
+      }
 
       &--1,
       &--2 {
@@ -126,6 +207,19 @@
 
         &__description {
           padding-top: 1rem;
+
+          &:nth-last-child(1) {
+            // 1040px
+            @media only screen and (max-width: 65em) {
+              padding-bottom: 1rem;
+            }
+          }
+
+          // 1040px
+          @media only screen and (max-width: 65em) {
+            font-size: 1.6rem;
+            padding-top: 0.2rem;
+          }
         }
 
         &__download {
@@ -134,6 +228,20 @@
 
           fill: rgb(209, 209, 209);
           margin-top: 0.8rem;
+
+          // 1040px
+          @media only screen and (max-width: 65em) {
+            padding-bottom: 0.8rem;
+          }
+
+          &-window-icon,
+          &-macOS-icon {
+            // 1040px
+            @media only screen and (max-width: 65em) {
+              width: 1.4rem;
+              height: 1.4rem;
+            }
+          }
         }
       }
     }
