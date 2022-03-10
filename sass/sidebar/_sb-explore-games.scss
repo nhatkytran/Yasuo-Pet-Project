@@ -1,24 +1,35 @@
 .explore-games-container {
-  @include sidebar-container;
-  display: none;
+  @include dimension100;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1001;
+
+  @include abs;
+  @include zero-zero;
+
+  // display: none;
 
   .explore-games {
-    width: 100%;
-    min-height: 32rem;
-    max-height: 62rem;
-    background-color: $header-bg-color;
     display: flex;
     flex-direction: column;
 
-    // Header //////////////////
-    &__header {
-      text-transform: uppercase;
-      color: $header-text-color;
-      height: 7.2rem;
-      padding: 2.4rem;
-      @include flex-between;
+    width: 100%;
+    background-color: $header-bg-color;
+    border-bottom: 1px groove $color-button-blue;
 
-      // Left ////////
+    position: fixed;
+    @include zero-zero;
+
+    // Header /////////////////////////////////////
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      height: 7.2rem;
+      color: $header-text-color;
+      padding: 2.4rem;
+      text-transform: uppercase;
+
       &-riot {
         margin: 0 1.6rem;
         cursor: pointer;
@@ -29,20 +40,23 @@
         }
       }
 
-      //Right ////////
       &-more {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
         margin-right: 1.6rem;
-        @include flex-between;
 
         &-visit {
           font-family: FF-Mark, Arial, sans-serif;
           font-size: 1.1rem;
           padding: 0.43rem 1.2rem;
           margin-right: 1rem;
-          position: relative;
-          top: 0.1rem;
           border-radius: 0.6rem;
           transition: background-color linear 0.1s;
+
+          position: relative;
+          top: 0.1rem;
 
           &:hover {
             background-color: rgb(56, 56, 56);
@@ -55,12 +69,14 @@
         }
 
         &-close {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+
           width: 2.4rem;
           height: 2.4rem;
           background-color: rgb(56, 56, 56);
           border-radius: 0.6rem;
-          @include flex-between;
-          justify-content: space-around;
 
           &-icon {
             width: 1.6rem;
@@ -71,25 +87,24 @@
       }
     }
 
-    // Body //////////////////
+    // Body /////////////////////////////////////
     &__body {
       flex: 1;
-      padding: 0 3.2rem 3.2rem;
+
       display: grid;
       grid-gap: 0.8rem;
       grid-template-columns: repeat(8, 1fr);
 
-      // General structure of posters
+      padding: 0 3.2rem 3.2rem;
+
       .egbl-poster:link,
       .egbl-poster:visited {
         text-decoration: none;
       }
+
       .egbl-poster {
-        &:hover {
-          .egbl-poster__poster-img {
-            box-shadow: 0 14px 20px rgba(#fff, 0.05),
-              0 10px 10px rgba(#fff, 0.08);
-          }
+        &:hover .egbl-poster__poster-img {
+          box-shadow: 0 14px 20px rgba(#fff, 0.05), 0 10px 10px rgba(#fff, 0.08);
         }
 
         &__poster {
@@ -120,14 +135,11 @@
           gap: 0.8rem;
         }
       }
-    }
 
-    &__body--1 {
-      grid-column: span 2;
-    }
-
-    &__body--2 {
-      grid-column: span 2;
+      &--1,
+      &--2 {
+        grid-column: span 2;
+      }
     }
   }
 }

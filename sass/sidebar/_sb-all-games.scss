@@ -1,5 +1,9 @@
 .sb-ag-container {
-  @include sidebar-container;
+  @include dimension100;
+
+  @include abs;
+  @include zero-zero;
+
   display: none;
 
   .sb-ag {
@@ -13,14 +17,19 @@
     flex-direction: column;
 
     &-header {
-      @include flex-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
       width: 100%;
       height: 8rem;
       padding: 0 3rem;
 
       &__ag {
         &-back {
-          @include flex-between;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
           cursor: pointer;
 
           &:hover .sb-ag-header__ag-back-icon,
