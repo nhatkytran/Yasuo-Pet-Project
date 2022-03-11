@@ -167,3 +167,5 @@ exploreGamesContainer.addEventListener('click', function (event) {
 exploreGamesClose.addEventListener('click', function (event) {
   closeExploreGames(event);
 });
+
+// Allgames

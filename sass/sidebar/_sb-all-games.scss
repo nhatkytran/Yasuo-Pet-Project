@@ -315,10 +315,17 @@
 }
 
 .ag-mobile__icon {
+  display: none;
+
   width: 3rem;
   height: 1.5rem;
   fill: rgb(209, 209, 209);
 
   position: relative;
   left: 0.6rem;
+
+  // 1040px
+  @media only screen and (max-width: 65em) {
+    display: block;
+  }
 }
