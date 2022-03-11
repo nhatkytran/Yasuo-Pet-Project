@@ -249,13 +249,11 @@
 }
 
 .mh-table__cover {
-  opacity: 1;
-  pointer-events: all;
+  @include show;
   transition: all linear 0.2s;
 
   &.hide {
-    opacity: 0;
-    pointer-events: none;
+    @include hide;
   }
 }
 

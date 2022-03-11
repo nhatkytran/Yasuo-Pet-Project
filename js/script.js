@@ -113,3 +113,57 @@ universeMobileOverlay.addEventListener('click', function (event) {
   universeMobileOverlay.classList.add('hide');
   menuMobile.classList.remove('show');
 });
+
+// Navbar explore games
+const exploreGamesOpen = document.querySelector('.main-header__games');
+const exploreGamesContainer = document.querySelector(
+  '.explore-games-container'
+);
+const exploreGames = document.querySelector('.explore-games');
+const exploreGamesHeader = document.querySelector('.explore-games__header');
+const exploreGamesPoster = document.querySelectorAll(
+  '.explore-games__body-poster'
+);
+const exploreGamesClose = document.querySelector(
+  '.explore-games__header-more-close'
+);
+
+exploreGamesOpen.addEventListener('click', function () {
+  exploreGamesContainer.classList.add('show');
+  exploreGames.classList.add('show');
+
+  setTimeout(function () {
+    exploreGames.classList.remove('show');
+
+    exploreGamesHeader.classList.add('show');
+  }, 200);
+
+  setTimeout(function () {
+    exploreGamesPoster.forEach((poster, index) => {
+      setTimeout(function () {
+        poster.classList.add('show');
+      }, (index + 1) * 100);
+    });
+  }, 400);
+});
+
+const closeExploreGames = function (event) {
+  exploreGames.classList.add('close-special');
+  exploreGamesHeader.classList.remove('show');
+  exploreGamesPoster.forEach(poster => {
+    poster.classList.remove('show');
+  });
+  setTimeout(function () {
+    exploreGames.classList.remove('close-special');
+    exploreGamesContainer.classList.remove('show');
+  }, 200);
+};
+
+exploreGamesContainer.addEventListener('click', function (event) {
+  if (event.target.closest('.explore-games')) return;
+  closeExploreGames(event);
+});
+
+exploreGamesClose.addEventListener('click', function (event) {
+  closeExploreGames(event);
+});
