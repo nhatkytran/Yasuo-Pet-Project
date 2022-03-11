@@ -1,12 +1,16 @@
 .explore-games-container {
   @include dimension100;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 1001;
 
   @include abs;
   @include zero-zero;
 
-  // display: none;
+  @include hide;
+
+  &.show {
+    @include show;
+  }
 
   .explore-games {
     display: flex;
@@ -16,14 +20,21 @@
     max-width: 160rem;
     background-color: $header-bg-color;
     border-bottom: 1px groove $color-button-blue;
-
     box-shadow: 0 1px 3px rgba(rgb(115, 115, 115), 0.2),
       0 1px 2px rgba(rgb(136, 136, 136), 0.4);
 
     position: fixed;
-    @include zero-zero;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
+
+    &.close-special {
+      animation: navbarXgClose linear 0.2s;
+    }
+
+    &.show {
+      animation: navbarXg linear 0.2s forwards;
+    }
 
     // 1040px
     @media only screen and (max-width: 65em) {
@@ -44,6 +55,15 @@
       color: $header-text-color;
       padding: 2.4rem;
       text-transform: uppercase;
+      transition: all linear 0.2s;
+
+      opacity: 0;
+      pointer-events: none;
+
+      &.show {
+        opacity: 1;
+        pointer-events: all;
+      }
 
       // 1040px
       @media only screen and (max-width: 65em) {
@@ -181,6 +201,21 @@
       &--1,
       &--2 {
         grid-column: span 2;
+      }
+
+      &--1,
+      &--2,
+      &--3,
+      &--4,
+      &--5,
+      &--6 {
+        transition: all linear 0.2s;
+
+        @include hide;
+
+        &.show {
+          @include show;
+        }
       }
 
       .egbl-poster:link,
