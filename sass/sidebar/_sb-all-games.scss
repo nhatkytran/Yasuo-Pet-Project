@@ -255,6 +255,7 @@
 
         &-cover {
           cursor: pointer;
+          display: none;
 
           &:hover {
             .sb-ag-body__right-img {
@@ -344,11 +345,6 @@
   .ag__hover-content {
     width: 50%;
     height: 100%;
-    background-image: radial-gradient(
-      160.43% 179.54% at 100.43% 100%,
-      rgb(17, 113, 200) 0%,
-      rgb(10, 10, 10) 70%
-    );
     border-top-left-radius: 0.6rem;
     border-bottom-left-radius: 0.6rem;
     text-align: center;
@@ -357,6 +353,12 @@
 
     @include abs;
     @include zero-zero;
+
+    background-image: radial-gradient(
+      160.43% 179.54% at 100.43% 100%,
+      rgb(17, 113, 200) 0%,
+      rgb(10, 10, 10) 70%
+    );
 
     &--child {
       display: flex;
@@ -369,14 +371,41 @@
       height: 100%;
     }
 
+    .ag__hover-imgs-cover {
+      flex-grow: 0.7;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+
     .ag__hover-imgs {
       width: 65%;
     }
+
     .ag__hover-text {
+      width: 80%;
       font-family: FF-Mark-Medium, Arial, sans-serif;
-      font-size: 1.4rem;
+      font-size: 1rem;
       color: #c7c7c7;
       text-transform: uppercase;
+    }
+
+    .ag__hover-icon {
+      display: flex;
+      align-items: center;
+
+      height: 1.6rem;
+      background-color: rgba(128, 128, 128, 0.2);
+      padding: 0 0.8rem;
+      border-radius: 1.6rem;
+
+      &--1,
+      &--2,
+      &--3 {
+        fill: #fff;
+        margin: 0 0.2rem;
+      }
     }
   }
   .ag__hover-img {
