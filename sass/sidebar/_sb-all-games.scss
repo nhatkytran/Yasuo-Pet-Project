@@ -329,3 +329,69 @@
     display: block;
   }
 }
+
+// Hover
+.sb-ag-body__right--hover {
+  width: 100%;
+
+  position: relative;
+
+  .sb-ag-body__right--hover-frame {
+    width: 100%;
+    padding-top: 44.95%;
+  }
+
+  .ag__hover-content {
+    width: 50%;
+    height: 100%;
+    background-image: radial-gradient(
+      160.43% 179.54% at 100.43% 100%,
+      rgb(17, 113, 200) 0%,
+      rgb(10, 10, 10) 70%
+    );
+    border-top-left-radius: 0.6rem;
+    border-bottom-left-radius: 0.6rem;
+    text-align: center;
+    clip-path: polygon(77% 0, 63% 90%, 100% 100%, 100% 101%, 0% 101%, 0% 0%);
+    z-index: 1;
+
+    @include abs;
+    @include zero-zero;
+
+    &--child {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+
+      width: 76%;
+      padding: 13% 8% 7.5% 0%;
+      height: 100%;
+    }
+
+    .ag__hover-imgs {
+      width: 65%;
+    }
+    .ag__hover-text {
+      font-family: FF-Mark-Medium, Arial, sans-serif;
+      font-size: 1.4rem;
+      color: #c7c7c7;
+      text-transform: uppercase;
+    }
+  }
+  .ag__hover-img {
+    width: 80%;
+    border-top-right-radius: 0.6rem;
+    border-bottom-right-radius: 0.6rem;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.sb-ag-body__right {
+  &.hide &-cover {
+    display: none;
+  }
+}
