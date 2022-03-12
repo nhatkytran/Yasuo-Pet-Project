@@ -56,19 +56,6 @@
   transform: translate(-50%, -50%);
 }
 
-// Display
-// ???
-@mixin flex-align {
-  display: flex;
-  align-items: center;
-}
-// ???
-@mixin flex-around {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
 // Other things
 @mixin video {
   object-fit: cover;

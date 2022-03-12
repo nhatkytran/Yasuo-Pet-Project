@@ -104,7 +104,8 @@
   &__wrap {
     height: 100%;
     margin: 0 auto;
-    @include flex-align;
+    display: flex;
+    align-items: center;
     justify-content: space-evenly;
     flex-direction: column;
   }
@@ -141,7 +142,9 @@
     border: 1px solid rgb(0, 207, 207);
     border-radius: 0.6rem;
     background-color: rgb(44, 44, 44);
-    @include flex-around;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     opacity: 0;
     pointer-events: none;
     transform: translateY(-3rem);
