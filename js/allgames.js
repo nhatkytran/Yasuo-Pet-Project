@@ -2,44 +2,6 @@ const allGames = document.querySelector('.sb-ag-body__left');
 const allGamesItems = document.querySelectorAll('.sb-ag-body__left-link');
 const agMainPoster = document.querySelector('.sb-ag-body__right');
 
-allGamesItems.forEach((item, index) => {
-  item.setAttribute('data-agi-id', `ag__img--${index + 1}`);
-});
-
-let hovered;
-let timeout;
-const checkHover = function (event) {
-  if (event.target.closest('.sb-ag-body__left-link')) {
-    hovered = true;
-  } else {
-    hovered = false;
-  }
-
-  if (hovered !== checkHover.hovered) {
-    if (hovered) {
-      clearTimeout(timeout);
-      if (document.querySelector('.sb-ag-body__right--hover')) {
-        document.querySelector('.sb-ag-body__right--hover').remove();
-      }
-
-      const img = event.target.dataset.agiId;
-
-      agMainPoster.classList.add('hide');
-      agMainPoster.insertAdjacentHTML('afterbegin', hoverMarkup(img));
-    } else {
-      timeout = setTimeout(function () {
-        document.querySelector('.sb-ag-body__right--hover').remove();
-        agMainPoster.classList.remove('hide');
-      }, 100);
-    }
-  }
-
-  checkHover.hovered = hovered;
-};
-checkHover.hovered = false;
-
-allGames.addEventListener('mousemove', checkHover);
-
 const hoverMarkupBackground = [
   'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(17, 113, 200) 0%, rgb(10, 10, 10) 70%);',
   'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(80, 104, 125) 0%, rgb(10, 10, 10) 70%);',
@@ -109,24 +71,70 @@ const hoverMarkupSEO = [
   'RIOT SUPPORT',
 ];
 
+allGamesItems.forEach((item, index) => {
+  item.setAttribute('data-agi-id', `ag__img--${index + 1}`);
+});
+
+let hovered;
+let timeout;
+const checkHover = function (event) {
+  if (event.target.closest('.sb-ag-body__left-link')) {
+    hovered = true;
+  } else {
+    hovered = false;
+  }
+
+  if (hovered !== checkHover.hovered) {
+    if (hovered) {
+      clearTimeout(timeout);
+      if (document.querySelector('.sb-ag-body__right--hover')) {
+        document.querySelector('.sb-ag-body__right--hover').remove();
+      }
+
+      const img = event.target.dataset.agiId;
+      const text = event.target.dataset.photoText;
+
+      agMainPoster.classList.add('hide');
+      agMainPoster.insertAdjacentHTML('afterbegin', hoverMarkup(img, text));
+    } else {
+      timeout = setTimeout(function () {
+        document.querySelector('.sb-ag-body__right--hover').remove();
+        agMainPoster.classList.remove('hide');
+      }, 100);
+    }
+  }
+
+  checkHover.hovered = hovered;
+};
+checkHover.hovered = false;
+
+allGames.addEventListener('mousemove', checkHover);
+
+// 14: From "Univers with index 14, poster use text instaed if png or svg"
+// [1, 7, 9, 10, 13] => png
 const hoverMarkup = function (img) {
-  const indexBg = +img.slice(img.length - 2, img.length).replace('-', '') - 1;
+  const index = +img?.slice(img.length - 2, img.length).replace('-', '') - 1;
 
   return `
     <div class="sb-ag-body__right--hover">
       <div class="sb-ag-body__right--hover-frame"></div>
-      <div class="ag__hover-content" style="${hoverMarkupBackground[indexBg]}">
+      <div class="ag__hover-content" style="${hoverMarkupBackground[index]}">
         <div class="ag__hover-content--child">
           <div class="ag__hover-imgs-cover">
             <img
-              class="ag__hover-imgs"
-              src="./src/img/nav-ag/${img}s.png"
+              class="ag__hover-imgs ${index >= 14 ? 'hide' : ''}"
+              src="./src/img/nav-ag/${img}s.${
+    [1, 7, 9, 10, 13].indexOf(index + 1) !== -1 ? 'png' : 'svg'
+  }"
               alt="ARCANE"
               title="ARCANE"
             />
+            <span class="ag__hover-imgs--text ${
+              index < 14 ? 'hide' : ''
+            }">UNIVERSE</span>
           </div>
           <p class="ag__hover-text">
-            Earn in-game rewards and learn more about Riot's games
+            ${hoverMarkupQuote[index]}
           </p>
           <div class="ag__hover-icon">
             <svg

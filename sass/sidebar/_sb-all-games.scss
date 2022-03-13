@@ -381,6 +381,20 @@
 
     .ag__hover-imgs {
       width: 65%;
+
+      &.hide {
+        display: none;
+      }
+
+      &--text {
+        font-family: FF-Mark-Medium, Arial, sans-serif;
+        font-size: 3.4rem;
+        color: rgb(209, 209, 209);
+
+        &.hide {
+          display: none;
+        }
+      }
     }
 
     .ag__hover-text {
