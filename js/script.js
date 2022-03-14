@@ -156,7 +156,7 @@ const closeExploreGames = function (event) {
   setTimeout(function () {
     exploreGames.classList.remove('close-special');
     exploreGamesContainer.classList.remove('show');
-  }, 200);
+  }, 300);
 };
 
 exploreGamesContainer.addEventListener('click', function (event) {

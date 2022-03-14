@@ -1,2 +1,2 @@
 main logo keyframe
-main header position sticky mobile
+position fixed for main header
