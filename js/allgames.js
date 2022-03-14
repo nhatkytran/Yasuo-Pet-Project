@@ -1,121 +1,115 @@
-const allGames = document.querySelector('.sb-ag-body__left');
-const allGamesItems = document.querySelectorAll('.sb-ag-body__left-link');
-const agMainPoster = document.querySelector('.sb-ag-body__right');
+const allGamesOverlay = document.querySelector('.sb-ag-container');
 
-const hoverMarkupBackground = [
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(17, 113, 200) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(80, 104, 125) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(67, 37, 87) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(139, 121, 229) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(84, 163, 227) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(160, 193, 236) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(172, 76, 84) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(116, 193, 175) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(173, 110, 137) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(66, 88, 166) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(48, 76, 64) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(90, 190, 205) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(147, 34, 28) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(43, 61, 109) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(35, 83, 87) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(121, 49, 123) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(212, 190, 179) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(0, 61, 90) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(252, 63, 67) 0%, rgb(10, 10, 10) 70%);',
-  'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(234, 0, 40) 0%, rgb(10, 10, 10) 70%);',
-];
+const allGamesFunction = function () {
+  const allGamesItems = document.querySelectorAll('.sb-ag-body__left-link');
+  const agMainPoster = document.querySelector('.sb-ag-body__right');
 
-const hoverMarkupQuote = [
-  "Earn in-game rewards and learn more about Riot's games",
-  'Face off in the ultimate 5v5 battle arena',
-  'Style on your enemies in this 5v5 tactical shooter',
-  'A TEAM-BUILDING BATTLE OF WITS',
-  'Master every moment in this strategy card game',
-  'LEAGUE OF LEGENDS, NOW ON MOBILE',
-  'Riot Forge Presents Hextech Mayhem',
-  'RISE AGAINST RUIN IN THIS TURN BASED RPG',
-  'EXPLORE ZAUN AS EKKO IN THIS ACTION PLATFORMER',
-  'A Song Lives Forever',
-  'PUBLISHER OF COMPLETABLE EXPERIENCES FROM THE LEAGUE UNIVERSE',
-  '',
-  '',
-  'AN ANIMATED SERIES ON NETFLIX FROM THE WORLD OF LEAGUE OF LEGENDS',
-  'THE DEFINITIVE SOURCE FOR THE WORLD OF LEAGUE OF LEGENDS',
-  'MUSIC HAS A NEW HOME',
-  'UNLEASH PLAY',
-  'THE OFFICIAL HOME OF RIOT GAMES MERCH',
-  'YOUR MOBILE COMPANION FOR ALL THINGS RIOT GAMES',
-  'FROM TECH TO TILT, WE ARE HERE TO HELP YOU',
-];
+  const hoverMarkupBackground = [
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(17, 113, 200) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(80, 104, 125) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(67, 37, 87) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(139, 121, 229) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(84, 163, 227) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(160, 193, 236) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(172, 76, 84) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(116, 193, 175) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(173, 110, 137) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(66, 88, 166) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(48, 76, 64) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(90, 190, 205) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(147, 34, 28) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(43, 61, 109) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(35, 83, 87) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(121, 49, 123) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(212, 190, 179) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(0, 61, 90) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(252, 63, 67) 0%, rgb(10, 10, 10) 70%);',
+    'background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(234, 0, 40) 0%, rgb(10, 10, 10) 70%);',
+  ];
+  const hoverMarkupQuote = [
+    "Earn in-game rewards and learn more about Riot's games",
+    'Face off in the ultimate 5v5 battle arena',
+    'Style on your enemies in this 5v5 tactical shooter',
+    'A TEAM-BUILDING BATTLE OF WITS',
+    'Master every moment in this strategy card game',
+    'LEAGUE OF LEGENDS, NOW ON MOBILE',
+    'Riot Forge Presents Hextech Mayhem',
+    'RISE AGAINST RUIN IN THIS TURN BASED RPG',
+    'EXPLORE ZAUN AS EKKO IN THIS ACTION PLATFORMER',
+    'A Song Lives Forever',
+    'PUBLISHER OF COMPLETABLE EXPERIENCES FROM THE LEAGUE UNIVERSE',
+    '',
+    '',
+    'AN ANIMATED SERIES ON NETFLIX FROM THE WORLD OF LEAGUE OF LEGENDS',
+    'THE DEFINITIVE SOURCE FOR THE WORLD OF LEAGUE OF LEGENDS',
+    'MUSIC HAS A NEW HOME',
+    'UNLEASH PLAY',
+    'THE OFFICIAL HOME OF RIOT GAMES MERCH',
+    'YOUR MOBILE COMPANION FOR ALL THINGS RIOT GAMES',
+    'FROM TECH TO TILT, WE ARE HERE TO HELP YOU',
+  ];
+  const hoverMarkupSEO = [
+    'ARCANE',
+    'LEAGUE OF LEGENDS',
+    'VALORANT',
+    'TEAMFIGHT TACTICS',
+    'LEGENDS OF RUNETERRA',
+    'LOL: WILD RIFT',
+    'HEXTECH MAYHEM',
+    'RUINED KING',
+    'CONV/RGENCE',
+    'SONG OF NUNU',
+    'RIOT FORGE GAMES',
+    'LOL ESPORTS',
+    'VALORANT ESPORTS',
+    'ARCANE',
+    'UNIVERSE',
+    'RIOT GAMES MUSIC',
+    'RIOT GAMES',
+    'RIOT MERCH',
+    'RIOT MOBILE',
+    'RIOT SUPPORT',
+  ];
 
-const hoverMarkupSEO = [
-  'ARCANE',
-  'LEAGUE OF LEGENDS',
-  'VALORANT',
-  'TEAMFIGHT TACTICS',
-  'LEGENDS OF RUNETERRA',
-  'LOL: WILD RIFT',
-  'HEXTECH MAYHEM',
-  'RUINED KING',
-  'CONV/RGENCE',
-  'SONG OF NUNU',
-  'RIOT FORGE GAMES',
-  'LOL ESPORTS',
-  'VALORANT ESPORTS',
-  'ARCANE',
-  'UNIVERSE',
-  'RIOT GAMES MUSIC',
-  'RIOT GAMES',
-  'RIOT MERCH',
-  'RIOT MOBILE',
-  'RIOT SUPPORT',
-];
+  allGamesItems.forEach((item, index) => {
+    item.setAttribute('data-agi-id', `ag__img--${index + 1}`);
+  });
 
-allGamesItems.forEach((item, index) => {
-  item.setAttribute('data-agi-id', `ag__img--${index + 1}`);
-});
+  let hovered;
+  let timeout;
+  const checkHover = function (event) {
+    if (event.target.closest('.sb-ag-body__left-link')) {
+      hovered = true;
+    } else {
+      hovered = false;
+    }
 
-let hovered;
-let timeout;
-const checkHover = function (event) {
-  if (event.target.closest('.sb-ag-body__left-link')) {
-    hovered = true;
-  } else {
-    hovered = false;
-  }
-
-  if (hovered !== checkHover.hovered) {
     if (hovered) {
       clearTimeout(timeout);
-      if (document.querySelector('.sb-ag-body__right--hover')) {
-        document.querySelector('.sb-ag-body__right--hover').remove();
-      }
+      document.querySelector('.sb-ag-body__right--hover')?.remove();
 
-      const img = event.target.dataset.agiId;
-      const text = event.target.dataset.photoText;
+      const img = event.target.closest('.sb-ag-body__left-link').dataset.agiId;
 
       agMainPoster.classList.add('hide');
-      agMainPoster.insertAdjacentHTML('afterbegin', hoverMarkup(img, text));
+      agMainPoster.insertAdjacentHTML('afterbegin', hoverMarkup(img));
     } else {
       timeout = setTimeout(function () {
-        document.querySelector('.sb-ag-body__right--hover').remove();
+        document.querySelector('.sb-ag-body__right--hover')?.remove();
         agMainPoster.classList.remove('hide');
-      }, 100);
+      }, 200);
     }
-  }
+  };
 
-  checkHover.hovered = hovered;
-};
-checkHover.hovered = false;
+  allGamesOverlay.addEventListener('mousemove', function (event) {
+    if (window.innerWidth > 1040) checkHover(event);
+  });
 
-allGames.addEventListener('mousemove', checkHover);
+  // 14: From "Univers with index 14, poster use text instaed if png or svg"
+  // [1, 7, 9, 10, 13] => png
+  const hoverMarkup = function (img) {
+    const index = +img?.slice(img.length - 2, img.length).replace('-', '') - 1;
 
-// 14: From "Univers with index 14, poster use text instaed if png or svg"
-// [1, 7, 9, 10, 13] => png
-const hoverMarkup = function (img) {
-  const index = +img?.slice(img.length - 2, img.length).replace('-', '') - 1;
-
-  return `
+    return `
     <div class="sb-ag-body__right--hover">
       <div class="sb-ag-body__right--hover-frame"></div>
       <div class="ag__hover-content" style="${hoverMarkupBackground[index]}">
@@ -124,23 +118,31 @@ const hoverMarkup = function (img) {
             <img
               class="ag__hover-imgs ${index >= 14 ? 'hide' : ''}"
               src="./src/img/nav-ag/${img}s.${
-    [1, 7, 9, 10, 13].indexOf(index + 1) !== -1 ? 'png' : 'svg'
-  }"
-              alt="ARCANE"
-              title="ARCANE"
+      [1, 7, 9, 10, 13].indexOf(index + 1) !== -1 ? 'png' : 'svg'
+    }"
+              alt="${hoverMarkupSEO[index]}"
             />
-            <span class="ag__hover-imgs--text ${
-              index < 14 ? 'hide' : ''
-            }">UNIVERSE</span>
+            <span class="ag__hover-imgs--text ${index < 14 ? 'hide' : ''}">${
+      hoverMarkupSEO[index]
+    }</span>
           </div>
           <p class="ag__hover-text">
             ${hoverMarkupQuote[index]}
           </p>
-          <div class="ag__hover-icon">
+          <div class="ag__hover-icon ${
+            index === 0 || index === 8 || index >= 10 ? 'hide' : ''
+          }">
             <svg
               width="8"
               height="8"
-              class="ag__hover-icon--1"
+              class="ag__hover-icon--1 ${
+                (index > 0 && index < 5) ||
+                index === 6 ||
+                index === 7 ||
+                index === 9
+                  ? 'show'
+                  : ''
+              }"
               viewBox="0 0 10 10"
             >
               <title>platform_windows_transp</title>
@@ -151,7 +153,7 @@ const hoverMarkup = function (img) {
             <svg
               width="8"
               height="8"
-              class="ag__hover-icon--2"
+              class="ag__hover-icon--2 ${index > 2 && index < 7 ? 'show' : ''}"
               viewBox="0 0 7 10"
             >
               <title>platform_phone_transp</title>
@@ -162,7 +164,9 @@ const hoverMarkup = function (img) {
             <svg
               width="8"
               height="8"
-              class="ag__hover-icon--3"
+              class="ag__hover-icon--3 ${
+                index === 6 || index === 7 || index === 9 ? 'show' : ''
+              }"
               viewBox="0 0 11 10"
             >
               <title>platform_switch_transp</title>
@@ -184,9 +188,53 @@ const hoverMarkup = function (img) {
       <img
         class="ag__hover-img"
         src="./src/img/nav-ag/${img}.jpeg"
-        alt="ARCANE"
-        title="ARCANE"
+        alt="${hoverMarkupSEO[index]}"
       />
     </div>
   `;
+  };
 };
+
+const allGamesFunctionMobile = function () {
+  const allGames = document.querySelector('.sb-ag-body__left');
+
+  // allGames.forEach
+
+  allGames.addEventListener('click', function (event) {
+    if (!event.target.closest('.sb-ag-body__left-title')) return;
+
+    event.target.parentElement.classList.toggle('show');
+  });
+};
+
+const allGamesOpen = document.querySelector('.main-header__riot-logo');
+const allGamesClose = document.querySelector('.sb-ag-header__close');
+const allGamesMainPart = document.querySelector('.sb-ag');
+
+const generalFunction = function () {
+  allGamesOpen.addEventListener('click', function () {
+    allGamesOverlay.classList.add('show');
+  });
+
+  const closeAG = function () {
+    allGamesMainPart.classList.add('close-special');
+    setTimeout(function () {
+      allGamesMainPart.classList.remove('close-special');
+      allGamesOverlay.classList.remove('show');
+    }, 250);
+
+    document.querySelectorAll('.sb-ag-body__left-title').forEach(item => {
+      item.parentElement.classList.remove('show');
+    });
+  };
+
+  allGamesClose.addEventListener('click', closeAG);
+
+  allGamesOverlay.addEventListener('click', function (event) {
+    if (!event.target.closest('.sb-ag')) closeAG();
+  });
+};
+
+allGamesFunction();
+allGamesFunctionMobile();
+generalFunction();
