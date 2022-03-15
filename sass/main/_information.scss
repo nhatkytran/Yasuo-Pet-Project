@@ -1,74 +1,72 @@
 .information {
-  grid-column: Full-start / Full-end;
-  background-color: $color-layer;
+  height: 100rem;
+  background-color: $header-bg-color;
+
   position: relative;
 
-  //background image
   &-img-bg {
-    width: 100%;
-    height: auto;
+    height: 65rem;
+    background-image: url('../../src/img/Yasuo.About-Slow.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 0;
 
-    &-img {
-      width: 100%;
-      height: calc(100% + 10rem);
-      filter: blur(1rem);
-    }
+    position: relative;
 
     &-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      @include dimension100;
       background-image: linear-gradient(
         to top,
-        rgba(0, 0, 0, 0.2) 20%,
-        rgba(0, 0, 0, 0.3) 100%,
+        rgba(0, 0, 0, 0.7) 10%,
+        rgba(0, 0, 0, 0.5) 100%,
         transparent 0
       );
+
+      @include abs;
+      @include zero-zero;
     }
   }
 
-  // Main image //////////////////////////
   &-img {
-    // display: none;
-    position: absolute;
-    top: 3rem;
+    width: calc(100% - 12rem);
+    max-width: $width;
+    height: 65rem;
+    border-radius: 0.6rem;
+
+    background-image: url('../../src/img/Yasuo.About.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+
+    @include abs;
+    top: 6rem;
     left: 50%;
     transform: translateX(-50%);
-    width: calc(100% - 2rem);
-    height: auto;
-
-    &-img {
-      width: 100%;
-      height: 56.25vw;
-      border-radius: 0.6rem;
-    }
 
     &-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      @include dimension100;
       background-image: linear-gradient(
         to top,
-        rgba(0, 0, 0, 0.9) 20%,
+        rgba(0, 0, 0, 0.8) 20%,
         rgba(0, 0, 0, 0.1) 100%,
         transparent 0
       );
+
+      @include abs;
+      @include zero-zero;
     }
 
     &-text {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: rotate(-90deg) translate(-10%, -120%);
       font-family: Spiegel-Bold, Arial, sans-serif;
       font-size: 1rem;
       color: $header-text-color;
       text-transform: uppercase;
       letter-spacing: 0.3rem;
+
+      @include abs;
+      top: 50%;
+      left: 0;
+      transform: rotate(-90deg) translate(0, -30%);
 
       &::after {
         @include line-after;
@@ -78,42 +76,44 @@
 }
 
 .champion-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
   width: 14rem;
   height: 6rem;
   background-color: transparent;
   color: $header-text-color;
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
   border: 1px solid currentColor;
   border-radius: 0.6rem;
   cursor: pointer;
 
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+
   &:hover {
-    .view-all-champions {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
+    .champion-list__icon {
+      fill: rgb(7, 239, 239);
     }
 
     .champion-list__title {
       color: rgb(7, 239, 239);
     }
-  }
 
-  &__wrap {
-    height: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-direction: column;
+    .view-all-champions {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
   }
 
   &__icon {
     width: 2.8rem;
     height: 2.8rem;
     fill: currentColor;
+    transition: all linear 0.3s 0.2s;
   }
 
   &__title {
@@ -121,7 +121,7 @@
     font-size: 1rem;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
-    z-index: 1;
+    transition: all linear 0.1s;
 
     &::before {
       @include line-before;
@@ -133,34 +133,35 @@
   }
 
   .view-all-champions {
-    position: absolute;
-    width: 16rem;
-    height: 50%;
-    top: 6.5rem;
-    left: -1rem;
-    border: 1px solid $header-text-color;
-    border: 1px solid rgb(0, 207, 207);
-    border-radius: 0.6rem;
-    background-color: rgb(44, 44, 44);
     display: flex;
     align-items: center;
     justify-content: space-around;
-    opacity: 0;
-    pointer-events: none;
+
+    width: 16rem;
+    height: 50%;
+    background-color: rgb(44, 44, 44);
+    border: 1px solid rgb(0, 207, 207);
+    border-radius: 0.6rem;
     transform: translateY(-3rem);
     transition: all linear 0.2s;
 
+    opacity: 0;
+    pointer-events: none;
+
+    position: absolute;
+    top: 6.5rem;
+    left: -1rem;
+
     &__title {
-      color: rgb(0, 207, 207);
       font-family: Spiegel-Bold, Arial, sans-serif;
       font-size: 1.1rem;
       letter-spacing: 0.2rem;
+      color: rgb(0, 207, 207);
       text-transform: uppercase;
     }
   }
 }
 
-// Yasuo
 .information-yasuo {
   position: absolute;
   top: 50%;

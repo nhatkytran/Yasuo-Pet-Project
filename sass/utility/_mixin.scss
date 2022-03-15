@@ -62,24 +62,23 @@
   object-position: center;
 }
 
-@mixin line-before {
+@mixin line {
   content: '';
   display: inline-block;
   vertical-align: middle;
   width: 1.4em;
   height: 1px;
-  margin-right: 0.7rem;
   background-color: currentcolor;
 }
 
+@mixin line-before {
+  @include line;
+  margin-right: 0.7rem;
+}
+
 @mixin line-after {
-  content: '';
-  display: inline-block;
-  vertical-align: middle;
-  width: 1.4em;
-  height: 1px;
+  @include line();
   margin-left: 0.5rem;
-  background-color: currentcolor;
 }
 
 // Responsive
