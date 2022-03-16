@@ -56,16 +56,8 @@
     }
 
     &-text {
-      font-family: Spiegel-Bold, Arial, sans-serif;
-      font-size: 1rem;
-      color: $header-text-color;
-      text-transform: uppercase;
-      letter-spacing: 0.3rem;
-
-      @include abs;
-      top: 50%;
-      left: 0;
-      transform: rotate(-90deg) translate(0, -30%);
+      @include text-rotate;
+      transform: rotate(-90deg) translate(70%, -30%);
 
       &::after {
         @include line-after;
@@ -175,7 +167,7 @@
     text-align: center;
 
     &-unforgiven {
-      font-family: Spiegel-Regular, sans-serif;
+      font-family: Spiegel-Regular, Arial, sans-serif;
       font-style: italic;
       font-size: 2.4rem;
     }
@@ -225,7 +217,7 @@
       justify-content: space-around;
 
       max-width: 55rem;
-      font-family: Spiegel-Regular;
+      font-family: Spiegel-Regular, Arial, sans-serif;
       font-size: 1.4rem;
       letter-spacing: 0.2rem;
       text-align: center;
@@ -282,7 +274,7 @@
       flex: 1;
 
       max-width: 55rem;
-      font-family: Spiegel-Regular, sans-serif;
+      font-family: Spiegel-Regular, Arial, sans-serif;
       font-size: 1.4rem;
       padding: 6rem;
 

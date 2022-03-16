@@ -87,6 +87,18 @@
   border-bottom: 1px solid $main-border;
 }
 
+@mixin text-rotate {
+  font-family: Spiegel-Bold, Arial, sans-serif;
+  font-size: 1rem;
+  color: $header-text-color;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+
+  @include abs;
+  top: 50%;
+  left: 0;
+}
+
 // Responsive
 @mixin hide {
   opacity: 0;

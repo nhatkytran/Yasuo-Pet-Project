@@ -1,5 +1,55 @@
 .abilities {
-  grid-column: Full-start / Full-end;
-  background-color: #fff;
-  // display: none;
+  width: 100%;
+  height: 50vw;
+  background-color: $header-bg-color;
+
+  position: relative;
+
+  &-icon,
+  &__overlay,
+  &__content {
+    @include abs;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &-icon {
+    height: calc(100% - 3rem);
+    fill: rgb(7, 18, 26);
+  }
+
+  &__overlay {
+    @include dimension100;
+    max-width: 160rem;
+
+    &-text {
+      @include text-rotate;
+      transform: rotate(-90deg) translate(70%, -30%);
+
+      &::after {
+        @include line-after;
+      }
+    }
+  }
+
+  &__content {
+    width: 110rem;
+    height: 100%;
+
+    border: 1px solid red;
+
+    &-header {
+      color: $header-text-color;
+
+      &-ab {
+        font-family: Beaufort-Bold, serif;
+        font-style: italic;
+        font-size: 6rem;
+        line-height: 0.8;
+        letter-spacing: 0.4rem;
+        margin-right: 2rem;
+      }
+    }
+  }
 }
