@@ -1,5 +1,5 @@
 .information {
-  height: 100rem;
+  height: 84rem;
   background-color: $header-bg-color;
   position: relative;
 
@@ -16,7 +16,7 @@
       @include dimension100;
       background-image: linear-gradient(
         to top,
-        rgba(0, 0, 0, 0.7) 10%,
+        rgba($header-bg-color, 1) 2%,
         rgba(0, 0, 0, 0.5) 100%,
         transparent 0
       );
@@ -38,7 +38,7 @@
     background-position: 50% 50%;
 
     @include abs;
-    top: 6rem;
+    top: 5.4rem;
     left: 50%;
     transform: translateX(-50%);
 
@@ -211,9 +211,7 @@
 
     color: $header-text-color;
     padding-top: 3rem;
-    border-left: 1px solid $main-border;
-    border-right: 1px solid $main-border;
-    border-bottom: 1px solid $main-border;
+    @include border-non-top;
 
     position: relative;
     top: -2.8rem;
@@ -338,6 +336,38 @@
           color: $header-text-color;
         }
       }
+    }
+  }
+
+  &__plus {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+
+    font-family: Spiegel-Regular, Arial, sans-serif;
+    font-size: 1.4rem;
+    height: 4rem;
+    color: $header-text-color;
+    padding: 1rem 26rem;
+    letter-spacing: 0.2rem;
+    @include border-non-top;
+
+    position: relative;
+    top: -2.8rem;
+
+    &--1 {
+      color: $main-border;
+    }
+  }
+
+  &__sub-plus {
+    text-align: center;
+
+    position: relative;
+    top: -1em;
+
+    &-icon {
+      stroke: $main-border;
     }
   }
 }

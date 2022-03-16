@@ -81,6 +81,12 @@
   margin-left: 0.5rem;
 }
 
+@mixin border-non-top {
+  border-left: 1px solid $main-border;
+  border-right: 1px solid $main-border;
+  border-bottom: 1px solid $main-border;
+}
+
 // Responsive
 @mixin hide {
   opacity: 0;

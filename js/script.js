@@ -182,6 +182,4 @@ const storyMore = document.querySelector(
 storyButton.addEventListener('click', function () {
   storyButton.classList.add('hide');
   storyDots.classList.add('hide');
-
-  console.log(storyDots);
 });
