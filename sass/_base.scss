@@ -14,6 +14,11 @@ html {
 }
 
 @font-face {
+  font-family: Beaufort-Bold;
+  src: url(../src/font/Beaufort-Bold.ttf);
+}
+
+@font-face {
   font-family: Beaufort-Regular;
   src: url(../src/font/Beaufort-Regular.ttf);
 }
@@ -75,6 +80,8 @@ body {
   @media only screen and (max-width: 40em) {
     grid-template-rows: 6rem 0 500px 13.5rem;
   }
+
+  display: none;
 }
 
 // 1340px

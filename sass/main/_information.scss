@@ -1,7 +1,6 @@
 .information {
   height: 100rem;
   background-color: $header-bg-color;
-
   position: relative;
 
   &-img-bg {
@@ -47,7 +46,7 @@
       @include dimension100;
       background-image: linear-gradient(
         to top,
-        rgba(0, 0, 0, 0.8) 20%,
+        rgba($header-bg-color, 1) 2%,
         rgba(0, 0, 0, 0.1) 100%,
         transparent 0
       );
@@ -163,9 +162,148 @@
 }
 
 .information-yasuo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
+  width: 100%;
+  max-width: 110rem;
+  z-index: 1;
+
+  @include abs;
+  @include fifty-fifty;
+  transform: translate(-50%, -20%);
+
+  &__name {
+    color: $header-text-color;
+    text-align: center;
+
+    &-unforgiven {
+      font-family: Spiegel-Regular, sans-serif;
+      font-style: italic;
+      font-size: 2.4rem;
+    }
+
+    &--main {
+      display: flex;
+      align-items: center;
+    }
+
+    &-yasuo {
+      font-family: Beaufort-Bold, serif;
+      font-style: italic;
+      font-size: 11.8rem;
+      line-height: 0.8;
+      letter-spacing: 0;
+      margin-right: 2rem;
+    }
+  }
+
+  .main-border__yasuo {
+    content: '';
+    height: 1px;
+    width: 100%;
+    background-color: $main-border;
+
+    position: relative;
+    top: 2rem;
+  }
+
+  //////////////////////////////////
+  &__about {
+    display: flex;
+
+    color: $header-text-color;
+    padding-top: 3rem;
+    border-left: 1px solid $main-border;
+    border-right: 1px solid $main-border;
+    border-bottom: 1px solid $main-border;
+
+    position: relative;
+    top: -2.8rem;
+
+    //
+    &-characteristic {
+      flex: 1;
+
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-around;
+
+      max-width: 55rem;
+      font-family: Spiegel-Regular;
+      font-size: 1.4rem;
+      letter-spacing: 0.2rem;
+      text-align: center;
+      padding: 6rem;
+    }
+
+    &-role {
+      &-icon {
+        width: 6rem;
+        height: 6rem;
+        fill: rgb(208, 168, 92);
+        padding-top: 1.2rem;
+        padding-bottom: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      &-fighter {
+        color: rgb(208, 168, 92);
+      }
+    }
+
+    &-difficulty {
+      &-icon {
+        // padding-bottom: 2.4rem;
+        height: 6rem;
+        padding-bottom: 1.5rem;
+        margin-top: 1.5rem;
+
+        &--part {
+          display: inline-block;
+          width: 1.6rem;
+          height: 1.6rem;
+          background-color: rgb(8, 215, 247);
+          transform: skewX(-40deg);
+
+          &:nth-child(1) {
+            position: relative;
+            right: -2px;
+          }
+
+          &:nth-child(3) {
+            position: relative;
+            left: -2px;
+          }
+        }
+      }
+
+      &-high {
+        color: rgb(208, 168, 92);
+      }
+    }
+
+    //
+    &-story {
+      flex: 1;
+
+      max-width: 55rem;
+      font-family: Spiegel-Regular, sans-serif;
+      font-size: 1.4rem;
+      padding: 6rem;
+
+      position: relative;
+
+      &::before {
+        content: '';
+        display: block;
+
+        width: 1px;
+        height: 72%;
+        background-color: $main-border;
+
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+      }
+    }
+  }
 }
