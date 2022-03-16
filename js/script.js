@@ -167,3 +167,21 @@ exploreGamesContainer.addEventListener('click', function (event) {
 exploreGamesClose.addEventListener('click', function (event) {
   closeExploreGames(event);
 });
+
+// Yasuo story
+const storyButton = document.querySelector(
+  '.information-yasuo__about-story--see-more'
+);
+const storyDots = document.querySelector(
+  '.information-yasuo__about-story--dots'
+);
+const storyMore = document.querySelector(
+  '.information-yasuo__about-story--more'
+);
+
+storyButton.addEventListener('click', function () {
+  storyButton.classList.add('hide');
+  storyDots.classList.add('hide');
+
+  console.log(storyDots);
+});

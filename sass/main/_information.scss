@@ -238,21 +238,20 @@
       &-icon {
         width: 6rem;
         height: 6rem;
-        fill: rgb(208, 168, 92);
-        padding-top: 1.2rem;
+        fill: $color-story;
         padding-bottom: 1.5rem;
         margin-top: 1rem;
       }
 
       &-fighter {
-        color: rgb(208, 168, 92);
+        color: $color-story;
       }
     }
 
     &-difficulty {
       &-icon {
-        // padding-bottom: 2.4rem;
         height: 6rem;
+        padding-top: 1.2rem;
         padding-bottom: 1.5rem;
         margin-top: 1.5rem;
 
@@ -303,6 +302,41 @@
         top: 50%;
         left: 0;
         transform: translateY(-50%);
+      }
+
+      &--dots {
+        display: inline-block;
+
+        &.hide {
+          display: none;
+        }
+      }
+
+      &--see-more {
+        display: inline-block;
+        font-size: 1rem;
+        background-color: transparent;
+        color: $color-story;
+        cursor: pointer;
+
+        &.hide {
+          display: none;
+
+          & + .information-yasuo__about-story--more {
+            display: block;
+          }
+        }
+      }
+
+      &--more {
+        display: none;
+
+        color: rgb(208, 168, 92);
+        margin-top: 1rem;
+
+        &-yasuo {
+          color: $header-text-color;
+        }
       }
     }
   }
