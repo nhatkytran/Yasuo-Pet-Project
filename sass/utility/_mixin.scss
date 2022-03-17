@@ -77,7 +77,7 @@
 }
 
 @mixin line-after {
-  @include line();
+  @include line;
   margin-left: 0.5rem;
 }
 
