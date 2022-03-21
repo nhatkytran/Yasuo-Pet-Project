@@ -1,10 +1,45 @@
 .abilities {
   width: 100%;
-  height: 65rem;
+  min-height: 65rem;
   background-color: $header-bg-color;
   padding-top: 6rem;
 
   position: relative;
+
+  // 1140px
+  @media only screen and (max-width: 71.25em) {
+    min-height: 100rem;
+  }
+
+  // 940px
+  @media only screen and (max-width: 58.75em) {
+    min-height: 93.6rem;
+  }
+
+  // 840px
+  @media only screen and (max-width: 52.5em) {
+    min-height: 87.6rem;
+  }
+
+  // 740px
+  @media only screen and (max-width: 46.25em) {
+    min-height: 82.6rem;
+  }
+
+  // 648px
+  @media only screen and (max-width: 40.5em) {
+    min-height: 84.6rem;
+  }
+
+  // 640px
+  @media only screen and (max-width: 40em) {
+    min-height: 75.6rem;
+  }
+
+  // 624px
+  @media only screen and (max-width: 39em) {
+    min-height: 77.6rem;
+  }
 
   &-icon,
   &__overlay,
@@ -28,6 +63,11 @@
       @include text-rotate;
       transform: rotate(-90deg) translate(270%, -30%);
 
+      // 640px
+      @media only screen and (max-width: 40em) {
+        transform: rotate(-90deg) translate(460%, -30%);
+      }
+
       &::after {
         @include line-after;
       }
@@ -39,6 +79,11 @@
     max-width: 120rem;
     height: 100%;
 
+    // 640px
+    @media only screen and (max-width: 40em) {
+      width: calc(100% - 6rem);
+    }
+
     &-header {
       color: $header-text-color;
 
@@ -49,6 +94,27 @@
         line-height: 0.8;
         letter-spacing: 0.4rem;
         margin-right: 2rem;
+
+        // 1140px
+        @media only screen and (max-width: 71.25em) {
+          font-size: 4.6rem;
+        }
+
+        // 840px
+        @media only screen and (max-width: 52.5em) {
+          font-size: 4rem;
+        }
+
+        // 640px
+        @media only screen and (max-width: 40em) {
+          font-size: 3rem;
+        }
+      }
+
+      // 1140px
+      @media only screen and (max-width: 71.25em) {
+        text-align: center;
+        margin-top: 4rem;
       }
     }
 
@@ -57,6 +123,12 @@
 
       width: 100%;
       min-height: 56.25%;
+
+      // 1140px
+      @media only screen and (max-width: 71.25em) {
+        flex-direction: column-reverse;
+        align-items: center;
+      }
 
       &-skills {
         flex: 1;
@@ -70,6 +142,17 @@
 
           position: relative;
 
+          // 1140px
+          @media only screen and (max-width: 71.25em) {
+            padding-top: 4rem;
+            justify-content: center;
+          }
+
+          // 640px
+          @media only screen and (max-width: 40em) {
+            padding-top: 3rem;
+          }
+
           &-progress {
             width: 100%;
             height: 1px;
@@ -79,6 +162,11 @@
             position: absolute;
             bottom: 0;
             left: 0;
+
+            // 1140px
+            @media only screen and (max-width: 71.25em) {
+              display: none;
+            }
 
             &-circle {
               display: flex;
@@ -125,6 +213,22 @@
             margin: 0 1.8rem;
             cursor: pointer;
 
+            // 840px
+            @media only screen and (max-width: 52.5em) {
+              width: 5rem;
+            }
+
+            // 640px
+            @media only screen and (max-width: 40em) {
+              width: 4rem;
+              height: 8.6rem;
+            }
+
+            // 440px
+            @media only screen and (max-width: 27.5em) {
+              margin: 0 0.8rem;
+            }
+
             &-img {
               width: 100%;
               margin-top: 2rem;
@@ -145,6 +249,11 @@
 
               position: relative;
               top: 0.4rem;
+
+              // 1140px
+              @media only screen and (max-width: 71.25em) {
+                display: none;
+              }
             }
           }
         }
@@ -152,17 +261,44 @@
         .ab__skills-desc {
           padding: 4rem 12rem 4rem 4rem;
 
+          // 1140px
+          @media only screen and (max-width: 71.25em) {
+            text-align: center;
+            padding: 0 12.6rem 4rem;
+          }
+
+          // 940px
+          @media only screen and (max-width: 58.75em) {
+            padding: 0 7.8rem 4rem;
+          }
+
+          // 840px
+          @media only screen and (max-width: 52.5em) {
+            padding: 0 1rem 4rem;
+          }
+
+          // 540px
+          @media only screen and (max-width: 33.75em) {
+            padding: 0 0 4rem;
+          }
+
           &-s {
             font-family: Spiegel-Regular, Arial, sans-serif;
 
             &-small {
               font-size: 1.2rem;
               color: rgba(255, 255, 255, 0.5);
+
+              // 1140px
+              @media only screen and (max-width: 71.25em) {
+                display: none;
+              }
             }
 
             &-big {
               font-family: Spiegel-Bold, Arial, sans-serif;
               font-size: 1.8rem;
+              letter-spacing: 0.2rem;
               color: $header-text-color;
               margin: 0.6rem 0;
             }
@@ -183,10 +319,55 @@
 
         position: relative;
 
+        // 1140px
+        @media only screen and (max-width: 71.25em) {
+          display: flex;
+          justify-content: space-around;
+
+          width: 100%;
+          margin-top: 4rem;
+        }
+
         &-s {
           width: 100%;
           height: 84%;
           @include video;
+
+          // 1240px
+          @media only screen and (max-width: 77.5em) {
+            height: 74%;
+          }
+
+          // 1140px
+          @media only screen and (max-width: 71.25em) {
+            width: 100%;
+            height: 43rem;
+          }
+
+          // 940px
+          @media only screen and (max-width: 58.75em) {
+            height: 37rem;
+          }
+
+          // 840px
+          @media only screen and (max-width: 52.5em) {
+            height: 32rem;
+          }
+
+          // 740px
+          @media only screen and (max-width: 46.25em) {
+            height: 27rem;
+          }
+
+          // 640px
+          @media only screen and (max-width: 40em) {
+            width: 100%;
+          }
+
+          // 440px
+          @media only screen and (max-width: 27.5em) {
+            height: 23rem;
+          }
         }
 
         &-overlay {
@@ -195,6 +376,24 @@
           border: 1px solid $main-border;
 
           @include center-absolute;
+
+          // 1240px
+          @media only screen and (max-width: 77.5em) {
+            height: calc(74% + 2rem);
+          }
+
+          // 1140px
+          @media only screen and (max-width: 71.25em) {
+            width: calc(100% - 2rem);
+            height: calc(100% + 2rem);
+          }
+
+          // // 640px
+          // @media only screen and (max-width: 40em) {
+          //   width: 100%;
+          //   height: 23rem;
+          //   width: calc(100% - 2rem);
+          // }
         }
       }
     }
@@ -207,14 +406,55 @@
 
       position: relative;
 
+      // 1140px
+      @media only screen and (max-width: 71.25em) {
+        margin-top: 1rem;
+      }
+
+      // 640px
+      @media only screen and (max-width: 40em) {
+        margin-top: 0;
+      }
+
       &-quote {
         font-size: 2.6rem;
+
+        // 1140px
+        @media only screen and (max-width: 71.25em) {
+          font-size: 2.2rem;
+        }
+
+        // 840px
+        @media only screen and (max-width: 52.5em) {
+          font-size: 2rem;
+        }
+
+        // 640px
+        @media only screen and (max-width: 40em) {
+          font-size: 1.6rem;
+        }
       }
 
       &-who {
         font-size: 1.6rem;
         color: $color-ab;
         margin-top: 2rem;
+
+        // 1140px
+        @media only screen and (max-width: 71.25em) {
+          font-size: 1.4rem;
+        }
+
+        // 840px
+        @media only screen and (max-width: 52.5em) {
+          font-size: 1.2rem;
+        }
+
+        // 640px
+        @media only screen and (max-width: 40em) {
+          font-size: 1rem;
+          margin-top: 1.4rem;
+        }
       }
 
       &::before {
