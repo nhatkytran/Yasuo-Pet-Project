@@ -1,7 +1,8 @@
 .abilities {
   width: 100%;
-  height: 50vw;
+  height: 65rem;
   background-color: $header-bg-color;
+  padding-top: 6rem;
 
   position: relative;
 
@@ -25,7 +26,7 @@
 
     &-text {
       @include text-rotate;
-      transform: rotate(-90deg) translate(70%, -30%);
+      transform: rotate(-90deg) translate(270%, -30%);
 
       &::after {
         @include line-after;
@@ -34,10 +35,9 @@
   }
 
   &__content {
-    width: 110rem;
+    width: calc(100% - 12rem);
+    max-width: 120rem;
     height: 100%;
-
-    border: 1px solid red;
 
     &-header {
       color: $header-text-color;
@@ -49,6 +49,184 @@
         line-height: 0.8;
         letter-spacing: 0.4rem;
         margin-right: 2rem;
+      }
+    }
+
+    &-body {
+      display: flex;
+
+      width: 100%;
+      min-height: 56.25%;
+
+      &-skills {
+        flex: 1;
+
+        .ab__skills {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+
+          padding-top: 8rem;
+
+          position: relative;
+
+          &-progress {
+            width: 100%;
+            height: 1px;
+            background-color: $main-border;
+            z-index: 1;
+
+            position: absolute;
+            bottom: 0;
+            left: 0;
+
+            &-circle {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              width: 1.4rem;
+              height: 1.4rem;
+              border: 1px solid $color-ab;
+              border-radius: 50%;
+
+              position: absolute;
+              top: -0.6rem;
+              left: 13.8rem;
+
+              &::after {
+                content: '';
+                width: 0.1rem;
+                height: 2rem;
+                background-color: $color-ab;
+                position: absolute;
+                top: -2rem;
+                left: 50%;
+                transform: translateX(-50%);
+              }
+            }
+
+            &-dot {
+              width: 0.7rem;
+              height: 0.7rem;
+              background-color: $color-ab;
+              border-radius: 50%;
+            }
+          }
+
+          &-skill {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 6rem;
+            height: 11rem;
+            margin: 0 1.8rem;
+            cursor: pointer;
+
+            &-img {
+              width: 100%;
+              margin-top: 2rem;
+
+              &.active {
+                margin-top: 1rem;
+                outline-offset: 0.5rem;
+                outline: 0.1rem solid $color-ab;
+              }
+            }
+
+            &-dot {
+              width: 0.8rem;
+              height: 0.8rem;
+              border-radius: 50%;
+              background-color: rgb(64, 62, 62);
+              transition: all linear 0.1s;
+
+              position: relative;
+              top: 0.4rem;
+            }
+          }
+        }
+
+        .ab__skills-desc {
+          padding: 4rem 12rem 4rem 4rem;
+
+          &-s {
+            font-family: Spiegel-Regular, Arial, sans-serif;
+
+            &-small {
+              font-size: 1.2rem;
+              color: rgba(255, 255, 255, 0.5);
+            }
+
+            &-big {
+              font-family: Spiegel-Bold, Arial, sans-serif;
+              font-size: 1.8rem;
+              color: $header-text-color;
+              margin: 0.6rem 0;
+            }
+
+            &-medium {
+              font-size: 1.4rem;
+              color: $header-navbar-color;
+            }
+          }
+        }
+      }
+
+      &-video {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+
+        position: relative;
+
+        &-s {
+          width: 100%;
+          height: 84%;
+          @include video;
+        }
+
+        &-overlay {
+          width: calc(100% - 2rem);
+          height: calc(84% + 2rem);
+          border: 1px solid $main-border;
+
+          @include center-absolute;
+        }
+      }
+    }
+
+    &-footer {
+      font-family: 'Gloria Hallelujah', cursive, Arial, sans-serif;
+      color: $header-text-color;
+      text-align: center;
+      margin-top: 3rem;
+
+      position: relative;
+
+      &-quote {
+        font-size: 2.6rem;
+      }
+
+      &-who {
+        font-size: 1.6rem;
+        color: $color-ab;
+        margin-top: 2rem;
+      }
+
+      &::before {
+        content: '';
+        width: calc(100% - 10rem);
+        height: 1px;
+        background-color: $main-border;
+
+        position: absolute;
+        left: 50%;
+        bottom: -5rem;
+        transform: translateX(-50%);
       }
     }
   }
