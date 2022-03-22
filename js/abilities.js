@@ -67,7 +67,7 @@ skillContainer.addEventListener('click', function (event) {
   const video = document.querySelector('.abilities__content-body-video-s');
 
   videoContainer.removeChild(video);
-  videoContainer.insertAdjacentHTML('afterbegin', markupVideo(skillIndex));
+  videoContainer.insertAdjacentHTML('beforeend', markupVideo(skillIndex));
 });
 
 const markupDesc = function (index) {
