@@ -53,6 +53,8 @@
   &-icon {
     height: calc(100% - 3rem);
     fill: rgb(7, 18, 26);
+    fill: #0e1922;
+    // fill: #0b1b27;
   }
 
   &__overlay {
@@ -65,7 +67,7 @@
 
       // 640px
       @media only screen and (max-width: 40em) {
-        transform: rotate(-90deg) translate(460%, -30%);
+        transform: rotate(-90deg) translate(430%, -30%);
       }
 
       &::after {
@@ -180,7 +182,7 @@
 
               position: absolute;
               top: -0.6rem;
-              left: 13.8rem;
+              left: 13.7rem;
 
               &::after {
                 content: '';
@@ -229,26 +231,42 @@
               margin: 0 0.8rem;
             }
 
+            // &.hovered .ab__skills-skill-img {
+            //   margin-top: 1.5rem;
+            //   transform: scale(1.1);
+            // }
+            &:hover {
+              .ab__skills-skill-img {
+                margin-top: 1.5rem;
+                transform: scale(1.05);
+              }
+
+              .ab__skills-skill-dot {
+                background-color: rgb(203, 165, 95);
+              }
+            }
+
+            &.active .ab__skills-skill-img {
+              margin-top: 1rem;
+              outline-offset: 0.5rem;
+              outline: 0.1rem solid $color-ab;
+            }
+
             &-img {
               width: 100%;
               margin-top: 2rem;
-
-              &.active {
-                margin-top: 1rem;
-                outline-offset: 0.5rem;
-                outline: 0.1rem solid $color-ab;
-              }
+              transition: all linear 0.1s;
             }
 
             &-dot {
               width: 0.8rem;
               height: 0.8rem;
               border-radius: 50%;
-              background-color: rgb(64, 62, 62);
+              background-color: rgb(96, 96, 96);
               transition: all linear 0.1s;
 
               position: relative;
-              top: 0.4rem;
+              top: 0.3rem;
 
               // 1140px
               @media only screen and (max-width: 71.25em) {
@@ -259,31 +277,47 @@
         }
 
         .ab__skills-desc {
-          padding: 4rem 12rem 4rem 4rem;
+          height: 14rem;
+          position: relative;
 
-          // 1140px
-          @media only screen and (max-width: 71.25em) {
-            text-align: center;
-            padding: 0 12.6rem 4rem;
+          // 640px
+          @media only screen and (max-width: 40em) {
+            height: 16rem;
           }
 
-          // 940px
-          @media only screen and (max-width: 58.75em) {
-            padding: 0 7.8rem 4rem;
-          }
-
-          // 840px
-          @media only screen and (max-width: 52.5em) {
-            padding: 0 1rem 4rem;
-          }
-
-          // 540px
-          @media only screen and (max-width: 33.75em) {
-            padding: 0 0 4rem;
+          // 440px
+          @media only screen and (max-width: 27.5em) {
+            height: 20rem;
           }
 
           &-s {
             font-family: Spiegel-Regular, Arial, sans-serif;
+            padding: 4rem 12rem 4rem 4rem;
+
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            // 1240px
+            @media only screen and (max-width: 77.5em) {
+              padding: 4rem 8rem 4rem 4rem;
+            }
+
+            // 1140px
+            @media only screen and (max-width: 71.25em) {
+              text-align: center;
+              padding: 0 0 4rem;
+            }
+
+            // 940px
+            @media only screen and (max-width: 58.75em) {
+              padding: 0 3rem 4rem;
+            }
+
+            // 840px
+            @media only screen and (max-width: 52.5em) {
+              padding: 0 1rem 4rem;
+            }
 
             &-small {
               font-size: 1.2rem;
