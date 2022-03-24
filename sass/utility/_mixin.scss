@@ -147,3 +147,19 @@
   opacity: 1;
   pointer-events: all;
 }
+
+// Skins
+@mixin skins_container {
+  max-width: 146rem;
+  height: 84rem;
+}
+
+@mixin square-border {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid #423a26;
+  transform: rotate(45deg);
+
+  position: absolute;
+}
