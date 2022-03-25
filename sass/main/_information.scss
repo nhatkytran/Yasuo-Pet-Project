@@ -203,8 +203,6 @@
   }
 
   &:hover {
-    cursor: default;
-
     .champion-list__icon {
       fill: rgb(7, 239, 239);
     }
@@ -233,7 +231,7 @@
     width: 2.8rem;
     height: 2.8rem;
     fill: currentColor;
-    transition: all linear 0.3s 0.2s;
+    transition: all linear 0.1s;
   }
 
   &__title {

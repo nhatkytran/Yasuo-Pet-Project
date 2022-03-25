@@ -36,13 +36,26 @@
     width: calc(100% - 8rem);
     max-width: 136rem;
     height: 65rem;
-
-    background-color: rgb(52, 52, 52);
+    overflow: hidden;
 
     position: absolute;
     top: 5rem;
     left: 50%;
     transform: translateX(-50%);
+
+    &__slider {
+      width: 100%;
+      height: 100%;
+
+      background-image: url('../../src/img/Skins/WLETpZa.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      transform: translateX(0);
+      // background-attachment: scroll|fixed|local|initial|inherit;
+      // background-position: right top  |  x% y%  |  xpos ypos;
+      // background-clip: border-box|padding-box|content-box|initial|inherit;
+    }
   }
 
   &_overlay {
@@ -52,6 +65,162 @@
     border-bottom: 1px solid #423a26;
 
     position: absolute;
+
+    // display: none;
+
+    &__container--big {
+      width: 88%;
+      height: 17.5rem;
+      background-color: #131315;
+      border: 1px solid #423a26;
+
+      position: absolute;
+      bottom: 5.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &__container--small {
+      width: calc(100% - 3rem);
+      height: calc(100% - 3rem);
+      background-color: #131315;
+      border: 1px solid #423a26;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &__about {
+      width: calc(100% - 4rem);
+      height: calc(100% - 4rem);
+      background-color: #131315;
+      border: 1px solid #c4b998;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      & > div {
+        float: left;
+        font-family: Beaufort-Regular, Arial, Helvetica, sans-serif;
+        letter-spacing: 0.2rem;
+      }
+
+      &-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 13%;
+        height: 100%;
+
+        &-fighter {
+          width: auto;
+          max-height: 70%;
+        }
+      }
+
+      &-who {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 39%;
+        height: 100%;
+        border-left: 1px solid #c4b998;
+        border-right: 1px solid #c4b998;
+
+        &-name {
+          font-size: 3rem;
+          color: #d3c7aa;
+        }
+      }
+
+      &-more {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        width: 21%;
+        height: 100%;
+        font-size: 1.1rem;
+        color: #fff;
+        border-right: 1px solid #c4b998;
+
+        &-item {
+          flex: 1;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          width: 100%;
+          font-size: 1.1rem;
+          color: #d3c7aa;
+        }
+
+        &-price--separate {
+          margin: 0 0.4rem;
+        }
+
+        &-sell {
+          border-top: 1px solid #c4b998;
+        }
+      }
+
+      &-explore {
+        width: 27%;
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &-btn {
+          font-family: inherit;
+          font-size: 1.5rem;
+          letter-spacing: 0.5rem;
+          background-color: transparent;
+          color: #b59758;
+          padding: 2rem 2.4rem;
+          transition: all linear 0.1s;
+          cursor: pointer;
+
+          position: relative;
+
+          &:hover {
+            color: #d3c7aa;
+
+            .skins_overlay__about-explore-btn-arrow--main {
+              right: -3rem;
+              @include hide;
+            }
+
+            .skins_overlay__about-explore-btn-arrow--sub {
+              right: 0;
+              opacity: 1;
+              pointer-events: all;
+            }
+          }
+
+          &-arrow {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-40%);
+            transition: all linear 0.2s;
+
+            &--sub {
+              right: 3rem;
+              @include hide;
+            }
+          }
+        }
+      }
+    }
 
     .skins-btn {
       background-color: transparent;
