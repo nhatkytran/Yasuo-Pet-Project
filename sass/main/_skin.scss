@@ -136,8 +136,11 @@
         border-right: 1px solid #c4b998;
 
         &-name {
-          font-size: 3rem;
+          font-size: 1.8rem;
           color: #d3c7aa;
+          margin: 0 4rem;
+          text-align: center;
+          animation: fadeInOpa linear 0.4s;
         }
       }
 
@@ -149,7 +152,6 @@
         width: 21%;
         height: 100%;
         font-size: 1.1rem;
-        color: #fff;
         border-right: 1px solid #c4b998;
 
         &-item {
@@ -172,8 +174,8 @@
           border-top: 1px solid #c4b998;
 
           .skin-ordered-number {
-            font-size: 1.6rem;
-            color: #fff;
+            font-size: 1.4rem;
+            color: #c4b998;
           }
         }
       }
