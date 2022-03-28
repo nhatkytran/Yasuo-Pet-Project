@@ -134,3 +134,7 @@ function handleNameAndOrder() {
   const orderedNumber = currentSkins + 1;
   orderedSkinContainer.textContent = orderedNumber;
 }
+
+// setInterval(function () {
+//   rightButton.click();
+// }, 3000);

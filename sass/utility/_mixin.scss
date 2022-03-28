@@ -152,6 +152,36 @@
 @mixin skins_container {
   max-width: 146rem;
   height: 84rem;
+
+  // 1240px
+  @media only screen and (max-width: 77.5em) {
+    height: 73rem;
+  }
+
+  // 1140px
+  @media only screen and (max-width: 71.25em) {
+    height: 67rem;
+  }
+
+  // 1040px
+  @media only screen and (max-width: 65em) {
+    height: 62rem;
+  }
+
+  // 940px
+  @media only screen and (max-width: 58.75em) {
+    height: 56rem;
+  }
+
+  // 840px
+  @media only screen and (max-width: 52.5em) {
+    height: 51rem;
+  }
+
+  // 740px
+  @media only screen and (max-width: 46.25em) {
+    height: 44rem;
+  }
 }
 
 @mixin square-border {
