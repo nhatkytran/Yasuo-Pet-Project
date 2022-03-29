@@ -71,8 +71,7 @@
 
       position: absolute;
       top: -5.6rem;
-      left: 50%;
-      transform: translateX(-50%);
+      @include center_from_left;
 
       // 1040px
       @media only screen and (max-width: 65em) {
@@ -129,8 +128,7 @@
 
     position: absolute;
     top: 5rem;
-    left: 50%;
-    transform: translateX(-50%);
+    @include center_from_left;
 
     overflow: hidden;
 
@@ -169,19 +167,18 @@
     @media only screen and (max-width: 40em) {
       display: none;
     }
+  }
 
-    &__slider {
-      width: 100%;
-      height: 100%;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center center;
-      transition: all linear 0.4s;
+  .skins_images__slider,
+  .skins_images-mobile__slider {
+    @include dimension100;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    transition: all linear 0.4s;
 
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
+    position: absolute;
+    @include zero-zero;
   }
 
   &_images-mobile {
@@ -190,8 +187,7 @@
 
     position: absolute;
     top: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
+    @include center_from_left;
 
     display: none;
 
@@ -203,19 +199,6 @@
     // 440px
     @media only screen and (max-width: 27.5em) {
       height: 65rem;
-    }
-
-    &__slider {
-      width: 100%;
-      height: 100%;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center center;
-      transition: all linear 0.4s;
-
-      position: absolute;
-      top: 0;
-      left: 0;
     }
   }
 
@@ -256,9 +239,8 @@
         text-align: center;
 
         position: absolute;
-        left: 50%;
         bottom: 2rem;
-        transform: translateX(-50%);
+        @include center_from_left;
 
         // 440px
         @media only screen and (max-width: 27.5em) {
@@ -366,8 +348,7 @@
 
       position: absolute;
       bottom: 5rem;
-      left: 50%;
-      transform: translateX(-50%);
+      @include center_from_left;
 
       // 1240px
       @media only screen and (max-width: 77.5em) {
@@ -441,9 +422,7 @@
       }
 
       &-logo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        @include center_with_flex;
 
         width: 13%;
         height: 100%;
@@ -465,9 +444,7 @@
       }
 
       &-who {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        @include center_with_flex;
 
         width: 39%;
         height: 100%;
@@ -526,9 +503,7 @@
         &-item {
           flex: 1;
 
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          @include center_with_flex;
 
           width: 100%;
           font-size: 1.1rem;
@@ -550,21 +525,19 @@
       }
 
       &-explore {
+        @include center_with_flex;
+
         width: 27%;
         height: 100%;
-
-        // 840px
-        @media only screen and (max-width: 52.5em) {
-          width: 31%;
-        }
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
 
         // 1040px
         @media only screen and (max-width: 65em) {
           justify-content: flex-start;
+        }
+
+        // 840px
+        @media only screen and (max-width: 52.5em) {
+          width: 31%;
         }
 
         // 740px
@@ -610,8 +583,7 @@
 
             .skins_overlay__about-explore-btn-arrow--sub {
               right: 0;
-              opacity: 1;
-              pointer-events: all;
+              @include show;
             }
           }
 
@@ -693,9 +665,8 @@
         transition: all linear 0.1s;
 
         position: absolute;
-        left: 50%;
         bottom: -1.2rem;
-        transform: translateX(-50%);
+        @include center_from_left;
 
         // 740px
         @media only screen and (max-width: 46.25em) {
@@ -709,8 +680,7 @@
 
           position: absolute;
           top: -1rem;
-          left: 50%;
-          transform: translateX(-50%);
+          @include center_from_left;
         }
       }
     }
@@ -723,9 +693,8 @@
 
     .skins-btn__left {
       position: absolute;
-      top: 50%;
       left: -3.2rem;
-      transform: translateY(-50%);
+      @include center_from_top;
 
       // 740px
       @media only screen and (max-width: 46.25em) {
@@ -735,9 +704,8 @@
 
     .skins-btn__right {
       position: absolute;
-      top: 50%;
       right: -3.2rem;
-      transform: translateY(-50%);
+      @include center_from_top;
 
       // 740px
       @media only screen and (max-width: 46.25em) {

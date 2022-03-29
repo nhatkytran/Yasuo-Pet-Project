@@ -149,6 +149,22 @@
 }
 
 // Skins
+@mixin center_from_top {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin center_from_left {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin center_with_flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @mixin skins_container {
   max-width: 146rem;
   height: 84rem;
