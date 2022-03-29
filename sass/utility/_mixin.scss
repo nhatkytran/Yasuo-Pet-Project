@@ -182,6 +182,16 @@
   @media only screen and (max-width: 46.25em) {
     height: 44rem;
   }
+
+  // 640px
+  @media only screen and (max-width: 40em) {
+    height: 80rem;
+  }
+
+  // 440px
+  @media only screen and (max-width: 27.5em) {
+    height: 70rem;
+  }
 }
 
 @mixin square-border {
