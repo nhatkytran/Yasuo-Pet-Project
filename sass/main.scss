@@ -36,16 +36,11 @@
 
 // //
 @import './main/skin.scss';
+
+// //
+@import './main/ruined';
 // }
 
 // Components
 @import './sidebar/sb-all-games.scss';
 @import './sidebar/sb-explore-games.scss';
-
-// Test
-.scroll {
-  grid-column: Full-start / Full-end;
-  content: '';
-  background-color: pink;
-  height: 2rem;
-}
