@@ -219,3 +219,13 @@
 
   position: absolute;
 }
+
+// Gallery
+@mixin button-after {
+  @include sub-abs;
+  @include zero-zero;
+  @include dimension100;
+
+  transition: all linear 0.3s;
+  z-index: -1;
+}

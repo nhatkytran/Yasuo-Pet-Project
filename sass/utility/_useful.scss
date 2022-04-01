@@ -16,6 +16,16 @@
   }
 }
 
+.button-yellow {
+  background-color: #c4b998;
+  transition: all linear 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d4ccb2;
+  }
+}
+
 // Icons
 .arrow-down {
   width: 1.5rem;

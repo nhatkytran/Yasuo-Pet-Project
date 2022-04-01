@@ -38,9 +38,10 @@
 @import './main/skin.scss';
 
 // //
-@import './main/ruined';
-// }
+@import './main/ruined.scss';
 
+// //
+@import './main/gallery.scss'; // }
 // Components
 @import './sidebar/sb-all-games.scss';
 @import './sidebar/sb-explore-games.scss';
