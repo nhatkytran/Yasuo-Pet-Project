@@ -186,8 +186,8 @@
       position: relative;
 
       &__border {
-        width: calc(100% - 1rem);
-        height: calc(100% - 1rem);
+        width: 100%;
+        height: 100%;
         background-color: transparent;
         border: 1px solid #464233;
         pointer-events: none;
