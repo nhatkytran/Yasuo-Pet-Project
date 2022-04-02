@@ -58,24 +58,10 @@
       }
     }
 
-    &-canvas {
-      border: 1px solid $canvas-color;
-      z-index: 2;
-
-      clip-path: polygon(
-        0 0,
-        calc(100% - 3rem) 0,
-        100% 3rem,
-        100% 100%,
-        0 100%
-      );
-      -webkit-clip-path: polygon(
-        0 0,
-        calc(100% - 3rem) 0,
-        100% 3rem,
-        100% 100%,
-        0 100%
-      );
+    &-border {
+      width: calc(100% - 2rem);
+      height: calc(100% + 2rem);
+      border: 1px solid $main-border;
 
       @include center-absolute;
     }
@@ -85,6 +71,7 @@
   &__content {
     width: 50rem;
     text-align: center;
+    animation: fadeInOpa linear 1s;
     z-index: 2;
 
     @include abs;
