@@ -7,6 +7,7 @@ import exploreGamesView from './views/exploreGamesView.js';
 import universView from './views/universeView.js';
 import universeMobileView from './views/universeMobileView.js';
 import languagesView from './views/languagesView.js';
+import abilitiesView from './views/abilitiesView.js';
 
 // Sub website
 const controlVideo = function (...videos) {
@@ -96,6 +97,11 @@ const controlSeeMore = function () {
   languagesView.handleSeeMore();
 };
 
+// Abilities
+const controlAbilities = function (skill) {
+  abilitiesView.handleSkill(skill, model.state.skillsDetail);
+};
+
 const init = function () {
   // Sub website
   // if (window.innerWidth >= 640) {
@@ -133,6 +139,9 @@ const init = function () {
   // Languages
   languagesView.addHandlerChooseLanguage(controlLanguages);
   languagesView.addHandlerSeeMore(controlSeeMore);
+
+  // Abilities
+  abilitiesView.addHandlerSkill(controlAbilities);
 };
 
 init();

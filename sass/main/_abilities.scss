@@ -185,9 +185,15 @@
               top: -0.7rem;
               left: 13.7rem;
 
-              &.active .ab__skills-progress-bar {
-                transform-origin: center bottom;
-                animation: fadeInOpa linear 1s forwards;
+              &.active {
+                .ab__skills-progress-bar {
+                  transform-origin: center bottom;
+                  animation: fadeInOpa linear 1s forwards;
+                }
+
+                .ab__skills-progress-dot {
+                  animation: fadeInOpa linear 1s forwards;
+                }
               }
             }
 
