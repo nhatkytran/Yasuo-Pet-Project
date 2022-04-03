@@ -127,6 +127,10 @@
 
               &.checked {
                 color: $color-button-blue;
+
+                & ~ .languages-used {
+                  opacity: 1;
+                }
               }
             }
 
@@ -140,10 +144,6 @@
 
               position: relative;
               top: 0.1rem;
-
-              &.checked {
-                opacity: 1;
-              }
             }
           }
         }

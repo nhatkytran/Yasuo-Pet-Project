@@ -11,7 +11,6 @@
     />
     <link rel="stylesheet" href="./css/style.css" />
     <title>Yasuo - Wind Emperor</title>
-    <!-- <script defer src="./js/script.js"></script> -->
     <!-- <script defer src="./js/allgames.js"></script> -->
     <!-- <script defer src="./js/abilities.js"></script>
     <script defer src="./js/skins.js"></script>
@@ -248,7 +247,7 @@
                     </a>
                   </li>
                   <li class="list-1__item list-1__link-universe universe">
-                    <a class="list-1__link" href="#">
+                    <a class="list-1__link" href="">
                       Universe
                       <svg
                         class="list-1__link-icon universe-x"
@@ -359,10 +358,14 @@
               <!-- Earth -->
               <ul class="languages-list">
                 <li class="languages-item">
-                  <a class="languages-link" href="">
-                    <span class="languages-language checked">Vietnamese</span>
+                  <a
+                    class="languages-link"
+                    href="#information-yasuo"
+                    data-language="0"
+                  >
+                    <span class="languages-language checked">English</span>
                     <svg
-                      class="languages-used checked"
+                      class="languages-used"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 32 32"
                     >
@@ -371,22 +374,14 @@
                   </a>
                 </li>
                 <li class="languages-item">
-                  <a class="languages-link" href="">
-                    <span class="languages-language">English</span>
-                    <svg
-                      class="languages-used checked"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 32 32"
-                    >
-                      <path d="M0 11l2-2 5 5 11-11 2 2-13 13z"></path>
-                    </svg>
-                  </a>
-                </li>
-                <li class="languages-item">
-                  <a class="languages-link" href="">
+                  <a
+                    class="languages-link"
+                    href="#information-yasuo"
+                    data-language="1"
+                  >
                     <span class="languages-language">Portuguese</span>
                     <svg
-                      class="languages-used checked"
+                      class="languages-used"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 32 32"
                     >
@@ -395,10 +390,14 @@
                   </a>
                 </li>
                 <li class="languages-item">
-                  <a class="languages-link" href="">
-                    <span class="languages-language">Cantonese</span>
+                  <a
+                    class="languages-link"
+                    href="#information-yasuo"
+                    data-language="2"
+                  >
+                    <span class="languages-language">Russian</span>
                     <svg
-                      class="languages-used checked"
+                      class="languages-used"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 32 32"
                     >
@@ -407,10 +406,14 @@
                   </a>
                 </li>
                 <li class="languages-item">
-                  <a class="languages-link" href="">
+                  <a
+                    class="languages-link"
+                    href="#information-yasuo"
+                    data-language="3"
+                  >
                     <span class="languages-language">Swedish</span>
                     <svg
-                      class="languages-used checked"
+                      class="languages-used"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 32 32"
                     >
@@ -419,34 +422,14 @@
                   </a>
                 </li>
                 <li class="languages-item">
-                  <a class="languages-link" href="">
-                    <span class="languages-language">Nederlands</span>
-                    <svg
-                      class="languages-used checked"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 32 32"
-                    >
-                      <path d="M0 11l2-2 5 5 11-11 2 2-13 13z"></path>
-                    </svg>
-                  </a>
-                </li>
-                <li class="languages-item">
-                  <a class="languages-link" href="">
-                    <span class="languages-language">Chinese</span>
-                    <svg
-                      class="languages-used checked"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 32 32"
-                    >
-                      <path d="M0 11l2-2 5 5 11-11 2 2-13 13z"></path>
-                    </svg>
-                  </a>
-                </li>
-                <li class="languages-item">
-                  <a class="languages-link" href="">
+                  <a
+                    class="languages-link"
+                    href="#information-yasuo"
+                    data-language="4"
+                  >
                     <span class="languages-language">German</span>
                     <svg
-                      class="languages-used checked"
+                      class="languages-used"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 32 32"
                     >
@@ -455,10 +438,14 @@
                   </a>
                 </li>
                 <li class="languages-item">
-                  <a class="languages-link" href="">
+                  <a
+                    class="languages-link"
+                    href="#information-yasuo"
+                    data-language="5"
+                  >
                     <span class="languages-language">Japanese</span>
                     <svg
-                      class="languages-used checked"
+                      class="languages-used"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 32 32"
                     >
@@ -719,7 +706,7 @@
         <div class="information-img-bg-overlay"></div>
       </div>
 
-      <div class="information-img">
+      <div id="information-yasuo" class="information-img">
         <div class="information-img-overlay"></div>
 
         <span class="information-img-text">Overview</span>
@@ -789,16 +776,16 @@
           </div>
 
           <div class="information-yasuo__about-story">
-            An Ionian of deep resolve, Yasuo is an agile swordsman who wields
-            the air itself against his enemies. As a proud young man, he was
-            falsely accused of murdering his master—unable to prove his
-            innocence, he was forced to slay his own brother in self defense.
-            Even after his master's true killer was revealed, Yasuo still could
-            not forgive himself for all he had done, and now wanders his
-            homeland with only the wind to guide his blade.<span
-              class="information-yasuo__about-story--dots"
-              >...</span
-            >
+            <span class="story-on-language">
+              An Ionian of deep resolve, Yasuo is an agile swordsman who wields
+              the air itself against his enemies. As a proud young man, he was
+              falsely accused of murdering his master—unable to prove his
+              innocence, he was forced to slay his own brother in self defense.
+              Even after his master's true killer was revealed, Yasuo still
+              could not forgive himself for all he had done, and now wanders his
+              homeland with only the wind to guide his blade.
+            </span>
+            <span class="information-yasuo__about-story--dots">...</span>
             <button class="button information-yasuo__about-story--see-more">
               SEE MORE
             </button>
