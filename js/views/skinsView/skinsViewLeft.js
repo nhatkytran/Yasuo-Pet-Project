@@ -2,10 +2,12 @@ import { $, $$ } from '../../config.js';
 import SkinsView from '../skinsView.js';
 
 class SkinsViewLeft extends SkinsView {
-  _leftButton = document.querySelector('.skins-btn__left');
+  _leftButton = $('.skins-btn__left');
+  _leftMobileButton = $('.skins_overlay__mobile--left');
 
   handleGoLeft(nameSkins) {
-    // Remove first slide then Add last slide
+    // Remove first slide then Add last slide //
+    // PC
     const slidersContainer = $('.skins_images');
 
     slidersContainer.removeChild(slidersContainer.lastElementChild);
@@ -14,14 +16,27 @@ class SkinsViewLeft extends SkinsView {
       this._generateMarkup(this._nextLeft)
     );
 
-    // Move
+    // Mobile
+    const slidersContainerMobile = $('.skins_images-mobile');
+
+    slidersContainerMobile.removeChild(slidersContainerMobile.lastElementChild);
+    slidersContainerMobile.insertAdjacentHTML(
+      'afterbegin',
+      this._generateMarkupMobile(this._nextLeft)
+    );
+
+    // Move //
+    // PC // Mobile
     const sliders = $$('.skins_images__slider');
+    const slidersMobile = $$('.skins_images-mobile__slider');
 
-    sliders.forEach((item, index) => {
-      item.style.transform = `translateX(${(index - 2) * 100}%)`;
+    [sliders, slidersMobile].forEach(slider => {
+      slider.forEach((item, index) => {
+        item.style.transform = `translateX(${(index - 2) * 100}%)`;
+      });
     });
-    this._logo.classList.add('dingdong');
 
+    this._logo.classList.add('dingdong');
     setTimeout(() => {
       this._logo.classList.remove('dingdong');
     }, 400);
@@ -37,8 +52,10 @@ class SkinsViewLeft extends SkinsView {
   }
 
   addHandlerGoLeft(handler) {
-    this._leftButton.addEventListener('click', () => {
-      handler('left');
+    [this._leftButton, this._leftMobileButton].forEach(button => {
+      button.addEventListener('click', () => {
+        handler('left');
+      });
     });
   }
 }

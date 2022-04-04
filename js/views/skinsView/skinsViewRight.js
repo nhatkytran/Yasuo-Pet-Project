@@ -3,6 +3,7 @@ import SkinsView from '../skinsView.js';
 
 class SkinsViewRight extends SkinsView {
   _rightButton = $('.skins-btn__right');
+  _rightMobileButton = $('.skins_overlay__mobile--right');
 
   // constructor() {
   //   setInterval(() => {
@@ -11,7 +12,8 @@ class SkinsViewRight extends SkinsView {
   // }
 
   handleGoRight(nameSkins) {
-    // Remove first slide then Add last slide
+    // Remove first slide then Add last slide //
+    // PC
     const slidersContainer = $('.skins_images');
 
     slidersContainer.removeChild(slidersContainer.firstElementChild);
@@ -20,14 +22,29 @@ class SkinsViewRight extends SkinsView {
       this._generateMarkup(this._nextRight)
     );
 
-    // Move
+    // Mobile
+    const slidersContainerMobile = $('.skins_images-mobile');
+
+    slidersContainerMobile.removeChild(
+      slidersContainerMobile.firstElementChild
+    );
+    slidersContainerMobile.insertAdjacentHTML(
+      'beforeend',
+      this._generateMarkupMobile(this._nextRight)
+    );
+
+    // Move //
+    // PC // Mobile
     const sliders = $$('.skins_images__slider');
+    const slidersMobile = $$('.skins_images-mobile__slider');
 
-    sliders.forEach((item, index) => {
-      item.style.transform = `translateX(${(index - 2) * 100}%)`;
-    });
+    [sliders, slidersMobile].forEach(slider =>
+      slider.forEach((item, index) => {
+        item.style.transform = `translateX(${(index - 2) * 100}%)`;
+      })
+    );
+
     this._logo.classList.add('dingdong');
-
     setTimeout(() => {
       this._logo.classList.remove('dingdong');
     }, 400);
@@ -43,8 +60,10 @@ class SkinsViewRight extends SkinsView {
   }
 
   addHandlerGoRight(handler) {
-    this._rightButton.addEventListener('click', () => {
-      handler('right');
+    [this._rightButton, this._rightMobileButton].forEach(button => {
+      button.addEventListener('click', function () {
+        handler('right');
+      });
     });
   }
 }

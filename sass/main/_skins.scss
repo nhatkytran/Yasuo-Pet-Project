@@ -197,6 +197,7 @@
     top: 2.5rem;
     @include center_from_left;
 
+    overflow: hidden;
     display: none;
 
     // 640px
@@ -245,6 +246,7 @@
         color: #c4b998;
         letter-spacing: 0.5rem;
         text-align: center;
+        animation: fadeInOpa linear 0.4s;
 
         position: absolute;
         bottom: 2rem;
