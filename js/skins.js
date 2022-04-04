@@ -32,7 +32,7 @@ let currentSkins = 0;
 let orderedNumber = 1;
 
 // There are 5 images in default
-// There are 12 images in total (index from 0 to 1 (name: [index].jpeg)])
+// There are 12 images in total (index from 0 to 11 (name: [index].jpeg)])
 rightButton.addEventListener('click', function () {
   // Remove
   const slidersContainer = document.querySelector('.skins_images');
@@ -52,6 +52,16 @@ rightButton.addEventListener('click', function () {
   sliders.forEach((item, index) => {
     item.style.transform = `translateX(${(index - 2) * 100}%)`;
   });
+
+  document
+    .querySelector('.skins_container__header-logo')
+    .classList.add('dingdong');
+
+  setTimeout(() => {
+    document
+      .querySelector('.skins_container__header-logo')
+      .classList.remove('dingdong');
+  }, 400);
 
   // Keep track
   nextRight = nextRight + 1;
@@ -133,7 +143,3 @@ function handleNameAndOrder() {
   const orderedNumber = currentSkins + 1;
   orderedSkinContainer.textContent = orderedNumber;
 }
-
-// setInterval(function () {
-//   rightButton.click();
-// }, 3000);

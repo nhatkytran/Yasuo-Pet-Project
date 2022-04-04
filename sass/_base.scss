@@ -11,6 +11,9 @@ html {
   font-size: 62.5%;
 
   overflow-x: hidden;
+
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @font-face {

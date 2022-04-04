@@ -150,6 +150,12 @@
       @include text-rotate;
       transform: rotate(-90deg) translate(70%, -30%);
 
+      // 640px
+      @media only screen and (max-width: 40em) {
+        top: 44%;
+        left: -2.8rem;
+      }
+
       &::after {
         @include line-after;
       }
@@ -286,7 +292,8 @@
   z-index: 1;
 
   @include abs;
-  @include fifty-fifty;
+  top: 46%;
+  left: 50%;
   transform: translate(-50%, -20%);
 
   // 1240px
@@ -297,6 +304,7 @@
   // 640px
   @media only screen and (max-width: 40em) {
     width: calc(100% - 8rem);
+    top: 42%;
   }
 
   &__name {
@@ -566,8 +574,7 @@
 
       // 540px
       @media only screen and (max-width: 33.75em) {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+        padding: 2rem;
       }
 
       &::before {
@@ -720,4 +727,11 @@
       stroke: $main-border;
     }
   }
+}
+
+.pseudo-name {
+  position: absolute;
+  top: -12rem;
+  opacity: 0;
+  pointer-events: none;
 }

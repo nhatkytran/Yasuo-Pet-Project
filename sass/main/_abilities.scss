@@ -67,6 +67,8 @@
 
       // 640px
       @media only screen and (max-width: 40em) {
+        top: 60%;
+        left: -2.2rem;
         transform: rotate(-90deg) translate(430%, -30%);
       }
 

@@ -95,6 +95,10 @@
         @media only screen and (max-width: 65em) {
           width: 1.4rem;
         }
+
+        &.dingdong {
+          animation: skinChosen linear 0.4s;
+        }
       }
 
       &-title {
@@ -166,6 +170,10 @@
     // 640px
     @media only screen and (max-width: 40em) {
       display: none;
+    }
+
+    &__slider.scale {
+      animation: skinScale linear 0.1s 0.4s;
     }
   }
 

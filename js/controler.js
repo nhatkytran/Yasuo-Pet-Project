@@ -8,6 +8,8 @@ import universView from './views/universeView.js';
 import universeMobileView from './views/universeMobileView.js';
 import languagesView from './views/languagesView.js';
 import abilitiesView from './views/abilitiesView.js';
+import skinsViewLeft from './views/skinsView/skinsViewLeft.js';
+import skinsViewRight from './views/skinsView/skinsViewRight.js';
 
 // Sub website
 const controlVideo = function (...videos) {
@@ -25,16 +27,8 @@ const controlMainHeader = function (isSticky) {
 
 // All games
 const controlAllGames = function (action) {
-  switch (action) {
-    case 'open':
-      allGamesView.handleOpen();
-      break;
-    case 'close':
-      allGamesView.handleClose();
-      break;
-    default:
-      throw new Error('Something went wrong!');
-  }
+  action === 'open' && allGamesView.handleOpen();
+  action === 'close' && allGamesView.handleClose();
 };
 
 const controlAllGamesFunction = function ([hovered, event]) {
@@ -47,16 +41,8 @@ const controlAllGamesFunctionMobile = function (item) {
 
 // Explore games
 const controlExploreGames = function (action) {
-  switch (action) {
-    case 'open':
-      exploreGamesView.handleOpen();
-      break;
-    case 'close':
-      exploreGamesView.handleClose();
-      break;
-    default:
-      throw new Error('Something went wrong!');
-  }
+  action === 'open' && exploreGamesView.handleOpen();
+  action === 'close' && exploreGamesView.handleClose();
 };
 
 // Universe
@@ -70,16 +56,8 @@ const controlUniverseSurprise = function () {
 
 // Universe mobile
 const controlMobileMenu = function (action) {
-  switch (action) {
-    case 'open':
-      universeMobileView.openMenu();
-      break;
-    case 'close':
-      universeMobileView.closeMenu();
-      break;
-    default:
-      throw new Error('Something went wrong!');
-  }
+  action === 'open' && universeMobileView.openMenu();
+  action === 'close' && universeMobileView.closeMenu();
 };
 
 const controlMobileUniverse = function () {
@@ -88,9 +66,7 @@ const controlMobileUniverse = function () {
 
 // Languages
 const controlLanguages = function (id) {
-  const paragraph = model.state.storyLanguages[id];
-
-  languagesView.render(paragraph);
+  languagesView.handleLanguages(id, model.state.storyLanguages[id]);
 };
 
 const controlSeeMore = function () {
@@ -100,6 +76,12 @@ const controlSeeMore = function () {
 // Abilities
 const controlAbilities = function (skill) {
   abilitiesView.handleSkill(skill, model.state.skillsDetail);
+};
+
+// Skins
+const controlSlides = function (action) {
+  action === 'right' && skinsViewRight.handleGoRight(model.state.nameSkins);
+  action === 'left' && skinsViewLeft.handleGoLeft(model.state.nameSkins);
 };
 
 const init = function () {
@@ -142,6 +124,10 @@ const init = function () {
 
   // Abilities
   abilitiesView.addHandlerSkill(controlAbilities);
+
+  // // Skins
+  skinsViewRight.addHandlerGoRight(controlSlides);
+  skinsViewLeft.addHandlerGoLeft(controlSlides);
 };
 
 init();

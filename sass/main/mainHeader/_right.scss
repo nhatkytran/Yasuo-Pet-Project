@@ -74,6 +74,12 @@
         top: 5.6rem;
         left: -8.2rem;
 
+        // 440px
+        @media only screen and (max-width: 27.5em) {
+          top: 4.2rem;
+          left: -10.2rem;
+        }
+
         &::-webkit-scrollbar {
           width: 0.6rem;
         }

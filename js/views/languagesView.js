@@ -1,12 +1,13 @@
-import { $ } from '../config.js';
+import { $, $$ } from '../config.js';
 
 class LanguagesView {
   _parentElement = $('.languages-list');
+  _languages = $$('.languages-language');
   _paragraphContainer = $('.information-yasuo__about-story');
   _storyButton = $('.information-yasuo__about-story--see-more');
   _storyDots = $('.information-yasuo__about-story--dots');
 
-  render(paragraph) {
+  _render(paragraph) {
     this._paragraphContainer.removeChild(
       this._paragraphContainer.firstElementChild
     );
@@ -20,6 +21,21 @@ class LanguagesView {
     return `
       <span>${paragraph}</span>
     `;
+  }
+
+  _handleChecked(id) {
+    this._languages.forEach((item, index) => {
+      if (index === id) {
+        item.classList.add('checked');
+      } else {
+        item.classList.remove('checked');
+      }
+    });
+  }
+
+  handleLanguages(id, paragraph) {
+    this._handleChecked(id);
+    this._render(paragraph);
   }
 
   addHandlerChooseLanguage(handler) {
