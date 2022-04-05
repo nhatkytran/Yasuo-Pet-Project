@@ -11,6 +11,7 @@ import abilitiesView from './views/abilitiesView.js';
 import skinsViewLeft from './views/skinsView/skinsViewLeft.js';
 import skinsViewRight from './views/skinsView/skinsViewRight.js';
 import scrollView from './views/scrollView.js';
+import autoScrollView from './views/autoScrollView.js';
 
 // Sub website
 const controlVideo = function (...videos) {
@@ -98,6 +99,16 @@ const handleSkinsScroll = function (state) {
   if (state) scrollView.handleSkinsScroll();
 };
 
+// Auto scroll
+const controlAutoScroll = function (id) {
+  autoScrollView.handleAutoScroll(id);
+};
+
+// Scroll to top
+const controlScrollToTop = function () {
+  autoScrollView.handleScrollToTop();
+};
+
 const init = function () {
   // Sub website
   // if (window.innerWidth >= 640) {
@@ -147,6 +158,12 @@ const init = function () {
   scrollView.addHandlerInformationScroll(handleInformationScroll);
   scrollView.addHandlerAbilitiesScroll(handleAbilitiesScroll);
   scrollView.addHandlerSkinsScroll(handleSkinsScroll);
+
+  // Auto scroll
+  autoScrollView.addHandlerAutoScroll(controlAutoScroll);
+
+  // Scroll to top
+  autoScrollView.addHandlerScrollToTop(controlScrollToTop);
 };
 
 init();
