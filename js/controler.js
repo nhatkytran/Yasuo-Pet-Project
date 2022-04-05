@@ -10,6 +10,7 @@ import languagesView from './views/languagesView.js';
 import abilitiesView from './views/abilitiesView.js';
 import skinsViewLeft from './views/skinsView/skinsViewLeft.js';
 import skinsViewRight from './views/skinsView/skinsViewRight.js';
+import scrollView from './views/scrollView.js';
 
 // Sub website
 const controlVideo = function (...videos) {
@@ -84,6 +85,15 @@ const controlSlides = function (action) {
   action === 'left' && skinsViewLeft.handleGoLeft(model.state.nameSkins);
 };
 
+// Scroll
+const handleInformationScroll = function (state) {
+  scrollView.handleInformationScroll(state ? 'add' : 'remove');
+};
+
+const handleAbilitiesScroll = function (state) {
+  scrollView.handleAbilitiesScroll(state ? 'add' : 'remove');
+};
+
 const init = function () {
   // Sub website
   // if (window.innerWidth >= 640) {
@@ -125,9 +135,35 @@ const init = function () {
   // Abilities
   abilitiesView.addHandlerSkill(controlAbilities);
 
-  // // Skins
+  // Skins
   skinsViewRight.addHandlerGoRight(controlSlides);
   skinsViewLeft.addHandlerGoLeft(controlSlides);
+
+  // Scroll
+  scrollView.addHandlerInformationScroll(handleInformationScroll);
+  scrollView.addHandlerAbilitiesScroll(handleAbilitiesScroll);
 };
 
 init();
+
+// window.addEventListener('click', function () {
+//   this.document
+//     .querySelector('.abilities__content-header')
+//     .classList.toggle('scroll');
+//   this.document
+//     .querySelector('.abilities__content-footer-quote')
+//     .classList.toggle('scroll');
+
+//   this.document
+//     .querySelector('.skins_container__header-title')
+//     .classList.add('scroll');
+//   this.setTimeout(function () {
+//     this.document
+//       .querySelector('.skins_container__header-title')
+//       .classList.remove('scroll');
+//   }, 400);
+
+//   this.document
+//     .querySelector('.skins-ruined__coming')
+//     .classList.toggle('scroll');
+// });

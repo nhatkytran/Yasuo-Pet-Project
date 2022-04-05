@@ -5,16 +5,8 @@ class MainHeaderView {
   _rootObserved = $('.container');
 
   handleSticky(action) {
-    switch (action) {
-      case 'add':
-        this._parentElement.classList.add('sticky');
-        break;
-      case 'remove':
-        this._parentElement.classList.remove('sticky');
-        break;
-      default:
-        throw new Error('Something went wrong!');
-    }
+    action === 'add' && this._parentElement.classList.add('sticky');
+    action === 'remove' && this._parentElement.classList.remove('sticky');
   }
 
   _observerCallback(entries, _, handler) {

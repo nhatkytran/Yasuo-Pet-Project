@@ -312,9 +312,18 @@
     text-align: center;
 
     &-unforgiven {
+      display: inline-block;
       font-family: Spiegel-Regular, Arial, sans-serif;
       font-style: italic;
       font-size: 2.4rem;
+      transform: translateX(-30rem);
+      transition: all cubic-bezier(0.67, 1.2, 0.76, 1.23) 0.4s;
+      opacity: 0;
+
+      &.scroll {
+        transform: translateX(0);
+        opacity: 1;
+      }
 
       // 1240px
       @media only screen and (max-width: 77.5em) {
@@ -354,6 +363,12 @@
       line-height: 0.8;
       letter-spacing: 0;
       margin-right: 2rem;
+      opacity: 0;
+      transition: all linear 0.4s;
+
+      &.scroll {
+        opacity: 1;
+      }
 
       // 1240px
       @media only screen and (max-width: 77.5em) {

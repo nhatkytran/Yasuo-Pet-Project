@@ -107,6 +107,10 @@
         color: #c4b998;
         letter-spacing: 0.7rem;
 
+        &.scroll {
+          animation: spacingExpanding linear 0.4s;
+        }
+
         // 1040px
         @media only screen and (max-width: 65em) {
           font-size: 2rem;
@@ -841,6 +845,12 @@
       font-family: 'Gloria Hallelujah', cursive, Arial, sans-serif;
       font-size: 2.4rem;
       color: #f9f9f9;
+      opacity: 0;
+      transition: all linear 0.4s;
+
+      &.scroll {
+        opacity: 1;
+      }
 
       // 1040px
       @media only screen and (max-width: 65em) {

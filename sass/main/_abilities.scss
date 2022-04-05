@@ -90,6 +90,14 @@
 
     &-header {
       color: $header-text-color;
+      opacity: 0;
+      transform: translateX(40rem);
+      transition: all linear 0.4s;
+
+      &.scroll {
+        opacity: 1;
+        transform: translateX(0);
+      }
 
       &-ab {
         font-family: Beaufort-Bold, serif;
@@ -466,6 +474,12 @@
 
       &-quote {
         font-size: 2.6rem;
+        opacity: 0;
+        transition: all linear 0.4s;
+
+        &.scroll {
+          opacity: 1;
+        }
 
         // 1140px
         @media only screen and (max-width: 71.25em) {
