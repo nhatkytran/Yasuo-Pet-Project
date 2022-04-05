@@ -94,6 +94,10 @@ const handleAbilitiesScroll = function (state) {
   scrollView.handleAbilitiesScroll(state ? 'add' : 'remove');
 };
 
+const handleSkinsScroll = function (state) {
+  if (state) scrollView.handleSkinsScroll();
+};
+
 const init = function () {
   // Sub website
   // if (window.innerWidth >= 640) {
@@ -142,28 +146,7 @@ const init = function () {
   // Scroll
   scrollView.addHandlerInformationScroll(handleInformationScroll);
   scrollView.addHandlerAbilitiesScroll(handleAbilitiesScroll);
+  scrollView.addHandlerSkinsScroll(handleSkinsScroll);
 };
 
 init();
-
-// window.addEventListener('click', function () {
-//   this.document
-//     .querySelector('.abilities__content-header')
-//     .classList.toggle('scroll');
-//   this.document
-//     .querySelector('.abilities__content-footer-quote')
-//     .classList.toggle('scroll');
-
-//   this.document
-//     .querySelector('.skins_container__header-title')
-//     .classList.add('scroll');
-//   this.setTimeout(function () {
-//     this.document
-//       .querySelector('.skins_container__header-title')
-//       .classList.remove('scroll');
-//   }, 400);
-
-//   this.document
-//     .querySelector('.skins-ruined__coming')
-//     .classList.toggle('scroll');
-// });

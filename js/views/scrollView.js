@@ -9,11 +9,10 @@ class ScrollView {
   // Abilities
   _abilitiesObserved = $('.abilities');
   _abilitiesTitle = $('.abilities__content-header');
-  _abilitiesQuote = $('.abilities__content-footer-quote');
 
-  constructor() {
-    // const observer = new IntersectionObserver();
-  }
+  // Skins
+  _skinsObserved = $('.skins');
+  _skinsTitle = $('.skins_container__header-title');
 
   // General //
   _observerFunction(handler, observed, callback, threshold) {
@@ -48,7 +47,6 @@ class ScrollView {
   // Abilities
   handleAbilitiesScroll(action) {
     this._abilitiesTitle.classList[action]('scroll');
-    this._abilitiesQuote.classList[action]('scroll');
   }
 
   _abilitiesCallback(handler, entries, _) {
@@ -61,6 +59,28 @@ class ScrollView {
       this._abilitiesObserved,
       this._abilitiesCallback,
       0.1
+    );
+  }
+
+  // Skins
+  handleSkinsScroll(state) {
+    this._skinsTitle.classList.add('scroll');
+
+    setTimeout(() => {
+      this._skinsTitle.classList.remove('scroll');
+    }, 400);
+  }
+
+  _skinsCallback(handler, entries, _) {
+    handler(entries[0].isIntersecting);
+  }
+
+  addHandlerSkinsScroll(handler) {
+    this._observerFunction(
+      handler,
+      this._skinsObserved,
+      this._skinsCallback,
+      0.15
     );
   }
 }
