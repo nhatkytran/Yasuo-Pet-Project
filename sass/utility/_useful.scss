@@ -41,3 +41,193 @@
   margin-left: 0.2rem;
   transition: all linear 0.2s;
 }
+
+// Toast
+#toast {
+  z-index: 10000;
+
+  position: fixed;
+  top: 8.2rem;
+  right: 3.2rem;
+}
+
+.toast {
+  min-width: 40rem;
+  max-width: 45rem;
+  height: 10rem;
+  box-shadow: 0 2px 2px rgba(#fff, 0.4);
+  margin-bottom: 1rem;
+
+  position: relative;
+
+  &-overlay {
+    @include dimension100;
+    opacity: 0.7;
+
+    position: absolute;
+    @include zero-zero;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    &.welcome {
+      background-image: url('../../src/img/Toast/the-soul_optimized.jpeg');
+    }
+
+    &.toast-information {
+      background-image: url('../../src/img/Toast/information_optimized.jpeg');
+    }
+
+    &.toast-abilities {
+      background-image: url('../../src/img/Toast/yasuo-bloodmoon_optimized.jpg');
+    }
+
+    &.toast-skins {
+      background-image: url('../../src/img/Toast/looks_optimized.jpeg');
+    }
+
+    &.toast-ruined {
+      background-image: url('../../src/img/Toast/ruined_optimized.jpeg');
+    }
+
+    &.toast-gallery {
+      background-image: url('../../src/img/Toast/blossom_optimized.jpeg');
+    }
+
+    &.toast-oopsie {
+      background-image: url('../../src/img/Toast/oops_optimized.png');
+    }
+  }
+
+  &-content {
+    display: flex;
+
+    @include dimension100;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    position: absolute;
+    @include zero-zero;
+
+    &__left {
+      @include center_with_flex;
+
+      width: 0.5rem;
+
+      &.welcome {
+        background-color: #43afc2;
+      }
+
+      &.toast-information {
+        background-color: #dbf9ff;
+      }
+
+      &.toast-abilities {
+        background-color: rgb(249, 70, 70);
+      }
+
+      &.toast-skins {
+        background-color: #ffa43c;
+      }
+
+      &.toast-ruined {
+        background-color: rgb(75, 196, 151);
+      }
+
+      &.toast-gallery {
+        background-color: #fb9ec5;
+      }
+
+      &.toast-oopsie {
+        background-color: #269aae;
+      }
+    }
+
+    &__center {
+      flex: 1;
+
+      font-family: Spiegel-Regular, Arial, sans-serif;
+      color: #fff;
+      padding: 1.6rem 0 1rem 4rem;
+
+      &-title {
+        letter-spacing: 0.3rem;
+      }
+
+      &-content {
+        font-size: 1.2rem;
+        margin-top: 0.6rem;
+        letter-spacing: 0.2rem;
+      }
+    }
+
+    &__right {
+      @include center_with_flex;
+
+      width: 6rem;
+
+      &-icon {
+        width: 3.2rem;
+        height: 3.2rem;
+        transition: all linear 0.1s;
+        cursor: pointer;
+
+        &.welcome {
+          fill: #3b92a1;
+
+          &:hover {
+            fill: #43afc2;
+          }
+        }
+
+        &.toast-information {
+          fill: #b7cace;
+
+          &:hover {
+            fill: #dbf9ff;
+          }
+        }
+
+        &.toast-abilities {
+          fill: rgb(198, 55, 55);
+
+          &:hover {
+            fill: rgb(249, 70, 70);
+          }
+        }
+
+        &.toast-skins {
+          fill: #c9812e;
+
+          &:hover {
+            fill: #ffa43c;
+          }
+        }
+
+        &.toast-ruined {
+          fill: rgb(58, 151, 117);
+
+          &:hover {
+            fill: rgb(75, 196, 151);
+          }
+        }
+
+        &.toast-gallery {
+          fill: #cf7fa0;
+
+          &:hover {
+            fill: #fb9ec5;
+          }
+        }
+
+        &.toast-oopsie {
+          fill: #1d7888;
+
+          &:hover {
+            fill: #269aae;
+          }
+        }
+      }
+    }
+  }
+}
