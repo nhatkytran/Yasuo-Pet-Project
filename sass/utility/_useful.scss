@@ -57,8 +57,11 @@
   height: 10rem;
   box-shadow: 0 2px 2px rgba(#fff, 0.4);
   margin-bottom: 1rem;
+  transition: all linear 0.4s;
 
   position: relative;
+
+  // animation: fadeInFromRight ease 0.4s, fadeOut linear 1s 4s forwards;
 
   &-overlay {
     @include dimension100;

@@ -12,6 +12,7 @@ import skinsViewLeft from './views/skinsView/skinsViewLeft.js';
 import skinsViewRight from './views/skinsView/skinsViewRight.js';
 import scrollView from './views/scrollView.js';
 import autoScrollView from './views/autoScrollView.js';
+import mainToastView from './views/Toast/mainToastView.js';
 
 // Sub website
 const controlVideo = function (...videos) {
@@ -109,6 +110,15 @@ const controlScrollToTop = function () {
   autoScrollView.handleScrollToTop();
 };
 
+// Toast
+const controlToast = function (type) {
+  mainToastView.handleToast(model.state.toasts, type);
+};
+
+const controlClearToast = function (target) {
+  mainToastView.handleClearToast(target);
+};
+
 const init = function () {
   // Sub website
   // if (window.innerWidth >= 640) {
@@ -164,6 +174,10 @@ const init = function () {
 
   // Scroll to top
   autoScrollView.addHandlerScrollToTop(controlScrollToTop);
+
+  // Toast
+  mainToastView.addToastHandler(controlToast);
+  mainToastView.addClearToastHandler(controlClearToast);
 };
 
 init();
