@@ -67,13 +67,17 @@ class AllGamesView {
         }">
           <div class="ag__hover-content--child">
             <div class="ag__hover-imgs-cover">
-              <img
-                class="ag__hover-imgs ${index >= 14 ? 'hide' : ''}"
-                src="./src/img/nav-ag/${img}s.${
-      [1, 7, 9, 10, 13].indexOf(index + 1) !== -1 ? 'png' : 'svg'
-    }"
-                alt="${state.hoverMarkupSEO[index]}"
-              />
+              ${
+                index >= 14 ||
+                `<img
+                    class="ag__hover-imgs"
+                    src="./src/img/nav-ag/${img}s.${
+                  [1, 7, 9, 10, 13].indexOf(index + 1) !== -1 ? 'png' : 'svg'
+                }"
+                    alt="${state.hoverMarkupSEO[index]}"
+                  />`
+              }
+              
               <span class="ag__hover-imgs--text ${index < 14 ? 'hide' : ''}">${
       state.hoverMarkupSEO[index]
     }</span>
