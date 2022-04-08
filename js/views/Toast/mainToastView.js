@@ -3,7 +3,6 @@ import { $, $$ } from '../../config.js';
 class MainToastView {
   _parentElement = $('#toast');
   _sectionToasts = $$('.section');
-  _interval = null;
   _timeClearToast = 5000;
 
   _generateMarkup({ type, title, content }) {
@@ -41,6 +40,7 @@ class MainToastView {
     );
   }
 
+  // Help toasts place reasonably
   _reRender() {
     $$('.toast').forEach((item, index) => {
       item.style.transform = `translateY(${index * 9.4}rem)`;
@@ -48,19 +48,12 @@ class MainToastView {
   }
 
   _autoClear() {
-    if (!this._interval) {
-      this._interval = setInterval(() => {
-        if (this._parentElement.firstElementChild) {
-          this._parentElement.removeChild(
-            this._parentElement.firstElementChild
-          );
-          this._reRender();
-        } else {
-          clearInterval(this._interval);
-          this._interval = null;
-        }
-      }, this._timeClearToast);
-    }
+    setTimeout(() => {
+      if (this._parentElement.firstElementChild) {
+        this._parentElement.removeChild(this._parentElement.firstElementChild);
+        this._reRender();
+      }
+    }, this._timeClearToast);
   }
 
   _clear(element) {
@@ -76,18 +69,13 @@ class MainToastView {
   handleClearToast(target) {
     this._clear(target);
     this._reRender();
-    clearInterval(this._interval);
-    this._interval = null;
-    this._autoClear();
   }
 
   addClearToastHandler(handler) {
     $('#toast').addEventListener('click', function (event) {
-      const target = event.target.closest('.toast');
+      if (!event.target.closest('.toast-content__right-icon')) return;
 
-      if (target) {
-        handler(target);
-      }
+      handler(event.target.closest('.toast'));
     });
   }
 
@@ -120,6 +108,23 @@ class MainToastView {
 
     this._sectionToasts.forEach(item => {
       observer.observe(item);
+    });
+  }
+
+  // Have no function //
+  // This new section will be improved later
+  // 1. Play for free button (Explore game)
+  playForFree(handler) {
+    $('.trailer__content-button').addEventListener('click', function () {
+      handler('oopsie');
+    });
+  }
+
+  mainHeaderButton(handler) {
+    $('.main-header__play').addEventListener('click', function (event) {
+      if (!event.target.closest('.main-header__play-sign')) return;
+
+      handler('oopsie');
     });
   }
 }

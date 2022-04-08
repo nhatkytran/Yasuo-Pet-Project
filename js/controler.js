@@ -183,6 +183,11 @@ const init = function () {
   mainToastView.addToastHandler(controlToast);
   mainToastView.addClearToastHandler(controlClearToast);
   mainToastView.addObserverToastHandler(controlObserveToasts);
+  // Toast // Side section
+  // Button, link,... that lead to no where
+  // Unpdate later
+  mainToastView.playForFree(controlToast);
+  mainToastView.mainHeaderButton(controlToast);
 };
 
 init();
