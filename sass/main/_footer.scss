@@ -84,7 +84,7 @@
 
       @include dimension100;
       max-width: 120rem;
-      color: $header-text-color;
+
       margin: 0 6rem;
       list-style: none;
 
@@ -96,16 +96,21 @@
       & > * {
         font-family: FF-Mark, Arial, Helvetica, sans-serif;
         font-size: 1.3rem;
-        padding: 0.8rem 1.6rem;
-        border-radius: 0.6rem;
-        transition: all linear 0.1s;
-        text-align: center;
-        cursor: pointer;
 
         // 1240px
         @media only screen and (max-width: 77.5em) {
           padding: 1.2rem 2rem;
         }
+      }
+
+      &-link {
+        color: $header-text-color;
+        text-decoration: none;
+        border-radius: 0.6rem;
+        padding: 0.8rem 1.6rem;
+        transition: all linear 0.1s;
+        text-align: center;
+        cursor: pointer;
 
         &:hover {
           background-color: #404040;
@@ -181,19 +186,11 @@
       }
 
       &-item {
-        padding: 0.8rem 1.6rem;
-        border-radius: 0.6rem;
-        transition: all linear 0.1s;
-
         // 740px
         @media only screen and (max-width: 46.25em) {
           &:nth-child(2) {
             margin: 1rem 0;
           }
-        }
-
-        &:hover {
-          background-color: #323232;
         }
       }
 
@@ -203,7 +200,14 @@
         font-family: FF-Mark, Arial, Helvetica, sans-serif;
         font-size: 1.3rem;
         color: #fff;
+        padding: 0.8rem 1.6rem;
+        border-radius: 0.6rem;
         text-decoration: none;
+        transition: all linear 0.1s;
+
+        &:hover {
+          background-color: #323232;
+        }
       }
     }
 

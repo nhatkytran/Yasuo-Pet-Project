@@ -188,6 +188,13 @@ const init = function () {
   // Unpdate later
   mainToastView.playForFree(controlToast);
   mainToastView.mainHeaderButton(controlToast);
+  mainToastView.championButton(controlToast);
+  mainToastView.exploreSkinsButton(controlToast);
+  mainToastView.downloadButtons(controlToast);
+  mainToastView.footer2(controlToast);
+  mainToastView.footer3Social(controlToast);
+  mainToastView.footer3Privacy(controlToast);
+  mainToastView.allGamesLeft(controlToast);
 };
 
 init();

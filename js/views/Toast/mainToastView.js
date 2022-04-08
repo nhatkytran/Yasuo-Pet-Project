@@ -127,6 +127,77 @@ class MainToastView {
       handler('oopsie');
     });
   }
+
+  championButton(handler) {
+    $('.champion-list').addEventListener('click', function () {
+      handler('oopsie');
+    });
+  }
+
+  exploreSkinsButton(handler) {
+    $('.skins_overlay__about-explore-btn').addEventListener(
+      'click',
+      function () {
+        handler('oopsie');
+      }
+    );
+  }
+
+  downloadButtons(handler) {
+    $('.footer__1-content--3').addEventListener('click', function (event) {
+      if (!event.target.closest('.footer__1-content--3-icon')) return;
+
+      handler('oopsie');
+    });
+  }
+
+  footer2(handler) {
+    $('.footer__2').addEventListener('click', function (event) {
+      if (event.target.closest('.footer__2-content-link')) {
+        event.preventDefault();
+
+        handler('oopsie');
+      }
+    });
+  }
+
+  footer3Social(handler) {
+    $('.footer__3-social').addEventListener('click', function (event) {
+      if (event.target.closest('.footer__3-social-link')) {
+        event.preventDefault();
+
+        handler('oopsie');
+      }
+    });
+  }
+
+  footer3Privacy(handler) {
+    $('.footer__3-privacy').addEventListener('click', function (event) {
+      if (event.target.closest('.footer__3-privacy-link')) {
+        event.preventDefault();
+
+        handler('oopsie');
+      }
+    });
+  }
+
+  allGamesLeft(handler) {
+    $('.sb-ag-body__left').addEventListener('click', function (event) {
+      if (event.target.closest('.sb-ag-body__left-link')) {
+        event.preventDefault();
+
+        handler('oopsie');
+      }
+    });
+  }
+
+  // allGamesRight(handler) {
+  //   $('.sb-ag-body__right').addEventListener('click', function (event) {
+  //     if (event.target.closest('.sb-ag-body__right-cover')) {
+  //       handler('oopsie');
+  //     }
+  //   });
+  // }
 }
 
 export default new MainToastView();
