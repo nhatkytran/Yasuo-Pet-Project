@@ -723,7 +723,7 @@
     </div>
 
     <!-- Information -->
-    <section class="information">
+    <section class="information section" data-section="information">
       <div id="information" class="fake-id">Fake ID</div>
       <div class="information-img-bg">
         <div class="information-img-bg-overlay"></div>
@@ -852,7 +852,7 @@
     </section>
 
     <!-- Abilities -->
-    <section class="abilities">
+    <section class="abilities section" data-section="abilities">
       <div id="abilities" class="fake-id">Fake ID</div>
       <svg
         class="abilities-icon"
@@ -970,7 +970,7 @@
       </div>
     </section>
 
-    <section class="skins">
+    <section class="skins section" data-section="skins">
       <div id="skins" class="fake-id">Fake ID</div>
       <div class="skins_container">
         <div class="skins_container__header">
@@ -1328,7 +1328,7 @@
       </div>
     </section>
 
-    <section class="ruined">
+    <section class="ruined section" data-section="ruined">
       <div class="ruined__banner-cover">
         <img
           class="ruined__king"
@@ -1354,7 +1354,7 @@
     </section>
     <div class="ruined-sub"></div>
 
-    <section class="gallery__container">
+    <section class="gallery__container section" data-section="gallery">
       <div id="gallery" class="fake-id">Fake ID</div>
       <div class="gallery">
         <div class="gallery__quote">LIVE EVERY MOMENT</div>
@@ -2135,174 +2135,6 @@
       </div>
     </div>
 
-    <div id="toast">
-      <div class="toast">
-        <div class="toast-overlay welcome"></div>
-        <div class="toast-content">
-          <div class="toast-content__left welcome"></div>
-          <div class="toast-content__center">
-            <h1 class="toast-content__center-title">Welcome!</h1>
-            <p class="toast-content__center-content">
-              My first project. Have fun exploring things.
-            </p>
-          </div>
-          <div class="toast-content__right">
-            <svg
-              class="toast-content__right-icon welcome"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- <div class="toast">
-        <div class="toast-overlay toast-information"></div>
-        <div class="toast-content">
-          <div class="toast-content__left toast-information"></div>
-          <div class="toast-content__center">
-            <h1 class="toast-content__center-title">Information</h1>
-            <p class="toast-content__center-content">
-              Some facts about Yasuo - The wanderer.
-            </p>
-          </div>
-          <div class="toast-content__right">
-            <svg
-              class="toast-content__right-icon toast-information"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div class="toast">
-        <div class="toast-overlay toast-abilities"></div>
-        <div class="toast-content">
-          <div class="toast-content__left toast-abilities"></div>
-          <div class="toast-content__center">
-            <h1 class="toast-content__center-title">Abilities</h1>
-            <p class="toast-content__center-content">
-              Find the soul - Feel the wind - Chase the dream.
-            </p>
-          </div>
-          <div class="toast-content__right">
-            <svg
-              class="toast-content__right-icon toast-abilities"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div class="toast">
-        <div class="toast-overlay toast-skins"></div>
-        <div class="toast-content">
-          <div class="toast-content__left toast-skins"></div>
-          <div class="toast-content__center">
-            <h1 class="toast-content__center-title">Skins</h1>
-            <p class="toast-content__center-content">
-              Look doesn't matter? Huh, what a shame!
-            </p>
-          </div>
-          <div class="toast-content__right">
-            <svg
-              class="toast-content__right-icon toast-skins"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div class="toast">
-        <div class="toast-overlay toast-ruined"></div>
-        <div class="toast-content">
-          <div class="toast-content__left toast-ruined"></div>
-          <div class="toast-content__center">
-            <h1 class="toast-content__center-title">Ruined King</h1>
-            <p class="toast-content__center-content">
-              Save the world? Who am I?
-            </p>
-          </div>
-          <div class="toast-content__right">
-            <svg
-              class="toast-content__right-icon toast-ruined"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div class="toast">
-        <div class="toast-overlay toast-gallery"></div>
-        <div class="toast-content">
-          <div class="toast-content__left toast-gallery"></div>
-          <div class="toast-content__center">
-            <h1 class="toast-content__center-title">Moments</h1>
-            <p class="toast-content__center-content">
-              Do things that make you happy.
-            </p>
-          </div>
-          <div class="toast-content__right">
-            <svg
-              class="toast-content__right-icon toast-gallery"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div class="toast">
-        <div class="toast-overlay toast-oopsie"></div>
-        <div class="toast-content">
-          <div class="toast-content__left toast-oopsie"></div>
-          <div class="toast-content__center">
-            <h1 class="toast-content__center-title">Oopsie!!!</h1>
-            <p class="toast-content__center-content">
-              Sorry! I haven't added any function yet.
-            </p>
-          </div>
-          <div class="toast-content__right">
-            <svg
-              class="toast-content__right-icon toast-oopsie"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div> -->
-    </div>
+    <div id="toast"></div>
   </body>
 </html>

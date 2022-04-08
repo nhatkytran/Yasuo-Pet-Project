@@ -150,10 +150,14 @@
       @include text-rotate;
       transform: rotate(-90deg) translate(70%, -30%);
 
+      // 1340px
+      @media only screen and (max-width: 83.75em) {
+        transform: rotate(-90deg) translate(70%, -150%);
+      }
+
       // 640px
       @media only screen and (max-width: 40em) {
-        top: 44%;
-        left: -2.8rem;
+        transform: rotate(-90deg) translate(120%, -150%);
       }
 
       &::after {

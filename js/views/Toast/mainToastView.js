@@ -1,11 +1,10 @@
-import { $ } from '../../config.js';
+import { $, $$ } from '../../config.js';
 
 class MainToastView {
-  _render(data, type) {
-    const markup = this._generateMarkup(data[type]);
-
-    $('#toast').insertAdjacentHTML('beforeend', markup);
-  }
+  _parentElement = $('#toast');
+  _sectionToasts = $$('.section');
+  _interval = null;
+  _timeClearToast = 5000;
 
   _generateMarkup({ type, title, content }) {
     return `
@@ -35,33 +34,51 @@ class MainToastView {
     `;
   }
 
-  handleToast(data, type) {
-    this._render(data, type);
-
-    setTimeout(() => {
-      $('#toast').removeChild($('#toast').firstElementChild);
-    }, 3000);
+  _render(data, type) {
+    this._parentElement.insertAdjacentHTML(
+      'beforeend',
+      this._generateMarkup(data[type])
+    );
   }
 
-  addToastHandler(handler) {
-    // window.addEventListener('load', function () {
-    //   handler();
-    // });
-    $('.trailer__content-button').addEventListener('click', function () {
-      handler('welcome');
+  _reRender() {
+    $$('.toast').forEach((item, index) => {
+      item.style.transform = `translateY(${index * 9.4}rem)`;
     });
+  }
 
-    $('.trailer__content-img').addEventListener('click', function () {
-      handler('information');
-    });
+  _autoClear() {
+    if (!this._interval) {
+      this._interval = setInterval(() => {
+        if (this._parentElement.firstElementChild) {
+          this._parentElement.removeChild(
+            this._parentElement.firstElementChild
+          );
+          this._reRender();
+        } else {
+          clearInterval(this._interval);
+          this._interval = null;
+        }
+      }, this._timeClearToast);
+    }
   }
 
   _clear(element) {
-    $('#toast').removeChild(element);
+    this._parentElement.removeChild(element);
+  }
+
+  handleToast(data, type) {
+    this._render(data, type);
+    this._reRender();
+    this._autoClear();
   }
 
   handleClearToast(target) {
     this._clear(target);
+    this._reRender();
+    clearInterval(this._interval);
+    this._interval = null;
+    this._autoClear();
   }
 
   addClearToastHandler(handler) {
@@ -71,6 +88,38 @@ class MainToastView {
       if (target) {
         handler(target);
       }
+    });
+  }
+
+  // Apply //
+  // Initial load
+  addToastHandler(handler) {
+    window.addEventListener('load', function () {
+      handler('welcome');
+    });
+  }
+
+  // class 'section' is observed
+  _sectionToastsCallback = function (handler, entries, observer) {
+    const [entry] = entries;
+
+    if (entry.isIntersecting) {
+      handler(entry.target.dataset.section);
+      observer.unobserve(entry.target);
+    }
+  };
+
+  addObserverToastHandler(handler) {
+    const observer = new IntersectionObserver(
+      this._sectionToastsCallback.bind(null, handler),
+      {
+        root: null,
+        threshold: 0.3,
+      }
+    );
+
+    this._sectionToasts.forEach(item => {
+      observer.observe(item);
     });
   }
 }

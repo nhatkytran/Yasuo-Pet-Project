@@ -119,6 +119,10 @@ const controlClearToast = function (target) {
   mainToastView.handleClearToast(target);
 };
 
+const controlObserveToasts = function (type) {
+  mainToastView.handleToast(model.state.toasts, type);
+};
+
 const init = function () {
   // Sub website
   // if (window.innerWidth >= 640) {
@@ -178,6 +182,7 @@ const init = function () {
   // Toast
   mainToastView.addToastHandler(controlToast);
   mainToastView.addClearToastHandler(controlClearToast);
+  mainToastView.addObserverToastHandler(controlObserveToasts);
 };
 
 init();
