@@ -482,6 +482,11 @@
           text-align: center;
           animation: fadeInOpa linear 0.4s;
 
+          // 1140px
+          @media only screen and (max-width: 71.25em) {
+            font-size: 1.6rem;
+          }
+
           // 1040px
           @media only screen and (max-width: 65em) {
             font-size: 1.4rem;
