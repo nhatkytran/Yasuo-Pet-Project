@@ -195,6 +195,8 @@ const init = function () {
   mainToastView.footer3Social(controlToast);
   mainToastView.footer3Privacy(controlToast);
   mainToastView.allGamesLeft(controlToast);
+  mainToastView.allGamesRight(controlToast);
+  mainToastView.exploreGames(controlToast);
 };
 
 init();

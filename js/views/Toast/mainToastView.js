@@ -102,7 +102,7 @@ class MainToastView {
       this._sectionToastsCallback.bind(null, handler),
       {
         root: null,
-        threshold: 0.3,
+        threshold: 0.5,
       }
     );
 
@@ -191,13 +191,23 @@ class MainToastView {
     });
   }
 
-  // allGamesRight(handler) {
-  //   $('.sb-ag-body__right').addEventListener('click', function (event) {
-  //     if (event.target.closest('.sb-ag-body__right-cover')) {
-  //       handler('oopsie');
-  //     }
-  //   });
-  // }
+  allGamesRight(handler) {
+    $('.sb-ag-body__right').addEventListener('click', function (event) {
+      if (event.target.closest('.sb-ag-body__right-cover')) {
+        handler('oopsie');
+      }
+    });
+  }
+
+  exploreGames(handler) {
+    $('.explore-games__body').addEventListener('click', function (event) {
+      if (event.target.closest('.egbl-poster')) {
+        event.preventDefault();
+
+        handler('oopsie');
+      }
+    });
+  }
 }
 
 export default new MainToastView();

@@ -58,11 +58,13 @@ class SkinsView {
     // console.log(newSliders[2].getAttribute('style').split(' ')[1].slice(25, 27));
     // 1;
     const newSliders = $$('.skins_images__slider');
-    const currentSkins = +newSliders[2]
-      .getAttribute('style')
-      .split(' ')[1]
-      .slice(25, 27)
-      .replace('.', '');
+    const currentSkins = Number(
+      newSliders[2]
+        .getAttribute('style')
+        .split(' ')[1]
+        .slice(25, 27)
+        .replace('.', '')
+    );
 
     // Name
     this._nameSkinsContainer.innerHTML = '';
@@ -73,6 +75,7 @@ class SkinsView {
 
     // Ordered
     const orderedNumber = currentSkins + 1;
+
     this._orderedSkinContainer.textContent = orderedNumber;
 
     // Name on mobile

@@ -83,8 +83,8 @@
   @include fifty-fifty;
   transform: translate(-50%, -50%);
 
-  // 740px
-  @media only screen and (max-width: 46.25em) {
+  // 840px
+  @media only screen and (max-width: 52.5em) {
     width: calc(100% - 6rem);
     grid-gap: 0.7rem;
   }
@@ -124,7 +124,7 @@
 
       &-title {
         font-family: Beaufort-Regular, Arial, Helvetica, sans-serif;
-        font-size: 2rem;
+        font-size: 1rem;
         color: #d4ccb2;
         letter-spacing: 0.2rem;
       }
