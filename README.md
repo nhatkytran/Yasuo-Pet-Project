@@ -1,3 +1,5 @@
-Yasuo - Wind Emperor
+# Yasuo - Wind Emperor
 
-HTML, CSS, SCSS, JAVASCRIPT
+https://nhatkytran-yasuo-pet-project.netlify.app/
+
+HTML, CSS, SCSS, JAVASCRIPT, PARCEL
