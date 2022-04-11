@@ -1,5 +1,23 @@
 import { $, $$ } from '../config.js';
 
+import videoMp40 from 'url:../../src/img/Skills/0.mp4';
+import videoWebm0 from 'url:../../src/img/Skills/0.webm';
+
+import videoMp41 from 'url:../../src/img/Skills/1.mp4';
+import videoWebm1 from 'url:../../src/img/Skills/1.webm';
+
+import videoMp42 from 'url:../../src/img/Skills/2.mp4';
+import videoWebm2 from 'url:../../src/img/Skills/2.webm';
+
+import videoMp43 from 'url:../../src/img/Skills/3.mp4';
+import videoWebm3 from 'url:../../src/img/Skills/3.webm';
+
+import videoMp44 from 'url:../../src/img/Skills/4.mp4';
+import videoWebm4 from 'url:../../src/img/Skills/4.webm';
+
+const videosMp4 = [videoMp40, videoMp41, videoMp42, videoMp43, videoMp44];
+const videosWebm = [videoWebm0, videoWebm1, videoWebm2, videoWebm3, videoWebm4];
+
 class AbilitiesView {
   _parentElement = $('.ab__skills');
   _skills = $$('.ab__skills-skill');
@@ -30,8 +48,8 @@ class AbilitiesView {
   _generateMarkupVideo(index) {
     return `
     <video class="abilities__content-body-video-s" muted>
-      <source src="./src/img/Skills/${index}.mp4" type="video/mp4" />
-      <source src="./src/img/Skills/${index}.webm" type="video/webm" />
+      <source src="${videosMp4[index]}" type="video/mp4" />
+      <source src="${videosWebm[index]}" type="video/webm" />
       Your browser does not support video!
     </video>
   `;

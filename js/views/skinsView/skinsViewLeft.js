@@ -48,6 +48,9 @@ class SkinsViewLeft extends SkinsView {
     if (this._nextRight < 0) this._nextRight = 11;
 
     // Set name for and order for skin
+    this._currentSkins -= 1;
+    if (this._currentSkins < 0) this._currentSkins = 11;
+
     this._handleNameOrdered(nameSkins);
   }
 

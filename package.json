@@ -2,23 +2,27 @@
   "name": "yasuo",
   "version": "1.0.0",
   "description": "big project",
-  "main": "index.js",
+  "default": "index.html",
   "scripts": {
     "start": "node-sass sass/main.scss css/style.css -w",
     "compile:sass": "node-sass sass/main.scss css/style.comp.css",
     "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' css/style.comp.css -o css/style.prefix.css",
     "compress:css": "node-sass css/style.prefix.css css/style.css --output-style compressed",
-    "par:run": "parcel index.html"
+    "par:run": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "author": "Nhat Ky Tran",
   "license": "ISC",
   "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
     "node-sass": "^7.0.0"
   },
   "dependencies": {
     "autoprefixer": "^10.4.4",
+    "core-js": "^3.21.1",
     "parcel": "^2.4.1",
     "postcss": "^8.4.12",
-    "postcss-cli": "^9.1.0"
+    "postcss-cli": "^9.1.0",
+    "regenerator-runtime": "^0.13.9"
   }
 }

@@ -1,5 +1,82 @@
 import { $, $$ } from '../config.js';
 
+// 20 posters
+import image1 from '../../src/img/nav-ag/ag__img--1.jpeg';
+import image2 from '../../src/img/nav-ag/ag__img--2.jpeg';
+import image3 from '../../src/img/nav-ag/ag__img--3.jpeg';
+import image4 from '../../src/img/nav-ag/ag__img--4.jpeg';
+import image5 from '../../src/img/nav-ag/ag__img--5.jpeg';
+import image6 from '../../src/img/nav-ag/ag__img--6.jpeg';
+import image7 from '../../src/img/nav-ag/ag__img--7.jpeg';
+import image8 from '../../src/img/nav-ag/ag__img--8.jpeg';
+import image9 from '../../src/img/nav-ag/ag__img--9.jpeg';
+import image10 from '../../src/img/nav-ag/ag__img--10.jpeg';
+import image11 from '../../src/img/nav-ag/ag__img--11.jpeg';
+import image12 from '../../src/img/nav-ag/ag__img--12.jpeg';
+import image13 from '../../src/img/nav-ag/ag__img--13.jpeg';
+import image14 from '../../src/img/nav-ag/ag__img--14.jpeg';
+import image15 from '../../src/img/nav-ag/ag__img--15.jpeg';
+import image16 from '../../src/img/nav-ag/ag__img--16.jpeg';
+import image17 from '../../src/img/nav-ag/ag__img--17.jpeg';
+import image18 from '../../src/img/nav-ag/ag__img--18.jpeg';
+import image19 from '../../src/img/nav-ag/ag__img--19.jpeg';
+import image20 from '../../src/img/nav-ag/ag__img--20.jpeg';
+
+import image1s from '../../src/img/nav-ag/ag__img--1s.png';
+import image2s from '../../src/img/nav-ag/ag__img--2s.svg';
+import image3s from '../../src/img/nav-ag/ag__img--3s.svg';
+import image4s from '../../src/img/nav-ag/ag__img--4s.svg';
+import image5s from '../../src/img/nav-ag/ag__img--5s.svg';
+import image6s from '../../src/img/nav-ag/ag__img--6s.svg';
+import image7s from '../../src/img/nav-ag/ag__img--7s.png';
+import image8s from '../../src/img/nav-ag/ag__img--8s.svg';
+import image9s from '../../src/img/nav-ag/ag__img--9s.png';
+import image10s from '../../src/img/nav-ag/ag__img--10s.png';
+import image11s from '../../src/img/nav-ag/ag__img--11s.svg';
+import image12s from '../../src/img/nav-ag/ag__img--12s.svg';
+import image13s from '../../src/img/nav-ag/ag__img--13s.png';
+import image14s from '../../src/img/nav-ag/ag__img--14s.svg';
+
+const images = [
+  image1,
+  image2,
+  image3,
+  image4,
+  image5,
+  image6,
+  image7,
+  image8,
+  image9,
+  image10,
+  image11,
+  image12,
+  image13,
+  image14,
+  image15,
+  image16,
+  image17,
+  image18,
+  image19,
+  image20,
+];
+
+const subImages = [
+  image1s,
+  image2s,
+  image3s,
+  image4s,
+  image5s,
+  image6s,
+  image7s,
+  image8s,
+  image9s,
+  image10s,
+  image11s,
+  image12s,
+  image13s,
+  image14s,
+];
+
 class AllGamesView {
   _parentElement = $('.sb-ag');
 
@@ -71,9 +148,7 @@ class AllGamesView {
                 index >= 14 ||
                 `<img
                     class="ag__hover-imgs"
-                    src="./src/img/nav-ag/${img}s.${
-                  [1, 7, 9, 10, 13].indexOf(index + 1) !== -1 ? 'png' : 'svg'
-                }"
+                    src="${subImages[index]}"
                     alt="${state.hoverMarkupSEO[index]}"
                   />`
               }
@@ -145,7 +220,7 @@ class AllGamesView {
         </div>
         <img
           class="ag__hover-img"
-          src="./src/img/nav-ag/${img}.jpeg"
+          src="${images[index]}"
           alt="${state.hoverMarkupSEO[index]}"
         />
       </div>
