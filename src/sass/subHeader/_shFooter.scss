@@ -1,0 +1,40 @@
+.sh-footer {
+  @include bg-sub-header;
+  grid-column: 1 / -1;
+  border-bottom: 1px solid $color-primary-dark;
+  overflow: hidden;
+  position: relative;
+
+  &-text {
+    width: 100%;
+    font-family: Beaufort-Regular, Arial, sans-serif;
+    font-size: 6rem;
+    text-transform: uppercase;
+    text-align: center;
+
+    @include abs;
+    @include fifty-fifty;
+    transform: translate(-50%, -12%);
+
+    // 840px
+    @media only screen and (max-width: 52.5em) {
+      font-size: 5rem;
+      transform: translate(-50%, -10%);
+    }
+
+    // 640px
+    @media only screen and (max-width: 40em) {
+      font-size: 3.5rem;
+      transform: translate(-50%, 20%);
+    }
+
+    &::after {
+      content: 'The Unforgiven';
+      border: 0.4rem solid transparent;
+      @include primary-background(1);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}

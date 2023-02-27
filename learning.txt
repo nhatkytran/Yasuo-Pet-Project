@@ -1,0 +1,19 @@
+SASS
+
+.scss --> Use block and curly braces
+.sass --> Use indentation
+
+--> Statement
+
+statement {
+  statement
+}
+
+--> Expression
+
+variable: < expression >
+property: < expression >
+
+--> Comments --> Silent commnets in SASS // --> does not produce CSS
+--> Single-line comment --> //
+--> Multi-line comment --> /* */

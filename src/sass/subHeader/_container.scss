@@ -1,0 +1,11 @@
+.container {
+  display: grid;
+  grid-template-rows: 8rem 0 54rem 16rem;
+  grid-template-columns: 100%;
+  background-color: rgb(46, 46, 46);
+  overflow: hidden; // Star background only in this .container class
+
+  @media only screen and (max-width: $px640) {
+    grid-template-rows: 6rem 0 50rem 13.5rem;
+  }
+}

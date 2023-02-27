@@ -1,3 +1,0 @@
-main logo keyframe
-position fixed for main header
-hover button on not hover (on Ipad)

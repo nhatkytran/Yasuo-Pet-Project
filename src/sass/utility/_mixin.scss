@@ -1,0 +1,243 @@
+// Color
+@mixin primary-background($opa) {
+  background-image: linear-gradient(
+    to bottom,
+    rgba($color-primary-dark, $opa),
+    rgba($color-primary-light, $opa)
+  );
+  -webkit-background-image: -webkit-linear-gradient(
+    to bottom,
+    rgba($color-primary-dark, $opa),
+    rgba($color-primary-light, $opa)
+  );
+}
+
+@mixin bg-sub-header {
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}
+
+// Font
+@mixin useFont($fontName) {
+  font-family: $fontName, Arial, sans-serif;
+}
+
+// Keyframes
+@mixin fadeInOpa($s) {
+  animation: fadeInOpa linear $s;
+  -webkit-animation: fadeInOpa $s;
+}
+
+// Dimension
+@mixin dimension100 {
+  width: 100%;
+  height: 100%;
+}
+
+// Position
+@mixin abs {
+  position: absolute;
+  display: block;
+}
+
+@mixin sub-abs {
+  content: '';
+  position: absolute;
+  display: block;
+}
+
+@mixin zero-zero {
+  top: 0;
+  left: 0;
+}
+
+@mixin fifty-fifty {
+  top: 50%;
+  left: 50%;
+}
+
+@mixin center-absolute {
+  @include abs;
+  @include fifty-fifty;
+  transform: translate(-50%, -50%);
+}
+
+@mixin flex-align-center {
+  display: flex;
+  align-items: center;
+}
+
+// Other things
+@mixin video {
+  object-fit: cover;
+  -webkit-object-fit: cover;
+  object-position: center;
+  -webkit-object-position: center;
+}
+
+@mixin video-responsive {
+  // 1240px
+  @media only screen and (max-width: 77.5em) {
+    height: 74%;
+  }
+
+  // 1140px
+  @media only screen and (max-width: 71.25em) {
+    width: 100%;
+    height: 43rem;
+  }
+
+  // 940px
+  @media only screen and (max-width: 58.75em) {
+    height: 37rem;
+  }
+
+  // 840px
+  @media only screen and (max-width: 52.5em) {
+    height: 32rem;
+  }
+
+  // 740px
+  @media only screen and (max-width: 46.25em) {
+    height: 27rem;
+  }
+
+  // 640px
+  @media only screen and (max-width: 40em) {
+    width: 100%;
+  }
+
+  // 440px
+  @media only screen and (max-width: 27.5em) {
+    height: 23rem;
+  }
+}
+
+@mixin line {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: 1.4em;
+  height: 1px;
+  background-color: currentcolor;
+}
+
+@mixin line-before {
+  @include line;
+  margin-right: 0.7rem;
+}
+
+@mixin line-after {
+  @include line;
+  margin-left: 0.5rem;
+}
+
+@mixin border-non-top {
+  border-left: 1px solid $main-border;
+  border-right: 1px solid $main-border;
+  border-bottom: 1px solid $main-border;
+}
+
+@mixin text-rotate {
+  font-family: Spiegel-Bold, Arial, sans-serif;
+  font-size: 1rem;
+  color: $header-text-color;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+
+  @include abs;
+  top: 50%;
+  left: 0;
+}
+
+// Responsive
+@mixin hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@mixin show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+// Skins
+@mixin center_from_top {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin center_from_left {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin center_with_flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin skins_container {
+  max-width: 146rem;
+  height: 84rem;
+
+  // 1240px
+  @media only screen and (max-width: 77.5em) {
+    height: 73rem;
+  }
+
+  // 1140px
+  @media only screen and (max-width: 71.25em) {
+    height: 67rem;
+  }
+
+  // 1040px
+  @media only screen and (max-width: 65em) {
+    height: 62rem;
+  }
+
+  // 940px
+  @media only screen and (max-width: 58.75em) {
+    height: 56rem;
+  }
+
+  // 840px
+  @media only screen and (max-width: 52.5em) {
+    height: 51rem;
+  }
+
+  // 740px
+  @media only screen and (max-width: 46.25em) {
+    height: 44rem;
+  }
+
+  // 640px
+  @media only screen and (max-width: 40em) {
+    height: 80rem;
+  }
+
+  // 440px
+  @media only screen and (max-width: 27.5em) {
+    height: 70rem;
+  }
+}
+
+@mixin square-border {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid #423a26;
+  transform: rotate(45deg);
+
+  position: absolute;
+}
+
+// Gallery
+@mixin button-after {
+  @include sub-abs;
+  @include zero-zero;
+  @include dimension100;
+
+  transition: all linear 0.3s;
+  z-index: -1;
+}
