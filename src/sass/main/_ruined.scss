@@ -25,8 +25,7 @@
     width: calc(100% - 12rem);
     max-width: 160rem;
     height: 65rem;
-
-    @include center-absolute;
+    @include absolute-position(-50%, -50%);
 
     // 740px
     @media only screen and (max-width: 46.25em) {
@@ -122,15 +121,12 @@
     width: calc(100% - 12rem);
     max-width: 160rem;
     height: 65rem;
-
     background-image: url('../../src/img/Ruined/RuinedKing_Yasuo_PromoModule01.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 80% 50%;
-
     clip-path: polygon(0 0, 100% 0, 100% 100%, 36% 100%);
-
-    @include center-absolute;
+    @include absolute-position(-50%, -50%);
 
     // 740px
     @media only screen and (max-width: 46.25em) {
@@ -163,8 +159,7 @@
     max-width: calc(160rem - 2rem);
     height: calc(65rem + 2rem);
     border: 1px solid $main-border;
-
-    @include center-absolute;
+    @include absolute-position(-50%, -50%);
 
     pointer-events: none;
 

@@ -48,8 +48,7 @@
   &_container {
     width: calc(100% - 12rem);
     @include skins_container;
-
-    @include center-absolute;
+    @include absolute-position(-50%, -50%);
 
     // 740px
     @media only screen and (max-width: 46.25em) {
@@ -183,7 +182,8 @@
 
   .skins_images__slider,
   .skins_images-mobile__slider {
-    @include dimension100;
+    width: 100%;
+    height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;

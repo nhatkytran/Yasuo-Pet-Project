@@ -1,118 +1,125 @@
 .sub-header {
-  @include bg-sub-header;
   grid-column: 1 / -1;
   display: flex;
   justify-content: center;
   position: relative;
   z-index: 1;
+  @include bg-sub-header;
+  @include use-font(Beaufort-Regular);
 
-  .yasuo-heading {
-    @include useFont(Beaufort-Regular);
-    @include fadeInOpa(1.5s);
-    @include center-absolute;
-    font-size: 6rem;
-
-    @mixin yasuo-heading--font-size($width, $size) {
-      @media only screen and (max-width: $width) {
-        font-size: $size;
+  @mixin yasuo-round-dimension($width, $dimension, $type: none-type) {
+    @media only screen and (max-width: $width) {
+      @if $type == none-type {
+        @include square-dimension($dimension);
+      } @else if $type == width-type {
+        width: $dimension;
       }
     }
+  }
+  @mixin yasuo-round-position($width, $x-translate, $y-translate) {
+    @media only screen and (max-width: $width) {
+      transform: translate($x-translate, $y-translate);
+    }
+  }
+  @mixin yasuo-heading-font-size($width, $size) {
+    @media only screen and (max-width: $width) {
+      font-size: $size;
+    }
+  }
+  @mixin yasuo-heading-position($width, $left) {
+    @media only screen and (max-width: $width) {
+      left: $left;
+    }
+  }
 
-    @include yasuo-heading--font-size(65em, 5.5rem); // 1040px
-    @include yasuo-heading--font-size(40em, 5rem); // 640px
-    @include yasuo-heading--font-size(27.5em, 4rem); // 440px
+  .yasuo-heading {
+    font-size: 6rem;
+    @include absolute-position(-50%, -50%);
+    @include yasuo-heading-font-size($px1040, 5.6rem);
+    @include yasuo-heading-font-size($px840, 5.2rem);
+    @include yasuo-heading-font-size($px640, 4.8rem);
+    @include yasuo-heading-font-size($px440, 4.4rem);
+    @include yasuo-heading-position($px840, 16rem);
+    @include yasuo-heading-position($px640, 12rem);
+    @include yasuo-heading-position($px540, 7rem);
 
     .yasuo {
-      @include abs;
-      @include fifty-fifty;
       letter-spacing: 1rem;
-      transform: translate(-65%, -55%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      @include primary-background(1);
+      @include absolute-position(-65%, -55%);
 
-      &::after {
-        @include primary-background(1);
-        content: 'YASU';
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      @media only screen and (max-width: $width) {
+        letter-spacing: 0.4rem;
+      }
+
+      &--1 {
+        @include display-responsive($px540, none);
+      }
+
+      &--2 {
+        display: none;
+        @include display-responsive($px540, block);
+        @include display-responsive($px440, none);
       }
     }
 
     .yasuo-round {
-      @include abs;
-      @include fifty-fifty;
-      width: 5rem;
-      height: 5rem;
       border-radius: 50%;
-      transform: translate(140%, -55%);
       background-image: url('../../src/assets/img/subHeader/sub-header-yasuo-logo.jpeg');
       background-position: 60% 32%;
       background-size: 350%;
-
-      // 1040px
-      @media only screen and (max-width: 65em) {
-        width: 4.5rem;
-        height: 4.5rem;
-      }
-      // 640px
-      @media only screen and (max-width: 40em) {
-        width: 4rem;
-        height: 4rem;
-      }
-      // 440px
-      @media only screen and (max-width: 27.5em) {
-        width: 3.8rem;
-        height: 3.8rem;
-      }
+      @include square-dimension(5.1rem);
+      @include absolute-position(140%, -55%);
+      @include yasuo-round-dimension($px1040, 4.7rem);
+      @include yasuo-round-dimension($px840, 4.3rem);
+      @include yasuo-round-dimension($px640, 3.9rem);
+      @include yasuo-round-dimension($px440, 3.5rem);
+      @include yasuo-round-position($px540, 65%, -55%);
+      @include yasuo-round-position($px440, -110%, -55%);
 
       &::before {
-        @include dimension100;
-        @include sub-abs;
-        @include primary-background(0.7);
         border-radius: 50%;
+        @include full-dimension;
+        @include primary-background(0.6);
+        @include sub-abs;
       }
 
       &__frame {
         @include abs;
-        width: 5.6rem;
-        height: 5.6rem;
         top: -0.26rem;
         left: -0.26rem;
-
-        @mixin yasuo_round__frame--dimension($width, $dimension) {
-          @media only screen and (max-width: $width) {
-            width: $dimension;
-            height: $dimension;
-          }
-        }
-
-        @include yasuo_round__frame--dimension(65em, 5rem); // 1040px
-
-        // 640px
-        @media only screen and (max-width: 40em) {
-          width: 4.6rem;
-          height: 4.6rem;
-        }
-        // 440px
-        @media only screen and (max-width: 27.5em) {
-          width: 4.4rem;
-          height: 4.4rem;
-        }
+        @include square-dimension(5.6rem);
+        @include yasuo-round-dimension($px1040, 5.2rem);
+        @include yasuo-round-dimension($px840, 4.8rem);
+        @include yasuo-round-dimension($px640, 4.4rem);
+        @include yasuo-round-dimension($px440, 4rem);
       }
     }
   }
 
   &__content {
-    @include flex-align-center;
     justify-content: space-between;
-    height: 100%;
-    width: 100%;
     max-width: 110rem;
-    margin: 0 6rem;
+    margin: 0 7.4rem;
+    @include full-dimension;
+    @include flex-align-center;
+
+    @media only screen and (max-width: $px840) {
+      justify-content: flex-end;
+    }
+    @media only screen and (max-width: $px640) {
+      margin: 0 3rem;
+    }
 
     #homepage__logo {
       width: 8rem;
       filter: brightness(0.75);
       transition: all ease 0.3s;
+      @include yasuo-round-dimension($px1040, 7rem, width-type);
+      @include display-responsive($px840, none);
 
       &:hover {
         filter: brightness(0.9);
@@ -121,8 +128,8 @@
     }
 
     &-login {
-      @include flex-align-center;
       cursor: pointer;
+      @include flex-align-center;
 
       &:hover &-icon {
         transform: translateX(7.2rem);
@@ -132,21 +139,22 @@
         filter: brightness(1.2);
       }
 
-      &-icon,
-      &-title {
+      %ub-header__content-login--transition {
         transition: all ease 0.15s;
       }
 
       &-icon {
         fill: $color-primary-light;
         margin-right: 0.6rem;
+        @extend %ub-header__content-login--transition;
       }
 
       &-title {
-        @include useFont(FF-Mark);
         color: $color-primary-light;
         text-transform: uppercase;
         font-size: 1.4rem;
+        @include use-font(FF-Mark);
+        @extend %ub-header__content-login--transition;
       }
     }
   }
@@ -161,40 +169,13 @@
   transform: translateX(-50%);
   z-index: 2;
 
-  @mixin sub-header-line--bottom($width, $bottom) {
+  @mixin sub-header-line-position($width, $width-prop, $left, $bottom) {
     @media only screen and (max-width: $width) {
+      width: $width-prop;
+      left: $left;
       bottom: $bottom;
     }
   }
-
-  // 1140px
-  // @include sub-header-line--bottom(71.25em, 1.rem);
-
-  // @media only screen and (max-width: 71.25em) {
-  //   bottom: 1.95rem;
-  // }
-  // 1040px
-  // @media only screen and (max-width: 65em) {
-  //   bottom: 1.85rem;
-  // }
-  // // 940px
-  // @media only screen and (max-width: 58.75em) {
-  //   bottom: 1.75rem;
-  // }
-  // // 840px
-  // @media only screen and (max-width: 52.5em) {
-  //   bottom: 1.65rem;
-  // }
-  // // 740px
-  // @media only screen and (max-width: 46.25em) {
-  //   bottom: 1.55rem;
-  // }
-  // // 640px
-  // @media only screen and (max-width: 40em) {
-  //   bottom: 1.2rem;
-  // }
-  // // 540px
-  // @media only screen and (max-width: 33.75em) {
-  //   bottom: 1rem;
-  // }
+  @include sub-header-line-position($px840, 176rem, 0, 2.2rem);
+  @include sub-header-line-position($px640, 146rem, 0, 1.8rem);
 }

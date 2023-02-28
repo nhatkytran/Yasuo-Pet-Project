@@ -11,10 +11,7 @@
     font-size: 6rem;
     text-transform: uppercase;
     text-align: center;
-
-    @include abs;
-    @include fifty-fifty;
-    transform: translate(-50%, -12%);
+    @include absolute-position(-50%, -12%);
 
     // 840px
     @media only screen and (max-width: 52.5em) {

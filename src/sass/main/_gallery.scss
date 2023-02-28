@@ -74,14 +74,10 @@
   grid-template-rows: repeat(8, 1fr);
   grid-template-columns: repeat(8, 1fr);
   grid-gap: 1rem;
-
   width: calc(100% - 12rem);
   max-width: 160rem;
   height: 77.78%;
-
-  position: absolute;
-  @include fifty-fifty;
-  transform: translate(-50%, -50%);
+  @include absolute-position(-50%, -50%);
 
   // 840px
   @media only screen and (max-width: 52.5em) {
@@ -115,7 +111,8 @@
     &-overlay {
       @include center_with_flex;
 
-      @include dimension100;
+      width: 100%;
+      height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       border: 0.1rem solid #c4b998;
       transition: all linear 0.1s;

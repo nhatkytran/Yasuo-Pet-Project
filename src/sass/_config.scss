@@ -1,68 +1,44 @@
+// Fonts
+$fonts: (
+  Beaufort-Bold: 'Beaufort-Bold.ttf',
+  Beaufort-Regular: 'Beaufort-Regular.ttf',
+  Spiegel-Bold: 'spiegel-bold.ttf',
+  Spiegel-Regular: 'Spiegel-Regular.ttf',
+  FF-Mark-Bold: 'FontFont_FF.Mark.Pro.Bold.otf',
+  FF-Mark-Medium: 'FontFont_FF.Mark.Pro.Medium.otf',
+  FF-Mark: 'FontFont_FF.Mark.Pro.otf',
+  FF-Mark-Hair: 'FontFont_FF.Mark.Pro.Hairline.otf',
+);
+
+@each $font-family, $endpoint in $fonts {
+  @font-face {
+    font-family: $font-family;
+    src: url('../assets/font/#{$endpoint}');
+  }
+}
+
 // Colors
 $color-primary-dark: #67471f;
 $color-primary-light: #d8ae4d;
+$color-globe: #c28f2b;
+$color-story: rgb(208, 168, 92);
+$color-ab: rgb(221, 176, 93);
 
 $button-color-blue: #2fc1db;
 $button-color-blue-hover: #25d8f6;
-$text-color: #010101;
-$canvas-color: #7e7e7e;
-
-$header-bg-color: rgb(12, 12, 12);
-$header-text-color: rgb(249, 249, 249);
-$header-navbar-color: rgb(217, 217, 217);
-$arrow-color: rgb(126, 126, 126);
-$bg-link-header: #333333;
-$color-layer: #171717;
 $color-button-blue: #1db2cf;
 $color-button-blue-dark: #0f8ca4;
-$color-globe: #c28f2b;
+
+$text-color: #010101;
+$header-bg-color: rgb(12, 12, 12);
+$color-layer: #171717;
 $color-button-grey: #282828;
-
+$bg-link-header: #333333;
 $main-border: rgba(255, 255, 255, 0.2);
-$color-story: rgb(208, 168, 92);
-
-$color-ab: rgb(221, 176, 93);
-
-// Dimension
-$width: 140rem;
-
-// Skins
-$square_05: -0.5rem;
-$square_02: -0.2rem;
-
-// Fonts
-@font-face {
-  font-family: Beaufort-Bold;
-  src: url(../assets/font/Beaufort-Bold.ttf);
-}
-@font-face {
-  font-family: Beaufort-Regular;
-  src: url(../assets/font/Beaufort-Regular.ttf);
-}
-@font-face {
-  font-family: Spiegel-Regular;
-  src: url(../assets/font/Spiegel-Regular.ttf);
-}
-@font-face {
-  font-family: Spiegel-Bold;
-  src: url(../assets/font/spiegel-bold.ttf);
-}
-@font-face {
-  font-family: FF-Mark-Bold;
-  src: url(../assets/font/FontFont_FF.Mark.Pro.Bold.otf);
-}
-@font-face {
-  font-family: FF-Mark-Medium;
-  src: url(../assets/font/FontFont_FF.Mark.Pro.Medium.otf);
-}
-@font-face {
-  font-family: FF-Mark;
-  src: url(../assets/font/FontFont_FF.Mark.Pro.otf);
-}
-@font-face {
-  font-family: FF-Mark-Hair;
-  src: url(../assets/font/FontFont_FF.Mark.Pro.Hairline.otf);
-}
+$canvas-color: #7e7e7e;
+$arrow-color: rgb(126, 126, 126);
+$header-navbar-color: rgb(217, 217, 217);
+$header-text-color: rgb(249, 249, 249);
 
 // Prepare for Responsive
 // @media only screen and (max-width: $width) {}
@@ -77,3 +53,8 @@ $px640: 40em;
 $px540: 33.75em;
 $px440: 27.5em;
 $px340: 21.25em;
+
+// Utils
+$width: 128rem;
+$square_05: -0.5rem;
+$square_02: -0.2rem;

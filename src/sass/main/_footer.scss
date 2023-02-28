@@ -14,7 +14,8 @@
       align-items: center;
       justify-content: space-between;
 
-      @include dimension100;
+      width: 100%;
+      height: 100%;
       max-width: 140rem;
       color: #d1dade;
       margin: 0 6rem;
@@ -82,7 +83,8 @@
       align-items: center;
       justify-content: space-between;
 
-      @include dimension100;
+      width: 100%;
+      height: 100%;
       max-width: 120rem;
 
       margin: 0 6rem;
@@ -142,7 +144,8 @@
       }
 
       &-link {
-        @include dimension100;
+        width: 100%;
+        height: 100%;
         @include center_with_flex;
       }
 

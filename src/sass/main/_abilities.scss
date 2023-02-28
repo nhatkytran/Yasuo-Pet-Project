@@ -58,7 +58,8 @@
   }
 
   &__overlay {
-    @include dimension100;
+    width: 100%;
+    height: 100%;
     max-width: 160rem;
 
     &-text {
@@ -408,11 +409,9 @@
           width: calc(100% - 2rem);
           height: calc(84% + 2rem);
           border: 1px solid $main-border;
-
-          position: relative;
+          position: relative; // ???
           z-index: 10;
-
-          @include center-absolute;
+          @include absolute-position(-50%, -50%);
 
           // 1240px
           @media only screen and (max-width: 77.5em) {
