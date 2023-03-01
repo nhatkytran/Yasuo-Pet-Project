@@ -131,6 +131,12 @@
       }
     }
 
+    %text-style {
+      text-transform: uppercase;
+      font-size: 1.4rem;
+      transition: all ease 0.15s;
+    }
+
     &-auth {
       padding: 1.6rem 0;
       cursor: pointer;
@@ -145,9 +151,7 @@
       }
       &-title {
         color: $color-primary-light;
-        text-transform: uppercase;
-        font-size: 1.4rem;
-        transition: all ease 0.15s;
+        @extend %text-style;
         @include use-font(FF-Mark);
       }
     }
@@ -160,21 +164,19 @@
       margin-left: $margin-icon;
       transform: rotate(90deg);
     }
-  }
-}
 
-.user__info-name {
-  color: $button-color-blue;
-  text-transform: uppercase;
-  font-size: 1.4rem;
-  margin: 0 1rem 0 auto;
-  padding: 1.6rem 0;
-  transition: all ease 0.15s;
-  cursor: pointer;
-  @include use-font(FF-Mark);
+    .user__info-name {
+      color: $button-color-blue;
+      margin: 0 1rem 0 auto;
+      padding: 1.6rem 0;
+      cursor: pointer;
+      @extend %text-style;
+      @include use-font(FF-Mark);
 
-  &:hover {
-    color: $button-color-blue-hover;
+      &:hover {
+        color: $button-color-blue-hover;
+      }
+    }
   }
 }
 
