@@ -190,7 +190,8 @@
     transition: all ease 0.4s;
 
     position: absolute;
-    @include zero-zero;
+    top: 0;
+    left: 0;
   }
 
   &_images-mobile {

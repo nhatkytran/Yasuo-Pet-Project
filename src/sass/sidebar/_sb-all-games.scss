@@ -4,7 +4,8 @@
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1001;
   @include abs;
-  @include zero-zero;
+  top: 0;
+  left: 0;
   @include hide;
 
   &.show {
@@ -371,7 +372,8 @@
     z-index: 1;
 
     @include abs;
-    @include zero-zero;
+    top: 0;
+    left: 0;
 
     &--child {
       display: flex;

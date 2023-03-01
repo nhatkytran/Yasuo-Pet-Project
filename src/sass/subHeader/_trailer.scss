@@ -1,60 +1,79 @@
-.trailer__bg-big,
-.trailer__bg-big-overlay {
-  width: 100%;
-  height: 100%;
-  @include abs;
-  @include zero-zero;
-}
-
 .trailer {
   grid-column: 1 / -1;
   position: relative;
 
-  // Big background
-  &__bg-big {
-    overflow: hidden;
+  @mixin bg-small-image-position($width, $x-translate) {
+    @media only screen and (max-width: $width) {
+      object-position: $x-translate 50% !important;
+    }
+  }
+  @mixin content-width($width, $width-d) {
+    @media only screen and (max-width: $width) {
+      width: $width-d;
+    }
+  }
+  @mixin button-padding($width, $tb, $rl) {
+    @media only screen and (max-width: $width) {
+      padding: $tb $rl !important;
+    }
+  }
+
+  %image-position {
+    object-fit: cover;
+    -webkit-object-fit: cover;
+    object-position: center;
+    -webkit-object-position: center;
+  }
+  %background-position {
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include full-dimension;
+  }
+
+  &__bg {
     z-index: 0;
     filter: blur(0.4rem);
+    @extend %background-position;
 
-    &-video {
-      width: 100%;
-      height: 100%;
-      @include video;
+    &-image {
+      @include full-dimension;
+      @extend %image-position;
     }
 
     &-overlay {
       background-color: rgba(0, 0, 0, 0.8);
+      @extend %background-position;
     }
   }
 
-  // Small background
   &__bg-small {
     width: calc(100% - 12rem);
-    max-width: $width;
+    max-width: 136rem;
     height: 100%;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
     z-index: 1;
     @include absolute-position(-50%, -38%);
 
-    // 640px
-    @media only screen and (max-width: 40em) {
+    @media only screen and (max-width: $px640) {
       width: calc(100% - 4rem);
       height: 110%;
       top: 46%;
     }
 
     &-video {
-      width: 100%;
-      height: 100%;
-      @include video;
-      // object-fit: cover;
-      // object-position: center;
-      filter: brightness(60%);
+      @include full-dimension;
+      @extend %image-position;
+    }
 
-      // 640px
-      @media only screen and (max-width: 40em) {
-        object-position: 80% 50%;
-      }
+    &-image {
+      @extend %image-position;
+      @extend %background-position;
+
+      @include bg-small-image-position($px840, 46%);
+      @include bg-small-image-position($px740, 41%);
+      @include bg-small-image-position($px640, 36%);
+      @include bg-small-image-position($px540, 31%);
     }
 
     &-border {
@@ -69,67 +88,32 @@
   &__content {
     width: 50rem;
     text-align: center;
-    animation: fadeInOpa linear 1s;
     z-index: 2;
     @include absolute-position(-50%, -30%);
 
-    // 1040px
-    @media only screen and (max-width: 65em) {
-      width: 45rem;
-    }
-
-    // 640px
-    @media only screen and (max-width: 40em) {
-      width: 35rem;
-    }
-
-    // 540px
-    @media only screen and (max-width: 33.75em) {
-      width: 30rem;
-    }
-
-    // 440px
-    @media only screen and (max-width: 27.5em) {
-      width: 25rem;
-    }
+    @include content-width($px1040, 46rem);
+    @include content-width($px940, 42rem);
+    @include content-width($px840, 40rem);
+    @include content-width($px740, 36rem);
+    @include content-width($px640, 32rem);
+    @include content-width($px540, 30rem);
+    @include content-width($px440, 26rem);
+    @include content-width($px340, 23rem);
 
     &-img {
       width: 100%;
-      transition: all linear 0.2s;
     }
 
     &-button {
-      width: 19.5rem;
-      height: 5.6rem;
-      padding: 0 4rem;
+      padding: 2rem 4rem;
       margin-top: 1rem;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-
       position: relative;
 
-      // 640px
-      @media only screen and (max-width: 40em) {
-        width: 15.5rem;
-        height: 4.6rem;
-        padding: 0 1.5rem;
-      }
-
-      .play-for-free {
-        font-family: Spiegel-Bold, Arial, sans-serif;
-        font-size: 1.3rem;
-        color: $text-color;
-        letter-spacing: 0.1rem;
-
-        // 640px
-        @media only screen and (max-width: 40em) {
-          font-size: 1rem;
-        }
-      }
-
-      &::after {
-        @include button-after;
-        background-color: $button-color-blue-hover;
-      }
+      @include button-padding($px1040, 1.9rem, 3.8rem);
+      @include button-padding($px840, 1.8rem, 3.6rem);
+      @include button-padding($px640, 1.7rem, 3.4rem);
+      @include button-padding($px440, 1.6rem, 3.2rem);
 
       @media (hover: hover) {
         &:hover {
@@ -142,8 +126,29 @@
         }
       }
 
+      &::after {
+        top: 0;
+        left: 0;
+        background-color: $button-color-blue-hover;
+        transition: all linear 0.2s;
+        z-index: -1;
+        @include full-dimension;
+        @include pseudo-element-features;
+      }
+
       &:active {
-        transform: translateY(0.4rem);
+        transform: translateY(0);
+      }
+
+      span {
+        color: $text-color;
+        font-size: 1.4rem;
+        letter-spacing: 0.1rem;
+        @include use-font(Spiegel-Bold);
+
+        @media only screen and (max-width: $px640) {
+          font-size: 1.3rem;
+        }
       }
     }
   }

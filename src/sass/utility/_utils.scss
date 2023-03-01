@@ -89,7 +89,8 @@
     opacity: 0.7;
 
     position: absolute;
-    @include zero-zero;
+    top: 0;
+    left: 0;
 
     background-repeat: no-repeat;
     background-size: cover;
@@ -132,7 +133,8 @@
     background-color: rgba(0, 0, 0, 0.6);
 
     position: absolute;
-    @include zero-zero;
+    top: 0;
+    left: 0;
 
     &__left {
       @include center_with_flex;

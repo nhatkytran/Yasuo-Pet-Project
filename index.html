@@ -31,6 +31,7 @@
     <title>Yasuo | The King of All Kings</title>
 
     <!-- <script defer type="module" src="./js/controler.js"></script> -->
+    <script defer src="./test.js"></script>
   </head>
 
   <body>
@@ -53,7 +54,7 @@
         <div class="sub-header__content">
           <img
             id="homepage__logo"
-            src="./src/assets/img/lol-logo.png"
+            src="./src/assets/img/subHeader/homepage-logo.png"
             alt="League of Legends logo home page"
           />
           <div class="sub-header__content-auth sub-header__content-login">
@@ -109,40 +110,37 @@
       />
 
       <section class="trailer">
-        <div class="trailer__bg-big">
-          <video
-            class="trailer__bg-big-video"
-            poster="./src/assets/img/yasuo-levelup_optimized.jpg"
-            muted
-          ></video>
-
-          <img src="" alt="" />
-
-          <div class="trailer__bg-big-overlay"></div>
+        <div class="trailer__bg">
+          <img
+            class="trailer__bg-image"
+            src="./src/assets/img/subHeader/trailer-bg-big.jpg"
+            alt="Yasuo fights ninjas background"
+          />
+          <div class="trailer__bg-overlay"></div>
         </div>
 
         <div class="trailer__bg-small">
-          <video
-            class="trailer__bg-small-video"
-            poster="./src/assets/img/yasuo-levelup_optimized.jpg"
-            muted
-          >
+          <!-- <video class="trailer__bg-small-video" muted>
             <source src="./src/assets/img/Yasuo.mp4" type="video/mp4" />
             <source src="./src/assets/img/Yasuo.webm" type="video/webm" />
             Your browser does not support video!
-          </video>
-
+          </video> -->
+          <img
+            class="trailer__bg-small-image"
+            src="./src/assets/img/subHeader/video-background.png"
+            alt="Yasuo photo"
+          />
           <div class="trailer__bg-small-border"></div>
         </div>
 
         <div class="trailer__content">
           <img
             class="trailer__content-img"
-            src="./src/assets/img/lol-logo-trailer.png"
+            src="./src/assets/img/subHeader/lol-logo-trailer.png"
             alt="League of Legends Logo"
           />
           <button class="button button-blue trailer__content-button">
-            <span class="play-for-free">Explore games</span>
+            <span>Explore games</span>
           </button>
         </div>
       </section>

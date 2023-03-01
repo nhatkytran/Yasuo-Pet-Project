@@ -57,78 +57,16 @@
   height: $dimension;
 }
 
-// Keyframes //////////////////////// Not used in some files
-@mixin fadeInOpa($s) {
-  animation: fadeInOpa linear $s;
-  -webkit-animation: fadeInOpa $s;
-}
-
 // Position
-@mixin abs {
-  position: absolute;
-  display: block;
-}
-
-@mixin sub-abs {
-  content: '';
-  position: absolute;
-  display: block;
-}
-
-@mixin zero-zero {
-  top: 0;
-  left: 0;
-}
-
 @mixin flex-align-center {
   display: flex;
   align-items: center;
 }
 
-// Other things
-@mixin video {
-  object-fit: cover;
-  -webkit-object-fit: cover;
-  object-position: center;
-  -webkit-object-position: center;
-}
-
-@mixin video-responsive {
-  // 1240px
-  @media only screen and (max-width: 77.5em) {
-    height: 74%;
-  }
-
-  // 1140px
-  @media only screen and (max-width: 71.25em) {
-    width: 100%;
-    height: 43rem;
-  }
-
-  // 940px
-  @media only screen and (max-width: 58.75em) {
-    height: 37rem;
-  }
-
-  // 840px
-  @media only screen and (max-width: 52.5em) {
-    height: 32rem;
-  }
-
-  // 740px
-  @media only screen and (max-width: 46.25em) {
-    height: 27rem;
-  }
-
-  // 640px
-  @media only screen and (max-width: 40em) {
-    width: 100%;
-  }
-
-  // 440px
-  @media only screen and (max-width: 27.5em) {
-    height: 23rem;
-  }
+@mixin pseudo-element-features {
+  content: '';
+  position: absolute;
+  display: block;
 }
 
 @mixin line {
@@ -139,12 +77,10 @@
   height: 1px;
   background-color: currentcolor;
 }
-
 @mixin line-before {
   @include line;
   margin-right: 0.7rem;
 }
-
 @mixin line-after {
   @include line;
   margin-left: 0.5rem;
@@ -240,12 +176,8 @@
   position: absolute;
 }
 
-// Gallery
-@mixin button-after {
-  width: 100%;
-  height: 100%;
-  @include sub-abs;
-  @include zero-zero;
-  transition: all linear 0.3s;
-  z-index: -1;
+// Keyframes //////////////////////// Not used in some files
+@mixin fadeInOpa($s) {
+  animation: fadeInOpa linear $s;
+  -webkit-animation: fadeInOpa $s;
 }
