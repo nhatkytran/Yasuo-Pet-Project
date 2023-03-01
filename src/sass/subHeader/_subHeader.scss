@@ -35,10 +35,12 @@
   .yasuo-heading {
     font-size: 6rem;
     @include absolute-position(-50%, -50%);
+
     @include yasuo-heading-font-size($px1040, 5.6rem);
     @include yasuo-heading-font-size($px840, 5.2rem);
     @include yasuo-heading-font-size($px640, 4.8rem);
     @include yasuo-heading-font-size($px440, 4.4rem);
+
     @include yasuo-heading-position($px840, 16rem);
     @include yasuo-heading-position($px640, 12rem);
     @include yasuo-heading-position($px540, 7rem);
@@ -58,7 +60,6 @@
       &--1 {
         @include display-responsive($px540, none);
       }
-
       &--2 {
         display: none;
         @include display-responsive($px540, block);
@@ -72,11 +73,13 @@
       background-position: 60% 32%;
       background-size: 350%;
       @include square-dimension(5.1rem);
-      @include absolute-position(140%, -55%);
+      @include absolute-position(130%, -55%);
+
       @include yasuo-round-dimension($px1040, 4.7rem);
       @include yasuo-round-dimension($px840, 4.3rem);
       @include yasuo-round-dimension($px640, 3.9rem);
       @include yasuo-round-dimension($px440, 3.5rem);
+
       @include yasuo-round-position($px540, 65%, -55%);
       @include yasuo-round-position($px440, -110%, -55%);
 
@@ -88,10 +91,11 @@
       }
 
       &__frame {
-        @include abs;
+        position: absolute;
         top: -0.26rem;
         left: -0.26rem;
         @include square-dimension(5.6rem);
+
         @include yasuo-round-dimension($px1040, 5.2rem);
         @include yasuo-round-dimension($px840, 4.8rem);
         @include yasuo-round-dimension($px640, 4.4rem);
@@ -101,9 +105,9 @@
   }
 
   &__content {
-    justify-content: space-between;
     max-width: 110rem;
     margin: 0 7.4rem;
+    justify-content: space-between;
     @include full-dimension;
     @include flex-align-center;
 
@@ -116,47 +120,61 @@
 
     #homepage__logo {
       width: 8rem;
-      filter: brightness(0.75);
       transition: all ease 0.3s;
+      filter: brightness(0.75);
+      cursor: pointer;
       @include yasuo-round-dimension($px1040, 7rem, width-type);
       @include display-responsive($px840, none);
 
       &:hover {
         filter: brightness(0.9);
-        cursor: pointer;
       }
     }
 
-    &-login {
+    &-auth {
+      padding: 1.6rem 0;
       cursor: pointer;
       @include flex-align-center;
-
-      &:hover &-icon {
-        transform: translateX(7.2rem);
-      }
 
       &:hover &-title {
         filter: brightness(1.2);
       }
 
-      %ub-header__content-login--transition {
-        transition: all ease 0.15s;
-      }
-
       &-icon {
         fill: $color-primary-light;
-        margin-right: 0.6rem;
-        @extend %ub-header__content-login--transition;
       }
-
       &-title {
         color: $color-primary-light;
         text-transform: uppercase;
         font-size: 1.4rem;
+        transition: all ease 0.15s;
         @include use-font(FF-Mark);
-        @extend %ub-header__content-login--transition;
       }
     }
+
+    $margin-icon: 0.6rem;
+    &-login-icon {
+      margin-right: $margin-icon;
+    }
+    &-logout-icon {
+      margin-left: $margin-icon;
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.user__info-name {
+  color: $button-color-blue;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+  margin: 0 1rem 0 auto;
+  padding: 1.6rem 0;
+  transition: all ease 0.15s;
+  cursor: pointer;
+  @include use-font(FF-Mark);
+
+  &:hover {
+    color: $button-color-blue-hover;
   }
 }
 

@@ -36,6 +36,16 @@
   }
 }
 
+@mixin hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@mixin show {
+  opacity: 1;
+  pointer-events: all;
+}
+
 // Dimension
 @mixin full-dimension {
   width: 100%;
@@ -156,17 +166,6 @@
   @include abs;
   top: 50%;
   left: 0;
-}
-
-// Responsive
-@mixin hide {
-  opacity: 0;
-  pointer-events: none;
-}
-
-@mixin show {
-  opacity: 1;
-  pointer-events: all;
 }
 
 // Skins

@@ -1,10 +1,10 @@
 @import './config';
 
 // Utility
-@import './utility/mixin.scss';
+@import './utility/mixin';
 @import './utility/keyframes.scss';
 @import './utility/help-functions.scss';
-@import './utility/useful.scss';
+@import './utility/utils';
 
 // Base
 @import './base.scss';
@@ -15,37 +15,37 @@
 @import './subHeader/trailer';
 @import './subHeader/shFooter';
 
-// // Main header
-@import './main/mainHeader/main.scss';
+// // // Main header
+// @import './main/mainHeader/main.scss';
 
-@import './main/mainHeader/left.scss';
-@import './main/mainHeader/center.scss';
-@import './main/mainHeader/right.scss';
+// @import './main/mainHeader/left.scss';
+// @import './main/mainHeader/center.scss';
+// @import './main/mainHeader/right.scss';
 
-@import './main/mainHeader/navbar1.scss';
-@import './main/mainHeader/navbar2.scss';
+// @import './main/mainHeader/navbar1.scss';
+// @import './main/mainHeader/navbar2.scss';
 
-@import './main/mainHeader/menu.scss';
+// @import './main/mainHeader/menu.scss';
 
-// //
-@import './main/information.scss';
+// // //
+// @import './main/information.scss';
 
-// //
-@import './main/abilities.scss';
+// // //
+// @import './main/abilities.scss';
 
-// //
-@import './main/skins.scss';
+// // //
+// @import './main/skins.scss';
 
-// //
-@import './main/ruined.scss';
+// // //
+// @import './main/ruined.scss';
 
-// //
-@import './main/gallery.scss';
+// // //
+// @import './main/gallery.scss';
 
-// //
-@import './main/footer.scss';
-// }
+// // //
+// @import './main/footer.scss';
+// // }
 
-// Components
-@import './sidebar/sb-all-games.scss';
-@import './sidebar/sb-explore-games.scss';
+// // Components
+// @import './sidebar/sb-all-games.scss';
+// @import './sidebar/sb-explore-games.scss';

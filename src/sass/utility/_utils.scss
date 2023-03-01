@@ -1,3 +1,9 @@
+.remove {
+  display: none !important;
+}
+
+/////////////////////////////
+
 .fake-id {
   @include hide;
 
