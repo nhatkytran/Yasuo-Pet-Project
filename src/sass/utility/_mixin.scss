@@ -12,6 +12,12 @@
   );
 }
 
+@mixin background-clip-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 @mixin bg-sub-header {
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
 }

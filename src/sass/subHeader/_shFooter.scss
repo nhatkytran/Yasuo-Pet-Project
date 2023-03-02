@@ -2,36 +2,68 @@
   @include bg-sub-header;
   grid-column: 1 / -1;
   border-bottom: 1px solid $color-primary-dark;
-  overflow: hidden;
   position: relative;
 
-  &-text {
-    width: 100%;
-    font-family: Beaufort-Regular, Arial, sans-serif;
-    font-size: 6rem;
-    text-transform: uppercase;
-    text-align: center;
-    @include absolute-position(-50%, -12%);
+  &__text {
+    width: calc(100% - 16rem);
+    max-width: 110rem;
+    @include flex-align-center;
+    @include primary-background(1);
+    @include background-clip-text;
+    @include absolute-position(-50%, 16%);
 
-    // 840px
-    @media only screen and (max-width: 52.5em) {
-      font-size: 5rem;
-      transform: translate(-50%, -10%);
+    @mixin text-font-size($width, $left, $right, $span) {
+      @media only screen and (max-width: $width) {
+        &-left {
+          font-size: $left !important;
+        }
+
+        &-right {
+          font-size: $right !important;
+
+          span {
+            font-size: $span !important;
+          }
+        }
+      }
+    }
+    @include text-font-size($px1140, 3.8rem, 2.2rem, 1.8rem);
+    @include text-font-size($px1040, 3.5rem, 1.9rem, 1.5rem);
+    @include text-font-size($px940, 3.2rem, 1.6rem, 1.2rem);
+    @include text-font-size($px740, 3.1rem, 1.5rem, 1.2rem);
+    @include text-font-size($px540, 2.9rem, 1.4rem, 1.1rem);
+    @include text-font-size($px440, 2.7rem, 1.3rem, 1rem);
+
+    @media only screen and (max-width: $px840) {
+      display: block;
+      text-align: center;
+      @include absolute-position(-50%, 0);
+    }
+    @media only screen and (max-width: $px640) {
+      @include absolute-position(-50%, 5%);
+    }
+    @media only screen and (max-width: $px540) {
+      width: calc(100% - 4rem);
+    }
+    @media only screen and (max-width: $px440) {
+      @include absolute-position(-50%, 10%);
     }
 
-    // 640px
-    @media only screen and (max-width: 40em) {
-      font-size: 3.5rem;
-      transform: translate(-50%, 20%);
+    &-left {
+      font-size: 4rem;
+      text-transform: uppercase;
+      @include use-font(Beaufort-Regular);
     }
 
-    &::after {
-      content: 'The Unforgiven';
-      border: 0.4rem solid transparent;
-      @include primary-background(1);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    &-right {
+      font-size: 2.4rem;
+      margin-left: auto;
+      @include use-font(Gloria Hallelujah);
+
+      span {
+        font-size: 2rem;
+        @include display-responsive($px440, none);
+      }
     }
   }
 }

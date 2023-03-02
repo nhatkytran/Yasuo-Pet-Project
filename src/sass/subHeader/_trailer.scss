@@ -137,7 +137,11 @@
       }
 
       &:active {
-        transform: translateY(0);
+        transform: translateY(0.4rem);
+
+        @media (hover: hover) {
+          transform: translateY(0);
+        }
       }
 
       span {

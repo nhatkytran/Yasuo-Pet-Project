@@ -47,9 +47,7 @@
 
     .yasuo {
       letter-spacing: 1rem;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      @include background-clip-text;
       @include primary-background(1);
       @include absolute-position(-65%, -55%);
 
