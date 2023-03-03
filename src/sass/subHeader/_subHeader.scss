@@ -47,8 +47,8 @@
 
     .yasuo {
       letter-spacing: 1rem;
-      @include background-clip-text;
       @include primary-background(1);
+      @include background-clip-text;
       @include absolute-position(-65%, -55%);
 
       @media only screen and (max-width: $px840) {

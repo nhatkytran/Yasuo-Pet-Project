@@ -8,8 +8,6 @@
     width: calc(100% - 16rem);
     max-width: 110rem;
     @include flex-align-center;
-    @include primary-background(1);
-    @include background-clip-text;
     @include absolute-position(-50%, 16%);
 
     @mixin text-font-size($width, $left, $right, $span) {
@@ -26,6 +24,11 @@
           }
         }
       }
+    }
+
+    %text-background-clip {
+      @include background-clip-text;
+      @include primary-background(1);
     }
 
     @media only screen and (max-width: $px840) {
@@ -54,12 +57,14 @@
       font-size: 4rem;
       text-transform: uppercase;
       @include use-font(Beaufort-Regular);
+      @extend %text-background-clip;
     }
 
     &-right {
       font-size: 2.4rem;
       margin-left: auto;
       @include use-font(Gloria Hallelujah);
+      @extend %text-background-clip;
 
       span {
         font-size: 2rem;

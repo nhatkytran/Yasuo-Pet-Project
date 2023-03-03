@@ -1,5 +1,22 @@
+// Responsive
 .remove {
   display: none !important;
+}
+
+// Assets
+.arrow-down {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: $arrow-color;
+  margin-left: 0.2rem;
+  transition: all linear 0.2s;
+}
+
+.list-drop-down {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  list-style: none;
 }
 
 /////////////////////////////
@@ -37,15 +54,6 @@
   &:hover {
     background-color: #d4ccb2;
   }
-}
-
-// Icons
-.arrow-down {
-  width: 1.5rem;
-  height: 1.5rem;
-  fill: $arrow-color;
-  margin-left: 0.2rem;
-  transition: all linear 0.2s;
 }
 
 // Toast

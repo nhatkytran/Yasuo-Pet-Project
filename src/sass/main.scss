@@ -1,31 +1,22 @@
 @import './config';
 
-// Utility
 @import './utility/mixin';
 @import './utility/keyframes.scss';
 @import './utility/help-functions.scss';
 @import './utility/utils';
 
-// Base
 @import './base.scss';
 
-// Sub header
 @import './subHeader/container';
 @import './subHeader/subHeader';
 @import './subHeader/trailer';
 @import './subHeader/shFooter';
 
-// // // Main header
-// @import './main/mainHeader/main.scss';
-
-// @import './main/mainHeader/left.scss';
-// @import './main/mainHeader/center.scss';
-// @import './main/mainHeader/right.scss';
-
-// @import './main/mainHeader/navbar1.scss';
-// @import './main/mainHeader/navbar2.scss';
-
-// @import './main/mainHeader/menu.scss';
+@import './main/mainHeader/container';
+@import './main/mainHeader/left';
+@import './main/mainHeader/center';
+@import './main/mainHeader/right';
+@import './main/mainHeader/menu';
 
 // // //
 // @import './main/information.scss';
@@ -49,3 +40,9 @@
 // // Components
 // @import './sidebar/sb-all-games.scss';
 // @import './sidebar/sb-explore-games.scss';
+
+.test {
+  width: 100%;
+  height: 1000px;
+  background-color: #ccc;
+}

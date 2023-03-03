@@ -1,69 +1,69 @@
-.mh-menu {
-  display: none;
-
+.mh-menu__btn {
   background-color: #222222;
   padding: 1rem 0.6rem;
   border-radius: 0.6rem;
-  transition: all linear 0.1s;
+  transition: all ease 0.2s;
+  cursor: pointer;
+  @include display-responsive($px1140, block);
 
   // 440px
   @media only screen and (max-width: 27.5em) {
     padding: 0.5rem 0.3rem;
   }
 
-  // 1140px
-  @media only screen and (max-width: 71.25em) {
-    display: block;
-  }
-
   &:hover {
     background-color: $bg-link-header;
   }
 
-  &__icon {
+  &-icon {
     width: 4rem;
     height: 2rem;
     fill: currentColor;
-
-    position: relative;
     top: 0.1rem;
+    position: relative;
   }
 }
 
-.mh-table__cover {
-  width: 100%;
-  height: 100%;
-  background-color: rgba($color: #000, $alpha: 0.6);
-  z-index: 1001;
-
-  @include abs;
+.mh-menu__cover {
+  background-color: rgba(0, 0, 0, 0.6);
   top: 0;
   left: 0;
+  position: absolute;
+  z-index: 1001;
+  transition: all ease 0.2s;
+  @include full-dimension;
+  @include hide;
+
+  &.show {
+    @include show;
+
+    .mh-menu {
+      transform: translateX(0);
+    }
+  }
 }
 
-.mh-table {
+.mh-menu {
   width: 100%;
   max-width: 48rem;
   height: 100vh;
-  font-family: FF-Mark-Bold, Arial, sans-serif;
   background-color: $color-layer;
+  font-family: FF-Mark-Bold, Arial, sans-serif;
   padding: 0 1.6rem 1.6rem;
+  border-left: 1px groove $color-button-blue-dark;
+  transform: translateX(100%);
+  transition: all ease 0.6s;
   overflow-y: scroll;
-
   position: fixed;
   top: 0;
   right: 0;
-  bottom: 0;
 
   &::-webkit-scrollbar {
     width: 0.6rem;
   }
-
   &::-webkit-scrollbar-track {
-    border-bottom-right-radius: 0.6rem;
     background-color: rgba(255, 255, 255, 0.1);
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: #256b79;
     border-radius: 0.6rem;
@@ -72,38 +72,34 @@
   }
 
   &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
     width: 100%;
-    height: 8rem;
+    height: 7rem;
+    padding: 0 1.6rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid $bg-link-header;
+    justify-content: space-between;
+    @include flex-align-center;
 
     &-close {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-
-      width: 4.2rem;
-      height: 4.2rem;
       background-color: #222222;
       border-radius: 0.6rem;
-      transition: all linear 0.1s;
+      transition: all ease 0.2s;
+      justify-content: space-around;
       cursor: pointer;
+      @include square-dimension(4rem);
+      @include flex-align-center;
 
       &:hover {
         background-color: $bg-link-header;
       }
 
       &-icon {
-        width: 2.4rem;
-        height: 2.4rem;
         fill: $header-text-color;
+        @include square-dimension(2.2rem);
       }
     }
   }
 
-  // &__section {}
   &__list {
     list-style: none;
   }
@@ -112,166 +108,147 @@
     padding: 1.2rem 1.6rem;
     margin: 0.8rem 0;
     border-radius: 0.6rem;
-    transition: all linear 0.1s;
+    transition: all ease 0.2s;
     cursor: pointer;
+
+    &:hover {
+      background-color: rgb(35, 35, 35);
+
+      .mh-menu__link {
+        color: $color-button-blue;
+
+        &-icon {
+          fill: $color-button-blue;
+        }
+      }
+    }
 
     &:nth-child(1) {
       margin-top: 0;
     }
-
     &:nth-child(7) {
       margin-bottom: 0.4rem;
     }
-
     &:nth-child(9) {
       margin-top: 0.8rem;
-    }
-
-    &:hover {
-      background-color: rgb(35, 35, 35);
     }
   }
 
   &__link:link,
   &__link:visited {
-    font-size: 1.6rem;
     color: $header-text-color;
+    font-size: 1.5rem;
     letter-spacing: 0.2rem;
     text-decoration: none;
     text-transform: uppercase;
+    transition: all ease 0.2s;
+    justify-content: space-between;
+    @include flex-align-center;
 
-    // 640px
-    @media only screen and (max-width: 40em) {
+    @media only screen and (max-width: $px640) {
       font-size: 1.4rem;
     }
-  }
-
-  &__link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
     &-icon {
       height: 2.25rem;
-
-      position: relative;
+      transition: all ease 0.2s;
       top: 0.2rem;
+      position: relative;
     }
   }
 
-  &__footer {
-    margin-top: 2rem;
+  .mh-menu__universe-x {
+    transition: all ease 0.2s;
 
-    &-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      height: 4.8rem;
-      font-size: 1.6rem;
-      padding: 0.8rem 1.6rem;
-      border-radius: 0.6rem;
-      transition: all linear 0.1s;
-      cursor: pointer;
-
-      // 640px
-      @media only screen and (max-width: 40em) {
-        font-size: 1.4rem;
-      }
-
-      &--sign-in {
-        background-color: rgb(35, 35, 35);
-        color: $header-text-color;
-
-        &:hover {
-          background-color: rgb(41, 41, 41);
-        }
-      }
-
-      &--play-now {
-        background-color: $color-button-blue;
-        margin-top: 1.2rem;
-
-        &:hover {
-          background-color: $button-color-blue;
-        }
-      }
+    &.universe-x {
+      transform: rotate(45deg);
     }
   }
 
   &-more {
-    padding: 0 1.6rem;
-    overflow: hidden;
-    transition: height linear 0.2s, opacity linear 0.4s;
-
-    opacity: 1;
-    pointer-events: none;
     height: 0;
+    padding: 0 1.6rem;
+    transition: height ease 0.2s, opacity ease 0.4s;
+    overflow: hidden;
+    @include hide;
 
     &.show {
-      opacity: 1;
-      pointer-events: all;
       height: 14.8rem;
+      @include show;
     }
 
     &__item {
       padding: 1.2rem 1.6rem;
       border-radius: 0.6rem;
-      transition: all linear 0.1s;
+      transition: all ease 0.2s;
       cursor: pointer;
-
-      &:nth-child(2) {
-        margin: 0.8rem 0;
-      }
 
       &:hover {
         background-color: rgb(35, 35, 35);
+
+        .mh-menu-more__link {
+          color: $color-button-blue;
+
+          &-icon {
+            fill: $color-button-blue;
+          }
+        }
+      }
+
+      &:nth-child(2) {
+        margin: 0.8rem 0;
       }
     }
 
     &__link:link,
     &__link:visited {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
 
-      // 640px
-      @media only screen and (max-width: 40em) {
+      @media only screen and (max-width: $px640) {
         font-size: 1.2rem;
       }
-    }
 
-    &__link {
       &-icon {
-        height: 2rem;
-
-        position: relative;
+        height: 1.6rem;
         top: 0.2rem;
+        position: relative;
       }
     }
   }
-}
 
-.mh-table__cover {
-  @include show;
-  transition: all linear 0.2s;
+  &__footer-btn {
+    height: 4.8rem;
+    font-size: 1.5rem;
+    text-decoration: none;
+    padding: 0.8rem 1.6rem;
+    border-radius: 0.6rem;
+    transition: all ease 0.2s;
+    justify-content: center;
+    cursor: pointer;
+    @include flex-align-center;
 
-  &.hide {
-    @include hide;
-  }
-}
+    @media only screen and (max-width: $px640) {
+      font-size: 1.4rem;
+    }
 
-.mh-table {
-  transform: translateX(100%);
-  transition: all ease 0.6s;
+    &-sign-in {
+      background-color: rgb(35, 35, 35);
+      color: $header-text-color;
+      margin-top: 2rem;
 
-  &.show {
-    transform: translateX(0);
-  }
-}
+      &:hover {
+        background-color: rgb(41, 41, 41);
+      }
+    }
 
-.mh-table__universe-x {
-  transition: all linear 0.2s;
+    &-play-now {
+      background-color: $color-button-blue;
+      color: $text-color;
+      margin-top: 1.2rem;
 
-  &.universe-x {
-    transform: rotate(45deg);
+      &:hover {
+        background-color: $button-color-blue;
+      }
+    }
   }
 }
