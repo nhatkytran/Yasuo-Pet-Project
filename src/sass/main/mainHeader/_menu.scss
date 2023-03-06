@@ -6,10 +6,14 @@
   cursor: pointer;
   @include display-responsive($px1140, block);
 
-  // 440px
-  @media only screen and (max-width: 27.5em) {
-    padding: 0.5rem 0.3rem;
+  @mixin menu-button-padding($width, $padding) {
+    @media only screen and (max-width: $width) {
+      padding: $padding;
+    }
   }
+  @include menu-button-padding($px840, 0.8rem 0.48rem);
+  @include menu-button-padding($px640, 0.7rem 0.42rem);
+  @include menu-button-padding($px440, 0.5rem 0.3rem);
 
   &:hover {
     background-color: $bg-link-header;
@@ -21,6 +25,15 @@
     fill: currentColor;
     top: 0.1rem;
     position: relative;
+
+    @media only screen and (max-width: $px840) {
+      width: 3.8rem;
+      height: 1.95rem;
+    }
+    @media only screen and (max-width: $px440) {
+      width: 3rem;
+      height: 1.5rem;
+    }
   }
 }
 
@@ -57,19 +70,7 @@
   position: fixed;
   top: 0;
   right: 0;
-
-  &::-webkit-scrollbar {
-    width: 0.6rem;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #256b79;
-    border-radius: 0.6rem;
-    box-shadow: rgba(0, 0, 0, 0.12) 0 3px 13px 1px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.12) 0 3px 13px 1px;
-  }
+  @include scroll-bar(#256b79, 0.6rem);
 
   &__header {
     width: 100%;

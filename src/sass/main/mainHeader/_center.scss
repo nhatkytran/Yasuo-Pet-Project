@@ -11,7 +11,7 @@
   &__list {
     flex: 1;
     list-style: none;
-    justify-content: space-around;
+    justify-content: space-evenly;
     @include flex-align-center;
   }
 
@@ -100,15 +100,16 @@
   word-spacing: 0.4rem;
   margin: 0 2rem;
   @include use-font(Gloria Hallelujah);
+
   @include display-responsive($px1140, block);
-  @include display-responsive(47rem, none); // 752px
+  @include display-responsive($px740, none);
 
   &__ys {
     display: inline-block;
     font-size: 1.5rem;
 
     // 940px + 3px
-    @media only screen and (max-width: 58.9375em) {
+    @media only screen and (max-width: $px940) {
       display: block;
       position: relative;
 

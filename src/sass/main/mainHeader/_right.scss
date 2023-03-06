@@ -6,9 +6,14 @@
     justify-content: end;
     margin-right: 0.6rem;
   }
-  //752px
-  @media only screen and (max-width: 47em) {
+  @media only screen and (max-width: $px740) {
     flex: 1;
+  }
+  @media only screen and (max-width: $px640) {
+    margin-right: 0;
+  }
+  @media only screen and (max-width: $px640) {
+    margin-right: 0.6rem;
   }
 
   &-languages {
@@ -32,10 +37,14 @@
       fill: $header-text-color;
       transition: all linear 0.2s;
 
-      @media only screen and (max-width: $px440) {
-        width: 4rem;
-        height: 2rem;
+      @mixin languages-icon-dimension($width, $w_d, $h_d) {
+        @media only screen and (max-width: $width) {
+          width: $w_d;
+          height: $h_d;
+        }
       }
+      @include languages-icon-dimension($px640, 5rem, 2.5rem);
+      @include languages-icon-dimension($px440, 4rem, 2rem);
     }
 
     &:hover .languages-list {
@@ -67,21 +76,31 @@
   }
 
   &-play-now {
-    background-image: linear-gradient(
-      135deg,
-      $color-button-blue-dark 30%,
-      $color-button-blue 70%
-    );
-    -webkit-background-image: linear-gradient(
-      135deg,
-      $color-button-blue-dark 30%,
-      $color-button-blue 70%
-    );
+    background-image: linear-gradient(135deg, $color-button-blue-dark 30%, $color-button-blue 70%);
+    -webkit-background-image: linear-gradient(135deg, $color-button-blue-dark 30%, $color-button-blue 70%);
     color: $color-button-grey;
     transition: all linear 0.2s;
 
     &:hover {
       filter: brightness(120%);
+    }
+  }
+}
+
+.languages-item {
+  &:not(:last-child) {
+    margin-bottom: 0.8rem;
+  }
+
+  &.inactive .languages-link {
+    color: $canvas-color !important;
+    text-decoration: line-through !important;
+    cursor: not-allowed !important;
+
+    &:hover {
+      .languages-language {
+        color: $canvas-color !important;
+      }
     }
   }
 }
@@ -92,7 +111,7 @@
   background-color: #202020;
   border-radius: 0.6rem;
   list-style: none;
-  padding: 2rem;
+  padding: 1.8rem 2rem 1.6rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   transform: translateX(1.5rem);
   transition: all ease 0.2s;
@@ -101,37 +120,14 @@
   top: 5.6rem;
   left: -8.2rem;
   z-index: 11;
+  cursor: default;
   @include hide;
-
-  // @include show; // test
+  @include scroll-bar($color-button-blue, 0 0.6rem 0.6rem 0);
 
   @media only screen and (max-width: $px440) {
     top: 4.2rem;
     left: -10.2rem;
   }
-
-  %scroolbar-border-radius {
-    border-top-right-radius: 0.6rem;
-    border-bottom-right-radius: 0.6rem;
-  }
-
-  &::-webkit-scrollbar {
-    width: 0.6rem;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: rgba(255, 255, 255, 0.1);
-    @extend %scroolbar-border-radius;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: $color-button-blue;
-    box-shadow: 0 3px 13px 1px rgba(0, 0, 0, 0.12);
-    -webkit-box-shadow: 0 3px 13px 1px rgba(0, 0, 0, 0.12);
-    @extend %scroolbar-border-radius;
-  }
-}
-
-.languages-item:not(:last-child) {
-  margin-bottom: 0.8rem;
 }
 
 .languages-link {
@@ -169,8 +165,8 @@
     }
 
     & ~ svg {
-      width: 2rem;
-      height: 1rem;
+      width: 3rem;
+      height: 1.5rem;
       fill: $color-button-blue;
       opacity: 0;
       top: 0.1rem;

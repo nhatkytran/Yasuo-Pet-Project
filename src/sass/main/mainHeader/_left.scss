@@ -1,16 +1,22 @@
 .main-header {
-  @mixin riot-logo-margin-right($width, $right) {
+  @mixin items-scale($width, $scale) {
     @media only screen and (max-width: $width) {
-      margin-right: $right;
+      transform: scale($scale) !important;
     }
+  }
+
+  &__riot,
+  &__lol-symbol,
+  &__games {
+    @include items-scale($px1040, 0.9);
+    @include items-scale($px840, 0.85);
+    @include items-scale($px640, 0.8);
+    @include items-scale($px540, 0.75);
   }
 
   &__riot {
     padding: 1rem 0;
     @include flex-align-center;
-
-    @include riot-logo-margin-right($px640, 2rem);
-    @include riot-logo-margin-right($px440, 1.2rem);
 
     &:hover &-logo,
     &:hover &-icon {
@@ -25,10 +31,19 @@
   }
 
   &__lol-symbol {
-    margin: 0 2rem;
+    margin: 0 1.6rem;
     top: 0.2rem;
     position: relative;
-    @include display-responsive($px640, none);
+    @include display-responsive($px440, none);
+
+    @mixin lol-symbol-margin($width, $margin) {
+      @media only screen and (max-width: $width) {
+        margin: $margin;
+      }
+    }
+    @include lol-symbol-margin($px1040, 0 0.8rem);
+    @include lol-symbol-margin($px840, 0 0.4rem);
+    @include lol-symbol-margin($px540, 0);
 
     &-logo {
       width: 4.2rem;
@@ -39,8 +54,17 @@
   &__games {
     line-height: 3rem;
     padding: 1rem 0;
+    margin-right: 0.8rem;
     cursor: pointer;
     @include flex-align-center;
+
+    @media only screen and (max-width: $px1040) {
+      margin-right: 0;
+    }
+    @media only screen and (max-width: $px440) {
+      position: relative;
+      left: -1rem;
+    }
 
     &:hover &-text {
       color: $main-header-riot-logo;
@@ -54,7 +78,7 @@
       transition: all linear 0.2s;
 
       @media only screen and (max-width: $px440) {
-        font-size: 1.3rem;
+        font-size: 1.6rem;
       }
     }
 

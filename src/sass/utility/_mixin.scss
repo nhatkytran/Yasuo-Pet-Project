@@ -78,6 +78,22 @@
   display: block;
 }
 
+// Assets
+@mixin scroll-bar($bg-color, $radius) {
+  &::-webkit-scrollbar {
+    width: 0.6rem;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $bg-color;
+    border-radius: $radius;
+    box-shadow: 0 3px 13px 1px rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: 0 3px 13px 1px rgba(0, 0, 0, 0.12);
+  }
+}
+
 /////////////////////
 
 @mixin line {
