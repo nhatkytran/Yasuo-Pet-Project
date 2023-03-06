@@ -1,22 +1,22 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap");
 // Import loria Hallelujah --> Support many devices
 
 $fonts: (
-  Beaufort-Bold: 'Beaufort-Bold.ttf',
-  Beaufort-Regular: 'Beaufort-Regular.ttf',
-  Spiegel-Bold: 'spiegel-bold.ttf',
-  Spiegel-Regular: 'Spiegel-Regular.ttf',
-  FF-Mark-Bold: 'FontFont_FF.Mark.Pro.Bold.otf',
-  FF-Mark-Medium: 'FontFont_FF.Mark.Pro.Medium.otf',
-  FF-Mark: 'FontFont_FF.Mark.Pro.otf',
-  FF-Mark-Hair: 'FontFont_FF.Mark.Pro.Hairline.otf',
+  Beaufort-Bold: "Beaufort-Bold.ttf",
+  Beaufort-Regular: "Beaufort-Regular.ttf",
+  Spiegel-Bold: "spiegel-bold.ttf",
+  Spiegel-Regular: "Spiegel-Regular.ttf",
+  FF-Mark-Bold: "FontFont_FF.Mark.Pro.Bold.otf",
+  FF-Mark-Medium: "FontFont_FF.Mark.Pro.Medium.otf",
+  FF-Mark: "FontFont_FF.Mark.Pro.otf",
+  FF-Mark-Hair: "FontFont_FF.Mark.Pro.Hairline.otf",
 );
 
 @each $font-family, $endpoint in $fonts {
   @font-face {
     font-family: $font-family;
-    src: url('../assets/font/#{$endpoint}');
+    src: url("../assets/font/#{$endpoint}");
   }
 }
 
