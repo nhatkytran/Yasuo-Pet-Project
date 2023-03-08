@@ -1,10 +1,6 @@
 // Color
 @mixin primary-background($opa) {
-  background-image: linear-gradient(
-    to bottom,
-    rgba($color-primary-dark, $opa),
-    rgba($color-primary-light, $opa)
-  );
+  background-image: linear-gradient(to bottom, rgba($color-primary-dark, $opa), rgba($color-primary-light, $opa));
   -webkit-background-image: -webkit-linear-gradient(
     to bottom,
     rgba($color-primary-dark, $opa),
@@ -61,8 +57,8 @@
 }
 
 @mixin square-dimension($dimension) {
-  width: $dimension;
-  height: $dimension;
+  width: $dimension !important;
+  height: $dimension !important;
 }
 
 // Position
@@ -73,7 +69,7 @@
 
 // Pseudo
 @mixin pseudo-element-features {
-  content: '';
+  content: "";
   position: absolute;
   display: block;
 }
@@ -94,10 +90,19 @@
   }
 }
 
-/////////////////////
+@mixin text-rotate {
+  color: $header-text-color;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  @include use-font(Spiegel-Bold);
+}
 
 @mixin line {
-  content: '';
+  content: "";
   display: inline-block;
   vertical-align: middle;
   width: 1.4em;
@@ -113,23 +118,13 @@
   margin-left: 0.5rem;
 }
 
-@mixin border-non-top {
+@mixin border-no-top {
   border-left: 1px solid $main-border;
   border-right: 1px solid $main-border;
   border-bottom: 1px solid $main-border;
 }
 
-@mixin text-rotate {
-  font-family: Spiegel-Bold, Arial, sans-serif;
-  font-size: 1rem;
-  color: $header-text-color;
-  text-transform: uppercase;
-  letter-spacing: 0.3rem;
-
-  @include abs;
-  top: 50%;
-  left: 0;
-}
+/////////////////////
 
 // Skins
 @mixin center_from_top {
@@ -194,7 +189,7 @@
 }
 
 @mixin square-border {
-  content: '';
+  content: "";
   width: 0.5rem;
   height: 0.5rem;
   border: 1px solid #423a26;

@@ -21,13 +21,6 @@
 
 /////////////////////////////
 
-.fake-id {
-  @include hide;
-
-  position: absolute;
-  top: -7.2rem;
-}
-
 // Buttons
 .button {
   border: none;
@@ -105,31 +98,31 @@
     background-position: center;
 
     &.welcome {
-      background-image: url('../../src/img/Toast/the-soul_optimized.jpeg');
+      background-image: url("../../src/img/Toast/the-soul_optimized.jpeg");
     }
 
     &.toast-information {
-      background-image: url('../../src/img/Toast/information_optimized.jpeg');
+      background-image: url("../../src/img/Toast/information_optimized.jpeg");
     }
 
     &.toast-abilities {
-      background-image: url('../../src/img/Toast/yasuo-bloodmoon_optimized.jpg');
+      background-image: url("../../src/img/Toast/yasuo-bloodmoon_optimized.jpg");
     }
 
     &.toast-skins {
-      background-image: url('../../src/img/Toast/looks_optimized.jpeg');
+      background-image: url("../../src/img/Toast/looks_optimized.jpeg");
     }
 
     &.toast-ruined {
-      background-image: url('../../src/img/Toast/ruined_optimized.jpeg');
+      background-image: url("../../src/img/Toast/ruined_optimized.jpeg");
     }
 
     &.toast-gallery {
-      background-image: url('../../src/img/Toast/blossom_optimized.jpeg');
+      background-image: url("../../src/img/Toast/blossom_optimized.jpeg");
     }
 
     &.toast-oopsie {
-      background-image: url('../../src/img/Toast/oops_optimized.png');
+      background-image: url("../../src/img/Toast/oops_optimized.png");
     }
   }
 

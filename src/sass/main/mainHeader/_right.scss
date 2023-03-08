@@ -93,13 +93,13 @@
   }
 
   &.inactive .languages-link {
-    color: $canvas-color !important;
+    color: $arrow-color !important;
     text-decoration: line-through !important;
     cursor: not-allowed !important;
 
     &:hover {
       .languages-language {
-        color: $canvas-color !important;
+        color: $arrow-color !important;
       }
     }
   }

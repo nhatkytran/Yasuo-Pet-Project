@@ -67,7 +67,7 @@
 
     .yasuo-round {
       border-radius: 50%;
-      background-image: url('../../src/assets/img/subHeader/sub-header-yasuo-logo.jpeg');
+      background-image: url("/src/assets/img/subHeader/sub-header-yasuo-logo.jpeg");
       background-position: 60% 32%;
       background-size: 350%;
       @include square-dimension(5.1rem);

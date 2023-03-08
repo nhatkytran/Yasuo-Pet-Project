@@ -121,7 +121,7 @@
     width: calc(100% - 12rem);
     max-width: 160rem;
     height: 65rem;
-    background-image: url('../../src/img/Ruined/RuinedKing_Yasuo_PromoModule01.jpeg');
+    background-image: url("/src/img/Ruined/RuinedKing_Yasuo_PromoModule01.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 80% 50%;
@@ -177,7 +177,7 @@
 
 .ruined-sub {
   grid-column: Full-start / Full-end;
-  content: '';
+  content: "";
   background-color: rgb(12, 47, 63);
   height: 2rem;
 }

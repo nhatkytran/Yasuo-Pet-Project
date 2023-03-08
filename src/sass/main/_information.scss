@@ -1,760 +1,531 @@
 .information {
-  height: 84rem;
+  height: 81.7rem;
   background-color: $header-bg-color;
-
   position: relative;
 
-  // 1240px
-  @media only screen and (max-width: 77.5em) {
-    height: 85rem;
+  @mixin information-height($width, $height) {
+    @media only screen and (max-width: $width) {
+      height: $height;
+    }
   }
+  @include information-height(78.25em, 83.3rem); // 1253px
+  @include information-height($px1140, 82.8rem);
+  @include information-height(68.5em, 83.7rem); // 1096px
+  @include information-height($px1040, 89.8rem);
+  @include information-height(62.625em, 91.5rem); // 1002px
+  @include information-height(55.125em, 93.2rem); // 882px
+  @include information-height($px840, 92.6rem);
+  @include information-height(49em, 94.4rem); // 784px
+  @include information-height($px740, 93.5rem);
+  @include information-height(43.3125em, 95.2rem); // 693px
+  @include information-height(41.625em, 96.9rem); // 666px
+  @include information-height($px640, 85.3rem);
+  @include information-height(38.875em, 86.9rem); // 622px
+  @include information-height(35.25em, 88.7rem); // 564px
+  @include information-height($px540, 88rem);
+  @include information-height(32.75em, 89.8rem); // 524px
+  @include information-height(29.5625em, 91.5rem); // 473px
+  @include information-height(27.875em, 93.4rem); // 446px
+  @include information-height($px440, 92.7rem);
+  @include information-height(25.6875em, 94.5rem); // 411px
+  @include information-height(24.4375em, 96.3rem); // 391px
+  @include information-height(22.875em, 98.2rem); // 366px
+  @include information-height(22.4375em, 99.7rem); // 359px
+  @include information-height(21.875em, 101.5rem); // 350px
+  @include information-height($px340, 101.9rem);
+  @include information-height(21em, 103.8rem); // 336px
+  @include information-height(20.3125em, 105.6rem); // 325px
 
-  // 1140px
-  @media only screen and (max-width: 71.25em) {
-    height: 92rem;
+  @mixin main-background($file, $position) {
+    background-image: url("/src/assets/img/information/#{$file}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: $position;
   }
-
-  // 1096px
-  @media only screen and (max-width: 68.5em) {
-    height: 96rem;
-  }
-
-  // 968px
-  @media only screen and (max-width: 60.5em) {
-    height: 98rem;
-  }
-
-  // 742px
-  @media only screen and (max-width: 60.5em) {
-    height: 100rem;
-  }
-
-  // 654px
-  @media only screen and (max-width: 40.875em) {
-    height: 106rem;
-  }
-
-  // 640px
-  @media only screen and (max-width: 40em) {
-    height: 98rem;
-  }
-
-  // 561px
-  @media only screen and (max-width: 35.0625em) {
-    height: 102rem;
-  }
-
-  // 540px
-  @media only screen and (max-width: 33.75em) {
-    height: 88rem;
-  }
-
-  // 479px
-  @media only screen and (max-width: 29.9375em) {
-    height: 92rem;
-  }
-
-  // 444px
-  @media only screen and (max-width: 27.75em) {
-    height: 94rem;
-  }
-
-  // 422px
-  @media only screen and (max-width: 26.375em) {
-    height: 96rem;
-  }
-
-  // 392px
-  @media only screen and (max-width: 26.375em) {
-    height: 100rem;
-  }
-
-  // 377px
-  @media only screen and (max-width: 23.5625em) {
-    height: 104rem;
-  }
-
-  // 365px
-  @media only screen and (max-width: 22.8125em) {
-    height: 106rem;
-  }
-
-  // 350px
-  @media only screen and (max-width: 21.875em) {
-    height: 110rem;
+  @mixin overlay($alpha) {
+    background-image: linear-gradient(to top, rgba($header-bg-color, 1) 2%, rgba(0, 0, 0, $alpha) 100%, transparent 0);
+    top: 0;
+    left: 0;
+    position: absolute;
+    @include full-dimension;
   }
 
   &-img-bg {
     height: 65rem;
-    background-image: url('../../src/img/yasuo_optimized.about-slow.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 0;
-
     position: relative;
+    @include main-background("ys-about-slow.jpg", 50% 0);
 
     &-overlay {
-      width: 100%;
-      height: 100%;
-      background-image: linear-gradient(
-        to top,
-        rgba($header-bg-color, 1) 2%,
-        rgba(0, 0, 0, 0.5) 100%,
-        transparent 0
-      );
-
-      @include abs;
-      top: 0;
-      left: 0;
+      @include overlay(0.5);
     }
   }
 
   &-img {
     width: calc(100% - 12rem);
-    max-width: $width;
+    max-width: 136rem;
     height: 65rem;
-
-    background-image: url('../../src/img/yasuo_optimized.about.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
-
-    @include abs;
+    position: absolute;
     top: 5.4rem;
     left: 50%;
     transform: translateX(-50%);
+    @include main-background("ys-about.jpg", 50% 50%);
 
-    // 740px
-    @media only screen and (max-width: 46.25em) {
-      background-position: 30% 50%;
+    @mixin image-position($width, $position) {
+      @media only screen and (max-width: $width) {
+        background-position: $position;
+      }
     }
+    @include image-position($px840, 40% 50%);
+    @include image-position($px740, 30% 50%);
 
-    // 640px
-    @media only screen and (max-width: 40em) {
+    @media only screen and (max-width: $px640) {
       width: calc(100% - 4rem);
       top: 1.6rem;
     }
 
     &-overlay {
-      width: 100%;
-      height: 100%;
-      background-image: linear-gradient(
-        to top,
-        rgba($header-bg-color, 1) 2%,
-        rgba(0, 0, 0, 0.1) 100%,
-        transparent 0
-      );
-
-      @include abs;
-      top: 0;
-      left: 0;
+      @include overlay(0.1);
     }
 
     &-text {
       @include text-rotate;
-      transform: rotate(-90deg) translate(70%, -30%);
-
-      // 1340px
-      @media only screen and (max-width: 83.75em) {
-        transform: rotate(-90deg) translate(70%, -150%);
-      }
-
-      // 640px
-      @media only screen and (max-width: 40em) {
-        transform: rotate(-90deg) translate(120%, -150%);
-      }
+      transform: rotate(-90deg) translate(120%, -150%);
 
       &::after {
         @include line-after;
       }
     }
   }
-}
 
-.champion-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
+  .champion-list {
+    width: 14rem;
+    height: 6rem;
+    background-color: transparent;
+    color: $header-text-color;
+    border: 1px solid currentcolor;
+    top: 3rem;
+    right: 3rem;
+    position: absolute;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    @include use-font(Spiegel-Bold);
+    @include flex-align-center;
 
-  width: 14rem;
-  height: 6rem;
-  background-color: transparent;
-  color: $header-text-color;
-  border: 1px solid currentColor;
-  border-radius: 0.6rem;
-  cursor: pointer;
+    @media only screen and (max-width: $px640) {
+      width: 9rem;
+      height: 21.6rem;
+      border: none;
+      top: 2rem;
+      right: 2rem;
+      pointer-events: none;
+      filter: invert(1);
+      @include main-background("pngegg.png", 50% 50%);
 
-  position: absolute;
-  top: 3rem;
-  right: 3rem;
-
-  // 640px
-  @media only screen and (max-width: 40em) {
-    width: 10rem;
-    height: 24rem;
-    background-image: url('../../src/img/information/pngegg.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    filter: brightness(0) invert(1);
-    border: none;
-    top: 2rem;
-    right: 2rem;
-
-    &__icon,
-    &__title,
-    .view-all-champions {
-      display: none;
-    }
-  }
-
-  // 440px
-  @media only screen and (max-width: 27.5em) {
-    width: 8rem;
-    height: 20rem;
-    top: 1.6rem;
-    right: 1.6rem;
-  }
-
-  &:hover {
-    .champion-list__icon {
-      fill: rgb(7, 239, 239);
-    }
-
-    .champion-list__title {
-      color: rgb(7, 239, 239);
-    }
-
-    .view-all-champions {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    // 640px
-    @media only screen and (max-width: 40em) {
-      .champion-list__icon,
-      .champion-list__title,
+      &__icon,
+      &__title,
       .view-all-champions {
         display: none;
       }
     }
-  }
-
-  &__icon {
-    width: 2.8rem;
-    height: 2.8rem;
-    fill: currentColor;
-    transition: all linear 0.1s;
-  }
-
-  &__title {
-    font-family: Spiegel-Bold, Arial, sans-serif;
-    font-size: 1rem;
-    letter-spacing: 0.2rem;
-    text-transform: uppercase;
-    transition: all linear 0.1s;
-
-    &::before {
-      @include line-before;
+    @media only screen and (max-width: $px440) {
+      width: 8rem;
+      height: 19.2rem;
+      top: 1.6rem;
+      right: 1.6rem;
     }
 
-    &::after {
-      @include line-after;
+    &:hover {
+      .champion-list__icon {
+        fill: rgb(7, 239, 239);
+      }
+
+      .champion-list__title {
+        color: rgb(7, 239, 239);
+      }
+
+      .view-all-champions {
+        transform: translateY(0);
+        @include show;
+      }
     }
-  }
 
-  .view-all-champions {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
-    width: 16rem;
-    height: 50%;
-    background-color: rgb(44, 44, 44);
-    border: 1px solid rgb(0, 207, 207);
-    border-radius: 0.6rem;
-    transform: translateY(-3rem);
-    transition: all linear 0.2s;
-
-    opacity: 0;
-    pointer-events: none;
-
-    position: absolute;
-    top: 6.5rem;
-    left: -1rem;
+    &__icon {
+      fill: currentcolor;
+      transition: all ease 0.2s;
+      @include square-dimension(2.8rem);
+    }
 
     &__title {
-      font-family: Spiegel-Bold, Arial, sans-serif;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       letter-spacing: 0.2rem;
-      color: rgb(0, 207, 207);
       text-transform: uppercase;
+      transition: all ease 0.2s;
+
+      &::before {
+        @include line-before;
+      }
+      &::after {
+        @include line-after;
+      }
+    }
+
+    .view-all-champions {
+      width: 16rem;
+      height: 50%;
+      background-color: rgb(44, 44, 44);
+      border: 1px solid rgb(0, 207, 207);
+      border-radius: 0.6rem;
+      transform: translateY(-3rem);
+      transition: all ease 0.2s;
+      position: absolute;
+      top: 6.5rem;
+      left: -1rem;
+      justify-content: space-around;
+      @include hide;
+      @include flex-align-center;
+
+      &__title {
+        font-size: 1.1rem;
+        letter-spacing: 0.2rem;
+        color: rgb(0, 207, 207);
+        text-transform: uppercase;
+      }
     }
   }
 }
 
 .information-yasuo {
-  width: 100%;
-  max-width: 110rem;
+  width: calc(100% - 10rem);
+  max-width: 120rem;
   z-index: 1;
+  @include absolute-position(-50%, -16%);
 
-  @include abs;
-  top: 46%;
-  left: 50%;
-  transform: translate(-50%, -20%);
-
-  // 1240px
-  @media only screen and (max-width: 77.5em) {
-    width: calc(100% - 18rem);
+  @media only screen and (max-width: $px640) {
+    width: calc(100% - 4rem);
   }
 
-  // 640px
-  @media only screen and (max-width: 40em) {
-    width: calc(100% - 8rem);
-    top: 42%;
+  @mixin information-yasuo-position($width, $y_translate) {
+    @media only screen and (max-width: $width) {
+      @include absolute-position(-50%, $y-translate);
+    }
+  }
+  @include information-yasuo-position($px1040, -14%);
+  @include information-yasuo-position($px840, -12%);
+  @include information-yasuo-position($px640, -10%);
+  @include information-yasuo-position($px440, -8%);
+  @include information-yasuo-position($px340, -6%);
+}
+
+.information-yasuo__name {
+  color: $header-text-color;
+  font-style: italic;
+  text-align: center;
+
+  @mixin name-font-size($width, $font-size) {
+    @media only screen and (max-width: $width) {
+      font-size: $font-size;
+    }
   }
 
-  &__name {
-    color: $header-text-color;
-    text-align: center;
+  &-unforgiven {
+    display: inline-block;
+    font-size: 2.4rem;
+    letter-spacing: 0.2rem;
+    transform: translateX(-30rem);
+    transition: all cubic-bezier(0.67, 1.2, 0.76, 1.23) 0.4s;
+    opacity: 0;
+    @include use-font(Spiegel-Regular);
 
-    &-unforgiven {
-      display: inline-block;
-      font-family: Spiegel-Regular, Arial, sans-serif;
-      font-style: italic;
-      font-size: 2.4rem;
-      transform: translateX(-30rem);
-      transition: all cubic-bezier(0.67, 1.2, 0.76, 1.23) 0.4s;
-      opacity: 0;
+    @include name-font-size($px1140, 2.2rem);
+    @include name-font-size($px1040, 2rem);
+    @include name-font-size($px840, 1.8rem);
+    @include name-font-size($px640, 1.6rem);
+    @include name-font-size($px440, 1.4rem);
+    @include name-font-size($px340, 1.2rem);
 
-      &.scroll {
-        transform: translateX(0);
-        opacity: 1;
-      }
+    // test
+    transform: translateX(0);
+    opacity: 1;
 
-      // 1240px
-      @media only screen and (max-width: 77.5em) {
-        font-size: 2.2rem;
-      }
-
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
-        font-size: 2rem;
-      }
-
-      // 840px
-      @media only screen and (max-width: 52.5em) {
-        font-size: 1.8rem;
-      }
-
-      // 540px
-      @media only screen and (max-width: 33.75em) {
-        font-size: 1.6rem;
-      }
-
-      // 440px
-      @media only screen and (max-width: 33.75em) {
-        font-size: 1.4rem;
-      }
+    &.scroll {
+      transform: translateX(0);
+      opacity: 1;
     }
+  }
 
-    &--main {
-      display: flex;
-      align-items: center;
-    }
+  &-main {
+    @include flex-align-center;
+  }
 
-    &-yasuo {
-      font-family: Beaufort-Bold, serif;
-      font-style: italic;
-      font-size: 11.8rem;
-      line-height: 0.8;
-      letter-spacing: 0;
-      margin-right: 2rem;
-      opacity: 0;
-      transition: all linear 0.4s;
+  &-yasuo {
+    font-size: 9.6rem;
+    line-height: 0.8;
+    letter-spacing: 0.2rem;
+    margin-right: 2rem;
+    transition: all ease 0.4s;
+    opacity: 0;
+    @include use-font(Beaufort-Bold);
 
-      &.scroll {
-        opacity: 1;
-      }
+    @include name-font-size($px1140, 9.2rem);
+    @include name-font-size($px1040, 8.2rem);
+    @include name-font-size($px840, 7.2rem);
+    @include name-font-size($px640, 6.2rem);
+    @include name-font-size($px440, 5.2rem);
+    @include name-font-size($px340, 4.2rem);
 
-      // 1240px
-      @media only screen and (max-width: 77.5em) {
-        font-size: 10.8rem;
-      }
+    // test
+    opacity: 1;
 
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
-        font-size: 9rem;
-      }
-
-      // 840px
-      @media only screen and (max-width: 52.5em) {
-        font-size: 7rem;
-      }
-
-      // 540px
-      @media only screen and (max-width: 33.75em) {
-        font-size: 6rem;
-      }
-
-      // 540px
-      @media only screen and (max-width: 33.75em) {
-        font-size: 5rem;
-      }
+    &.scroll {
+      opacity: 1;
     }
   }
 
   .main-border__yasuo {
-    content: '';
     height: 1px;
     width: 100%;
     background-color: $main-border;
-
+    top: 1rem;
     position: relative;
-    top: 2rem;
+  }
+}
 
-    @media only screen and (max-width: 77.5em) {
-      top: 1.5rem;
-    }
+.information-yasuo__about {
+  color: $header-text-color;
+  padding-top: 3rem;
+  top: -2.7rem;
+  position: relative;
+  justify-content: space-evenly;
+  @include border-no-top;
+  @include flex-align-center;
+
+  @media only screen and (max-width: $px1040) {
+    flex-direction: column;
   }
 
-  //////////////////////////////////
-  &__about {
-    display: flex;
-
-    color: $header-text-color;
-    padding-top: 3rem;
-    @include border-non-top;
-
-    position: relative;
-    top: -2.8rem;
-
-    // 1140px
-    @media only screen and (max-width: 71.25em) {
-      flex-direction: column;
-      top: -2.1rem;
-    }
-
-    // 840px
-    @media only screen and (max-width: 52.5em) {
-      top: -1.3rem;
-    }
-
-    // 540px
-    @media only screen and (max-width: 33.75em) {
-      top: -0.5rem;
-    }
-
-    //
-    &-characteristic {
-      flex: 1;
-
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-around;
-
-      max-width: 55rem;
-      font-family: Spiegel-Regular, Arial, sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.2rem;
-      text-align: center;
-      padding: 6rem;
-
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
-        max-width: 100%;
-        padding: 3rem 12rem;
-      }
-
-      // 740px
-      @media only screen and (max-width: 46.25em) {
-        padding-left: 6rem;
-        padding-right: 6rem;
-      }
-
-      // 540px
-      @media only screen and (max-width: 33.75em) {
-        padding-top: 1rem;
-        padding-bottom: 2rem;
-      }
-    }
-
-    &-role {
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
-        font-size: 1rem;
-      }
-
-      &-icon {
-        width: 6rem;
-        height: 6rem;
-        fill: $color-story;
-        padding-bottom: 1.5rem;
-        margin-top: 1rem;
-
-        // 1140px
-        @media only screen and (max-width: 71.25em) {
-          height: 5rem;
-          margin-top: 2rem;
-        }
-      }
-
-      &-fighter {
-        color: $color-story;
-      }
-    }
-
-    &-difficulty {
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
-        font-size: 1rem;
-      }
-
-      &-icon {
-        height: 6rem;
-        padding-top: 1.2rem;
-        padding-bottom: 1.5rem;
-        margin-top: 1.5rem;
-
-        // 1140px
-        @media only screen and (max-width: 71.25em) {
-          height: 5rem;
-          margin-top: 2.5rem;
-        }
-
-        &--part {
-          display: inline-block;
-          width: 1.6rem;
-          height: 1.6rem;
-          background-color: rgb(8, 215, 247);
-          transform: skewX(-40deg);
-
-          // 1140px
-          @media only screen and (max-width: 71.25em) {
-            width: 1.2rem;
-            height: 1.2rem;
-          }
-
-          &:nth-child(1) {
-            position: relative;
-            right: -2px;
-          }
-
-          &:nth-child(3) {
-            position: relative;
-            left: -2px;
-          }
-        }
-      }
-
-      &-high {
-        color: rgb(208, 168, 92);
-      }
-    }
-
-    //
-    &-story {
-      flex: 1;
-
-      max-width: 55rem;
-      font-family: Spiegel-Regular, Arial, sans-serif;
-      font-size: 1.4rem;
-      padding: 6rem;
-
-      position: relative;
-
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
-        text-align: center;
-        max-width: 100%;
-        padding: 3rem 12rem 6rem;
-      }
-
-      // 940px
-      @media only screen and (max-width: 58.75em) {
-        padding-left: 10rem;
-        padding-right: 10rem;
-      }
-
-      // 840px
-      @media only screen and (max-width: 52.5em) {
-        padding-left: 8rem;
-        padding-right: 8rem;
-      }
-
-      // 740px
-      @media only screen and (max-width: 46.25em) {
-        padding-left: 6rem;
-        padding-right: 6rem;
-      }
-
-      // 640px
-      @media only screen and (max-width: 40em) {
-        padding-left: 4rem;
-        padding-right: 4rem;
-      }
-
-      // 540px
-      @media only screen and (max-width: 33.75em) {
-        padding: 2rem;
-      }
-
-      &::before {
-        content: '';
-        display: block;
-
-        width: 1px;
-        height: 72%;
-        background-color: $main-border;
-
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-
-        // 1140px
-        @media only screen and (max-width: 71.25em) {
-          width: 60%;
-          height: 1px;
-
-          position: absolute;
-          top: 0;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      }
-
-      &--dots {
-        display: inline-block;
-
-        &.hide {
-          display: none;
-        }
-      }
-
-      &--see-more {
-        display: inline-block;
-        font-size: 1rem;
-        background-color: transparent;
-        color: $color-story;
-        cursor: pointer;
-
-        &.hide {
-          display: none;
-
-          & + .information-yasuo__about-story--more {
-            display: block;
-          }
-        }
-      }
-
-      &--more {
-        display: none;
-
-        color: rgb(208, 168, 92);
-        margin-top: 1rem;
-
-        &-yasuo {
-          color: $header-text-color;
-        }
-      }
+  @mixin information-yasuo-about-top($width, $top) {
+    @media only screen and (max-width: $width) {
+      top: $top;
     }
   }
+  @include information-yasuo-about-top($px1040, -2.2rem);
+  @include information-yasuo-about-top($px840, -1.8rem);
+  @include information-yasuo-about-top($px640, -1.4rem);
+  @include information-yasuo-about-top($px440, -1rem);
+  @include information-yasuo-about-top($px340, -0.7rem);
 
-  &__plus {
-    display: flex;
-    text-align: center;
-    justify-content: space-around;
+  &::before {
+    width: 1px;
+    height: 62%;
+    background-color: $main-border;
+    @include pseudo-element-features;
+    @include display-responsive($px1040, none);
+  }
 
-    font-family: Spiegel-Regular, Arial, sans-serif;
+  &-characteristic {
+    flex: 1;
+    max-width: 55rem;
     font-size: 1.4rem;
-    height: 4rem;
-    color: $header-text-color;
-    padding: 1rem 26rem;
     letter-spacing: 0.2rem;
-    @include border-non-top;
+    text-align: center;
+    padding: 6rem;
+    justify-content: space-around;
+    @include use-font(Spiegel-Regular);
+    @include flex-align-center;
 
-    position: relative;
-    top: -2.8rem;
-
-    // 1140px
-    @media only screen and (max-width: 71.25em) {
-      font-size: 1rem;
-      padding: 1rem 20rem;
-      top: -2.1rem;
+    @media only screen and (max-width: $px1040) {
+      width: 100%;
     }
 
-    // 840px
-    @media only screen and (max-width: 52.5em) {
-      top: -1.3rem;
+    @mixin characteristic-padding($width, $padding) {
+      @media only screen and (max-width: $width) {
+        padding: $padding;
+      }
+    }
+    @include characteristic-padding($px1040, 3rem 12rem);
+    @include characteristic-padding($px740, 3rem 8rem);
+    @include characteristic-padding($px640, 2rem 10rem 3rem);
+    @include characteristic-padding($px540, 2rem 6rem 3rem);
+    @include characteristic-padding($px440, 1rem 4rem 3rem);
+    @include characteristic-padding($px340, 1rem 2rem 3rem);
+  }
+
+  &-role {
+    &-icon {
+      fill: $color-story;
+      padding-bottom: 1.5rem;
+      margin-top: 1rem;
+      @include square-dimension(6rem);
     }
 
-    // 940px
-    @media only screen and (max-width: 58.75em) {
-      padding-left: 16rem;
-      padding-right: 16rem;
+    &-fighter {
+      color: $color-story;
     }
 
-    // 840px
-    @media only screen and (max-width: 52.5em) {
-      padding-left: 12rem;
-      padding-right: 12rem;
-    }
+    @media only screen and (max-width: $px1140) {
+      font-size: 1.2rem;
 
-    // 740px
-    @media only screen and (max-width: 46.25em) {
-      padding-left: 6em;
-      padding-right: 6em;
-    }
-
-    // 640px
-    @media only screen and (max-width: 40em) {
-      padding-left: 2em;
-      padding-right: 2em;
-    }
-
-    // 540px
-    @media only screen and (max-width: 33.75em) {
-      top: -0.5rem;
-    }
-
-    // 440px
-    @media only screen and (max-width: 27.5em) {
-      padding-left: 4rem;
-      padding-right: 4rem;
-    }
-
-    &--1 {
-      color: $main-border;
-
-      // 440px
-      @media only screen and (max-width: 27.5em) {
-        display: none;
+      &-icon {
+        margin-top: 1.6rem;
+        @include square-dimension(5.4rem);
       }
     }
   }
 
-  &__sub-plus {
-    text-align: center;
+  &-difficulty {
+    &-icon {
+      height: 6rem;
+      padding-top: 1.2rem;
+      padding-bottom: 1.5rem;
+      margin-top: 1.5rem;
 
-    position: relative;
-    top: -1em;
+      @media only screen and (max-width: $px1140) {
+        height: 5rem;
+        margin-top: 2.5rem;
+      }
 
-    // 540px
-    @media only screen and (max-width: 33.75em) {
-      top: 0;
+      span {
+        display: inline-block;
+        background-color: rgb(8, 215, 247);
+        transform: skewX(-40deg);
+        @include square-dimension(1.6rem);
+
+        &:nth-child(1) {
+          position: relative;
+          right: -2px;
+        }
+        &:nth-child(3) {
+          position: relative;
+          left: -2px;
+        }
+
+        @media only screen and (max-width: $px1140) {
+          @include square-dimension(1.4rem);
+        }
+      }
     }
 
-    &-icon {
-      stroke: $main-border;
+    &-high {
+      color: $color-story;
+    }
+
+    @media only screen and (max-width: $px1140) {
+      font-size: 1.2rem;
+
+      &-icon {
+        height: 5rem;
+        margin-top: 2.5rem;
+      }
+    }
+  }
+
+  &-story {
+    flex: 1;
+    max-width: 55rem;
+    font-size: 1.4rem;
+    padding: 6rem;
+    position: relative;
+    @include use-font(Spiegel-Regular);
+
+    @media only screen and (max-width: $px1040) {
+      text-align: center;
+      max-width: 100%;
+    }
+
+    @mixin story-padding($width, $padding) {
+      @media only screen and (max-width: $width) {
+        padding: $padding;
+      }
+    }
+    @include story-padding(71.875em, 5rem 6rem); // 1150px
+    @include story-padding(68.5em, 4.6rem 6rem); // 1096px
+    @include story-padding($px1040, 3rem 12rem 6rem);
+    @include story-padding($px940, 3rem 10rem 6rem);
+    @include story-padding($px840, 3rem 8rem 5rem);
+    @include story-padding($px740, 3rem 6rem 4rem);
+    @include story-padding($px640, 3rem 4rem 3rem);
+    @include story-padding($px540, 2rem);
+
+    &::before {
+      content: "";
+      display: block;
+      width: 60%;
+      height: 1px;
+      background-color: $main-border;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      @include display-responsive($px1040, block);
+    }
+
+    &-more {
+      color: $color-story;
+      font-size: 1.2rem;
+      margin-top: 0.4rem;
     }
   }
 }
 
-.pseudo-name {
-  position: absolute;
-  top: -12rem;
-  opacity: 0;
-  pointer-events: none;
+.information-yasuo__plus {
+  height: 3.2rem;
+  color: $header-text-color;
+  font-size: 1rem;
+  padding: 1rem 26rem;
+  letter-spacing: 0.2rem;
+  top: -2.8rem;
+  position: relative;
+  justify-content: space-between;
+  @include use-font(Spiegel-Regular);
+  @include border-no-top;
+  @include flex-align-center;
+
+  @mixin information-yasuo-plus($width, $padding, $top) {
+    @media only screen and (max-width: $width) {
+      padding: $padding;
+      top: $top;
+    }
+  }
+  @include information-yasuo-plus($px1140, 1rem 20rem, -2.8rem);
+  @include information-yasuo-plus($px1040, 1rem 16rem, -2.2rem);
+  @include information-yasuo-plus($px940, 1rem 12rem, -2.2rem);
+  @include information-yasuo-plus($px840, 1rem 8rem, -1.8rem);
+  @include information-yasuo-plus($px740, 1rem 4rem, -1.8rem);
+  @include information-yasuo-plus($px640, 1rem 4rem, -1.4rem);
+  @include information-yasuo-plus($px540, 1rem 7rem, -1.4rem);
+  @include information-yasuo-plus($px440, 1rem 3rem, -1rem);
+  @include information-yasuo-plus($px340, 1rem 2rem, -0.7rem);
+
+  & span:nth-child(1) {
+    color: $main-border;
+  }
+  &-mastery {
+    @include display-responsive($px540, none);
+  }
+}
+
+.information-yasuo__plus-mobile {
+  justify-content: center;
+  @include display-responsive($px540, flex);
+}
+
+.information-yasuo__sub-plus {
+  text-align: center;
+  top: -1em;
+  position: relative;
+
+  @media only screen and (max-width: $px640) {
+    top: -0.7rem;
+  }
+  @media only screen and (max-width: $px640) {
+    top: -0.4rem;
+  }
+
+  &-icon {
+    stroke: $main-border;
+    fill: $main-border;
+  }
 }
