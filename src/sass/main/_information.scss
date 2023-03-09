@@ -1,5 +1,5 @@
 .information {
-  height: 81.7rem;
+  height: 84.7rem;
   background-color: $header-bg-color;
   position: relative;
 
@@ -8,7 +8,7 @@
       height: $height;
     }
   }
-  @include information-height(78.25em, 83.3rem); // 1253px
+  @include information-height(78.25em, 86.3rem); // 1253px
   @include information-height($px1140, 82.8rem);
   @include information-height(68.5em, 83.7rem); // 1096px
   @include information-height($px1040, 89.8rem);

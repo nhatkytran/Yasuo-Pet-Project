@@ -3,48 +3,25 @@
   min-height: 65rem;
   background-color: $header-bg-color;
   padding-top: 6rem;
-
   position: relative;
 
-  // 1140px
-  @media only screen and (max-width: 71.25em) {
-    min-height: 100rem;
+  @mixin abilities-min-height($width, $min-height) {
+    @media only screen and (max-width: $width) {
+      min-height: $min-height;
+    }
   }
-
-  // 940px
-  @media only screen and (max-width: 58.75em) {
-    min-height: 93.6rem;
-  }
-
-  // 840px
-  @media only screen and (max-width: 52.5em) {
-    min-height: 87.6rem;
-  }
-
-  // 740px
-  @media only screen and (max-width: 46.25em) {
-    min-height: 82.6rem;
-  }
-
-  // 648px
-  @media only screen and (max-width: 40.5em) {
-    min-height: 84.6rem;
-  }
-
-  // 640px
-  @media only screen and (max-width: 40em) {
-    min-height: 75.6rem;
-  }
-
-  // 624px
-  @media only screen and (max-width: 39em) {
-    min-height: 77.6rem;
-  }
+  @include abilities-min-height($px1140, 100rem);
+  @include abilities-min-height($px940, 93.6rem);
+  @include abilities-min-height($px840, 87.6rem);
+  @include abilities-min-height($px740, 82.6rem);
+  @include abilities-min-height(40.5em, 84.6rem); // 648px
+  @include abilities-min-height($px640, 75.6rem);
+  @include abilities-min-height(39em, 77.6rem); // 624px
 
   &-icon,
   &__overlay,
   &__content {
-    @include abs;
+    position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -52,25 +29,21 @@
 
   &-icon {
     height: calc(100% - 3rem);
-    fill: rgb(7, 18, 26);
     fill: #0e1922;
-    // fill: #0b1b27;
   }
 
   &__overlay {
-    width: 100%;
-    height: 100%;
     max-width: 160rem;
+    @include full-dimension;
 
     &-text {
+      transform: rotate(-90deg) translate(246%, -30%);
       @include text-rotate;
-      transform: rotate(-90deg) translate(270%, -30%);
 
-      // 640px
-      @media only screen and (max-width: 40em) {
+      @media only screen and (max-width: $px640) {
         top: 60%;
         left: -2.2rem;
-        transform: rotate(-90deg) translate(430%, -30%);
+        transform: rotate(-90deg) translate(286%, -30%);
       }
 
       &::after {
@@ -84,8 +57,7 @@
     max-width: 120rem;
     height: 100%;
 
-    // 640px
-    @media only screen and (max-width: 40em) {
+    @media only screen and (max-width: $px640) {
       width: calc(100% - 6rem);
     }
 
@@ -93,7 +65,11 @@
       color: $header-text-color;
       opacity: 0;
       transform: translateX(40rem);
-      transition: all linear 0.4s;
+      transition: all ease 0.4s;
+
+      // test
+      opacity: 1;
+      transform: translateX(0);
 
       &.scroll {
         opacity: 1;
@@ -101,307 +77,94 @@
       }
 
       &-ab {
-        font-family: Beaufort-Bold, serif;
         font-style: italic;
         font-size: 6rem;
         line-height: 0.8;
         letter-spacing: 0.4rem;
         margin-right: 2rem;
+        @include use-font(Beaufort-Bold);
 
-        // 1140px
-        @media only screen and (max-width: 71.25em) {
-          font-size: 4.6rem;
+        @mixin header-font-size($width, $font-size) {
+          @media only screen and (max-width: $width) {
+            font-size: $font-size;
+          }
         }
-
-        // 840px
-        @media only screen and (max-width: 52.5em) {
-          font-size: 4rem;
-        }
-
-        // 640px
-        @media only screen and (max-width: 40em) {
-          font-size: 3rem;
-        }
+        @include header-font-size($px1140, 4.6rem);
+        @include header-font-size($px840, 4rem);
+        @include header-font-size($px640, 3rem);
       }
 
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
+      @media only screen and (max-width: $px1140) {
         text-align: center;
         margin-top: 4rem;
       }
     }
 
     &-body {
-      display: flex;
-
       width: 100%;
       min-height: 56.25%;
+      display: flex;
 
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
+      @media only screen and (max-width: $px1140) {
         flex-direction: column-reverse;
         align-items: center;
       }
 
       &-skills {
         flex: 1;
-
-        .ab__skills {
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-
-          padding-top: 8rem;
-
-          position: relative;
-
-          // 1140px
-          @media only screen and (max-width: 71.25em) {
-            padding-top: 4rem;
-            justify-content: center;
-          }
-
-          // 640px
-          @media only screen and (max-width: 40em) {
-            padding-top: 3rem;
-          }
-
-          &-progress {
-            width: 100%;
-            height: 1px;
-            background-color: $main-border;
-            z-index: 1;
-
-            position: absolute;
-            bottom: 0;
-            left: 0;
-
-            // 1140px
-            @media only screen and (max-width: 71.25em) {
-              display: none;
-            }
-
-            &-circle {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-
-              width: 1.4rem;
-              height: 1.4rem;
-              border: 1px solid $color-ab;
-              border-radius: 50%;
-              transition: all linear 0.4s;
-
-              position: absolute;
-              top: -0.7rem;
-              left: 13.7rem;
-
-              &.active {
-                .ab__skills-progress-bar {
-                  transform-origin: center bottom;
-                  animation: fadeInOpa linear 1s forwards;
-                }
-
-                .ab__skills-progress-dot {
-                  animation: fadeInOpa linear 1s forwards;
-                }
-              }
-            }
-
-            &-bar {
-              width: 0.1rem;
-              height: 1.6rem;
-              background-color: $color-ab;
-              transform: translateX(-50%);
-
-              position: absolute;
-              top: -1.8rem;
-              left: 50%;
-            }
-
-            &-dot {
-              width: 0.7rem;
-              height: 0.7rem;
-              background-color: $color-ab;
-              border-radius: 50%;
-            }
-          }
-
-          &-skill {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-
-            width: 6rem;
-            height: 11rem;
-            margin: 0 1.8rem;
-            cursor: pointer;
-
-            // 840px
-            @media only screen and (max-width: 52.5em) {
-              width: 5rem;
-            }
-
-            // 640px
-            @media only screen and (max-width: 40em) {
-              width: 4rem;
-              height: 8.6rem;
-            }
-
-            // 440px
-            @media only screen and (max-width: 27.5em) {
-              margin: 0 0.8rem;
-            }
-
-            &:hover {
-              .ab__skills-skill-img {
-                margin-top: 1.5rem;
-                transform: scale(1.05);
-              }
-
-              .ab__skills-skill-dot {
-                background-color: rgb(203, 165, 95);
-              }
-            }
-
-            &.active .ab__skills-skill-img {
-              margin-top: 1rem;
-              outline-offset: 0.5rem;
-              outline: 0.1rem solid $color-ab;
-            }
-
-            &-img {
-              width: 100%;
-              margin-top: 2rem;
-              transition: all linear 0.24s;
-            }
-
-            &-dot {
-              width: 0.8rem;
-              height: 0.8rem;
-              border-radius: 50%;
-              background-color: rgb(96, 96, 96);
-              transition: all linear 0.1s;
-
-              position: relative;
-              top: 0.3rem;
-
-              // 1140px
-              @media only screen and (max-width: 71.25em) {
-                display: none;
-              }
-            }
-          }
-        }
-
-        .ab__skills-desc {
-          height: 14rem;
-          position: relative;
-
-          // 640px
-          @media only screen and (max-width: 40em) {
-            height: 16rem;
-          }
-
-          // 440px
-          @media only screen and (max-width: 27.5em) {
-            height: 20rem;
-          }
-
-          &.active .ab__skills-desc-s {
-            opacity: 1;
-            pointer-events: all;
-          }
-
-          &-s {
-            font-family: Spiegel-Regular, Arial, sans-serif;
-            padding: 4rem 12rem 4rem 4rem;
-            transition: all linear 0.3s;
-
-            position: absolute;
-            top: 0;
-            left: 0;
-
-            opacity: 0;
-            pointer-events: none;
-
-            // 1240px
-            @media only screen and (max-width: 77.5em) {
-              padding: 4rem 8rem 4rem 4rem;
-            }
-
-            // 1140px
-            @media only screen and (max-width: 71.25em) {
-              text-align: center;
-              padding: 0 0 4rem;
-            }
-
-            // 940px
-            @media only screen and (max-width: 58.75em) {
-              padding: 0 3rem 4rem;
-            }
-
-            // 840px
-            @media only screen and (max-width: 52.5em) {
-              padding: 0 1rem 4rem;
-            }
-
-            &-small {
-              font-size: 1.2rem;
-              color: rgba(255, 255, 255, 0.5);
-
-              // 1140px
-              @media only screen and (max-width: 71.25em) {
-                display: none;
-              }
-            }
-
-            &-big {
-              font-family: Spiegel-Bold, Arial, sans-serif;
-              font-size: 1.8rem;
-              letter-spacing: 0.2rem;
-              color: $header-text-color;
-              margin: 0.6rem 0;
-            }
-
-            &-medium {
-              font-size: 1.4rem;
-              color: $header-navbar-color;
-            }
-          }
-        }
       }
 
       &-video {
         flex: 1;
-
-        display: flex;
-        align-items: center;
-
         position: relative;
+        @include flex-align-center;
 
-        // 1140px
-        @media only screen and (max-width: 71.25em) {
-          display: flex;
-          justify-content: space-around;
-
+        @media only screen and (max-width: $px1140) {
           width: 100%;
           margin-top: 4rem;
+          justify-content: space-around;
         }
 
         &-img,
         &-s {
           width: 100%;
           height: 84%;
-          @include video;
 
-          position: relative;
+          @media only screen and (max-width: $px1140) {
+            width: 100%;
+          }
 
-          @include video-responsive;
+          @mixin video-dimension($width, $height) {
+            @media only screen and (max-width: $width) {
+              height: $height;
+            }
+          }
+          @include video-dimension($px1240, 74%);
+          @include video-dimension($px1140, 43rem);
+          @include video-dimension($px940, 37rem);
+          @include video-dimension($px840, 32rem);
+          @include video-dimension($px740, 27rem);
+          @include video-dimension($px440, 23rem);
+        }
+
+        &-img {
+          background-image: url(/src/assets/img/gallery/yasuo-samurai_optimized.jpeg);
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center center;
+
+          // &::before {
+          //   background-color: rgba(0, 0, 0, 0.3);
+          //   @include full-dimension;
+          //   @include pseudo-element-features;
+          // }
         }
 
         &-s {
+          object-fit: cover;
+          -webkit-object-fit: cover;
+          object-position: center;
+          -webkit-object-position: center;
           position: absolute;
         }
 
@@ -409,17 +172,13 @@
           width: calc(100% - 2rem);
           height: calc(84% + 2rem);
           border: 1px solid $main-border;
-          position: relative; // ???
           z-index: 10;
           @include absolute-position(-50%, -50%);
 
-          // 1240px
-          @media only screen and (max-width: 77.5em) {
+          @media only screen and (max-width: $px1240) {
             height: calc(74% + 2rem);
           }
-
-          // 1140px
-          @media only screen and (max-width: 71.25em) {
+          @media only screen and (max-width: $px1140) {
             width: calc(100% - 2rem);
             height: calc(100% + 2rem);
           }
@@ -429,100 +188,227 @@
 
     &-footer {
       width: 100%;
-      font-family: 'Gloria Hallelujah', cursive, Arial, sans-serif;
       color: $header-text-color;
       text-align: center;
-
-      position: absolute;
       top: 49.5rem;
+      position: absolute;
+      @include use-font(Gloria Hallelujah);
 
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
-        top: 85.5rem;
+      @mixin footer-top($width, $top) {
+        @media only screen and (max-width: $width) {
+          top: $top;
+        }
       }
+      @include footer-top($px1140, 85.5rem);
+      @include footer-top($px940, 79rem);
+      @include footer-top($px840, 74rem);
+      @include footer-top($px740, 69rem);
+      @include footer-top(40.5em, 71rem); // 648px
+      @include footer-top($px640, 63rem);
+      @include footer-top(39em, 65rem); // 624px
 
-      // 940px
-      @media only screen and (max-width: 58.75em) {
-        top: 79rem;
-      }
-
-      // 840px
-      @media only screen and (max-width: 52.5em) {
-        top: 74rem;
-      }
-
-      // 740px
-      @media only screen and (max-width: 46.25em) {
-        top: 69rem;
-      }
-
-      // 648px
-      @media only screen and (max-width: 40.5em) {
-        top: 71rem;
-      }
-
-      // 640px
-      @media only screen and (max-width: 40em) {
-        top: 63rem;
-      }
-
-      // 624px
-      @media only screen and (max-width: 39em) {
-        top: 65rem;
+      @mixin footer-font-size($width, $font-size) {
+        @media only screen and (max-width: $width) {
+          font-size: $font-size;
+        }
       }
 
       &-quote {
         font-size: 2.6rem;
-
-        // 1140px
-        @media only screen and (max-width: 71.25em) {
-          font-size: 2.2rem;
-        }
-
-        // 840px
-        @media only screen and (max-width: 52.5em) {
-          font-size: 2rem;
-        }
-
-        // 640px
-        @media only screen and (max-width: 40em) {
-          font-size: 1.6rem;
-        }
+        @include footer-font-size($px1140, 2.2rem);
+        @include footer-font-size($px840, 2rem);
+        @include footer-font-size($px640, 1.6rem);
       }
 
       &-who {
-        font-size: 1.6rem;
         color: $color-ab;
+        font-size: 1.6rem;
         margin-top: 2rem;
 
-        // 1140px
-        @media only screen and (max-width: 71.25em) {
-          font-size: 1.4rem;
-        }
-
-        // 840px
-        @media only screen and (max-width: 52.5em) {
-          font-size: 1.2rem;
-        }
-
-        // 640px
-        @media only screen and (max-width: 40em) {
-          font-size: 1rem;
+        @media only screen and (max-width: $px640) {
           margin-top: 1.4rem;
         }
+
+        @include footer-font-size($px1140, 1.4rem);
+        @include footer-font-size($px840, 1.2rem);
+        @include footer-font-size($px640, 1rem);
       }
 
       &::before {
-        content: '';
         width: calc(100% - 10rem);
         height: 1px;
         background-color: $main-border;
-
-        position: absolute;
         left: 50%;
         bottom: -5rem;
         transform: translateX(-50%);
+        @include pseudo-element-features;
       }
+    }
+  }
+}
+
+.ab__skills {
+  padding-top: 8rem;
+  position: relative;
+  justify-content: flex-start;
+  @include flex-align-center;
+
+  @media only screen and (max-width: $px1140) {
+    padding-top: 4rem;
+    justify-content: center;
+  }
+  @media only screen and (max-width: $px640) {
+    padding-top: 3rem;
+  }
+
+  &-progress {
+    width: 100%;
+    height: 1px;
+    background-color: $main-border;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    @include display-responsive($px1140, none);
+
+    &-circle {
+      border: 1px solid $color-ab;
+      border-radius: 50%;
+      transition: all ease 0.4s;
+      top: -0.7rem;
+      left: 13.68rem;
+      position: absolute;
+      justify-content: center;
+      @include square-dimension(1.4rem);
+      @include flex-align-center;
+
+      &.active &::before {
+        animation: fadeInOpa ease 1s forwards;
+      }
+
+      &::before {
+        width: 0.1rem;
+        height: 1.4rem;
+        background-color: $color-ab;
+        transform-origin: center bottom;
+        top: -1.8rem;
+        left: 50%;
+        transform: translateX(-50%);
+        @include pseudo-element-features;
+      }
+    }
+  }
+
+  &-skill {
+    width: 6rem;
+    height: 11rem;
+    margin: 0 1.8rem;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    @include flex-align-center;
+
+    @media only screen and (max-width: $px840) {
+      width: 5rem;
+    }
+    @media only screen and (max-width: $px640) {
+      width: 4rem;
+      height: 8.6rem;
+    }
+    @media only screen and (max-width: $px440) {
+      margin: 0 0.8rem;
+    }
+
+    &:hover {
+      .ab__skills-skill-img {
+        margin-top: 1.5rem;
+        transform: scale(1.05);
+      }
+      .ab__skills-skill-dot {
+        background-color: rgb(203, 165, 95);
+      }
+    }
+
+    &.active .ab__skills-skill-img {
+      margin-top: 1rem;
+      outline-offset: 0.5rem;
+      outline: 0.1rem solid $color-ab;
+      filter: brightness(1);
+    }
+
+    &-img {
+      width: 100%;
+      margin-top: 2rem;
+      transition: all ease 0.24s;
+      filter: brightness(0.75);
+    }
+
+    &-dot {
+      border-radius: 50%;
+      background-color: rgb(96, 96, 96);
+      transition: all ease 0.2s;
+      top: 0.3rem;
+      position: relative;
+      @include square-dimension(0.8rem);
+
+      @media only screen and (max-width: $px1140) {
+        display: none;
+      }
+    }
+  }
+}
+
+.ab__skills-desc {
+  height: 14rem;
+  position: relative;
+
+  @mixin desc-height($width, $height) {
+    @media only screen and (max-width: $width) {
+      height: $height;
+    }
+  }
+  @include desc-height($px640, 16rem);
+  @include desc-height($px440, 20rem);
+
+  &-s {
+    padding: 4rem 12rem 4rem 4rem;
+    transition: all ease 0.3s;
+    top: 0;
+    left: 0;
+    position: absolute;
+    @include use-font(Spiegel-Regular);
+
+    @media only screen and (max-width: $px1140) {
+      text-align: center;
+    }
+
+    @mixin desc-padding($width, $padding) {
+      @media only screen and (max-width: $width) {
+        padding: $padding;
+      }
+    }
+    @include desc-padding($px1240, 4rem 8rem 4rem 4rem);
+    @include desc-padding($px1140, 0 0 4rem);
+    @include desc-padding($px940, 0 3rem 4rem);
+    @include desc-padding($px840, 0 1rem 4rem);
+
+    &-small {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 1.2rem;
+      @include display-responsive($px1140, none);
+    }
+
+    &-big {
+      color: $header-text-color;
+      font-size: 1.8rem;
+      letter-spacing: 0.2rem;
+      margin: 0.6rem 0;
+      @include use-font(Spiegel-Bold);
+    }
+
+    &-medium {
+      font-size: 1.4rem;
+      color: $header-navbar-color;
     }
   }
 }

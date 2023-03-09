@@ -19,9 +19,7 @@
 @import "./main/mainHeader/menu";
 
 @import "./main/information";
-
-// // //
-// @import './main/abilities.scss';
+@import "./main/abilities";
 
 // // //
 // @import './main/skins.scss';
@@ -39,9 +37,3 @@
 // // Components
 // @import './sidebar/sb-all-games.scss';
 // @import './sidebar/sb-explore-games.scss';
-
-.test {
-  width: 100%;
-  height: 1000px;
-  background-color: #ccc;
-}
