@@ -284,6 +284,7 @@
 
       &.active &::before {
         animation: fadeInOpa ease 1s forwards;
+        -webkit-animation: fadeInOpa ease 1s forwards;
       }
 
       &::before {

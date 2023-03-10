@@ -138,9 +138,9 @@
     left: 0;
 
     &__left {
-      @include center_with_flex;
-
       width: 0.5rem;
+      justify-content: center;
+      @include flex-align-center;
 
       &.welcome {
         background-color: #43afc2;
@@ -191,9 +191,9 @@
     }
 
     &__right {
-      @include center_with_flex;
-
       width: 6rem;
+      justify-content: center;
+      @include flex-align-center;
 
       &-icon {
         width: 2.6rem;
