@@ -1,51 +1,57 @@
 .skins {
   width: 100%;
-  height: 100rem;
+  height: 120rem;
   background-color: $header-bg-color;
   position: relative;
 
-  @mixin skins-height($width, $height) {
+  @mixin skins-width($width, $width_d) {
     @media only screen and (max-width: $width) {
-      height: $height;
+      width: $width_d;
     }
   }
-  @include skins-height($px1240, 90rem);
-  @include skins-height($px1140, 85rem);
-  @include skins-height($px1040, 80rem);
-  @include skins-height($px940, 75rem);
-  @include skins-height($px840, 70rem);
-  @include skins-height($px740, 62rem);
-  @include skins-height($px640, 96rem);
-  @include skins-height($px440, 86rem);
 
   &_container {
+    $height: 80rem;
     width: calc(100% - 12rem);
-    max-width: 146rem;
-    height: 84rem;
+    max-width: 136rem;
+    height: $height;
     @include absolute-position(-50%, -50%);
 
-    @include skins-height($px1240, 73rem);
-    @include skins-height($px1140, 67rem);
-    @include skins-height($px1040, 62rem);
-    @include skins-height($px940, 56rem);
-    @include skins-height($px840, 51rem);
-    @include skins-height($px740, 44rem);
-    @include skins-height($px640, 80rem);
-    @include skins-height($px440, 70rem);
-
-    @mixin container-width($width, $width_d) {
+    $map: (
+      $px1540: 0.2,
+      $px1440: 0.7,
+      $px1340: 1.3,
+      $px1240: 1.9,
+      $px1140: 2.5,
+      $px1040: 3,
+      $px940: 3.6,
+      $px840: 4.2,
+      $px740: 4.5,
+      $px640: 4.3,
+      $px540: 4.9,
+      $px440: 5.4,
+      $px340: 6,
+    );
+    @each $width, $i in $map {
       @media only screen and (max-width: $width) {
-        width: $width_d;
+        height: +($height - $i * 10);
       }
     }
-    @include container-width($px740, calc(100% - 8rem));
-    @include container-width($px640, calc(100% - 6rem));
-    @include container-width($px440, calc(100% - 4rem));
+
+    @include skins-width($px740, calc(100% - 8rem));
+    @include skins-width($px640, 100%);
 
     &__header {
       text-align: center;
       top: -5.6rem;
       @include absolute-position-x-axis;
+
+      @media only screen and (max-width: $px640) {
+        width: 100%;
+        justify-content: center;
+        transform: translate(-50%, -100%);
+        @include flex-align-center;
+      }
 
       @mixin header-top($width, $top) {
         @media only screen and (max-width: $width) {
@@ -54,13 +60,19 @@
       }
       @include header-top($px1040, -4.6rem);
       @include header-top($px740, -4.4rem);
-      @include header-top($px540, -5.6rem);
+      @include header-top($px640, 0);
 
       &-logo {
         width: 1.8rem;
 
         @media only screen and (max-width: $px1040) {
           width: 1.4rem;
+        }
+        @media only screen and (max-width: $px640) {
+          margin: 1.2rem;
+        }
+        @media only screen and (max-width: $px540) {
+          width: 1.2rem;
         }
 
         &.dingdong {
@@ -82,7 +94,10 @@
         }
         @include title-font-size($px1040, 2rem);
         @include title-font-size($px740, 1.8rem);
-        @include title-font-size($px640, 1.6rem);
+        @include title-font-size($px640, 2.4rem);
+        @include title-font-size($px540, 2rem);
+        @include title-font-size($px440, 1.8rem);
+        @include title-font-size($px340, 1.6rem);
 
         &.scroll {
           animation: spacingExpanding ease 0.4s;
@@ -95,21 +110,12 @@
   &_images {
     width: calc(100% - 8rem);
     max-width: 136rem;
-    height: 65rem;
-    top: 5rem;
+    height: 90%;
     overflow: hidden;
-    @include absolute-position-x-axis;
+    @include absolute-position(-50%, -50%);
 
-    @media only screen and (max-width: $px1040) {
-      width: calc(100% - 6rem);
-    }
-
-    @include skins-height($px1240, 55rem);
-    @include skins-height($px1140, 50rem);
-    @include skins-height($px1040, 45rem);
-    @include skins-height($px940, 40rem);
-    @include skins-height($px840, 35rem);
-    @include skins-height($px740, 30rem);
+    @include skins-width($px1040, calc(100% - 6rem));
+    @include skins-width($px640, 100%);
 
     &__slider {
       background-repeat: no-repeat;
@@ -126,31 +132,22 @@
   &-overlay {
     width: 100%;
     max-width: 146rem;
-    height: 84rem;
+    height: 100%;
     background-color: transparent;
     border-bottom: 1px solid #423a26;
     position: absolute;
 
-    @include skins-height($px1240, 73rem);
-    @include skins-height($px1140, 67rem);
-    @include skins-height($px1040, 62rem);
-    @include skins-height($px940, 56rem);
-    @include skins-height($px840, 51rem);
-    @include skins-height($px740, 44rem);
-    @include skins-height($px640, 80rem);
-    @include skins-height($px440, 70rem);
+    @media only screen and (max-width: $px640) {
+      border-bottom: none;
+    }
 
     &__container-big {
       width: 88%;
-      height: 17.5rem;
+      height: 16rem;
       background-color: #131315;
       border: 1px solid #423a26;
-      bottom: 5rem;
+      bottom: 6rem;
       @include absolute-position-x-axis;
-
-      @media only screen and (max-width: $px740) {
-        width: 85%;
-      }
 
       @mixin container-big-height-bottom($width, $height, $bottom) {
         @media only screen and (max-width: $width) {
@@ -158,30 +155,53 @@
           bottom: $bottom;
         }
       }
-      @include container-big-height-bottom($px1240, 15.5rem, 5rem);
-      @include container-big-height-bottom($px1140, 13.5rem, 5.5rem);
-      @include container-big-height-bottom($px940, 11.5rem, 5.5rem);
-      @include container-big-height-bottom($px740, 8.5rem, 4.6rem);
+      @include container-big-height-bottom($px1340, 14rem, 5.5rem);
+      @include container-big-height-bottom($px1240, 13.5rem, 5rem);
+      @include container-big-height-bottom($px1140, 12.5rem, 4.5rem);
+      @include container-big-height-bottom($px1040, 11.5rem, 4rem);
+      @include container-big-height-bottom($px940, 9.5rem, 3.5rem);
+      @include container-big-height-bottom($px840, 8.5rem, 3rem);
+      @include container-big-height-bottom($px740, 7.5rem, 2.5rem);
+
+      @media only screen and (max-width: $px840) {
+        width: 85%;
+      }
+      @media only screen and (max-width: $px640) {
+        width: 100%;
+        height: 6.5;
+        bottom: 0;
+        transform: translate(-50%, 100%);
+      }
     }
 
     %container-inner {
+      // Due to CSS selector priority, create new square-dimension mixin with out !important
+      @mixin square-dimension-inner($dimension) {
+        width: $dimension;
+        height: $dimension;
+      }
+
       background-color: #131315;
+      @include square-dimension-inner(calc(100% - 3rem));
       @include absolute-position(-50%, -50%);
 
-      @media only screen and (max-width: $px940) {
-        @include square-dimension(calc(100% - 2rem));
+      @media only screen and (max-width: $px1240) {
+        @include square-dimension-inner(calc(100% - 2rem));
       }
     }
 
     &__container-small {
       border: 1px solid #423a26;
-      @include square-dimension(calc(100% - 3rem));
       @extend %container-inner;
+
+      @media only screen and (max-width: $px940) {
+        @include full-dimension;
+      }
     }
 
     &__about {
       border: 1px solid #c4b998;
-      @include square-dimension(calc(100% - 4rem));
+      overflow: hidden;
       @extend %container-inner;
 
       & > div {
@@ -222,6 +242,7 @@
         }
         @include who-width($px840, 44%);
         @include who-width($px740, 69%);
+        @include who-width($px640, 100%);
 
         &-name {
           color: #d3c7aa;
@@ -279,6 +300,7 @@
         height: 100%;
         justify-content: center;
         @include flex-align-center;
+        @include display-responsive($px640, none);
 
         @media only screen and (max-width: $px1040) {
           justify-content: flex-start;
@@ -407,52 +429,15 @@
   }
 }
 
-.skins-overlay__border-above {
-  width: 32%;
-  height: 0.1rem;
-  background-color: #423a26;
-  position: absolute;
-
-  @mixin border-above-width($width, $width_d) {
-    @media only screen and (max-width: $width) {
-      width: $width_d;
-    }
-  }
-  @include border-above-width($px1240, 30%);
-  @include border-above-width($px940, 28%);
-  @include border-above-width($px840, 24%);
-  @include border-above-width($px740, 20%);
-
-  &::after {
-    @include square-border-header;
-  }
-
-  &-left {
-    top: 0;
-    left: 0;
-
-    &::after {
-      right: $square_05;
-      bottom: $square_02;
-    }
-  }
-
-  &-right {
-    top: 0;
-    right: 0;
-
-    &::after {
-      left: $square_05;
-      bottom: $square_02;
-    }
-  }
-}
-
 .skins-overlay__border {
+  $square_05: -0.5rem;
+  $square_02: -0.2rem;
+
   width: 0.1rem;
   height: 30%;
   background-color: #423a26;
   position: absolute;
+  @include display-responsive($px640, none);
 
   &::after {
     @include square-border-header;
@@ -495,6 +480,48 @@
     &::after {
       top: $square_05;
       left: $square_02;
+    }
+  }
+
+  &-above {
+    width: 32%;
+    height: 0.1rem;
+    background-color: #423a26;
+    position: absolute;
+    @include display-responsive($px640, none);
+
+    @mixin border-above-width($width, $width_d) {
+      @media only screen and (max-width: $width) {
+        width: $width_d;
+      }
+    }
+    @include border-above-width($px1240, 30%);
+    @include border-above-width($px940, 28%);
+    @include border-above-width($px840, 24%);
+    @include border-above-width($px740, 20%);
+
+    &::after {
+      @include square-border-header;
+    }
+
+    &-left {
+      top: 0;
+      left: 0;
+
+      &::after {
+        right: $square_05;
+        bottom: $square_02;
+      }
+    }
+
+    &-right {
+      top: 0;
+      right: 0;
+
+      &::after {
+        left: $square_05;
+        bottom: $square_02;
+      }
     }
   }
 }
