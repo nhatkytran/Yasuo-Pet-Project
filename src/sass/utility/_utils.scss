@@ -19,6 +19,41 @@
   list-style: none;
 }
 
+.quote-part {
+  width: 100%;
+  color: $header-text-color;
+  text-align: center;
+  position: absolute;
+  @include use-font(Gloria Hallelujah);
+
+  @mixin footer-font-size($width, $font-size) {
+    @media only screen and (max-width: $width) {
+      font-size: $font-size;
+    }
+  }
+
+  &-quote {
+    font-size: 2.6rem;
+    @include footer-font-size($px1140, 2.2rem);
+    @include footer-font-size($px840, 2rem);
+    @include footer-font-size($px640, 1.6rem);
+  }
+
+  &-who {
+    color: $color-ab;
+    font-size: 1.6rem;
+    margin-top: 2rem;
+
+    @media only screen and (max-width: $px640) {
+      margin-top: 1.4rem;
+    }
+
+    @include footer-font-size($px1140, 1.4rem);
+    @include footer-font-size($px840, 1.2rem);
+    @include footer-font-size($px640, 1rem);
+  }
+}
+
 /////////////////////////////
 
 // Buttons

@@ -83,7 +83,8 @@
       display: none;
     }
 
-    @include abs;
+    position: absolute;
+    display: block;
     left: 0;
     bottom: 0;
 
@@ -143,7 +144,7 @@
 
       position: absolute;
       top: 2rem;
-      @include center_from_left;
+      @include absolute-position-x-axis;
 
       display: none;
 

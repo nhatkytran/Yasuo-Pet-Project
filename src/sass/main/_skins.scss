@@ -15,7 +15,15 @@
     width: calc(100% - 12rem);
     max-width: 136rem;
     height: $height;
-    @include absolute-position(-50%, -50%);
+    top: 10rem;
+    @include absolute-position-x-axis;
+
+    @media only screen and (max-width: $px840) {
+      top: 8rem;
+    }
+    @media only screen and (max-width: $px640) {
+      top: 6rem;
+    }
 
     $map: (
       $px1540: 0.2,
@@ -363,6 +371,85 @@
       }
     }
   }
+
+  &-quote {
+    bottom: 5rem;
+  }
+
+  &-line {
+    width: calc(100% - 10rem);
+    max-width: 120rem;
+    height: 1px;
+    background-color: $main-border;
+    bottom: 2rem;
+    @include absolute-position-x-axis;
+    @include pseudo-element-features;
+  }
+}
+
+// This is the button used for "explore" on mobile device
+.skins-overlay__explore {
+  $color: #c4b998;
+  $folder-width-top: 1.2rem;
+  $folder-width-bottom: calc(100% - 1.2rem);
+
+  width: 11rem;
+  height: 3.6rem;
+  background-color: #0c0c0c;
+  color: $color;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  border: 1px solid $color;
+  clip-path: polygon(
+    $folder-width-top 0,
+    100% 0,
+    100% $folder-width-bottom,
+    $folder-width-bottom 100%,
+    0 100%,
+    0 $folder-width-top
+  );
+  transition: all ease 0.2s;
+  justify-content: center;
+  @include flex-align-center;
+  @include absolute-position(-50%, -50%);
+  @include use-font(Spiegel-Bold);
+  @include display-responsive($px640, flex);
+
+  @media only screen and (max-width: $px440) {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  &:hover {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%, 0 0);
+    $position: -1.2rem;
+
+    &::after {
+      right: $position;
+    }
+    &::before {
+      left: $position;
+    }
+  }
+
+  &::before,
+  &::after {
+    width: 0.2rem;
+    height: 2rem;
+    background-color: $color;
+    transform: skew(-45deg);
+    transition: all ease 0.2s;
+    @include pseudo-element-features;
+  }
+
+  &::after {
+    bottom: 0;
+    right: 0;
+  }
+  &::before {
+    top: 0;
+    left: 0;
+  }
 }
 
 .skins-btn {
@@ -370,7 +457,6 @@
   outline: none;
   border: none;
   position: relative;
-  @include display-responsive($px640, none);
 
   &-logo {
     @include square-dimension(5.6rem);
@@ -410,22 +496,32 @@
     @include display-responsive($px740, none);
   }
 
+  @mixin button-mobile-position($width, $side, $value, $y-translate: none) {
+    @media only screen and (max-width: $width) {
+      @if $side == left {
+        left: $value;
+      }
+      @if $side == right {
+        right: $value;
+      }
+      @if $y-translate != none {
+        transform: translateY($y-translate);
+      }
+    }
+  }
+
   &__left {
     left: -3.2rem;
     @include absolute-position-y-axis;
-
-    @media only screen and (max-width: $px740) {
-      left: -2.4rem;
-    }
+    @include button-mobile-position($px740, left, -2.4rem);
+    @include button-mobile-position($px640, left, 0, -42%);
   }
 
   &__right {
     right: -3.2rem;
     @include absolute-position-y-axis;
-
-    @media only screen and (max-width: $px740) {
-      right: -2.4rem;
-    }
+    @include button-mobile-position($px740, right, -2.4rem);
+    @include button-mobile-position($px640, right, 0, -42%);
   }
 }
 
