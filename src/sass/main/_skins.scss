@@ -1,8 +1,30 @@
 .skins {
+  $height: 108rem;
   width: 100%;
-  height: 120rem;
+  height: $height;
   background-color: $header-bg-color;
   position: relative;
+
+  $map: (
+    $px1540: 0.3,
+    $px1440: 0.8,
+    $px1340: 1.4,
+    $px1240: 2,
+    $px1140: 2.7,
+    $px1040: 3.2,
+    $px940: 3.8,
+    $px840: 4.65,
+    $px740: 4.95,
+    $px640: 4.35,
+    $px540: 4.95,
+    $px440: 5.45,
+    $px340: 6.05,
+  );
+  @each $width, $i in $map {
+    @media only screen and (max-width: $width) {
+      height: +($height - $i * 10);
+    }
+  }
 
   @mixin skins-width($width, $width_d) {
     @media only screen and (max-width: $width) {
@@ -16,6 +38,7 @@
     max-width: 136rem;
     height: $height;
     top: 10rem;
+    z-index: 2;
     @include absolute-position-x-axis;
 
     @media only screen and (max-width: $px840) {
@@ -374,6 +397,14 @@
 
   &-quote {
     bottom: 5rem;
+    z-index: 2;
+  }
+
+  &-bg-icon {
+    height: 96%;
+    fill: $background-icon-color;
+    z-index: 1;
+    @include absolute-position-x-axis;
   }
 
   &-line {
@@ -432,23 +463,15 @@
     }
   }
 
-  &::before,
-  &::after {
-    width: 0.2rem;
-    height: 2rem;
-    background-color: $color;
-    transform: skew(-45deg);
-    transition: all ease 0.2s;
-    @include pseudo-element-features;
-  }
-
-  &::after {
-    bottom: 0;
-    right: 0;
-  }
   &::before {
     top: 0;
     left: 0;
+    @include button-border(2rem, $color);
+  }
+  &::after {
+    bottom: 0;
+    right: 0;
+    @include button-border(2rem, $color);
   }
 }
 

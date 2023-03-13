@@ -141,3 +141,12 @@
   @include square-dimension(0.5rem);
   @include pseudo-element-features;
 }
+
+@mixin button-border($height, $bg-color) {
+  width: 0.2rem;
+  height: $height;
+  background-color: $bg-color;
+  transform: skew(-45deg);
+  transition: all ease 0.2s;
+  @include pseudo-element-features;
+}
