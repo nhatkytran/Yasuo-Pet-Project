@@ -85,6 +85,22 @@
 
     &-overlay {
       @include overlay(0.1);
+
+      &-btn {
+        background-color: rgba(0, 9, 19, 0.663);
+        padding: 0.8rem;
+        border: 1px solid #0bc6e3;
+        border-radius: 0.2rem;
+        top: 1rem;
+        left: 1rem;
+        position: absolute;
+        @include display-responsive($px640, block);
+
+        svg {
+          fill: $header-text-color;
+          @include square-dimension(1.6rem);
+        }
+      }
     }
 
     &-text {

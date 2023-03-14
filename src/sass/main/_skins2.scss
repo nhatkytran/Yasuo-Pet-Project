@@ -1,0 +1,55 @@
+.skins2 {
+  width: 100%;
+  background-color: $header-bg-color;
+  padding: 7rem 0;
+
+  &-imgs {
+    width: calc(100% - 12rem);
+    max-width: 128rem;
+    margin: 0 auto;
+    position: relative;
+
+    &-overlay {
+      width: 30%;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &-img {
+    width: 100%;
+  }
+
+  &-header {
+    margin: 4rem 4rem 0;
+    padding: 2rem;
+    color: $header-text-color;
+    font-size: 4rem;
+    text-transform: uppercase;
+    font-style: italic;
+    line-height: 0.85;
+    letter-spacing: 0.05rem;
+    @include use-font(Beaufort-Bold);
+  }
+
+  &-slider {
+    flex: 1;
+    width: calc(100% + 1.5rem);
+    background-color: red;
+    position: relative;
+    top: 0;
+    bottom: 0;
+  }
+
+  &-quote {
+    position: relative;
+    margin-top: 5rem;
+  }
+}
+
+// div > image --> Fix
