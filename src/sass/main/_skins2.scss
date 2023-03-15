@@ -3,6 +3,18 @@
   background-color: $header-bg-color;
   padding: 7rem 0;
 
+  $border-color: #909090;
+
+  &-overlay-text {
+    left: 50%;
+    transform: rotate(-90deg) translate(40%, -700%);
+    @include text-rotate;
+
+    &::after {
+      @include line-after;
+    }
+  }
+
   &-imgs {
     width: calc(100% - 12rem);
     max-width: 128rem;
@@ -10,7 +22,7 @@
     position: relative;
 
     &-overlay {
-      width: 30%;
+      width: 34%;
       top: 0;
       left: 0;
       bottom: 0;
@@ -23,6 +35,8 @@
 
   &-img {
     width: 100%;
+    // As default img --> inline --> so div is longer than img
+    display: block;
   }
 
   &-header {
@@ -34,16 +48,97 @@
     font-style: italic;
     line-height: 0.85;
     letter-spacing: 0.05rem;
+    border-bottom: 0.5px solid $border-color;
     @include use-font(Beaufort-Bold);
   }
 
   &-slider {
     flex: 1;
     width: calc(100% + 1.5rem);
-    background-color: red;
     position: relative;
     top: 0;
     bottom: 0;
+    overflow-y: hidden;
+
+    ul {
+      list-style: none;
+      @include full-dimension;
+    }
+
+    li {
+      width: 100%;
+      height: 10rem;
+      padding-left: 6rem;
+      transform: translateY(-50%);
+    }
+  }
+
+  &-button {
+    display: block;
+    transition: all ease 0.2s;
+    cursor: pointer;
+    @include full-dimension;
+    @include flex-align-center;
+
+    &:not(.active) {
+      filter: brightness(0.6);
+
+      .skins2-button__image {
+        margin-left: 2rem;
+        @include square-dimension(6rem);
+      }
+    }
+
+    &.active &__name {
+      $lg: linear-gradient($border-color, $border-color);
+      background: $lg, $lg, $lg;
+      background-repeat: no-repeat;
+      background-size: calc(100% - 2.4rem) 0.5px, 100% 0.5px, 0.5px calc(100% - 2.4rem);
+      background-position: left 0 top 0, left 0 bottom 0, right 0 bottom 0;
+
+      &::after {
+        top: 0;
+        right: 1.1rem;
+        @include button-border(2.6rem, $border-color);
+        transform: skew(45deg);
+        width: 0.1rem;
+      }
+    }
+
+    &__image {
+      background-image: url("/src/assets/img/Skins/12.jpeg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      transition: all ease 0.2s;
+      @include square-dimension(10rem);
+    }
+
+    &__name {
+      flex: 1;
+      height: calc(100% - 0.8rem);
+      color: #fff;
+      line-height: 1.28571;
+      letter-spacing: 0.1rem;
+      margin-right: 0.4rem;
+      overflow: hidden;
+      position: relative;
+      @include use-font(Spiegel-Regular);
+      @include flex-align-center;
+
+      p {
+        margin: 2rem;
+        font-size: 1.4rem;
+      }
+    }
+
+    &:hover:not(.active) {
+      filter: brightness(1);
+
+      .skins2-button__image {
+        transform: scale(1.05);
+      }
+    }
   }
 
   &-quote {
@@ -51,5 +146,3 @@
     margin-top: 5rem;
   }
 }
-
-// div > image --> Fix
