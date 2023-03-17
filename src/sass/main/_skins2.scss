@@ -1,14 +1,28 @@
 .skins2 {
+  $border-color: #909090;
+
   width: 100%;
   background-color: $header-bg-color;
   padding: 7rem 0;
 
-  $border-color: #909090;
+  @media only screen and (max-width: $px640) {
+    padding: 3rem 0 5rem;
+  }
 
   &-overlay-text {
     left: 50%;
     transform: rotate(-90deg) translate(40%, -700%);
     @include text-rotate;
+    @include display-responsive($px640, none);
+
+    @mixin overlay-text-translate-x($width, $x-translate) {
+      @media only screen and (max-width: $width) {
+        transform: rotate(-90deg) translate($x-translate, -700%);
+      }
+    }
+    @include overlay-text-translate-x($px1040, 30%);
+    @include overlay-text-translate-x($px940, 20%);
+    @include overlay-text-translate-x($px840, 10%);
 
     &::after {
       @include line-after;
@@ -21,33 +35,39 @@
     margin: 0 auto;
     position: relative;
 
+    @media only screen and (max-width: $px640) {
+      width: 100%;
+    }
+
     &-overlay {
+      display: flex;
+      flex-direction: column;
       width: 34%;
+      width: 41rem;
+      background-color: rgba(0, 0, 0, 0.5);
       top: 0;
       left: 0;
       bottom: 0;
       position: absolute;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: flex;
-      flex-direction: column;
+      @include display-responsive($px1040, none);
     }
   }
 
   &-img {
-    width: 100%;
     // As default img --> inline --> so div is longer than img
     display: block;
+    width: 100%;
   }
 
   &-header {
-    margin: 4rem 4rem 0;
-    padding: 2rem;
     color: $header-text-color;
     font-size: 4rem;
     text-transform: uppercase;
     font-style: italic;
     line-height: 0.85;
     letter-spacing: 0.05rem;
+    margin: 4rem 4rem 0;
+    padding: 2rem;
     border-bottom: 0.5px solid $border-color;
     @include use-font(Beaufort-Bold);
   }
@@ -55,9 +75,9 @@
   &-slider {
     flex: 1;
     width: calc(100% + 1.5rem);
-    position: relative;
     top: 0;
     bottom: 0;
+    position: relative;
     overflow-y: hidden;
 
     ul {
@@ -121,8 +141,8 @@
       line-height: 1.28571;
       letter-spacing: 0.1rem;
       margin-right: 0.4rem;
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
       @include use-font(Spiegel-Regular);
       @include flex-align-center;
 
@@ -144,5 +164,105 @@
   &-quote {
     position: relative;
     margin-top: 5rem;
+
+    @mixin quote-margin-top($width, $margin-top) {
+      @media only screen and (max-width: $width) {
+        margin-top: $margin-top;
+      }
+    }
+    @include quote-margin-top($px1040, 4rem);
+    @include quote-margin-top($px640, 3rem);
+  }
+}
+
+.skins2-mobile-slider {
+  width: calc(100% - 12rem);
+  margin: 0 auto;
+  @include display-responsive($px1040, block);
+
+  @media only screen and (max-width: $px640) {
+    width: 100%;
+  }
+
+  &__list {
+    list-style: none;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    @include full-dimension;
+    @include flex-align-center;
+  }
+
+  &__item {
+    flex-shrink: 0;
+    width: 11rem;
+    padding: 2.5rem 0.5rem;
+
+    &.active {
+      .skins2-mobile-slider__image-overlay {
+        display: block;
+      }
+    }
+
+    &:not(.active) {
+      .skins2-mobile-slider__image,
+      .skins2-mobile-slider__name {
+        filter: brightness(0.6);
+      }
+    }
+  }
+
+  &__button {
+    &:hover {
+      cursor: pointer;
+
+      .skins2-mobile-slider__name {
+        filter: brightness(1);
+      }
+    }
+  }
+
+  &__image {
+    background-image: url("/src/assets/img/Skins/12.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0 auto;
+    position: relative;
+    @include square-dimension(6rem);
+
+    &-overlay {
+      $border-color: #d0a85c;
+      $lg: linear-gradient($border-color, $border-color);
+      background: $lg, $lg, $lg, $lg, $lg, $lg;
+      background-repeat: no-repeat;
+      background-size: calc(100% - 1.6rem) 1px, 1px 1.6rem, 1px calc(100% - 3.2rem), calc(100% - 1.6rem) 1px, 1.6rem 1px,
+        1px 100%;
+      background-position: left 0 top 0, right 0 top 1.6rem, right 0 top 3.2rem, right 0 bottom 0, right 5.2rem bottom 0,
+        left 0 bottom 0;
+      overflow: hidden;
+      display: none;
+      @include square-dimension(calc(100% + 0.8rem));
+      @include absolute-position(-50%, -50%);
+
+      &::before {
+        top: 0;
+        right: 0.6rem;
+        @include button-border(1.8rem, $border-color);
+        width: 2px;
+        transform: skew(45deg);
+      }
+    }
+  }
+
+  &__name {
+    width: 100%;
+    color: $header-text-color;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1.2;
+    letter-spacing: 0.15em;
+    margin-top: 1rem;
+    transition: all ease 0.2s;
+    @include use-font(Spiegel-Regular);
   }
 }

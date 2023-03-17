@@ -54,6 +54,16 @@
   }
 }
 
+.line-section {
+  width: calc(100% - 10rem);
+  max-width: 120rem;
+  height: 1px;
+  background-color: $main-border;
+  bottom: 2rem;
+  @include absolute-position-x-axis;
+  @include pseudo-element-features;
+}
+
 .button {
   border: none;
   outline: none;
