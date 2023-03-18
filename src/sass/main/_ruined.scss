@@ -1,92 +1,80 @@
 .ruined {
   width: 100%;
-  height: 70rem;
+  height: 80rem;
   background-color: #0c0c0c;
-
   position: relative;
+  flex-direction: column;
+  justify-content: center;
+  @include flex-align-center;
+
+  &__banner-cover {
+    width: calc(100% - 12rem);
+    max-width: 146rem;
+    height: 64rem;
+    margin: 0 auto;
+    position: relative;
+
+    @media only screen and (max-width: $px740) {
+      width: calc(100% - 8rem);
+    }
+    @media only screen and (max-width: $px640) {
+      width: calc(100% - 6rem);
+    }
+  }
 
   &__king {
     height: 100%;
     transform: translate(-10rem, -2rem) scale(1.2);
 
-    // 840px
-    @media only screen and (max-width: 52.5em) {
+    @media only screen and (max-width: $px840) {
       transform: translate(-14rem, -2rem) scale(1.2);
     }
-
-    // 540px
-    @media only screen and (max-width: 33.75em) {
+    @media only screen and (max-width: $px540) {
       transform: translate(-18rem, -2rem) scale(1.2);
-      -webkit-transform: translate(-18rem, -2rem) scale(1.2);
-    }
-  }
-
-  &__banner-cover {
-    width: calc(100% - 12rem);
-    max-width: 160rem;
-    height: 65rem;
-    @include absolute-position(-50%, -50%);
-
-    // 740px
-    @media only screen and (max-width: 46.25em) {
-      width: calc(100% - 8rem);
-    }
-
-    // 640px
-    @media only screen and (max-width: 40em) {
-      width: calc(100% - 6rem);
     }
   }
 
   &__banner {
     width: 36%;
     height: 20%;
-    font-family: Spiegel-Regular, Arial, Helvetica, sans-serif;
     background-color: rgb(12, 47, 63);
-    color: #fff;
+    color: $header-text-color;
     padding: 2.4rem 7rem 2rem;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    @include use-font(Spiegel-Regular);
 
     // 1240px
     @media only screen and (max-width: 77.5em) {
       padding: 2.4rem 6rem 3rem 4rem;
     }
-
     // 1140px
     @media only screen and (max-width: 71.25em) {
       height: 16%;
       padding: 2rem 6rem 3rem 4rem;
     }
-
     // 940px
     @media only screen and (max-width: 58.75em) {
       padding: 1.6rem 4rem 3rem 3rem;
     }
-
     // 840px
     @media only screen and (max-width: 52.5em) {
       padding: 1.6rem 1.6rem 3rem 2rem;
     }
-
     // 740px
     @media only screen and (max-width: 46.25em) {
       height: 10%;
     }
-
     // 640px
     @media only screen and (max-width: 40em) {
       height: 8%;
       padding: 1.4rem 1.6rem 1.6rem 2rem;
     }
-
     // 540px
     @media only screen and (max-width: 33.75em) {
       display: none;
     }
-
-    position: absolute;
-    display: block;
-    left: 0;
-    bottom: 0;
 
     &-title {
       font-size: 2.4rem;
@@ -96,7 +84,6 @@
       @media only screen and (max-width: 71.25em) {
         font-size: 2rem;
       }
-
       // 640px
       @media only screen and (max-width: 40em) {
         font-size: 1.6rem;
@@ -105,35 +92,29 @@
 
     &-desc {
       font-size: 1.4rem;
+      @include display-responsive($px740, none);
 
       // 1140px
       @media only screen and (max-width: 71.25em) {
         font-size: 1rem;
       }
-
-      // 740px
-      @media only screen and (max-width: 46.25em) {
-        display: none;
-      }
     }
   }
 
   &__bg {
-    width: calc(100% - 12rem);
-    max-width: 160rem;
-    height: 65rem;
-    background-image: url("/src/img/Ruined/RuinedKing_Yasuo_PromoModule01.jpeg");
+    background-image: url("/src/assets/img/Ruined/RuinedKing_Yasuo_PromoModule01.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: 80% 50%;
+    background-position: 50% 50%;
+    background-origin: left;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 36% 100%);
+    @include full-dimension;
     @include absolute-position(-50%, -50%);
 
     // 740px
     @media only screen and (max-width: 46.25em) {
       width: calc(100% - 8rem);
     }
-
     // 640px
     @media only screen and (max-width: 40em) {
       width: calc(100% - 6rem);
@@ -141,44 +122,36 @@
 
     &-logo {
       width: 16rem;
-
-      position: absolute;
       top: 2rem;
+      position: absolute;
       @include absolute-position-x-axis;
-
-      display: none;
-
-      // 540px
-      @media only screen and (max-width: 33.75em) {
-        display: block;
-      }
+      @include display-responsive($px540, block);
     }
   }
 
   &__bg-border {
-    width: calc(100% - 12rem - 2rem);
-    max-width: calc(160rem - 2rem);
-    height: calc(65rem + 2rem);
+    width: calc(100% + 2rem);
+    height: calc(100% - 2rem);
     border: 1px solid $main-border;
-    @include absolute-position(-50%, -50%);
-
     pointer-events: none;
+    @include absolute-position(-50%, -50%);
+  }
 
-    // 740px
-    @media only screen and (max-width: 46.25em) {
-      width: calc(100% - 8rem - 2rem);
-    }
+  .ruined-sub {
+    width: 100vw;
+    height: 2rem;
+    background-color: rgb(12, 47, 63);
+    bottom: 0;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, 4.4rem);
 
-    // 640px
-    @media only screen and (max-width: 40em) {
-      width: calc(100% - 6rem - 2rem);
+    &::after {
+      width: 100%;
+      height: 1px;
+      background-color: inherit;
+      bottom: -1rem;
+      @include pseudo-element-features;
     }
   }
-}
-
-.ruined-sub {
-  grid-column: Full-start / Full-end;
-  content: "";
-  background-color: rgb(12, 47, 63);
-  height: 2rem;
 }

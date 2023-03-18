@@ -4,6 +4,7 @@
   width: 100%;
   background-color: $header-bg-color;
   padding: 7rem 0;
+  position: relative;
 
   @media only screen and (max-width: $px640) {
     padding: 3rem 0 5rem;
@@ -89,7 +90,6 @@
       width: 100%;
       height: 10rem;
       padding-left: 6rem;
-      transform: translateY(-50%);
     }
   }
 
