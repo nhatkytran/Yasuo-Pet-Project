@@ -3,102 +3,64 @@
   height: 56vw;
   max-height: 90rem;
   background-color: #0c0c0c;
-
   position: relative;
+  justify-content: center;
+  @include flex-align-center;
 
-  // 740px
-  @media only screen and (max-width: 46.25em) {
-    height: 70vw;
+  @mixin container-height($width, $height) {
+    @media only screen and (max-width: $width) {
+      height: $height;
+    }
   }
-
-  // 540px
-  @media only screen and (max-width: 33.75em) {
-    height: 80vw;
-  }
-
-  // 440px
-  @media only screen and (max-width: 27.5em) {
-    height: 85vw;
-  }
-
-  &::before {
-    content: '';
-    width: 100%;
-    height: 0.1rem;
-    background-color: rgb(12, 47, 63);
-
-    position: absolute;
-    top: 1rem;
-    left: 0;
-  }
-}
-
-.gallery__quote {
-  @include text-rotate;
-  transform: rotate(-90deg) translate(20rem, -10rem);
-
-  &::after {
-    @include line-after;
-  }
-
-  // 1340px
-  @media only screen and (max-width: 83.75em) {
-    transform: rotate(-90deg) translate(16rem, -10rem);
-  }
-
-  // 1140px
-  @media only screen and (max-width: 71.25em) {
-    transform: rotate(-90deg) translate(12rem, -10rem);
-  }
-
-  // 940px
-  @media only screen and (max-width: 58.75em) {
-    transform: rotate(-90deg) translate(8rem, -10rem);
-  }
-
-  // 740px
-  @media only screen and (max-width: 46.25em) {
-    transform: rotate(-90deg) translate(4rem, -9.6rem);
-  }
-
-  // 640px
-  @media only screen and (max-width: 40em) {
-    top: 105%;
-    left: 2.4rem;
-    transform: translate(0, 0);
-  }
+  @include container-height($px740, 70vw);
+  @include container-height($px540, 80vw);
+  @include container-height($px440, 85vw);
 }
 
 .gallery {
   display: grid;
+  width: calc(100% - 12rem);
+  max-width: 146rem;
+  height: 77.78%;
   grid-template-rows: repeat(8, 1fr);
   grid-template-columns: repeat(8, 1fr);
   grid-gap: 1rem;
-  width: calc(100% - 12rem);
-  max-width: 160rem;
-  height: 77.78%;
-  @include absolute-position(-50%, -50%);
+  position: relative;
 
-  // 840px
-  @media only screen and (max-width: 52.5em) {
-    width: calc(100% - 6rem);
-    grid-gap: 0.7rem;
+  @mixin gallery-width($width, $width_d, $grid-gap) {
+    @media only screen and (max-width: $width) {
+      width: $width_d;
+      grid-gap: $grid-gap;
+    }
   }
+  @include gallery-width($px840, calc(100% - 6rem), 0.7rem);
+  @include gallery-width($px640, calc(100% - 2rem), 0.4rem);
 
-  // 640px
-  @media only screen and (max-width: 40em) {
-    width: calc(100% - 2rem);
-    grid-gap: 0.4rem;
+  &__quote {
+    @include text-rotate;
+    transform: rotate(-90deg) translate(0, -11rem);
+
+    &::after {
+      @include line-after;
+    }
+
+    @media only screen and (max-width: $px840) {
+      transform: rotate(-90deg) translate(0, -10rem);
+    }
+    @media only screen and (max-width: $px640) {
+      top: unset;
+      bottom: -2.2rem;
+      transform: unset;
+    }
   }
 
   &__image {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    transition: all linear 0.1s;
+    transition: all ease 0.2s;
 
-    // 640px
-    @media only screen and (min-width: 40em) {
+    @media only screen and (min-width: $px640) {
       &:hover {
         transform: scale(1.02);
 
@@ -109,76 +71,54 @@
     }
 
     &-overlay {
-      @include center_with_flex;
-
-      width: 100%;
-      height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
-      border: 0.1rem solid #c4b998;
-      transition: all linear 0.1s;
-
+      border: 1px solid #c4b998;
+      transition: all ease 0.2s;
+      justify-content: center;
+      @include flex-align-center;
+      @include full-dimension;
       @include hide;
 
       &-title {
-        font-family: Beaufort-Regular, Arial, Helvetica, sans-serif;
         font-size: 1rem;
         color: #d4ccb2;
         letter-spacing: 0.2rem;
+        @include use-font(Beaufort-Regular);
       }
     }
 
+    @mixin image-and-position($image-name, $grid-row, $grid-column) {
+      background-image: url("/src/assets/img/gallery/#{$image-name}");
+      grid-row: $grid-row;
+      grid-column: $grid-column;
+    }
+
     &--0 {
-      grid-row: 4 / span 2;
-      grid-column: 4 / span 2;
-      background-image: url('../../src/img/gallery/the-soul_optimized.jpeg');
+      @include image-and-position("the-soul_optimized.jpeg", 4 / span 2, 4 / span 2);
     }
-
     &--1 {
-      grid-row: 1 / span 4;
-      grid-column: 1 / span 3;
-      background-image: url('../../src/img/gallery/yasuo-ahri_optimized.jpeg');
+      @include image-and-position("yasuo-ahri_optimized.jpeg", 1 / span 4, 1 / span 3);
     }
-
     &--2 {
-      grid-row: 1 / span 3;
-      grid-column: 4 / span 2;
-      background-image: url('../../src/img/gallery/yasuo-akali_optimized.jpeg');
+      @include image-and-position("yasuo-akali_optimized.jpeg", 1 / span 3, 4 / span 2);
     }
-
     &--3 {
-      grid-row: 1 / span 5;
-      grid-column: 6 / span 1;
-      background-image: url('../../src/img/gallery/first-yasuo_optimized.jpeg');
+      @include image-and-position("first-yasuo_optimized.jpeg", 1 / span 5, 6 / span 1);
     }
-
     &--4 {
-      grid-row: 1 / span 2;
-      grid-column: 7 / span 2;
-      background-image: url('../../src/img/gallery/yasuo-yone_optimized.jpeg');
+      @include image-and-position("yasuo-yone_optimized.jpeg", 1 / span 2, 7 / span 2);
     }
-
     &--5 {
-      grid-row: 5 / span 4;
-      grid-column: 1 / span 2;
-      background-image: url('../../src/img/gallery/yasuo-bloodmoon_optimized.jpg');
+      @include image-and-position("yasuo-bloodmoon_optimized.jpg", 5 / span 4, 1 / span 2);
     }
-
     &--6 {
-      grid-row: 5 / span 4;
-      grid-column: 3 / span 1;
-      background-image: url('../../src/img/gallery/yasuo-swordman_optimized.jpeg');
+      @include image-and-position("yasuo-swordman_optimized.jpeg", 5 / span 4, 3 / span 1);
     }
-
     &--7 {
-      grid-row: 6 / span 3;
-      grid-column: 4 / span 3;
-      background-image: url('../../src/img/gallery/yasuo-samurai_optimized.jpeg');
+      @include image-and-position("yasuo-samurai_optimized.jpeg", 6 / span 3, 4 / span 3);
     }
-
     &--8 {
-      grid-row: 3 / span 6;
-      grid-column: 7 / span 2;
-      background-image: url('../../src/img/gallery/yasuo-blossom_optimized.jpeg');
+      @include image-and-position("yasuo-blossom_optimized.jpeg", 3 / span 6, 7 / span 2);
     }
   }
 }

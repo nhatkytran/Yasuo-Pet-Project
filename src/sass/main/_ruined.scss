@@ -39,6 +39,7 @@
 
       @include king-transform($px840, -46.5rem, 7rem, 0.4);
       @include king-transform(44.25em, 6.8rem, 0.6rem, 0.4); // 708px
+      @include king-transform($px640, -47.5rem, 6.8rem, 0.4);
       @include king-transform(39.25em, 5.8rem, 0.6rem, 0.4); // 628px
       @include king-transform($px540, 4.8rem, 0.6rem, 0.4);
       @include king-transform($px340, 2.8rem, 0.6rem, 0.4);
