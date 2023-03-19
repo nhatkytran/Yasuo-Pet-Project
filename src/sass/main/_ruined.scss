@@ -1,24 +1,22 @@
 .ruined {
   width: 100%;
-  height: 80rem;
   background-color: #0c0c0c;
+  padding: 6rem 0 7rem;
   position: relative;
-  flex-direction: column;
-  justify-content: center;
-  @include flex-align-center;
+
+  @media only screen and (max-width: $px640) {
+    padding: 4rem 0 5rem;
+  }
 
   &__banner-cover {
     width: calc(100% - 12rem);
     max-width: 146rem;
     height: 64rem;
-    margin: 0 auto;
+    margin: 0 auto 0;
     position: relative;
 
-    @media only screen and (max-width: $px740) {
-      width: calc(100% - 8rem);
-    }
     @media only screen and (max-width: $px640) {
-      width: calc(100% - 6rem);
+      width: calc(100% - 4rem);
     }
   }
 
@@ -26,11 +24,24 @@
     height: 100%;
     transform: translate(-10rem, -2rem) scale(1.2);
 
-    @media only screen and (max-width: $px840) {
-      transform: translate(-14rem, -2rem) scale(1.2);
+    @mixin king-transform($width, $x-translate, $y-translate, $scale) {
+      @media only screen and (max-width: $width) {
+        transform: translate($x-translate, $y-translate) scale($scale);
+      }
     }
-    @media only screen and (max-width: $px540) {
-      transform: translate(-18rem, -2rem) scale(1.2);
+    @include king-transform($px840, -12rem, -2rem, 1.2);
+    @include king-transform($px640, -13rem, -2rem, 1.2);
+    @include king-transform($px540, -14rem, -2rem, 1.2);
+    @include king-transform($px340, -16rem, -2rem, 1.2);
+
+    &-helper {
+      transform: translate(-44.5rem, 7rem) scale(0.4);
+
+      @include king-transform($px840, -46.5rem, 7rem, 0.4);
+      @include king-transform(44.25em, 6.8rem, 0.6rem, 0.4); // 708px
+      @include king-transform(39.25em, 5.8rem, 0.6rem, 0.4); // 628px
+      @include king-transform($px540, 4.8rem, 0.6rem, 0.4);
+      @include king-transform($px340, 2.8rem, 0.6rem, 0.4);
     }
   }
 
@@ -39,63 +50,41 @@
     height: 20%;
     background-color: rgb(12, 47, 63);
     color: $header-text-color;
-    padding: 2.4rem 7rem 2rem;
+    padding: 2.4rem 6rem 2rem 4rem;
     left: 0;
     bottom: 0;
     position: absolute;
     @include use-font(Spiegel-Regular);
+    @include display-responsive($px740, none);
 
-    // 1240px
-    @media only screen and (max-width: 77.5em) {
-      padding: 2.4rem 6rem 3rem 4rem;
+    @mixin banner-look($width, $height, $padding) {
+      @media only screen and (max-width: $width) {
+        height: $height;
+        padding: $padding;
+      }
     }
-    // 1140px
-    @media only screen and (max-width: 71.25em) {
-      height: 16%;
-      padding: 2rem 6rem 3rem 4rem;
-    }
-    // 940px
-    @media only screen and (max-width: 58.75em) {
-      padding: 1.6rem 4rem 3rem 3rem;
-    }
-    // 840px
-    @media only screen and (max-width: 52.5em) {
-      padding: 1.6rem 1.6rem 3rem 2rem;
-    }
-    // 740px
-    @media only screen and (max-width: 46.25em) {
-      height: 10%;
-    }
-    // 640px
-    @media only screen and (max-width: 40em) {
-      height: 8%;
-      padding: 1.4rem 1.6rem 1.6rem 2rem;
-    }
-    // 540px
-    @media only screen and (max-width: 33.75em) {
-      display: none;
-    }
+    @include banner-look($px1240, 20%, 2.4rem 6rem 3rem 4rem);
+    @include banner-look($px1140, 16%, 2rem 6rem 3rem 4rem);
+    @include banner-look($px940, 16%, 1.6rem 4rem 3rem 3rem);
+    @include banner-look($px840, 17%, 1.6rem 1.6rem 3rem 2rem);
 
     &-title {
       font-size: 2.4rem;
       margin-bottom: 0.6rem;
 
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
-        font-size: 2rem;
+      @mixin title-font-size($width, $font-size) {
+        @media only screen and (max-width: $width) {
+          font-size: $font-size;
+        }
       }
-      // 640px
-      @media only screen and (max-width: 40em) {
-        font-size: 1.6rem;
-      }
+      @include title-font-size($px1140, 2rem);
+      @include title-font-size($px640, 1.6rem);
     }
 
     &-desc {
       font-size: 1.4rem;
-      @include display-responsive($px740, none);
 
-      // 1140px
-      @media only screen and (max-width: 71.25em) {
+      @media only screen and (max-width: $px1140) {
         font-size: 1rem;
       }
     }
@@ -111,22 +100,19 @@
     @include full-dimension;
     @include absolute-position(-50%, -50%);
 
-    // 740px
-    @media only screen and (max-width: 46.25em) {
-      width: calc(100% - 8rem);
+    @mixin bg-position($width, $x-position) {
+      @media only screen and (max-width: $width) {
+        background-position: $x-position 50%;
+      }
     }
-    // 640px
-    @media only screen and (max-width: 40em) {
-      width: calc(100% - 6rem);
-    }
-
-    &-logo {
-      width: 16rem;
-      top: 2rem;
-      position: absolute;
-      @include absolute-position-x-axis;
-      @include display-responsive($px540, block);
-    }
+    @include bg-position($px1440, 55%);
+    @include bg-position($px1340, 60%);
+    @include bg-position($px1240, 65%);
+    @include bg-position($px1140, 70%);
+    @include bg-position($px1040, 75%);
+    @include bg-position($px940, 80%);
+    @include bg-position($px840, 85%);
+    @include bg-position($px640, 50%);
   }
 
   &__bg-border {
@@ -152,6 +138,19 @@
       background-color: inherit;
       bottom: -1rem;
       @include pseudo-element-features;
+    }
+  }
+
+  &-quote {
+    margin-top: 10rem;
+    position: relative;
+
+    @media only screen and (max-width: $px640) {
+      margin-top: 8rem;
+    }
+
+    .quote-part-who {
+      color: #2da887;
     }
   }
 }
