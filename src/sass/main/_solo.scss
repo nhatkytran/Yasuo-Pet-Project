@@ -1,0 +1,113 @@
+.solo {
+  width: 100%;
+  background-color: #0c0c0c;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("/src/assets/img/solo/solo-yasuo.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  padding: 8rem 0;
+
+  &-main {
+    width: calc(100% - 12rem);
+    max-width: 110rem;
+    height: 56rem;
+    background-image: url("/src/assets/img/solo/solo-yasuo.jpeg");
+    background-repeat: no-repeat;
+    background-size: 140%;
+    background-position: 100% 50%;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  &-form {
+    width: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: $header-text-color;
+    padding: 6rem 4rem;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+
+    &__header {
+      margin-bottom: 5rem;
+
+      p:nth-child(1) {
+        color: $button-color-blue-hover;
+        font-size: 3rem;
+        @include use-font(Spiegel-Regular);
+      }
+      p:nth-child(2) {
+        font-size: 1.8rem;
+        letter-spacing: 0.2rem;
+        @include use-font(FF-Mark);
+      }
+    }
+
+    &__group {
+      &:not(:last-child) {
+        margin-bottom: 2rem;
+      }
+
+      input {
+        display: block;
+        width: 90%;
+        font-size: 1.5rem;
+        padding: 1.5rem 2rem;
+        border: none;
+        outline: none;
+        border-radius: 0.2rem;
+
+        // &:placeholder-shown {
+        //   label {
+        //     transform: translateY(-3.8rem);
+        //     @include hide;
+        //   }
+        // }
+      }
+
+      label {
+        display: block;
+        font-size: 1.2rem;
+        margin-left: 2rem;
+        margin-top: 0.7rem;
+        @include use-font(Spiegel-Regular);
+      }
+    }
+
+    &__button {
+      color: $header-text-color;
+      letter-spacing: 0.1rem;
+      padding: 1.5rem 2rem;
+      border-radius: 0.1rem;
+      margin-top: 0.8rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+      position: relative;
+      @include use-font(FF-Mark-Medium);
+    }
+  }
+
+  &-border {
+    $border-color: #5c5c5c;
+    width: calc(100% + 2rem);
+    height: calc(100% - 2rem);
+    border-left: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+    $lg: linear-gradient($border-color, $border-color);
+    background: $lg, $lg, $lg;
+    background-repeat: no-repeat;
+    background-size: calc(100% - 2.4rem) 1px, 1px calc(100% - 2.4rem);
+    background-position: left 0 top 0, right 0 bottom 0;
+    pointer-events: none;
+    @include absolute-position(-50%, -50%);
+
+    &::before {
+      top: 0;
+      right: 1.2rem;
+      @include button-border(2.4rem, $border-color);
+      width: 0.15rem;
+      transform: skew(45deg);
+    }
+  }
+}
