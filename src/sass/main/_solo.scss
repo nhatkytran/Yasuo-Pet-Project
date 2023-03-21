@@ -8,16 +8,35 @@
   background-attachment: fixed;
   padding: 8rem 0;
 
+  @media only screen and (max-width: $px640) {
+    padding: 6rem 0;
+  }
+
   &-main {
     width: calc(100% - 12rem);
     max-width: 110rem;
-    height: 56rem;
+    height: 58rem;
     background-image: url("/src/assets/img/solo/solo-yasuo.jpeg");
     background-repeat: no-repeat;
     background-size: 140%;
     background-position: 100% 50%;
     margin: 0 auto;
     position: relative;
+
+    @media only screen and (max-width: $px640) {
+      width: calc(100% - 4rem);
+    }
+
+    @mixin main-backround($width, $size, $position) {
+      @media only screen and (max-width: $width) {
+        background-size: $size;
+        background-position: $position;
+      }
+    }
+    @include main-backround($px940, 160%, 100% 50%);
+    @include main-backround($px840, 175%, 100% 50%);
+    @include main-backround($px740, 185%, 100% 50%);
+    @include main-backround($px640, 185%, 50% 50%);
   }
 
   &-form {
@@ -30,18 +49,57 @@
     bottom: 0;
     position: absolute;
 
+    @media only screen and (max-width: $px440) {
+      padding: 6rem 2rem;
+    }
+
+    @mixin form-width($width, $width_d) {
+      @media only screen and (max-width: $width) {
+        width: $width_d;
+      }
+    }
+    @include form-width($px1040, 56%);
+    @include form-width($px940, 64%);
+    @include form-width($px840, 74%);
+    @include form-width($px740, 88%);
+    @include form-width($px640, 100%);
+
     &__header {
       margin-bottom: 5rem;
+
+      @media only screen and (max-width: $px640) {
+        text-align: center;
+      }
 
       p:nth-child(1) {
         color: $button-color-blue-hover;
         font-size: 3rem;
         @include use-font(Spiegel-Regular);
+
+        @media only screen and (max-width: $px1140) {
+          font-size: 2.6rem;
+        }
       }
       p:nth-child(2) {
         font-size: 1.8rem;
         letter-spacing: 0.2rem;
         @include use-font(FF-Mark);
+
+        @media only screen and (max-width: $px1140) {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    &__dash {
+      @include display-responsive($px440, none);
+    }
+
+    &__challenge {
+      @include display-responsive($px440, block);
+
+      @media only screen and (max-width: $px440) {
+        margin-bottom: 1rem;
       }
     }
 
@@ -59,25 +117,34 @@
         outline: none;
         border-radius: 0.2rem;
 
-        // &:placeholder-shown {
-        //   label {
-        //     transform: translateY(-3.8rem);
-        //     @include hide;
-        //   }
-        // }
+        @media only screen and (max-width: $px640) {
+          margin: 0 auto;
+        }
+        @media only screen and (max-width: $px540) {
+          width: 100%;
+        }
+
+        &:not(:placeholder-shown) + label {
+          transform: translateY(0);
+          @include show;
+        }
       }
 
       label {
         display: block;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         margin-left: 2rem;
         margin-top: 0.7rem;
+        transform: translateY(-3.8rem);
+        transition: all ease 0.2s;
+        @include hide;
         @include use-font(Spiegel-Regular);
       }
     }
 
     &__button {
       color: $header-text-color;
+      font-size: 1.3rem;
       letter-spacing: 0.1rem;
       padding: 1.5rem 2rem;
       border-radius: 0.1rem;
@@ -85,7 +152,23 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
       position: relative;
       @include use-font(FF-Mark-Medium);
+
+      @media only screen and (max-width: $px1140) {
+        font-size: 1.2rem;
+      }
+      @media only screen and (max-width: $px640) {
+        width: 90%;
+        display: block;
+        margin: 0 auto;
+      }
+      @media only screen and (max-width: $px540) {
+        width: 100%;
+      }
     }
+  }
+
+  &-quote {
+    bottom: 3rem;
   }
 
   &-border {

@@ -37,6 +37,7 @@
     @include footer-font-size($px1140, 2.2rem);
     @include footer-font-size($px840, 2rem);
     @include footer-font-size($px640, 1.6rem);
+    @include footer-font-size($px440, 1.3rem);
   }
 
   &-who {

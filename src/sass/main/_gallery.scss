@@ -15,6 +15,13 @@
   @include container-height($px740, 70vw);
   @include container-height($px540, 80vw);
   @include container-height($px440, 85vw);
+
+  &-sub {
+    height: 2vh;
+    background-color: #0c0c0c;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    @include display-responsive($px1240, block);
+  }
 }
 
 .gallery {
