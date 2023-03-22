@@ -65,6 +65,29 @@
   @include pseudo-element-features;
 }
 
+.social-list {
+  list-style: none;
+  justify-content: space-between;
+  @include flex-align-center;
+
+  &-item {
+    background-color: #323232;
+    border-radius: 1.2rem;
+    @include square-dimension(3.2rem);
+  }
+
+  &-link {
+    justify-content: center;
+    @include flex-align-center;
+    @include full-dimension;
+  }
+
+  &-icon {
+    fill: #fff;
+    @include square-dimension(50%);
+  }
+}
+
 .button {
   border: none;
   outline: none;

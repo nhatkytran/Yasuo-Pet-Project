@@ -124,27 +124,7 @@
 
   &-social {
     min-width: 22rem;
-    list-style: none;
     padding: 2.4rem 0 1rem;
-    justify-content: space-between;
-    @include flex-align-center;
-
-    &-item {
-      background-color: #323232;
-      border-radius: 1.2rem;
-      @include square-dimension(3.2rem);
-    }
-
-    &-link {
-      justify-content: center;
-      @include flex-align-center;
-      @include full-dimension;
-    }
-
-    &-icon {
-      fill: #fff;
-      @include square-dimension(50%);
-    }
   }
 
   &-riot {
@@ -203,12 +183,12 @@
     display: flex;
     background-color: #323232;
     padding: 0.8rem 1.2rem;
-    margin: 0 2rem 4.6rem;
+    margin: 0 2rem 3.6rem;
     border-radius: 0.6rem;
 
     @media only screen and (max-width: $px440) {
       width: calc(100% - 4rem);
-      margin: 0 0 4.6rem;
+      margin: 0 0 3.6rem;
     }
 
     &-rate {
@@ -236,6 +216,77 @@
           @include display-responsive($px440, none);
         }
       }
+    }
+  }
+}
+
+.author__techs {
+  background-color: #292929;
+  padding: 2rem 0;
+  justify-content: center;
+  @include flex-align-center;
+
+  @media only screen and (max-width: $px940) {
+    padding: 1.6rem 0;
+  }
+
+  &-list {
+    width: calc(100% - 12rem);
+    max-width: 70rem;
+    list-style: none;
+    justify-content: space-between;
+    @include flex-align-center;
+
+    @media only screen and (max-width: $px440) {
+      width: calc(100% - 8rem);
+    }
+    @media only screen and (max-width: $px340) {
+      width: calc(100% - 4rem);
+    }
+
+    svg {
+      @include square-dimension(3rem);
+
+      @media only screen and (max-width: $px940) {
+        @include square-dimension(2.6rem);
+      }
+      @media only screen and (max-width: $px440) {
+        @include square-dimension(2.2rem);
+      }
+    }
+  }
+}
+
+.author__who {
+  background-color: #111111;
+  padding-bottom: 2.4rem;
+  @include use-font(Spiegel-Regular);
+
+  &-contacts {
+    padding: 2.4rem 0 1rem;
+    max-width: 26.4rem;
+    margin: 0 auto;
+  }
+
+  &-bio {
+    color: #7e7e7e;
+    text-align: center;
+    margin-top: 0.6rem;
+  }
+
+  &-name {
+    font-size: 1.4rem;
+
+    @media only screen and (max-width: $px440) {
+      font-size: 1.3rem;
+    }
+  }
+
+  &-quote {
+    font-size: 1.2rem;
+
+    @media only screen and (max-width: $px440) {
+      font-size: 1.1rem;
     }
   }
 }
