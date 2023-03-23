@@ -1,0 +1,13 @@
+body.modal-open .modal {
+  @include show;
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 1000;
+  @include full-dimension;
+  @include hide;
+}

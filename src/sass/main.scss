@@ -7,6 +7,8 @@
 
 @import "./base.scss";
 
+@import "./components/modal";
+
 @import "./subHeader/container";
 @import "./subHeader/subHeader";
 @import "./subHeader/trailer";
@@ -27,6 +29,5 @@
 @import "./main/solo";
 @import "./main/footer";
 
-// // Components
-// @import './sidebar/sb-all-games.scss';
+@import "./sidebar/sb-all-games";
 // @import './sidebar/sb-explore-games.scss';
