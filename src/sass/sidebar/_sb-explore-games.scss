@@ -1,284 +1,205 @@
-.explore-games-container {
+.explore-games {
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: $header-bg-color;
+  border-bottom: 1px groove $color-button-blue;
+  top: 0;
+  position: fixed;
   z-index: 1001;
 
-  @include abs;
-  top: 0;
-  left: 0;
+  // &.close-special {
+  //   animation: navbarXgClose linear 0.45s;
+  // }
 
-  @include hide;
+  // &.show {
+  //   animation: navbarXg linear 0.2s forwards;
+  // }
 
-  &.show {
-    @include show;
+  // // 1040px
+  // @media only screen and (max-width: 65em) {
+  //   max-width: 104rem;
+  //   height: 100vh;
+  //   border-bottom: none;
+
+  //   overflow-y: scroll;
+  // }
+}
+
+.explore-games__header {
+  height: 7.2rem;
+  color: $header-text-color;
+  text-transform: uppercase;
+  padding: 3.2rem;
+  transition: all ease 0.2s;
+  justify-content: space-between;
+  @include flex-align-center;
+
+  // // 1040px
+  // @media only screen and (max-width: 65em) {
+  //   padding: 1.2rem 1.8rem;
+  // }
+  // // 640px
+  // @media only screen and (max-width: 40em) {
+  //   padding: 1.6rem 1.2rem 0.6rem;
+  // }
+
+  &-riot {
+    font-size: 2rem;
+    cursor: pointer;
+    @include use-font(FF-Mark-Bold);
+
+    // // 1040px
+    // @media only screen and (max-width: 65em) {
+    //   margin: 0;
+    // }
+    // // 640px
+    // @media only screen and (max-width: 40em) {
+    //   font-size: 1.8rem;
+    // }
+    // // 340px
+    // @media only screen and (max-width: 21.25em) {
+    //   display: none;
+    // }
   }
 
-  .explore-games {
-    display: flex;
-    flex-direction: column;
+  &-more {
+    justify-content: space-between;
+    @include flex-align-center;
 
-    width: 100%;
-    max-width: 160rem;
-    background-color: $header-bg-color;
-    border-bottom: 1px groove $color-button-blue;
-    box-shadow: 0 1px 3px rgba(rgb(115, 115, 115), 0.2),
-      0 1px 2px rgba(rgb(136, 136, 136), 0.4);
+    // // 1040px
+    // @media only screen and (max-width: 65em) {
+    //   margin-right: 0;
+    // }
+    // // 340px
+    // @media only screen and (max-width: 21.25em) {
+    //   flex: 1;
+    // }
 
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    &-visit {
+      font-size: 1.1rem;
+      padding: 0.43rem 1.2rem;
+      margin-right: 0.6rem;
+      border-radius: 0.6rem;
+      transition: all ease 0.2s;
+      top: 0.1rem;
+      position: relative;
+      cursor: pointer;
+      @include use-font(FF-Mark);
 
-    &.close-special {
-      animation: navbarXgClose linear 0.45s;
+      // @media only screen and (max-width: 21.25em) {
+      //   font-size: 1.4rem;
+      //   padding: 0;
+      // }
+
+      &:hover {
+        color: $color-button-blue;
+      }
     }
 
-    &.show {
-      animation: navbarXg linear 0.2s forwards;
+    &-close {
+      background-color: rgb(50, 50, 50);
+      border-radius: 0.6rem;
+      cursor: pointer;
+      justify-content: space-around;
+      @include flex-align-center;
+      @include square-dimension(2.4rem);
+
+      // // 1040px
+      // @media only screen and (max-width: 65em) {
+      //   width: 3.6rem;
+      //   height: 3.6rem;
+      // }
+      // // 640px
+      // @media only screen and (max-width: 40em) {
+      //   width: 3.6rem;
+      //   height: 3.6rem;
+      // }
+
+      &-icon {
+        fill: #fff;
+        @include square-dimension(1.6rem);
+      }
+    }
+  }
+}
+
+.explore-games__body {
+  display: grid;
+  grid-gap: 0.8rem;
+  grid-template-columns: repeat(8, 1fr);
+  padding: 0 3.2rem 3.2rem;
+
+  // // 1040px
+  // @media only screen and (max-width: 65em) {
+  //   grid-gap: 1.6rem;
+  //   grid-template-columns: repeat(2, 1fr);
+  //   padding: 0 2rem 2rem;
+  // }
+  // // 640px
+  // @media only screen and (max-width: 40em) {
+  //   grid-gap: 0.8rem;
+  //   padding: 1rem;
+  // }
+
+  &-poster {
+    transition: all linear 0.2s;
+
+    &:nth-child(1),
+    &:nth-child(2) {
+      grid-column: span 2;
+    }
+  }
+
+  .eg-poster {
+    color: rgb(209, 209, 209);
+    font-size: 1.1rem;
+    text-decoration: none;
+    @include use-font(FF-Mark);
+
+    &:hover .eg-poster-img {
+      box-shadow: 0 14px 28px rgba(#fff, 0.1);
     }
 
-    // 1040px
-    @media only screen and (max-width: 65em) {
-      max-width: 104rem;
-      height: 100vh;
-      border-bottom: none;
-
-      overflow-y: scroll;
+    &-img {
+      width: 100%;
+      border-radius: 0.4rem;
+      transition: all ease 0.2s;
     }
 
-    // Header /////////////////////////////////////
-    &__header {
+    &__description {
+      padding-top: 1rem;
+
+      &:nth-last-child(1) {
+        // 1040px
+        @media only screen and (max-width: 65em) {
+          padding-bottom: 1rem;
+        }
+      }
+
+      // 1040px
+      @media only screen and (max-width: 65em) {
+        font-size: 1.6rem;
+        padding-top: 0.2rem;
+      }
+    }
+
+    &__download {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      gap: 0.8rem;
 
-      height: 7.2rem;
-      color: $header-text-color;
-      padding: 2.4rem;
-      text-transform: uppercase;
-      transition: all linear 0.2s;
-
-      opacity: 0;
-      pointer-events: none;
-
-      &.show {
-        opacity: 1;
-        pointer-events: all;
-      }
+      fill: rgb(209, 209, 209);
+      margin-top: 0.8rem;
 
       // 1040px
       @media only screen and (max-width: 65em) {
-        padding: 1.2rem 1.8rem;
+        padding-bottom: 0.8rem;
       }
 
-      // 640px
-      @media only screen and (max-width: 40em) {
-        padding: 1.6rem 1.2rem 0.6rem;
-      }
-
-      &-riot {
-        margin: 0 1.6rem;
-        cursor: pointer;
-
+      &-window-icon,
+      &-macOS-icon {
         // 1040px
         @media only screen and (max-width: 65em) {
-          margin: 0;
-        }
-
-        // 340px
-        @media only screen and (max-width: 21.25em) {
-          display: none;
-        }
-
-        &-games {
-          font-family: FF-Mark-Bold, Arial, sans-serif;
-          font-size: 2rem;
-
-          // 640px
-          @media only screen and (max-width: 40em) {
-            font-size: 1.8rem;
-          }
-        }
-      }
-
-      &-more {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        margin-right: 1.6rem;
-
-        // 1040px
-        @media only screen and (max-width: 65em) {
-          margin-right: 0;
-        }
-
-        // 340px
-        @media only screen and (max-width: 21.25em) {
-          flex: 1;
-        }
-
-        &-visit {
-          font-family: FF-Mark, Arial, sans-serif;
-          font-size: 1.1rem;
-          padding: 0.43rem 1.2rem;
-          margin-right: 1rem;
-          border-radius: 0.6rem;
-          transition: background-color linear 0.1s;
-
-          position: relative;
-          top: 0.1rem;
-
-          @media only screen and (max-width: 21.25em) {
-            font-size: 1.4rem;
-            padding: 0;
-          }
-
-          &:hover {
-            background-color: rgb(56, 56, 56);
-          }
-        }
-
-        &-visit,
-        &-close {
-          cursor: pointer;
-        }
-
-        &-close {
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-
-          width: 2.4rem;
-          height: 2.4rem;
-          background-color: rgb(56, 56, 56);
-          border-radius: 0.6rem;
-
-          // 1040px
-          @media only screen and (max-width: 65em) {
-            width: 3.6rem;
-            height: 3.6rem;
-          }
-
-          // 640px
-          @media only screen and (max-width: 40em) {
-            width: 3.6rem;
-            height: 3.6rem;
-          }
-
-          &-icon {
-            width: 1.6rem;
-            height: 1.6rem;
-            fill: #fff;
-          }
-        }
-      }
-    }
-
-    // Body /////////////////////////////////////
-    &__body {
-      flex: 1;
-
-      display: grid;
-      grid-gap: 0.8rem;
-      grid-template-columns: repeat(8, 1fr);
-
-      padding: 0 3.2rem 3.2rem;
-
-      // 1040px
-      @media only screen and (max-width: 65em) {
-        grid-gap: 1.6rem;
-        grid-template-columns: repeat(2, 1fr);
-
-        padding: 0 2rem 2rem;
-      }
-
-      // 640px
-      @media only screen and (max-width: 40em) {
-        grid-gap: 0.8rem;
-        padding: 1rem;
-      }
-
-      &--1,
-      &--2 {
-        grid-column: span 2;
-      }
-
-      &--1,
-      &--2,
-      &--3,
-      &--4,
-      &--5,
-      &--6 {
-        transition: all linear 0.2s;
-
-        @include hide;
-
-        &.show {
-          @include show;
-        }
-      }
-
-      .egbl-poster:link,
-      .egbl-poster:visited {
-        color: rgb(209, 209, 209);
-        font-family: FF-Mark, Arial, sans-serif;
-        font-size: 1.1rem;
-        text-decoration: none;
-
-        &:hover .egbl-poster-img {
-          box-shadow: 0 14px 20px rgba(#fff, 0.05), 0 10px 10px rgba(#fff, 0.08);
-        }
-      }
-
-      .egbl-poster {
-        &-img {
-          width: 100%;
-          height: auto;
-          border-radius: 0.4rem;
-          box-shadow: 0 1px 3px rgba(rgb(115, 115, 115), 0.12),
-            0 1px 2px rgba(rgb(136, 136, 136), 0.24);
-          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        &__description {
-          padding-top: 1rem;
-
-          &:nth-last-child(1) {
-            // 1040px
-            @media only screen and (max-width: 65em) {
-              padding-bottom: 1rem;
-            }
-          }
-
-          // 1040px
-          @media only screen and (max-width: 65em) {
-            font-size: 1.6rem;
-            padding-top: 0.2rem;
-          }
-        }
-
-        &__download {
-          display: flex;
-          gap: 0.8rem;
-
-          fill: rgb(209, 209, 209);
-          margin-top: 0.8rem;
-
-          // 1040px
-          @media only screen and (max-width: 65em) {
-            padding-bottom: 0.8rem;
-          }
-
-          &-window-icon,
-          &-macOS-icon {
-            // 1040px
-            @media only screen and (max-width: 65em) {
-              width: 1.4rem;
-              height: 1.4rem;
-            }
-          }
+          width: 1.4rem;
+          height: 1.4rem;
         }
       }
     }

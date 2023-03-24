@@ -1,6 +1,6 @@
 const button = document.querySelector('.sb-ag-header__close');
 const right = document.querySelector('.sb-ag-body__right');
-const poster = document.querySelector('.ag-poster');
+const poster = document.querySelector('.ag-poster-container');
 
 button.addEventListener('click', () => {
   if (right.classList.contains('remove')) right.classList.remove('remove');
