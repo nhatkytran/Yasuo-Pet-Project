@@ -9,70 +9,56 @@
   // &.close-special {
   //   animation: navbarXgClose linear 0.45s;
   // }
-
   // &.show {
   //   animation: navbarXg linear 0.2s forwards;
   // }
 
-  // // 1040px
-  // @media only screen and (max-width: 65em) {
-  //   max-width: 104rem;
-  //   height: 100vh;
-  //   border-bottom: none;
+  @media only screen and (max-width: $px1040) {
+    height: 100vh;
+    border-bottom: none;
+    overflow-y: scroll;
 
-  //   overflow-y: scroll;
-  // }
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
 
 .explore-games__header {
+  max-width: 146rem;
   height: 7.2rem;
   color: $header-text-color;
   text-transform: uppercase;
   padding: 3.2rem;
+  margin: 0 auto;
   transition: all ease 0.2s;
   justify-content: space-between;
   @include flex-align-center;
 
-  // // 1040px
-  // @media only screen and (max-width: 65em) {
-  //   padding: 1.2rem 1.8rem;
-  // }
-  // // 640px
-  // @media only screen and (max-width: 40em) {
-  //   padding: 1.6rem 1.2rem 0.6rem;
-  // }
+  @media only screen and (max-width: $px1040) {
+    padding: 1.2rem 2rem;
+  }
+  @media only screen and (max-width: $px640) {
+    height: 5.6rem;
+    padding: 0.6rem 1rem 0;
+  }
 
   &-riot {
     font-size: 2rem;
-    cursor: pointer;
     @include use-font(FF-Mark-Bold);
 
-    // // 1040px
-    // @media only screen and (max-width: 65em) {
-    //   margin: 0;
-    // }
-    // // 640px
-    // @media only screen and (max-width: 40em) {
-    //   font-size: 1.8rem;
-    // }
-    // // 340px
-    // @media only screen and (max-width: 21.25em) {
-    //   display: none;
-    // }
+    @mixin riot-font-size($width, $font-size) {
+      @media only screen and (max-width: $width) {
+        font-size: $font-size;
+      }
+    }
+    @include riot-font-size($px640, 1.8rem);
+    @include riot-font-size($px440, 1.6rem);
   }
 
   &-more {
     justify-content: space-between;
     @include flex-align-center;
-
-    // // 1040px
-    // @media only screen and (max-width: 65em) {
-    //   margin-right: 0;
-    // }
-    // // 340px
-    // @media only screen and (max-width: 21.25em) {
-    //   flex: 1;
-    // }
 
     &-visit {
       font-size: 1.1rem;
@@ -85,11 +71,6 @@
       cursor: pointer;
       @include use-font(FF-Mark);
 
-      // @media only screen and (max-width: 21.25em) {
-      //   font-size: 1.4rem;
-      //   padding: 0;
-      // }
-
       &:hover {
         color: $color-button-blue;
       }
@@ -98,21 +79,14 @@
     &-close {
       background-color: rgb(50, 50, 50);
       border-radius: 0.6rem;
-      cursor: pointer;
       justify-content: space-around;
+      cursor: pointer;
       @include flex-align-center;
       @include square-dimension(2.4rem);
 
-      // // 1040px
-      // @media only screen and (max-width: 65em) {
-      //   width: 3.6rem;
-      //   height: 3.6rem;
-      // }
-      // // 640px
-      // @media only screen and (max-width: 40em) {
-      //   width: 3.6rem;
-      //   height: 3.6rem;
-      // }
+      @media only screen and (max-width: $px640) {
+        @include square-dimension(2.8rem);
+      }
 
       &-icon {
         fill: #fff;
@@ -123,37 +97,80 @@
 }
 
 .explore-games__body {
+  max-width: 146rem;
+  margin: 0 auto;
   display: grid;
   grid-gap: 0.8rem;
   grid-template-columns: repeat(8, 1fr);
   padding: 0 3.2rem 3.2rem;
 
-  // // 1040px
-  // @media only screen and (max-width: 65em) {
-  //   grid-gap: 1.6rem;
-  //   grid-template-columns: repeat(2, 1fr);
-  //   padding: 0 2rem 2rem;
-  // }
-  // // 640px
-  // @media only screen and (max-width: 40em) {
-  //   grid-gap: 0.8rem;
-  //   padding: 1rem;
-  // }
+  @media only screen and (max-width: $px1040) {
+    grid-gap: 1.6rem;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 2rem 2rem;
+  }
+  @media only screen and (max-width: $px640) {
+    padding: 1rem;
+  }
 
   &-poster {
-    transition: all linear 0.2s;
+    transition: all ease 0.2s;
 
     &:nth-child(1),
     &:nth-child(2) {
       grid-column: span 2;
+
+      .eg-poster__description {
+        @media only screen and (max-width: $px1140) {
+          margin-top: 0.4rem;
+        }
+      }
+    }
+
+    &:nth-child(3),
+    &:nth-child(4),
+    &:nth-child(5),
+    &:nth-child(6) {
+      @media only screen and (max-width: $px640) {
+        grid-column: span 2;
+      }
+
+      &:hover .eg-poster-img {
+        border-bottom: 2px groove $button-color-blue-hover;
+      }
+
+      .eg-poster {
+        height: 100%;
+        flex-direction: column;
+        @include flex-align-center;
+
+        &__description {
+          @media only screen and (max-width: $px1040) {
+            margin-top: 0.4rem;
+          }
+        }
+
+        &-img {
+          flex: 1;
+          flex-shrink: 1;
+          object-fit: cover;
+          border-bottom: 2px groove $color-button-blue;
+        }
+      }
     }
   }
 
   .eg-poster {
+    display: block;
     color: rgb(209, 209, 209);
     font-size: 1.1rem;
     text-decoration: none;
     @include use-font(FF-Mark);
+    @include full-dimension;
+
+    @media only screen and (max-width: $px1040) {
+      padding-bottom: 0.8rem;
+    }
 
     &:hover .eg-poster-img {
       box-shadow: 0 14px 28px rgba(#fff, 0.1);
@@ -166,40 +183,23 @@
     }
 
     &__description {
-      padding-top: 1rem;
+      font-size: 1rem;
+      margin-top: 0.8rem;
 
-      &:nth-last-child(1) {
-        // 1040px
-        @media only screen and (max-width: 65em) {
-          padding-bottom: 1rem;
-        }
-      }
-
-      // 1040px
-      @media only screen and (max-width: 65em) {
-        font-size: 1.6rem;
-        padding-top: 0.2rem;
+      @media only screen and (max-width: $px1040) {
+        font-size: 1.2rem;
       }
     }
 
     &__download {
       display: flex;
       gap: 0.8rem;
-
       fill: rgb(209, 209, 209);
-      margin-top: 0.8rem;
+      margin-top: 0.4rem;
 
-      // 1040px
-      @media only screen and (max-width: 65em) {
-        padding-bottom: 0.8rem;
-      }
-
-      &-window-icon,
-      &-macOS-icon {
-        // 1040px
-        @media only screen and (max-width: 65em) {
-          width: 1.4rem;
-          height: 1.4rem;
+      svg {
+        @media only screen and (max-width: $px1040) {
+          @include square-dimension(1rem);
         }
       }
     }
