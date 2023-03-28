@@ -1,8 +1,8 @@
-body.modal-open .modal {
+body.modal-open #modal {
   @include show;
 }
 
-.modal {
+#modal {
   background-color: rgba(0, 0, 0, 0.6);
   top: 0;
   left: 0;
