@@ -4,16 +4,14 @@
   position: fixed;
   z-index: 10000;
 
-  // // 640px
-  // @media only screen and (max-width: 40em) {
-  //   top: 2rem;
-  //   right: 2rem;
-  // }
-
-  // // 440px
-  // @media only screen and (max-width: 27.5em) {
-  //   transform: scale(0.8);
-  // }
+  @mixin toast-position($width, $position) {
+    @media only screen and (max-width: $width) {
+      top: $position;
+      right: $position;
+    }
+  }
+  @include toast-position($px840, 2.4rem);
+  @include toast-position($px640, 2rem);
 }
 
 .toast {
@@ -26,134 +24,58 @@
   right: 0;
   position: absolute;
 
-  &.toast-welcome {
-    // Add box shadow and create mixin
-    // Create toast for Solo and Skins2
-    box-shadow: 0 2px 4px rgba(#43afc2, 0.4);
+  @media only screen and (max-width: $px440) {
+    min-width: unset;
+    max-width: unset;
+    width: calc(100vw - 5.4rem);
+  }
+
+  @mixin toast-feature($image, $bright-color, $dark-color) {
+    box-shadow: 0 2px 4px rgba($bright-color, 0.4);
 
     .toast-overlay {
-      background-image: url("/src/assets/img/toast/the-soul_optimized.jpeg");
+      background-image: url("/src/assets/img/toast/#{$image}");
     }
 
     .toast-content__main {
-      border-left: 0.24rem solid #43afc2;
+      border-left: 0.24rem solid $bright-color;
     }
 
     .toast-close {
-      fill: #3b92a1;
+      fill: $dark-color;
 
       &:hover {
-        fill: #43afc2;
+        fill: $bright-color;
       }
     }
+  }
+
+  &.toast-welcome {
+    @include toast-feature("the-soul_optimized.jpeg", #43afc2, #3b92a1);
   }
 
   &.toast-information {
-    .toast-overlay {
-      background-image: url("/src/assets/img/toast/information_optimized.jpeg");
-    }
-
-    .toast-content__main {
-      border-left: 0.24rem solid #dbf9ff;
-    }
-
-    .toast-close {
-      fill: #b7cace;
-
-      &:hover {
-        fill: #dbf9ff;
-      }
-    }
+    @include toast-feature("information_optimized.jpeg", #dbf9ff, #b7cace);
   }
 
   &.toast-abilities {
-    .toast-overlay {
-      background-image: url("/src/assets/img/toast/yasuo-bloodmoon_optimized.jpg");
-    }
-
-    .toast-content__main {
-      border-left: 0.24rem solid #f94646;
-    }
-
-    .toast-close {
-      fill: #c63737;
-
-      &:hover {
-        fill: #f94646;
-      }
-    }
+    @include toast-feature("yasuo-bloodmoon_optimized.jpg", #f94646, #c63737);
   }
 
   &.toast-skins {
-    .toast-overlay {
-      background-image: url("/src/assets/img/toast/looks_optimized.jpeg");
-    }
-
-    .toast-content__main {
-      border-left: 0.24rem solid #ffa43c;
-    }
-
-    .toast-close {
-      fill: #c9812e;
-
-      &:hover {
-        fill: #ffa43c;
-      }
-    }
+    @include toast-feature("looks_optimized.jpeg", #ffa43c, #c9812e);
   }
 
   &.toast-ruined {
-    .toast-overlay {
-      background-image: url("/src/assets/img/toast/ruined_optimized.jpeg");
-    }
-
-    .toast-content__main {
-      border-left: 0.24rem solid #4bc497;
-    }
-
-    .toast-close {
-      fill: rgb(58, 151, 117);
-
-      &:hover {
-        fill: rgb(75, 196, 151);
-      }
-    }
+    @include toast-feature("ruined_optimized.jpeg", #4bc497, #3a9775);
   }
 
   &.toast-gallery {
-    .toast-overlay {
-      background-image: url("/src/assets/img/toast/blossom_optimized.jpeg");
-    }
-
-    .toast-content__main {
-      border-left: 0.24rem solid #fb9ec5;
-    }
-
-    .toast-close {
-      fill: #cf7fa0;
-
-      &:hover {
-        fill: #fb9ec5;
-      }
-    }
+    @include toast-feature("blossom_optimized.jpeg", #fb9ec5, #cf7fa0);
   }
 
   &.toast-oopsie {
-    .toast-overlay {
-      background-image: url("/src/assets/img/toast/oops_optimized.png");
-    }
-
-    .toast-content__main {
-      border-left: 0.24rem solid #269aae;
-    }
-
-    .toast-close {
-      fill: #1d7888;
-
-      &:hover {
-        fill: #269aae;
-      }
-    }
+    @include toast-feature("oops_optimized.png", #269aae, #1d7888);
   }
 
   &-overlay {
