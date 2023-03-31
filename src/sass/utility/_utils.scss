@@ -93,12 +93,12 @@
   outline: none;
   background-color: transparent;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .button-blue {
   background-color: $button-color-blue;
   transition: all linear 0.2s;
-  cursor: pointer;
 
   &:hover {
     background-color: $button-color-blue-hover;
