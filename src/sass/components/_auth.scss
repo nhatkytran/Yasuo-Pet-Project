@@ -1,11 +1,10 @@
 .login-overlay {
-  top: 0;
-  left: 0;
-  position: fixed;
+  width: 100%;
+  min-height: 100vh;
+  position: absolute;
   z-index: 1001;
   justify-content: center;
   @include flex-align-center;
-  @include full-dimension;
 }
 
 .login-form {
@@ -14,7 +13,15 @@
   background-color: $header-text-color;
   padding: 3.2rem;
   margin: 0 2rem;
+  border-radius: 0.2rem;
   @include use-font(FF-Mark);
+
+  @media only screen and (max-width: $px440) {
+    margin: 0;
+  }
+  @media only screen and (max-width: $px340) {
+    padding: 2.4rem;
+  }
 }
 
 .login-form__header {
@@ -46,7 +53,7 @@
   &-title {
     color: $color-layer;
     font-size: 4rem;
-    margin: 5.6rem 0;
+    margin: 3.6rem 0;
     @include use-font(FF-Mark-Medium);
   }
 
@@ -58,6 +65,10 @@
     cursor: pointer;
     @include flex-align-center;
     @include use-font(FF-Mark-Bold);
+
+    @media only screen and (max-width: $px440) {
+      font-size: 1rem;
+    }
 
     &:hover {
       filter: brightness(1.1);
@@ -72,6 +83,10 @@
 .login-form__body {
   padding: 0 2.4rem;
   margin-top: 4.6rem;
+
+  @media only screen and (max-width: $px540) {
+    padding: 0;
+  }
 
   &-group {
     margin-bottom: 2rem;
@@ -137,18 +152,101 @@
 }
 
 .login-form__footer {
-  margin-top: 2rem;
   padding: 0 2.4rem;
+  margin-top: 2rem;
 
-  &-actions {
-    justify-content: space-between;
-    @include flex-align-center;
-    @include use-font(FF-Mark);
+  @media only screen and (max-width: $px540) {
+    padding: 0;
   }
+}
+
+.login-form__actions {
+  justify-content: space-between;
+  @include flex-align-center;
+  @include use-font(FF-Mark);
 
   a {
     color: $color-layer;
     font-size: 1.4rem;
     text-decoration: none;
+  }
+}
+
+.login-form__options {
+  margin-top: 3.2rem;
+  justify-content: space-between;
+  @include flex-align-center;
+
+  @media only screen and (max-width: $px540) {
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  &-button {
+    padding: 1rem 3.2rem;
+    border-radius: 0.2rem;
+    justify-content: center;
+    @include flex-align-center;
+
+    @mixin button-dimension($width, $padding) {
+      @media only screen and (max-width: $width) {
+        padding: $padding;
+      }
+    }
+    @include button-dimension($px440, 1rem 2.2rem);
+    @include button-dimension($px340, 1rem 1.8rem);
+
+    svg {
+      @include square-dimension(2rem);
+    }
+  }
+
+  &-facebook {
+    background-color: #0966de;
+
+    svg {
+      fill: $header-text-color;
+    }
+  }
+
+  &-google,
+  &-github {
+    background-color: $header-text-color;
+    border: 1px groove #ccc;
+  }
+
+  &-apple {
+    background-color: $color-layer;
+
+    svg {
+      fill: $header-text-color;
+    }
+  }
+}
+
+.login-form__privacy {
+  color: #565656;
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 2.4rem 0;
+
+  a {
+    color: $color-layer;
+  }
+}
+
+.login-from__warning {
+  width: 100%;
+  background-color: #be29cc;
+  padding: 4rem;
+  bottom: 0;
+  position: fixed;
+  z-index: 1001;
+  justify-content: space-between;
+  @include flex-align-center;
+  @include use-font(FF-Mark);
+
+  button {
+    @include use-font(FF-Mark);
   }
 }
