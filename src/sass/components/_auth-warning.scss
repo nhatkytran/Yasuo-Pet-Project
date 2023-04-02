@@ -1,0 +1,237 @@
+.login-from__warning {
+  width: 100%;
+  background-color: #be29cc;
+  padding: 4rem 8rem;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  bottom: 0;
+  position: fixed;
+  z-index: 1001;
+  gap: 8rem;
+  justify-content: space-between;
+  @include flex-align-center;
+
+  &-hero {
+    color: $header-text-color;
+  }
+
+  &-header {
+    font-size: 2.2rem;
+    @include use-font(FF-Mark-Bold);
+  }
+
+  &-description {
+    font-size: 1.6rem;
+    margin-top: 1.4rem;
+    @include use-font(FF-Mark-Medium);
+  }
+
+  &-actions {
+    gap: 2.6rem;
+    flex-shrink: 0;
+    justify-content: space-between;
+    @include flex-align-center;
+  }
+
+  &-button {
+    transition: all ease 0.2s;
+    @include use-font(FF-Mark-Medium);
+  }
+
+  &-create {
+    color: $header-text-color;
+    background-color: #71117a;
+    padding: 1.6rem 1.8rem;
+    border-radius: 0.4rem;
+
+    &:hover {
+      background-color: #58105f;
+    }
+  }
+
+  &-close {
+    background-color: #c748d3;
+    padding: 1.6rem;
+    border-radius: 1.6rem;
+    justify-content: center;
+    @include flex-align-center;
+
+    &:hover {
+      filter: brightness(1.05);
+    }
+
+    svg {
+      fill: $header-text-color;
+      @include square-dimension(2rem);
+    }
+  }
+
+  @media only screen and (max-width: $px1040) {
+    gap: 6rem;
+    padding: 2.6rem 6rem;
+
+    &-header {
+      font-size: 2rem;
+    }
+
+    &-description {
+      font-size: 1.4rem;
+      margin-top: 1.2rem;
+    }
+
+    &-actions {
+      gap: 1.8rem;
+    }
+
+    &-create {
+      font-size: 1.2rem;
+      padding: 1.4rem 1.6rem;
+    }
+
+    &-close {
+      padding: 1.2rem;
+    }
+  }
+
+  @media only screen and (max-width: $px840) {
+    gap: 4rem;
+    padding: 2.6rem 4rem;
+
+    &-header {
+      font-size: 1.8rem;
+    }
+
+    &-description {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    &-actions {
+      gap: 1.4rem;
+    }
+
+    &-create {
+      font-size: 1rem;
+      padding: 1.2rem 1.4rem;
+    }
+
+    &-close {
+      padding: 0.9rem;
+    }
+  }
+
+  @media only screen and (max-width: $px740) {
+    gap: 3rem;
+    padding: 2.4rem 3rem;
+
+    &-actions {
+      gap: 1rem;
+    }
+  }
+
+  @media only screen and (max-width: $px640) {
+    gap: 2.6rem;
+    flex-direction: column;
+    padding: 4rem 3rem;
+
+    &-hero {
+      text-align: center;
+    }
+
+    &-header {
+      font-size: 2.2rem;
+    }
+
+    &-description {
+      font-size: 1.6rem;
+      margin-top: 1rem;
+    }
+
+    &-actions {
+      gap: 2rem;
+      flex-direction: column;
+    }
+
+    &-create {
+      font-size: 1.4rem;
+      padding: 1.6rem 1.8rem;
+    }
+
+    &-close {
+      padding: 1.6rem;
+    }
+  }
+
+  @media only screen and (max-width: $px540) {
+    padding: 3rem 2rem;
+
+    &-header {
+      font-size: 2rem;
+    }
+
+    &-description {
+      font-size: 1.4rem;
+    }
+
+    &-actions {
+      gap: 1.6rem;
+    }
+
+    &-create {
+      font-size: 1.2rem;
+      padding: 1.2rem 1.4rem;
+    }
+
+    &-close {
+      padding: 1.2rem;
+    }
+  }
+
+  @media only screen and (max-width: $px440) {
+    &-header {
+      font-size: 1.6rem;
+    }
+
+    &-description {
+      font-size: 1.2rem;
+    }
+
+    &-actions {
+      gap: 1.4rem;
+    }
+
+    &-create {
+      font-size: 1rem;
+      padding: 1rem 1.2rem;
+    }
+
+    &-close {
+      padding: 1rem;
+    }
+  }
+
+  @media only screen and (max-width: $px340) {
+    gap: 2rem;
+    padding: 2rem;
+
+    &-header {
+      font-size: 1.4rem;
+    }
+
+    &-description {
+      font-size: 1.1rem;
+    }
+
+    &-actions {
+      gap: 1rem;
+    }
+
+    &-create {
+      font-size: 1rem;
+      padding: 1rem 1.2rem;
+    }
+
+    &-close {
+      padding: 1rem;
+    }
+  }
+}

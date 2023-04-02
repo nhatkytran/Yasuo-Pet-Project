@@ -55,6 +55,10 @@
     font-size: 4rem;
     margin: 3.6rem 0;
     @include use-font(FF-Mark-Medium);
+
+    @media only screen and (max-width: $px340) {
+      margin: 3rem 0;
+    }
   }
 
   &-warning {
@@ -86,6 +90,9 @@
 
   @media only screen and (max-width: $px540) {
     padding: 0;
+  }
+  @media only screen and (max-width: $px340) {
+    margin-top: 4rem;
   }
 
   &-group {
@@ -232,21 +239,5 @@
 
   a {
     color: $color-layer;
-  }
-}
-
-.login-from__warning {
-  width: 100%;
-  background-color: #be29cc;
-  padding: 4rem;
-  bottom: 0;
-  position: fixed;
-  z-index: 1001;
-  justify-content: space-between;
-  @include flex-align-center;
-  @include use-font(FF-Mark);
-
-  button {
-    @include use-font(FF-Mark);
   }
 }
