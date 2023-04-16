@@ -81,6 +81,26 @@
       height: calc(100% + 2rem);
       border: 1px solid $main-border;
       @include absolute-position(-50%, -50%);
+
+      button {
+        padding: 0.8rem 1.2rem;
+        top: 2rem;
+        right: 1.2rem;
+        position: absolute;
+
+        span {
+          color: $header-text-color;
+          font-size: 1.1rem;
+          letter-spacing: 0.1rem;
+          @include flex-align-center;
+
+          svg {
+            fill: $header-text-color;
+            margin-right: 0.2rem;
+            @include square-dimension(2rem);
+          }
+        }
+      }
     }
   }
 
