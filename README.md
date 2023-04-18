@@ -1,5 +1,1 @@
-# Yasuo - Wind Emperor
-
-https://nhatkytran-yasuo-pet-project.netlify.app/
-
-HTML, CSS, SCSS, JAVASCRIPT, PARCEL
+# Yasuo | The King of All Kings
