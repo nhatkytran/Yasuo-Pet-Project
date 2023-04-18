@@ -81,30 +81,96 @@
       height: calc(100% + 2rem);
       border: 1px solid $main-border;
       @include absolute-position(-50%, -50%);
+    }
+  }
 
-      button {
-        padding: 0.8rem 1.2rem;
-        top: 2rem;
-        right: 1.2rem;
-        position: absolute;
+  &__play-video {
+    color: $header-text-color;
+    font-size: 1rem;
+    top: 1.8rem;
+    right: 1rem;
+    position: absolute;
+    cursor: default;
+    @include use-font(FF-Mark);
+
+    button {
+      color: inherit;
+      font-family: inherit;
+      font-size: 1.1rem;
+      padding: 0.8rem 1.2rem;
+      @include flex-align-center;
+
+      svg {
+        fill: $header-text-color;
+      }
+    }
+
+    &-play {
+      letter-spacing: 0.1rem;
+
+      svg {
+        margin-right: 0.2rem;
+        @include square-dimension(2rem);
+      }
+    }
+
+    &-loading {
+      letter-spacing: 0.2rem;
+
+      svg {
+        margin-right: 0.7rem;
+        animation: login-loading ease 1.2s infinite;
+        @include square-dimension(1.8rem);
+      }
+    }
+
+    &-message {
+      @include flex-align-center;
+
+      span {
+        font-size: 1.1rem;
+        text-decoration: underline;
+        padding: 0.8rem 1.2rem 0.8rem 0.4rem;
+        cursor: pointer;
+      }
+    }
+
+    &-success {
+      padding: 0.8rem 1.2rem;
+      @include flex-align-center;
+
+      svg {
+        fill: $header-text-color;
+      }
+
+      &-control svg {
+        @include square-dimension(2rem);
+      }
+
+      &-speakers svg {
+        @include square-dimension(1.6rem);
+      }
+
+      &-bar {
+        width: 8rem;
+        height: 0.36rem;
+        background-color: #838383;
+        border-radius: 0.6rem;
+        margin-left: 0.8rem;
+        top: -0.1rem;
+        position: relative;
 
         span {
-          color: $header-text-color;
-          font-size: 1.1rem;
-          letter-spacing: 0.1rem;
-          @include flex-align-center;
-
-          svg {
-            fill: $header-text-color;
-            margin-right: 0.2rem;
-            @include square-dimension(2rem);
-          }
+          width: 70%;
+          height: 100%;
+          background-color: $header-text-color;
+          border-radius: inherit;
+          position: absolute;
         }
       }
     }
   }
 
-  // Content
   &__content {
     width: 50rem;
     text-align: center;
