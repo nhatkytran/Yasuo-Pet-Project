@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 
+const subWebRouter = require('./routes/subwebRoutes');
+
 const app = express();
 
 const { NODE_ENV } = process.env;
@@ -10,11 +12,9 @@ if (NODE_ENV === 'development') app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    message: 'Love Coding',
-  });
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use('/subweb', subWebRouter);
 
 module.exports = app;
