@@ -1,4 +1,5 @@
 const Subweb = require('../models/subwebModel');
+const { catchAsync } = require('../utils');
 
 exports.getsubWebVideo = async function (req, res, next) {
   try {
@@ -12,20 +13,15 @@ exports.getsubWebVideo = async function (req, res, next) {
   }
 };
 
-exports.createSubwebVideo = async function (req, res, next) {
-  try {
-    const { linkMp4, linkWebm } = req.body;
+exports.createSubwebVideo = catchAsync(async function (req, res, next) {
+  const { linkMp4, linkWebm } = req.body;
 
-    if (!linkMp4 || !linkWebm) throw new Error('Bad!');
+  if (!linkMp4 || !linkWebm) throw new Error('Bad!');
 
-    const video = await Subweb.create({ linkMp4, linkWebm });
+  const video = await Subweb.create({ linkMp4, linkWebm });
 
-    res.status(200).json({
-      status: 'success',
-      video: video,
-    });
-  } catch (error) {
-    console.error('Something went wrong!');
-    console.error(error);
-  }
-};
+  res.status(200).json({
+    status: 'success',
+    video: video,
+  });
+});
