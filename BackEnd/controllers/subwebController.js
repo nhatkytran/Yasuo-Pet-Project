@@ -5,7 +5,7 @@ exports.getsubWebVideo = catchAsync(async function (req, res, next) {
   const videos = await Subweb.find();
   const video = videos[0];
 
-  if (video) throw new AppError('Video not found!', 404);
+  if (!video) throw new AppError('Video not found!', 404);
 
   res.status(200).json({
     status: 'success',
