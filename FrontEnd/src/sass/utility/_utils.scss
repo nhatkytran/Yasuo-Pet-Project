@@ -3,6 +3,23 @@
   display: none !important;
 }
 
+// Front-end Actions
+.hide {
+  @include hide;
+}
+
+.show {
+  @include show;
+}
+
+.fade-in {
+  animation: fadeIn ease 0.4s forwards;
+}
+
+.fade-out {
+  animation: fadeOut ease 0.4s forwards;
+}
+
 // Assets
 .arrow-down {
   width: 1.5rem;
