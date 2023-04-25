@@ -522,29 +522,65 @@ const fetchVideoButton = document.querySelector('.trailer__play-video-play');
 const fetchVideoLoading = document.querySelector('.trailer__play-video-loading');
 const fetchVideoSuccess = document.querySelector('.trailer__play-video-success');
 const fetchVideoMessage = document.querySelector('.trailer__play-video-message');
+const handleErrorMessage = (message)=>fetchVideoMessage.querySelector('p').textContent = message
+;
 const fetchVideoAgain = fetchVideoMessage.querySelector('span');
+let abortController;
+let abortTimeoutId;
+const newAbortSignal = (timeout)=>{
+    console.log('New abort singal!!!!!!!!!!!!!');
+    abortController = new AbortController();
+    abortTimeoutId = setTimeout(()=>{
+        console.log('Timeout');
+        abortController.abort('Timeout aborts!');
+    }, timeout || 0);
+    return abortController.signal;
+};
 const fetchVideo = async ()=>{
     try {
         fetchVideoMessage.classList.add('remove');
         fetchVideoButton.classList.add('remove');
         fetchVideoLoading.classList.remove('remove');
+        handleErrorMessage('Something went wrong!');
         const { data  } = await _axiosDefault.default({
             method: 'GET',
-            url: `${_config.BACKEND_URL}/api/v1/subweb/video`
+            url: `${_config.BACKEND_URL}/api/v1/subweb/video`,
+            signal: newAbortSignal(30000)
         });
         if (data.status === 'success') renderVideo(data.video);
     } catch (error) {
         console.error(error);
+        // CancelError --> Timout Error | User Aborts
+        if (error.code === 'ERR_CANCELED') {
+            console.log('ERR_CANCELED');
+            if (error.config.signal.reason === 'Timeout aborts!') {
+                console.log('Timeout aborts!');
+                handleErrorMessage('Request timout error!');
+            }
+            if (error.config.signal.reason === 'User aborts!') {
+                console.log('User aborts!');
+                handleErrorMessage('Interception!');
+            }
+        }
+        // Unknow Error
         fetchVideoLoading.classList.add('remove');
         fetchVideoMessage.classList.remove('remove');
+    } finally{
+        if (abortTimeoutId) clearTimeout(abortTimeoutId);
     }
 };
 fetchVideoButton.addEventListener('click', fetchVideo);
 fetchVideoAgain.addEventListener('click', fetchVideo);
+// Abort fetching
+const purchaseSkinsButton = document.querySelector('.trailer__content-button');
+const purchaseSkinsButtonActive = purchaseSkinsButton.querySelector('.trailer__content-button-border');
+purchaseSkinsButtonActive.addEventListener('click', ()=>{
+    console.log('Abort');
+    if (abortController) abortController.abort('User aborts!');
+});
+// Render
 const trailerVideo = document.querySelector('.trailer__bg-small-video');
 const trailerImage = document.querySelector('.trailer__bg-small-image');
-const trailerLogo = document.querySelector('.trailer__content-img');
-const purchaseSkinsButton = document.querySelector('.trailer__content-button');
 const trailerContent = document.querySelector('.trailer__content');
 const renderVideo = ({ linkMp4 , linkWebm  })=>{
     const links = [
@@ -573,9 +609,22 @@ const renderVideo = ({ linkMp4 , linkWebm  })=>{
         fetchVideoSuccess.classList.remove('remove');
     // trailerVideo.play();
     });
-}; // ??? When fetching video, if user clicks "purchase skins" --> stop fetching
+};
+// User click start stop super fast
+// Controls ///////////////
+// const [videoPlayButton, videoPauseButton] = document.querySelectorAll(
+//   '.trailer__play-video-success-control svg'
+// );
+const speaker = document.querySelector('.trailer__play-video-success-speakers');
+const speakers = speaker.querySelectorAll('svg');
+// let isVideoPlaying = true;
+const displaySpeaker = ()=>speakers.forEach((spk)=>{
+        if (!spk.classList.contains('active')) spk.classList.add('remove');
+    })
+;
+displaySpeaker();
 
-},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../config":"k5Hzs"}],"jo6P5":[function(require,module,exports) {
+},{"axios":"jo6P5","../config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jo6P5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>_axiosJsDefault.default

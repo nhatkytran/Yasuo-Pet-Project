@@ -9,10 +9,29 @@ const fetchVideoLoading = document.querySelector(
 const fetchVideoSuccess = document.querySelector(
   '.trailer__play-video-success'
 );
+
 const fetchVideoMessage = document.querySelector(
   '.trailer__play-video-message'
 );
+
+const handleErrorMessage = message =>
+  (fetchVideoMessage.querySelector('p').textContent = message);
+
 const fetchVideoAgain = fetchVideoMessage.querySelector('span');
+
+let abortController;
+let abortTimeoutId;
+
+const newAbortSignal = timeout => {
+  console.log('New abort singal!!!!!!!!!!!!!');
+  abortController = new AbortController();
+  abortTimeoutId = setTimeout(() => {
+    console.log('Timeout');
+    abortController.abort('Timeout aborts!');
+  }, timeout || 0);
+
+  return abortController.signal;
+};
 
 const fetchVideo = async () => {
   try {
@@ -20,28 +39,61 @@ const fetchVideo = async () => {
     fetchVideoButton.classList.add('remove');
     fetchVideoLoading.classList.remove('remove');
 
+    handleErrorMessage('Something went wrong!');
+
     const { data } = await axios({
       method: 'GET',
       url: `${BACKEND_URL}/api/v1/subweb/video`,
+      signal: newAbortSignal(30 * 1000),
     });
 
     if (data.status === 'success') renderVideo(data.video);
   } catch (error) {
     console.error(error);
+
+    // CancelError --> Timout Error | User Aborts
+    if (error.code === 'ERR_CANCELED') {
+      console.log('ERR_CANCELED');
+
+      if (error.config.signal.reason === 'Timeout aborts!') {
+        console.log('Timeout aborts!');
+        handleErrorMessage('Request timout error!');
+      }
+
+      if (error.config.signal.reason === 'User aborts!') {
+        console.log('User aborts!');
+        handleErrorMessage('Interception!');
+      }
+    }
+
+    // Unknow Error
     fetchVideoLoading.classList.add('remove');
     fetchVideoMessage.classList.remove('remove');
+  } finally {
+    if (abortTimeoutId) clearTimeout(abortTimeoutId);
   }
 };
 
 fetchVideoButton.addEventListener('click', fetchVideo);
 fetchVideoAgain.addEventListener('click', fetchVideo);
 
-const trailerVideo = document.querySelector('.trailer__bg-small-video');
+// Abort fetching
 
+const purchaseSkinsButton = document.querySelector('.trailer__content-button');
+const purchaseSkinsButtonActive = purchaseSkinsButton.querySelector(
+  '.trailer__content-button-border'
+);
+
+purchaseSkinsButtonActive.addEventListener('click', () => {
+  console.log('Abort');
+  if (abortController) abortController.abort('User aborts!');
+});
+
+// Render
+
+const trailerVideo = document.querySelector('.trailer__bg-small-video');
 const trailerImage = document.querySelector('.trailer__bg-small-image');
 
-const trailerLogo = document.querySelector('.trailer__content-img');
-const purchaseSkinsButton = document.querySelector('.trailer__content-button');
 const trailerContent = document.querySelector('.trailer__content');
 
 const renderVideo = ({ linkMp4, linkWebm }) => {
@@ -79,4 +131,21 @@ const renderVideo = ({ linkMp4, linkWebm }) => {
   });
 };
 
-// ??? When fetching video, if user clicks "purchase skins" --> stop fetching
+// User click start stop super fast
+
+// Controls ///////////////
+
+// const [videoPlayButton, videoPauseButton] = document.querySelectorAll(
+//   '.trailer__play-video-success-control svg'
+// );
+const speaker = document.querySelector('.trailer__play-video-success-speakers');
+const speakers = speaker.querySelectorAll('svg');
+
+// let isVideoPlaying = true;
+
+const displaySpeaker = () =>
+  speakers.forEach(spk => {
+    if (!spk.classList.contains('active')) spk.classList.add('remove');
+  });
+
+displaySpeaker();

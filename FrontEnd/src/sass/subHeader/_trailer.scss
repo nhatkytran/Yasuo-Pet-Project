@@ -143,29 +143,56 @@
         fill: $header-text-color;
       }
 
-      &-control svg {
-        @include square-dimension(2rem);
+      &-control {
+        margin-right: 0.6rem;
+        cursor: pointer;
+
+        svg {
+          @include square-dimension(2rem);
+        }
       }
 
-      &-speakers svg {
-        @include square-dimension(1.6rem);
+      &-speakers {
+        cursor: pointer;
+
+        svg {
+          @include square-dimension(1.6rem);
+        }
       }
 
       &-bar {
-        width: 8rem;
-        height: 0.36rem;
+        width: 8.6rem;
+        height: 0.46rem;
         background-color: #838383;
         border-radius: 0.6rem;
-        margin-left: 0.8rem;
+        margin-left: 0.6rem;
         top: -0.1rem;
         position: relative;
+        cursor: pointer;
 
-        span {
+        &:hover .trailer__play-video-success-bar-active::before {
+          @include show;
+        }
+
+        &-active {
           width: 70%;
           height: 100%;
           background-color: $header-text-color;
           border-radius: inherit;
           position: absolute;
+
+          &::before {
+            background-color: $header-text-color;
+            border-radius: 50%;
+            right: 0;
+            top: 50%;
+            transform: translate(50%, -50%);
+            transition: all ease 0.2s;
+            @include square-dimension(1rem);
+            @include pseudo-element-features;
+            @include absolute-position-y-axis;
+            @include hide;
+          }
         }
       }
     }
