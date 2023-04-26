@@ -17,6 +17,7 @@ $fonts: (
   @font-face {
     font-family: $font-family;
     src: url("/src/assets/font/#{$endpoint}");
+    font-display: fallback; // Use system font while custom font is being loaded
   }
 }
 

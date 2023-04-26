@@ -33,6 +33,20 @@ const newAbortSignal = timeout => {
   return abortController.signal;
 };
 
+// Abort fetching
+
+const purchaseSkinsButton = document.querySelector('.trailer__content-button');
+const purchaseSkinsButtonActive = purchaseSkinsButton.querySelector(
+  '.trailer__content-button-border'
+);
+
+purchaseSkinsButtonActive.addEventListener('click', () => {
+  console.log('Abort');
+  if (abortController) abortController.abort('User aborts!');
+});
+
+// Fetch video
+
 const fetchVideo = async () => {
   try {
     fetchVideoMessage.classList.add('remove');
@@ -47,7 +61,10 @@ const fetchVideo = async () => {
       signal: newAbortSignal(30 * 1000),
     });
 
-    if (data.status === 'success') renderVideo(data.video);
+    if (data.status === 'success') {
+      renderVideo(data.video);
+      controlVideo();
+    }
   } catch (error) {
     console.error(error);
 
@@ -77,24 +94,20 @@ const fetchVideo = async () => {
 fetchVideoButton.addEventListener('click', fetchVideo);
 fetchVideoAgain.addEventListener('click', fetchVideo);
 
-// Abort fetching
-
-const purchaseSkinsButton = document.querySelector('.trailer__content-button');
-const purchaseSkinsButtonActive = purchaseSkinsButton.querySelector(
-  '.trailer__content-button-border'
-);
-
-purchaseSkinsButtonActive.addEventListener('click', () => {
-  console.log('Abort');
-  if (abortController) abortController.abort('User aborts!');
-});
-
-// Render
+//
 
 const trailerVideo = document.querySelector('.trailer__bg-small-video');
 const trailerImage = document.querySelector('.trailer__bg-small-image');
 
 const trailerContent = document.querySelector('.trailer__content');
+
+// Control video
+
+const controlVideo = () => {
+  trailerVideo.play();
+};
+
+// Render video
 
 const renderVideo = ({ linkMp4, linkWebm }) => {
   const links = [linkMp4, linkWebm];
@@ -141,11 +154,63 @@ const renderVideo = ({ linkMp4, linkWebm }) => {
 const speaker = document.querySelector('.trailer__play-video-success-speakers');
 const speakers = speaker.querySelectorAll('svg');
 
-// let isVideoPlaying = true;
+const displaySpeaker = index =>
+  speakers.forEach((spk, i) =>
+    index !== i ? spk.classList.add('remove') : spk.classList.remove('remove')
+  );
 
-const displaySpeaker = () =>
-  speakers.forEach(spk => {
-    if (!spk.classList.contains('active')) spk.classList.add('remove');
-  });
+displaySpeaker(3);
 
-displaySpeaker();
+console.log(speakers);
+
+const audioProgress = document.querySelector(
+  '.trailer__play-video-success-bar'
+);
+const audioProgressBar = document.querySelector(
+  '.trailer__play-video-success-bar-active'
+);
+
+let isAudioReadyToDrag = false;
+
+audioProgress.addEventListener('mousedown', event => {
+  isAudioReadyToDrag = true;
+
+  const clientX = event.clientX;
+  const { left: audioProgressLeft, width: audioProgressWidth } =
+    audioProgress.getBoundingClientRect();
+  const percent = ((clientX - audioProgressLeft) / audioProgressWidth) * 100;
+
+  audioProgressBar.style.width = `${percent}%`;
+
+  const speakerIndex = Math.ceil((percent / 100) * 3);
+  displaySpeaker(speakerIndex);
+});
+
+document.addEventListener('mousemove', event => {
+  if (isAudioReadyToDrag) {
+    const {
+      left: audioProgressLeft,
+      right: audioProgressRight,
+      width: audioProgressWidth,
+    } = audioProgress.getBoundingClientRect();
+
+    let clientX = event.clientX;
+
+    if (clientX < audioProgressLeft) clientX = audioProgressLeft;
+    else if (clientX > audioProgressRight) clientX = audioProgressRight;
+
+    const percent = ((clientX - audioProgressLeft) / audioProgressWidth) * 100;
+
+    audioProgressBar.style.width = `${percent}%`;
+
+    const speakerIndex = Math.ceil((percent / 100) * 3);
+    displaySpeaker(speakerIndex);
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  if (isAudioReadyToDrag) isAudioReadyToDrag = false;
+});
+
+// Click on Speaker --> Mute
+// Draw flow chart

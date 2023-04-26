@@ -536,6 +536,14 @@ const newAbortSignal = (timeout)=>{
     }, timeout || 0);
     return abortController.signal;
 };
+// Abort fetching
+const purchaseSkinsButton = document.querySelector('.trailer__content-button');
+const purchaseSkinsButtonActive = purchaseSkinsButton.querySelector('.trailer__content-button-border');
+purchaseSkinsButtonActive.addEventListener('click', ()=>{
+    console.log('Abort');
+    if (abortController) abortController.abort('User aborts!');
+});
+// Fetch video
 const fetchVideo = async ()=>{
     try {
         fetchVideoMessage.classList.add('remove');
@@ -547,7 +555,10 @@ const fetchVideo = async ()=>{
             url: `${_config.BACKEND_URL}/api/v1/subweb/video`,
             signal: newAbortSignal(30000)
         });
-        if (data.status === 'success') renderVideo(data.video);
+        if (data.status === 'success') {
+            renderVideo(data.video);
+            controlVideo();
+        }
     } catch (error) {
         console.error(error);
         // CancelError --> Timout Error | User Aborts
@@ -571,17 +582,15 @@ const fetchVideo = async ()=>{
 };
 fetchVideoButton.addEventListener('click', fetchVideo);
 fetchVideoAgain.addEventListener('click', fetchVideo);
-// Abort fetching
-const purchaseSkinsButton = document.querySelector('.trailer__content-button');
-const purchaseSkinsButtonActive = purchaseSkinsButton.querySelector('.trailer__content-button-border');
-purchaseSkinsButtonActive.addEventListener('click', ()=>{
-    console.log('Abort');
-    if (abortController) abortController.abort('User aborts!');
-});
-// Render
+//
 const trailerVideo = document.querySelector('.trailer__bg-small-video');
 const trailerImage = document.querySelector('.trailer__bg-small-image');
 const trailerContent = document.querySelector('.trailer__content');
+// Control video
+const controlVideo = ()=>{
+    trailerVideo.play();
+};
+// Render video
 const renderVideo = ({ linkMp4 , linkWebm  })=>{
     const links = [
         linkMp4,
@@ -617,12 +626,39 @@ const renderVideo = ({ linkMp4 , linkWebm  })=>{
 // );
 const speaker = document.querySelector('.trailer__play-video-success-speakers');
 const speakers = speaker.querySelectorAll('svg');
-// let isVideoPlaying = true;
-const displaySpeaker = ()=>speakers.forEach((spk)=>{
-        if (!spk.classList.contains('active')) spk.classList.add('remove');
-    })
+const displaySpeaker = (index)=>speakers.forEach((spk, i)=>index !== i ? spk.classList.add('remove') : spk.classList.remove('remove')
+    )
 ;
-displaySpeaker();
+displaySpeaker(3);
+console.log(speakers);
+const audioProgress = document.querySelector('.trailer__play-video-success-bar');
+const audioProgressBar = document.querySelector('.trailer__play-video-success-bar-active');
+let isAudioReadyToDrag = false;
+audioProgress.addEventListener('mousedown', (event)=>{
+    isAudioReadyToDrag = true;
+    const clientX = event.clientX;
+    const { left: audioProgressLeft , width: audioProgressWidth  } = audioProgress.getBoundingClientRect();
+    const percent = (clientX - audioProgressLeft) / audioProgressWidth * 100;
+    audioProgressBar.style.width = `${percent}%`;
+    const speakerIndex = Math.ceil(percent / 100 * 3);
+    displaySpeaker(speakerIndex);
+});
+document.addEventListener('mousemove', (event)=>{
+    if (isAudioReadyToDrag) {
+        const { left: audioProgressLeft , right: audioProgressRight , width: audioProgressWidth ,  } = audioProgress.getBoundingClientRect();
+        let clientX = event.clientX;
+        if (clientX < audioProgressLeft) clientX = audioProgressLeft;
+        else if (clientX > audioProgressRight) clientX = audioProgressRight;
+        const percent = (clientX - audioProgressLeft) / audioProgressWidth * 100;
+        audioProgressBar.style.width = `${percent}%`;
+        const speakerIndex = Math.ceil(percent / 100 * 3);
+        displaySpeaker(speakerIndex);
+    }
+});
+document.addEventListener('mouseup', ()=>{
+    if (isAudioReadyToDrag) isAudioReadyToDrag = false;
+}); // Click on Speaker --> Mute
+ // Draw flow chart
 
 },{"axios":"jo6P5","../config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jo6P5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

@@ -145,10 +145,10 @@
 
       &-control {
         margin-right: 0.6rem;
-        cursor: pointer;
 
         svg {
           @include square-dimension(2rem);
+          cursor: pointer;
         }
       }
 
@@ -165,8 +165,8 @@
         height: 0.46rem;
         background-color: #838383;
         border-radius: 0.6rem;
-        margin-left: 0.6rem;
-        top: -0.1rem;
+        margin-left: 0.8rem;
+        top: -0.2rem;
         position: relative;
         cursor: pointer;
 
@@ -175,7 +175,7 @@
         }
 
         &-active {
-          width: 70%;
+          width: 100%; // @include full-dimension --> width !important
           height: 100%;
           background-color: $header-text-color;
           border-radius: inherit;
