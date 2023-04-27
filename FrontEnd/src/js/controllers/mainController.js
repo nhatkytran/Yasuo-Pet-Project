@@ -103,6 +103,48 @@ const trailerContent = document.querySelector('.trailer__content');
 
 // Control video
 
+const videoControlButtons = document.querySelectorAll(
+  '.trailer__play-video-success-control svg'
+);
+
+const displayControl = expectedState =>
+  videoControlButtons.forEach(controlButton => {
+    const state = controlButton.dataset.videoControlState;
+
+    if (state === expectedState) controlButton.classList.remove('remove');
+    else controlButton.classList.add('remove');
+  });
+
+displayControl('pause');
+
+const playVideo = () => {
+  console.log('Play');
+  trailerVideo.play();
+};
+const pauseVideo = () => {
+  console.log('Pause');
+  trailerVideo.pause();
+};
+const replayVideo = () => {
+  console.log('Replay');
+};
+
+videoControlButtons.forEach(videoControlButton =>
+  videoControlButton.addEventListener('click', function () {
+    const state = this.dataset.videoControlState;
+
+    if (state === 'play') {
+      displayControl('pause');
+      playVideo();
+    }
+    if (state === 'pause') {
+      displayControl('play');
+      pauseVideo();
+    }
+    if (state === 'replay') replayVideo();
+  })
+);
+
 const controlVideo = () => {
   trailerVideo.play();
 };
@@ -139,8 +181,6 @@ const renderVideo = ({ linkMp4, linkWebm }) => {
 
     fetchVideoLoading.classList.add('remove');
     fetchVideoSuccess.classList.remove('remove');
-
-    // trailerVideo.play();
   });
 };
 
@@ -160,8 +200,6 @@ const displaySpeaker = index =>
   );
 
 displaySpeaker(3);
-
-console.log(speakers);
 
 const audioProgress = document.querySelector(
   '.trailer__play-video-success-bar'
