@@ -61,10 +61,11 @@ const fetchVideo = async () => {
       signal: newAbortSignal(30 * 1000),
     });
 
-    if (data.status === 'success') {
-      renderVideo(data.video);
-      controlVideo();
-    }
+    renderVideo(data.video);
+    controlVideo();
+
+    fetchVideoLoading.classList.add('remove');
+    fetchVideoSuccess.classList.remove('remove');
   } catch (error) {
     console.error(error);
 
@@ -98,58 +99,18 @@ fetchVideoAgain.addEventListener('click', fetchVideo);
 
 const trailerVideo = document.querySelector('.trailer__bg-small-video');
 const trailerImage = document.querySelector('.trailer__bg-small-image');
-
 const trailerContent = document.querySelector('.trailer__content');
 
-// Control video
-
-const videoControlButtons = document.querySelectorAll(
-  '.trailer__play-video-success-control svg'
-);
-
-const displayControl = expectedState =>
-  videoControlButtons.forEach(controlButton => {
-    const state = controlButton.dataset.videoControlState;
-
-    if (state === expectedState) controlButton.classList.remove('remove');
-    else controlButton.classList.add('remove');
-  });
-
-displayControl('pause');
-
-const playVideo = () => {
-  console.log('Play');
-  trailerVideo.play();
-};
-const pauseVideo = () => {
-  console.log('Pause');
-  trailerVideo.pause();
-};
-const replayVideo = () => {
-  console.log('Replay');
-};
-
-videoControlButtons.forEach(videoControlButton =>
-  videoControlButton.addEventListener('click', function () {
-    const state = this.dataset.videoControlState;
-
-    if (state === 'play') {
-      displayControl('pause');
-      playVideo();
-    }
-    if (state === 'pause') {
-      displayControl('play');
-      pauseVideo();
-    }
-    if (state === 'replay') replayVideo();
-  })
-);
-
-const controlVideo = () => {
-  trailerVideo.play();
-};
-
 // Render video
+
+let trailerContentTimeoutId;
+const trailerContentTimeoutAmount = 240;
+
+const fadeTrailerContent = (currentState, expectedState) => {
+  // in | out
+  trailerContent.classList.remove(`fade-${currentState}`);
+  trailerContent.classList.add(`fade-${expectedState}`);
+};
 
 const renderVideo = ({ linkMp4, linkWebm }) => {
   const links = [linkMp4, linkWebm];
@@ -165,41 +126,98 @@ const renderVideo = ({ linkMp4, linkWebm }) => {
   trailerVideo.addEventListener('canplay', () => {
     trailerImage.classList.add('hide');
 
-    // Animation for logo and button then remove to prevent unwnated actions
-    // ??? How about click play pause multiple times at once
-    trailerContent.classList.add('fade-out');
+    fadeTrailerContent('in', 'out');
 
-    // Animation fadeOut is 0.4s
-    const timeoutAnimation = 400;
-
-    setTimeout(() => {
-      trailerContent.classList.remove('fade-out');
+    trailerContentTimeoutId = setTimeout(() => {
+      console.log('Timeout');
       trailerContent.classList.add('remove');
-    }, timeoutAnimation);
-
-    // ---
-
-    fetchVideoLoading.classList.add('remove');
-    fetchVideoSuccess.classList.remove('remove');
+    }, trailerContentTimeoutAmount);
   });
 };
 
-// User click start stop super fast
+// Control video
 
-// Controls ///////////////
+const videoControlButtons = document.querySelectorAll(
+  '.trailer__play-video-success-control svg'
+);
 
-// const [videoPlayButton, videoPauseButton] = document.querySelectorAll(
-//   '.trailer__play-video-success-control svg'
-// );
+const displayControl = expectedState =>
+  videoControlButtons.forEach(controlButton => {
+    const action =
+      controlButton.dataset.videoControlState === expectedState
+        ? 'remove'
+        : 'add';
+
+    controlButton.classList[action]('remove');
+  });
+
+displayControl('pause');
+
+const handlePlayVideo = () => {
+  console.log('Play');
+
+  displayControl('pause');
+  trailerVideo.play();
+
+  fadeTrailerContent('in', 'out');
+  trailerContentTimeoutId = setTimeout(() => {
+    trailerContent.classList.add('remove');
+  }, trailerContentTimeoutAmount);
+};
+
+const handlePauseVideo = () => {
+  console.log('Pause');
+
+  displayControl('play');
+  trailerVideo.pause();
+
+  if (trailerContentTimeoutId) clearTimeout(trailerContentTimeoutId);
+  trailerContent.classList.remove('remove');
+  fadeTrailerContent('out', 'in');
+};
+
+videoControlButtons.forEach(videoControlButton =>
+  videoControlButton.addEventListener('click', function () {
+    const state = this.dataset.videoControlState;
+
+    if (state === 'play' || state === 'replay') handlePlayVideo();
+    if (state === 'pause') handlePauseVideo();
+  })
+);
+
+const controlVideo = () => {
+  trailerVideo.play();
+};
+
+// Video finishes running
+
+trailerVideo.addEventListener('ended', () => {
+  displayControl('replay');
+
+  trailerImage.classList.remove('hide');
+
+  if (trailerContentTimeoutId) clearTimeout(trailerContentTimeoutId);
+  trailerContent.classList.remove('remove');
+  fadeTrailerContent('out', 'in');
+});
+
+// Speaker
+
 const speaker = document.querySelector('.trailer__play-video-success-speakers');
 const speakers = speaker.querySelectorAll('svg');
 
-const displaySpeaker = index =>
-  speakers.forEach((spk, i) =>
-    index !== i ? spk.classList.add('remove') : spk.classList.remove('remove')
-  );
+const displaySpeaker = percent => {
+  // Speaker'state --> Muted | Slow | Medium | High
+  const speakerIndex = Math.ceil((percent / 100) * 3);
 
-displaySpeaker(3);
+  speakers.forEach((spk, i) =>
+    speakerIndex !== i
+      ? spk.classList.add('remove')
+      : spk.classList.remove('remove')
+  );
+};
+
+displaySpeaker(100);
 
 const audioProgress = document.querySelector(
   '.trailer__play-video-success-bar'
@@ -207,6 +225,25 @@ const audioProgress = document.querySelector(
 const audioProgressBar = document.querySelector(
   '.trailer__play-video-success-bar-active'
 );
+
+const adjustVideoVolume = percent => (trailerVideo.volume = percent / 100);
+
+let isMuted = false;
+let currentPercent = 100;
+
+speaker.addEventListener('click', () => {
+  if (!isMuted) {
+    audioProgressBar.style.width = `${0}%`;
+    displaySpeaker(0);
+    adjustVideoVolume(0);
+  } else {
+    audioProgressBar.style.width = `${currentPercent}%`;
+    displaySpeaker(currentPercent);
+    adjustVideoVolume(currentPercent);
+  }
+
+  isMuted = !isMuted;
+});
 
 let isAudioReadyToDrag = false;
 
@@ -216,39 +253,37 @@ audioProgress.addEventListener('mousedown', event => {
   const clientX = event.clientX;
   const { left: audioProgressLeft, width: audioProgressWidth } =
     audioProgress.getBoundingClientRect();
+
   const percent = ((clientX - audioProgressLeft) / audioProgressWidth) * 100;
 
+  currentPercent = percent;
   audioProgressBar.style.width = `${percent}%`;
-
-  const speakerIndex = Math.ceil((percent / 100) * 3);
-  displaySpeaker(speakerIndex);
+  displaySpeaker(percent);
+  adjustVideoVolume(percent);
 });
 
 document.addEventListener('mousemove', event => {
-  if (isAudioReadyToDrag) {
-    const {
-      left: audioProgressLeft,
-      right: audioProgressRight,
-      width: audioProgressWidth,
-    } = audioProgress.getBoundingClientRect();
+  if (!isAudioReadyToDrag) return;
 
-    let clientX = event.clientX;
+  const {
+    left: audioProgressLeft,
+    right: audioProgressRight,
+    width: audioProgressWidth,
+  } = audioProgress.getBoundingClientRect();
 
-    if (clientX < audioProgressLeft) clientX = audioProgressLeft;
-    else if (clientX > audioProgressRight) clientX = audioProgressRight;
+  let clientX = event.clientX;
 
-    const percent = ((clientX - audioProgressLeft) / audioProgressWidth) * 100;
+  if (clientX < audioProgressLeft) clientX = audioProgressLeft;
+  else if (clientX > audioProgressRight) clientX = audioProgressRight;
 
-    audioProgressBar.style.width = `${percent}%`;
+  const percent = ((clientX - audioProgressLeft) / audioProgressWidth) * 100;
 
-    const speakerIndex = Math.ceil((percent / 100) * 3);
-    displaySpeaker(speakerIndex);
-  }
+  currentPercent = percent;
+  audioProgressBar.style.width = `${percent}%`;
+  displaySpeaker(percent);
+  adjustVideoVolume(percent);
 });
 
 document.addEventListener('mouseup', () => {
   if (isAudioReadyToDrag) isAudioReadyToDrag = false;
 });
-
-// Click on Speaker --> Mute
-// Draw flow chart
