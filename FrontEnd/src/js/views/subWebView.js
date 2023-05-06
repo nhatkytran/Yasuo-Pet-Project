@@ -1,31 +1,33 @@
-import { $ } from '../config.js';
+import { $, $$, $_, $$_ } from '../config';
 
-class SubWebView {
-  _parentElement = $('.container');
-  smallVideo = $('.trailer__bg-small-video');
-  bigVideo = $('.trailer__bg-big-video');
+class SubwebView {
+  #fetchButton = $('.trailer__play-video-play');
+  #fetchLoading = $('.trailer__play-video-loading');
+  #fetchSuccess = $('.trailer__play-video-success');
+  #fetchMessage = $('.trailer__play-video-message');
 
-  addHandlerPlay(handler) {
-    setTimeout(() => {
-      handler(this.smallVideo, this.bigVideo);
-    }, 3000);
+  // #handleErrorMessage(message) {
+  //   $_(this.#fetchMessage, 'p').textContent = message;
+  // }
+
+  renderUI(state) {
+    switch (state) {
+      case 'start':
+        break;
+      case 'end':
+        break;
+      default:
+        throw new Error('Invalid state!');
+    }
   }
 
-  addHandlerStop(handler) {
-    this.smallVideo.addEventListener('ended', function () {
-      handler();
-    });
-  }
+  renderError(state) {}
 
-  addBackgroundStar() {
-    this._parentElement.insertAdjacentHTML('beforeend', this._starMarkup());
-  }
-
-  _starMarkup() {
-    return `
-      <div id="stars"></div>
-    `;
+  addFetchVideoHandler(handler) {
+    [this.#fetchButton, $_(this.#fetchMessage, 'span')].forEach(buttonEl =>
+      buttonEl.addEventListener('click', handler)
+    );
   }
 }
 
-export default new SubWebView();
+export default new SubwebView();

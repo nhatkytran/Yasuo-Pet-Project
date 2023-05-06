@@ -17,16 +17,12 @@ const fetchVideoMessage = document.querySelector(
 const handleErrorMessage = message =>
   (fetchVideoMessage.querySelector('p').textContent = message);
 
-const fetchVideoAgain = fetchVideoMessage.querySelector('span');
-
 let abortController;
 let abortTimeoutId;
 
 const newAbortSignal = timeout => {
-  console.log('New abort singal!!!!!!!!!!!!!');
   abortController = new AbortController();
   abortTimeoutId = setTimeout(() => {
-    console.log('Timeout');
     abortController.abort('Timeout aborts!');
   }, timeout || 0);
 
@@ -67,24 +63,14 @@ const fetchVideo = async () => {
     fetchVideoLoading.classList.add('remove');
     fetchVideoSuccess.classList.remove('remove');
   } catch (error) {
-    console.error(error);
-
     // CancelError --> Timout Error | User Aborts
     if (error.code === 'ERR_CANCELED') {
-      console.log('ERR_CANCELED');
-
-      if (error.config.signal.reason === 'Timeout aborts!') {
-        console.log('Timeout aborts!');
+      if (error.config.signal.reason === 'Timeout aborts!')
         handleErrorMessage('Request timout error!');
-      }
-
-      if (error.config.signal.reason === 'User aborts!') {
-        console.log('User aborts!');
+      if (error.config.signal.reason === 'User aborts!')
         handleErrorMessage('Interception!');
-      }
     }
 
-    // Unknow Error
     fetchVideoLoading.classList.add('remove');
     fetchVideoMessage.classList.remove('remove');
   } finally {
@@ -93,7 +79,7 @@ const fetchVideo = async () => {
 };
 
 fetchVideoButton.addEventListener('click', fetchVideo);
-fetchVideoAgain.addEventListener('click', fetchVideo);
+fetchVideoMessage.querySelector('span').addEventListener('click', fetchVideo);
 
 //
 
