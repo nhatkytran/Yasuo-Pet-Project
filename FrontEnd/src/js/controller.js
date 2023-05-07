@@ -1,8 +1,13 @@
+import state, { fetchTrailerVideo } from './model';
 import { subwebView } from './Views';
 
 const handleFetchTrailerVideo = async () => {
   try {
-    console.log('FetchData!');
+    subwebView.renderUI('start');
+
+    await fetchTrailerVideo();
+
+    console.log('Data:', state.videoTrailerLinks);
   } catch (error) {
     console.error('Something went wrong!');
     console.error(error);

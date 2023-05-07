@@ -1,18 +1,14 @@
 import axiosInstance from './axios';
 import { FETCH_API_TIMEOUT } from '../config';
+import { catchAsync } from '../helpers';
 
 // const newAbortSignal = () => {};
 // { signal: newAbortSignal(FETCH_API_TIMEOUT * 1000) }
 
-const getTrailerVideo = async endpoint => {
-  try {
-    const response = await axiosInstance.get(endpoint);
-
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+const getTrailerVideo = catchAsync(async endpoint => {
+  const { data } = await axiosInstance.get(endpoint);
+  return data;
+});
 
 const subwebAxios = { getTrailerVideo };
 

@@ -1,13 +1,15 @@
+import { catchAsync } from './helpers';
+import { subwebAxios } from './http';
+
 const state = {
-  videoTrailer: {},
+  videoTrailerLinks: {},
 };
 
-export const fetchTrailerVideo = async () => {
-  try {
-    console.log('Fetch');
-  } catch (error) {
-    throw error;
-  }
-};
+export const fetchTrailerVideo = catchAsync(async () => {
+  const response = await subwebAxios.getTrailerVideo('/api/v1/subweb/video');
+  const { linkMp4, linkWebm } = response.video;
+
+  state.videoTrailerLinks = { linkMp4, linkWebm };
+});
 
 export default state;
