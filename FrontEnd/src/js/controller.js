@@ -7,15 +7,21 @@ const handleFetchTrailerVideo = async () => {
 
     await fetchTrailerVideo();
 
-    console.log('Data:', state.videoTrailerLinks);
+    subwebView.renderUI('end');
+    subwebView.renderVideo(state.videoTrailerLinks);
   } catch (error) {
     console.error('Something went wrong!');
     console.error(error);
+
+    subwebView.renderError(error);
   }
 };
 
+const handlePlayTrailerVideo = () => subwebView.playVideo();
+
 function init() {
   subwebView.addFetchVideoHandler(handleFetchTrailerVideo);
+  subwebView.addPlayVideoHandler(handlePlayTrailerVideo);
 }
 
 init();

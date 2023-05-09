@@ -1,12 +1,17 @@
-import { $, $$, $_, $$_ } from '../config';
+import { $, $$, $_, $$_, BACKEND_URL } from '../config';
 
 class SubwebView {
   #fetchButton = $('.trailer__play-video-play');
   #fetchLoading = $('.trailer__play-video-loading');
   #fetchSuccess = $('.trailer__play-video-success');
   #fetchMessage = $('.trailer__play-video-message');
+
+  #trailerVideo = $('.trailer__bg-small-video');
+  #trailerImage = $('.trailer__bg-small-image');
+  #trailerContent = $('.trailer__content');
+
   #errorMessageCommon = 'Something went wrong!';
-  #errorMessageTimeout = 'Timeout aborts!';
+  #errorMessageTimeout = 'Request timout error!';
   #errorMessageUserAction = 'User aborts!';
 
   #displayControlPanel(currentPanel) {
@@ -19,33 +24,51 @@ class SubwebView {
     currentPanel.classList.remove('remove');
   }
 
-  renderUI(state) {
-    switch (state) {
-      case 'start':
-        this.#resetErrorMessage();
-        this.#displayControlPanel(this.#fetchLoading);
-        break;
-      case 'end':
-        break;
-      default:
-        throw new Error("Invalid renderUI's state!");
-    }
+  renderVideo({ linkMp4, linkWebm }) {
+    [linkMp4, linkWebm].forEach(link => {
+      const videoLink = `${BACKEND_URL}${link}`;
+      const source = document.createElement('source');
+
+      source.src = videoLink;
+      this.#trailerVideo.appendChild(source);
+    });
   }
 
-  #handleErrorMessage(message) {
-    $_(this.#fetchMessage, 'p').textContent = message;
+  playVideo() {
+    this.#trailerImage.classList.add('hide');
+  }
+
+  renderUI(state) {
+    if (state === 'start') {
+      this.#resetErrorMessage();
+      this.#displayControlPanel(this.#fetchLoading);
+    }
+    if (state === 'end') this.#displayControlPanel(this.#fetchSuccess);
   }
 
   #resetErrorMessage() {
     this.#handleErrorMessage(this.#errorMessageCommon);
   }
 
-  renderError(state) {}
+  #handleErrorMessage(message) {
+    $_(this.#fetchMessage, 'p').textContent = message;
+  }
+
+  renderError(error) {
+    if (error.code === 'ECONNABORTED' && error.message.includes('timeout'))
+      this.#handleErrorMessage(this.#errorMessageTimeout);
+
+    this.#displayControlPanel(this.#fetchMessage);
+  }
 
   addFetchVideoHandler(handler) {
     [this.#fetchButton, $_(this.#fetchMessage, 'span')].forEach(buttonEl =>
       buttonEl.addEventListener('click', handler)
     );
+  }
+
+  addPlayVideoHandler(handler) {
+    this.#trailerVideo.addEventListener('canplay', handler);
   }
 }
 

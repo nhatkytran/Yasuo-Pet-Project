@@ -1,12 +1,16 @@
 import axiosInstance from './axios';
-import { FETCH_API_TIMEOUT } from '../config';
 import { catchAsync } from '../helpers';
 
-// const newAbortSignal = () => {};
-// { signal: newAbortSignal(FETCH_API_TIMEOUT * 1000) }
+let abortController;
+
+// const newAbortSignal = timeout => {
+//   abortController = new AbortController();
+//   return abortController.signal;
+// };
 
 const getTrailerVideo = catchAsync(async endpoint => {
   const { data } = await axiosInstance.get(endpoint);
+
   return data;
 });
 
