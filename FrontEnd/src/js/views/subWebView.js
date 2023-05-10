@@ -1,4 +1,13 @@
-import { $, $$, $_, $$_, BACKEND_URL } from '../config';
+import {
+  $,
+  $$,
+  $_,
+  BACKEND_URL,
+  VIDEO_STATE_PLAY,
+  VIDEO_STATE_PAUSE,
+  VIDEO_STATE_REPLAY,
+  SPEAKER_STATE,
+} from '../config';
 
 class SubwebView {
   #fetchButton = $('.trailer__play-video-play');
@@ -13,6 +22,9 @@ class SubwebView {
   #errorMessageCommon = 'Something went wrong!';
   #errorMessageTimeout = 'Request timout error!';
   #errorMessageUserAction = 'User canceled request!';
+
+  #videoStateButtons = $$('.trailer__play-video-success-control svg');
+  #speakers = $$('.trailer__play-video-success-speakers svg');
 
   #purchaseSkinsButton = $('.trailer__content-button-border');
 
@@ -36,9 +48,10 @@ class SubwebView {
     });
   }
 
-  playVideo() {
+  playVideoFirstTime() {
     this.#trailerImage.classList.add('hide');
     this.renderUI('end');
+    this.#trailerVideo.play();
   }
 
   renderUI(state) {
@@ -66,6 +79,41 @@ class SubwebView {
     this.#displayControlPanel(this.#fetchMessage);
   }
 
+  #displayControlVideoState = expectedState =>
+    this.#videoStateButtons.forEach(button =>
+      button.dataset.videoControlState === expectedState
+        ? button.classList.remove('remove')
+        : button.classList.add('remove')
+    );
+
+  checkVideoStateRequired = button => button.dataset.videoControlState;
+
+  pauseVideo() {
+    this.#displayControlVideoState(VIDEO_STATE_PLAY);
+    this.#trailerVideo.pause();
+  }
+
+  playVideo() {
+    this.#displayControlVideoState(VIDEO_STATE_PAUSE);
+    this.#trailerVideo.play();
+  }
+
+  replayVideoUI() {
+    this.#displayControlVideoState(VIDEO_STATE_REPLAY);
+    this.#trailerImage.classList.remove('hide');
+  }
+
+  #displaySpeaker = percent => {
+    // Speaker'state --> Muted | Slow | Medium | High
+    const speakerIndex = Math.ceil((percent / 100) * SPEAKER_STATE);
+
+    this.#speakers.forEach((speaker, index) =>
+      speakerIndex === index
+        ? speaker.classList.remove('remove')
+        : speaker.classList.add('remove')
+    );
+  };
+
   addFetchVideoHandler(handler) {
     [this.#fetchButton, $_(this.#fetchMessage, 'span')].forEach(buttonEl =>
       buttonEl.addEventListener('click', handler)
@@ -78,6 +126,18 @@ class SubwebView {
 
   addFetchVideoHandlerAbort(handler) {
     this.#purchaseSkinsButton.addEventListener('click', handler);
+  }
+
+  addControlVideoStateHandler(handler) {
+    this.#videoStateButtons.forEach(videoStateButton =>
+      videoStateButton.addEventListener('click', function () {
+        handler(this);
+      })
+    );
+  }
+
+  addReplayVideoHandler(handler) {
+    this.#trailerVideo.addEventListener('ended', handler);
   }
 }
 
