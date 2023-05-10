@@ -12,4 +12,6 @@ export const fetchTrailerVideo = catchAsync(async () => {
   state.videoTrailerLinks = { linkMp4, linkWebm };
 });
 
+export const fetchTrailerVideoAbort = () => subwebAxios.getTrailerVideoAbort();
+
 export default state;

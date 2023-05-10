@@ -1,4 +1,4 @@
-import state, { fetchTrailerVideo } from './model';
+import state, { fetchTrailerVideo, fetchTrailerVideoAbort } from './model';
 import { subwebView } from './Views';
 
 const handleFetchTrailerVideo = async () => {
@@ -7,7 +7,7 @@ const handleFetchTrailerVideo = async () => {
 
     await fetchTrailerVideo();
 
-    subwebView.renderUI('end');
+    // subwebView.renderUI('end'); --> When video is ready --> subwebView.playVideo()
     subwebView.renderVideo(state.videoTrailerLinks);
   } catch (error) {
     console.error('Something went wrong!');
@@ -18,10 +18,12 @@ const handleFetchTrailerVideo = async () => {
 };
 
 const handlePlayTrailerVideo = () => subwebView.playVideo();
+const handleFetchTrailerVideoAbort = () => fetchTrailerVideoAbort();
 
 function init() {
   subwebView.addFetchVideoHandler(handleFetchTrailerVideo);
   subwebView.addPlayVideoHandler(handlePlayTrailerVideo);
+  subwebView.addFetchVideoHandlerAbort(handleFetchTrailerVideoAbort);
 }
 
 init();

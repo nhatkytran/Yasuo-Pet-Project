@@ -12,7 +12,9 @@ class SubwebView {
 
   #errorMessageCommon = 'Something went wrong!';
   #errorMessageTimeout = 'Request timout error!';
-  #errorMessageUserAction = 'User aborts!';
+  #errorMessageUserAction = 'User canceled request!';
+
+  #purchaseSkinsButton = $('.trailer__content-button-border');
 
   #displayControlPanel(currentPanel) {
     [
@@ -36,6 +38,7 @@ class SubwebView {
 
   playVideo() {
     this.#trailerImage.classList.add('hide');
+    this.renderUI('end');
   }
 
   renderUI(state) {
@@ -57,6 +60,8 @@ class SubwebView {
   renderError(error) {
     if (error.code === 'ECONNABORTED' && error.message.includes('timeout'))
       this.#handleErrorMessage(this.#errorMessageTimeout);
+    if (error.code === 'ERR_CANCELED' && error.message.includes('canceled'))
+      this.#handleErrorMessage(this.#errorMessageUserAction);
 
     this.#displayControlPanel(this.#fetchMessage);
   }
@@ -69,6 +74,10 @@ class SubwebView {
 
   addPlayVideoHandler(handler) {
     this.#trailerVideo.addEventListener('canplay', handler);
+  }
+
+  addFetchVideoHandlerAbort(handler) {
+    this.#purchaseSkinsButton.addEventListener('click', handler);
   }
 }
 
