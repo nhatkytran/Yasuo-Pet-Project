@@ -3,6 +3,8 @@ import {
   $$,
   $_,
   BACKEND_URL,
+  FETCH_START,
+  FETCH_END,
   VIDEO_STATE_PLAY,
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
@@ -50,16 +52,16 @@ class SubwebView {
 
   playVideoFirstTime() {
     this.#trailerImage.classList.add('hide');
-    this.renderUI('end');
+    this.renderUI(FETCH_END);
     this.#trailerVideo.play();
   }
 
   renderUI(state) {
-    if (state === 'start') {
+    if (state === FETCH_START) {
       this.#resetErrorMessage();
       this.#displayControlPanel(this.#fetchLoading);
     }
-    if (state === 'end') this.#displayControlPanel(this.#fetchSuccess);
+    if (state === FETCH_END) this.#displayControlPanel(this.#fetchSuccess);
   }
 
   #resetErrorMessage() {
@@ -70,12 +72,15 @@ class SubwebView {
     $_(this.#fetchMessage, 'p').textContent = message;
   }
 
-  renderError(error) {
-    if (error.code === 'ECONNABORTED' && error.message.includes('timeout'))
-      this.#handleErrorMessage(this.#errorMessageTimeout);
-    if (error.code === 'ERR_CANCELED' && error.message.includes('canceled'))
-      this.#handleErrorMessage(this.#errorMessageUserAction);
+  handleTimeoutErrorMessage() {
+    this.#handleErrorMessage(this.#errorMessageTimeout);
+  }
 
+  handleAbortErrorMessage() {
+    this.#handleErrorMessage(this.#errorMessageUserAction);
+  }
+
+  renderError() {
     this.#displayControlPanel(this.#fetchMessage);
   }
 

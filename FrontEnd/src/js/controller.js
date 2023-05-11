@@ -1,4 +1,5 @@
 import {
+  FETCH_START,
   VIDEO_STATE_PLAY,
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
@@ -8,21 +9,28 @@ import { subwebView } from './Views';
 
 const handleFetchTrailerVideo = async () => {
   try {
-    subwebView.renderUI('start');
+    // subwebView.#resetErrorMessage();
+    subwebView.renderUI(FETCH_START);
 
     await fetchTrailerVideo();
 
-    // subwebView.renderUI('end'); --> When video is ready --> subwebView.playVideo()
+    // subwebView.renderUI(FETCH_END); --> When video is ready --> subwebView.playVideo()
     subwebView.renderVideo(state.videoTrailerLinks);
   } catch (error) {
     console.error('Something went wrong!');
     console.error(error);
+
+    if (error.code === 'ECONNABORTED' && error.message.includes('timeout'))
+      subwebView.handleTimeoutErrorMessage();
+    if (error.code === 'ERR_CANCELED' && error.message.includes('canceled'))
+      subwebView.handleAbortErrorMessage();
 
     subwebView.renderError(error);
   }
 };
 
 const handlePlayTrailerVideo = () => subwebView.playVideoFirstTime();
+
 const handleFetchTrailerVideoAbort = () => fetchTrailerVideoAbort();
 
 const handleTrailerVideoState = button => {
