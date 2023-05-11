@@ -1,7 +1,4 @@
 import {
-  $,
-  $$,
-  $_,
   BACKEND_URL,
   FETCH_START,
   FETCH_END,
@@ -9,7 +6,10 @@ import {
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
   SPEAKER_STATE,
+  CLICK_VOLUME,
+  DRAG_VOLUME,
 } from '../config';
+import { $, $$, $_, $$_ } from '../helpers';
 
 class SubwebView {
   #fetchButton = $('.trailer__play-video-play');
@@ -26,7 +26,10 @@ class SubwebView {
   #errorMessageUserAction = 'User canceled request!';
 
   #videoStateButtons = $$('.trailer__play-video-success-control svg');
-  #speakers = $$('.trailer__play-video-success-speakers svg');
+  #speakerWrapper = $('.trailer__play-video-success-speakers');
+  #speakers = $$_(this.#speakerWrapper, 'svg');
+  #speakerProgressWrapper = $('.trailer__play-video-success-bar');
+  #speakerProgressBar = $('.trailer__play-video-success-bar-active');
 
   #purchaseSkinsButton = $('.trailer__content-button-border');
 
@@ -119,6 +122,32 @@ class SubwebView {
     );
   };
 
+  #calculateSpeakerVolume = (progressBar, progressWrapper) =>
+    (progressBar / progressWrapper) * 100;
+
+  checkSpeakerVolume() {
+    return this.#calculateSpeakerVolume(
+      this.#speakerProgressBar,
+      this.#speakerProgressWrapper
+    );
+  }
+
+  calculateNewSpeakerVolume(event, action) {
+    let progressBar;
+
+    const { clientX } = event;
+    const {
+      left,
+      right,
+      width: progressWrapper,
+    } = this.#speakerProgressWrapper.getBoundingClientRect();
+
+    if (action === CLICK_VOLUME) progressBar = clientX - left;
+    // if (action === DRAG_VOLUME) {}
+
+    return this.#calculateSpeakerVolume(progressBar, progressWrapper);
+  }
+
   addFetchVideoHandler(handler) {
     [this.#fetchButton, $_(this.#fetchMessage, 'span')].forEach(buttonEl =>
       buttonEl.addEventListener('click', handler)
@@ -143,6 +172,19 @@ class SubwebView {
 
   addReplayVideoHandler(handler) {
     this.#trailerVideo.addEventListener('ended', handler);
+  }
+
+  addSpeakerPowerHandler(handler) {
+    this.#speakerWrapper.addEventListener('click', handler);
+  }
+
+  addSpeakerProgressHandler(mousedownHandler, dragHandler, mouseupHandler) {
+    this.#speakerProgressWrapper.addEventListener(
+      'mousedown',
+      mousedownHandler
+    );
+    document.addEventListener('mousemove', dragHandler);
+    document.addEventListener('mouseup', mouseupHandler);
   }
 }
 

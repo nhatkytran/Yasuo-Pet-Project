@@ -228,6 +228,8 @@ speaker.addEventListener('click', () => {
     adjustVideoVolume(currentPercent);
   }
 
+  console.log(isMuted);
+
   isMuted = !isMuted;
 });
 
