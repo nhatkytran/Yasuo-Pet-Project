@@ -5,9 +5,13 @@ import {
   VIDEO_STATE_PLAY,
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
+  TRAILER_CONTENT_TIMEOUT,
+  FADE_IN,
+  FADE_OUT,
   SPEAKER_STATE,
-  CLICK_VOLUME,
   DRAG_VOLUME,
+  ADD,
+  REMOVE,
 } from '../config';
 import { $, $$, $_, $$_ } from '../helpers';
 
@@ -19,7 +23,9 @@ class SubwebView {
 
   #trailerVideo = $('.trailer__bg-small-video');
   #trailerImage = $('.trailer__bg-small-image');
+
   #trailerContent = $('.trailer__content');
+  #trailerContentTimeoutID;
 
   #errorMessageCommon = 'Something went wrong!';
   #errorMessageTimeout = 'Request timout error!';
@@ -33,14 +39,27 @@ class SubwebView {
 
   #purchaseSkinsButton = $('.trailer__content-button-border');
 
+  // in | out
+  #animateTrailerContent = (currentState, expectedState) => {
+    this.#trailerContent.classList.remove(currentState);
+    this.#trailerContent.classList.add(expectedState);
+  };
+
+  #displayTrailerContent(action) {
+    if (action === ADD) this.#trailerContent.classList.remove('remove');
+    if (action === REMOVE) this.#trailerContent.classList.add('remove');
+  }
+
   #displayControlPanel(currentPanel) {
     [
       this.#fetchButton,
       this.#fetchLoading,
       this.#fetchSuccess,
       this.#fetchMessage,
-    ].forEach(panel => panel.classList.add('remove'));
-    currentPanel.classList.remove('remove');
+    ].forEach(panel => {
+      if (panel === currentPanel) currentPanel.classList.remove('remove');
+      else panel.classList.add('remove');
+    });
   }
 
   renderVideo({ linkMp4, linkWebm }) {
@@ -54,9 +73,14 @@ class SubwebView {
   }
 
   playVideoFirstTime() {
-    this.#trailerImage.classList.add('hide');
     this.renderUI(FETCH_END);
+    this.#trailerImage.classList.add('hide');
     this.#trailerVideo.play();
+
+    // this.#animateTrailerContent(FADE_IN, FADE_OUT);
+    // this.#trailerContentTimeoutID = setTimeout(() => {
+    //   this.#displayTrailerContent(REMOVE);
+    // }, TRAILER_CONTENT_TIMEOUT);
   }
 
   renderUI(state) {
@@ -99,6 +123,9 @@ class SubwebView {
   pauseVideo() {
     this.#displayControlVideoState(VIDEO_STATE_PLAY);
     this.#trailerVideo.pause();
+
+    // if (this.#trailerContentTimeoutID)
+    //   clearTimeout(this.#trailerContentTimeoutID);
   }
 
   playVideo() {
@@ -127,25 +154,36 @@ class SubwebView {
 
   checkSpeakerVolume() {
     return this.#calculateSpeakerVolume(
-      this.#speakerProgressBar,
-      this.#speakerProgressWrapper
+      this.#speakerProgressBar.getBoundingClientRect().width,
+      this.#speakerProgressWrapper.getBoundingClientRect().width
     );
   }
 
   calculateNewSpeakerVolume(event, action) {
-    let progressBar;
+    let { clientX } = event;
 
-    const { clientX } = event;
     const {
       left,
       right,
       width: progressWrapper,
     } = this.#speakerProgressWrapper.getBoundingClientRect();
 
-    if (action === CLICK_VOLUME) progressBar = clientX - left;
-    // if (action === DRAG_VOLUME) {}
+    if (action === DRAG_VOLUME) {
+      if (clientX < left) clientX = left;
+      if (clientX > right) clientX = right;
+    }
 
+    const progressBar = clientX - left;
     return this.#calculateSpeakerVolume(progressBar, progressWrapper);
+  }
+
+  renderSpeakerAndProgress(speakerVolume) {
+    this.#speakerProgressBar.style.width = `${speakerVolume}%`;
+    this.#displaySpeaker(speakerVolume);
+  }
+
+  adjustSpeakerVolume(speakerVolume) {
+    this.#trailerVideo.volume = speakerVolume / 100;
   }
 
   addFetchVideoHandler(handler) {

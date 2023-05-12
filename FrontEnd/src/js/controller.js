@@ -47,24 +47,33 @@ const handleTrailerVideoState = button => {
 
 const handleReplayVideoTrailer = () => subwebView.replayVideoUI();
 
+const adjustSpeakerVolumeAndProgress = currentSpeakerVolume => {
+  subwebView.renderSpeakerAndProgress(currentSpeakerVolume);
+  subwebView.adjustSpeakerVolume(currentSpeakerVolume);
+};
+
 const speakerPower = () => {
   let previousSpeakerVolume = SPEAKER_VOLUME_MAX_PERCENT; // First time loading video with max volume
+
+  const setPreviousSpeakerVolume = newVolume =>
+    (previousSpeakerVolume = newVolume);
 
   const handleSpeakerPower = () => {
     const currentSpeakerVolume = subwebView.checkSpeakerVolume();
     const isMuted = currentSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT;
 
-    if (isMuted) {
-      console.log('On');
-      if (previousSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT)
-        previousSpeakerVolume = SPEAKER_VOLUME_MAX_PERCENT;
-    } else {
-      console.log('Of');
-    }
-  };
+    let expectedSpeakerVolume;
 
-  const setPreviousSpeakerVolume = newVolume =>
-    (previousSpeakerVolume = newVolume);
+    // if previousSpeakerVolume is 0, know that it is muted and need to get back to 100
+    if (previousSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT)
+      previousSpeakerVolume = setPreviousSpeakerVolume(
+        SPEAKER_VOLUME_MAX_PERCENT
+      );
+
+    expectedSpeakerVolume = isMuted ? previousSpeakerVolume : 0;
+
+    adjustSpeakerVolumeAndProgress(expectedSpeakerVolume);
+  };
 
   return { handleSpeakerPower, setPreviousSpeakerVolume };
 };
@@ -75,17 +84,32 @@ const handleSpeakerProgress = () => {
   let isReadyToDrag = false;
 
   const mousedown = event => {
+    isReadyToDrag = true;
+
     const currentSpeakerVolume = subwebView.calculateNewSpeakerVolume(
       event,
       CLICK_VOLUME
     );
 
-    console.log(currentSpeakerVolume);
+    setPreviousSpeakerVolume(currentSpeakerVolume);
+    adjustSpeakerVolumeAndProgress(currentSpeakerVolume);
   };
 
-  const mousemove = () => {};
+  const mousemove = event => {
+    if (!isReadyToDrag) return;
 
-  const mouseup = () => {};
+    const currentSpeakerVolume = subwebView.calculateNewSpeakerVolume(
+      event,
+      DRAG_VOLUME
+    );
+
+    setPreviousSpeakerVolume(currentSpeakerVolume);
+    adjustSpeakerVolumeAndProgress(currentSpeakerVolume);
+  };
+
+  const mouseup = () => {
+    if (isReadyToDrag) isReadyToDrag = false;
+  };
 
   return [mousedown, mousemove, mouseup];
 };
@@ -96,6 +120,7 @@ function init() {
   subwebView.addFetchVideoHandlerAbort(handleFetchTrailerVideoAbort); // User cancel fetching video
   subwebView.addControlVideoStateHandler(handleTrailerVideoState); // Play, Pause, Replay video
   subwebView.addReplayVideoHandler(handleReplayVideoTrailer); // Video ends, display trailer image and replay button
+  subwebView.addSpeakerPowerHandler(handleSpeakerPower); // Click speaker icon to turn on | off a volume
   subwebView.addSpeakerProgressHandler(...handleSpeakerProgress()); // Adjust volume: click | drag audio bar
 }
 
