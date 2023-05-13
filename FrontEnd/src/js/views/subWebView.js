@@ -46,9 +46,27 @@ class SubwebView {
   };
 
   #displayTrailerContent(action) {
-    if (action === ADD) this.#trailerContent.classList.remove('remove');
-    if (action === REMOVE) this.#trailerContent.classList.add('remove');
+    if (action === ADD) {
+      if (this.#trailerContentTimeoutID)
+        clearTimeout(this.#trailerContentTimeoutID);
+
+      this.#trailerContent.classList.remove('remove');
+      this.#animateTrailerContent(FADE_OUT, FADE_IN);
+    }
+    if (action === REMOVE) {
+      this.#animateTrailerContent(FADE_IN, FADE_OUT);
+
+      this.#trailerContentTimeoutID = setTimeout(() => {
+        this.#trailerContent.classList.add('remove');
+      }, TRAILER_CONTENT_TIMEOUT);
+    }
   }
+
+  a() {
+    return () => {};
+  }
+
+  b = this.a();
 
   #displayControlPanel(currentPanel) {
     [
@@ -76,11 +94,7 @@ class SubwebView {
     this.renderUI(FETCH_END);
     this.#trailerImage.classList.add('hide');
     this.#trailerVideo.play();
-
-    // this.#animateTrailerContent(FADE_IN, FADE_OUT);
-    // this.#trailerContentTimeoutID = setTimeout(() => {
-    //   this.#displayTrailerContent(REMOVE);
-    // }, TRAILER_CONTENT_TIMEOUT);
+    this.#displayTrailerContent(REMOVE);
   }
 
   renderUI(state) {
@@ -123,19 +137,19 @@ class SubwebView {
   pauseVideo() {
     this.#displayControlVideoState(VIDEO_STATE_PLAY);
     this.#trailerVideo.pause();
-
-    // if (this.#trailerContentTimeoutID)
-    //   clearTimeout(this.#trailerContentTimeoutID);
+    this.#displayTrailerContent(ADD);
   }
 
   playVideo() {
     this.#displayControlVideoState(VIDEO_STATE_PAUSE);
     this.#trailerVideo.play();
+    this.#displayTrailerContent(REMOVE);
   }
 
   replayVideoUI() {
     this.#displayControlVideoState(VIDEO_STATE_REPLAY);
     this.#trailerImage.classList.remove('hide');
+    this.#displayTrailerContent(ADD);
   }
 
   #displaySpeaker = percent => {
