@@ -7,7 +7,7 @@ exports.getsubWebVideo = catchAsync(async function (req, res, next) {
 
   if (!video) throw new AppError('Video not found!', 404);
 
-  // Test
+  // test
   const start = Date.now();
   while (Date.now() - start < 1000) {}
 
