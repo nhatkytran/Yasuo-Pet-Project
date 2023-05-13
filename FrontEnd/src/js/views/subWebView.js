@@ -25,7 +25,6 @@ class SubwebView {
   #trailerImage = $('.trailer__bg-small-image');
 
   #trailerContent = $('.trailer__content');
-  #trailerContentTimeoutID;
 
   #errorMessageCommon = 'Something went wrong!';
   #errorMessageTimeout = 'Request timout error!';
@@ -45,28 +44,27 @@ class SubwebView {
     this.#trailerContent.classList.add(expectedState);
   };
 
-  #displayTrailerContent(action) {
-    if (action === ADD) {
-      if (this.#trailerContentTimeoutID)
-        clearTimeout(this.#trailerContentTimeoutID);
+  #displayTrailerContent = (() => {
+    let trailerContentTimeoutID;
 
+    const trailerContentFadeOut = () => {
+      if (trailerContentTimeoutID) clearTimeout(trailerContentTimeoutID);
       this.#trailerContent.classList.remove('remove');
       this.#animateTrailerContent(FADE_OUT, FADE_IN);
-    }
-    if (action === REMOVE) {
-      this.#animateTrailerContent(FADE_IN, FADE_OUT);
+    };
 
-      this.#trailerContentTimeoutID = setTimeout(() => {
+    const trailerContentFadeIn = () => {
+      this.#animateTrailerContent(FADE_IN, FADE_OUT);
+      trailerContentTimeoutID = setTimeout(() => {
         this.#trailerContent.classList.add('remove');
       }, TRAILER_CONTENT_TIMEOUT);
-    }
-  }
+    };
 
-  a() {
-    return () => {};
-  }
-
-  b = this.a();
+    return function (action) {
+      if (action === ADD) trailerContentFadeOut();
+      if (action === REMOVE) trailerContentFadeIn();
+    };
+  })();
 
   #displayControlPanel(currentPanel) {
     [
