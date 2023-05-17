@@ -101,23 +101,17 @@
     padding: 0 0.8rem;
   }
 
-  @keyframes shimmer {
-    0% {
-      background-position: 100% 0;
-    }
-
-    100% {
-      background-position: -100% 0;
-    }
-  }
-
-  &__left-loading {
-    height: 36.5rem;
+  @mixin side-loading-dimension {
     width: 50%;
+    min-height: 36.5rem;
 
     @media only screen and (max-width: $px1040) {
       width: 100%;
     }
+  }
+
+  &__left-loading {
+    @include side-loading-dimension;
 
     span {
       width: 100%;
@@ -125,10 +119,34 @@
       display: block;
       background: linear-gradient(to right, rgb(27, 27, 27) 0%, #252525 50%, rgb(27, 27, 27) 100%);
       background-size: 200% 100%;
-      animation: shimmer cubic-bezier(0.42, 0, 0.002, 1) 1s forwards infinite;
       margin-bottom: 0.6rem;
       border-radius: 0.6rem;
       transition: all ease 1s;
+      animation: shimmer cubic-bezier(0.42, 0, 0.002, 1) 1s forwards infinite;
+    }
+  }
+
+  &__right-loading {
+    position: relative;
+    @include side-loading-dimension;
+
+    &-inner {
+      @include square-dimension(5.2rem);
+      @include absolute-position(-50%, -50%);
+
+      svg {
+        @include full-dimension;
+        @include absolute-position(-50%, -50%);
+      }
+
+      svg:nth-child(1) {
+        fill: #252c32;
+      }
+
+      svg:nth-child(2) {
+        fill: #00c8c8;
+        animation: diagonal-wipe 1.5s ease infinite;
+      }
     }
   }
 

@@ -25,6 +25,26 @@
   }
 }
 
+// Skeleton Loading
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes diagonal-wipe {
+  0% {
+    clip-path: polygon(-25px 25px, 25px 75px, -26px 127px, -77px 76px);
+  }
+  100% {
+    clip-path: polygon(76px -77px, 127px -26px, 76px 26px, 25px -26px);
+  }
+}
+
 ///////////////////////
 
 @keyframes fadeInFromRight {

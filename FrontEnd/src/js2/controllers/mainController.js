@@ -280,11 +280,11 @@
 
 const bodyLeft = document.querySelector('.sb-ag-body__left');
 
-bodyLeft.classList.add('remove');
+// bodyLeft.classList.add('remove');
 
 const bars = document.querySelectorAll('.sb-ag-body__left-loading span');
 
-let intervalID = setInterval(() => {
+function skeletonLoading() {
   bars.forEach(bar => {
     let width = Math.random() * 100;
     if (width < 20) width = 20;
@@ -296,4 +296,8 @@ let intervalID = setInterval(() => {
 
     bar.style.height = `${height}rem`;
   });
-}, 1500);
+}
+
+// let intervalID = setInterval(() => {
+//   skeletonLoading();
+// }, 1500);
