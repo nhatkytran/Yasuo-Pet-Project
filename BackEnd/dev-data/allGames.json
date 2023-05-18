@@ -1,0 +1,208 @@
+{
+  "images": {
+    "main": [
+      {
+        "type": "image",
+        "link": "/img/sidebarAllGames/main/main--1.jpeg"
+      },
+      {
+        "type": "image",
+        "link": "/img/sidebarAllGames/main/main--2.jpeg"
+      }
+    ],
+    "side": {
+      "larges": [
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--1.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--2.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--3.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--4.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--5.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--6.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--7.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--8.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--9.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--10.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--11.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--12.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--13.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--14.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--15.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--16.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--17.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--18.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--19.jpeg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/larges/ag__img--20.jpeg"
+        }
+      ],
+      "smalls": [
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--1s.png"
+        },
+        {
+          "type": "svg",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--2s.svg"
+        },
+        {
+          "type": "svg",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--3s.svg"
+        },
+        {
+          "type": "svg",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--4s.svg"
+        },
+        {
+          "type": "svg",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--5s.svg"
+        },
+        {
+          "type": "svg",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--6s.svg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--7s.png"
+        },
+        {
+          "type": "svg",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--8s.svg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--9s.png"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--10s.png"
+        },
+        {
+          "type": "svg",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--11s.svg"
+        },
+        {
+          "type": "svg",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--12s.svg"
+        },
+        {
+          "type": "image",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--13s.png"
+        },
+        {
+          "type": "svg",
+          "link": "/img/sidebarAllGames/side/smalls/ag__img--14s.svg"
+        },
+        { "type": "text", "content": "UNIVERSE" },
+        { "type": "text", "content": "RIOT GAMES MUSIC" },
+        { "type": "text", "content": "RIOT GAMES" },
+        { "type": "text", "content": "RIOT MERCH" },
+        { "type": "text", "content": "RIOT MOBILE" },
+        { "type": "text", "content": "RIOT SUPPORT" }
+      ]
+    }
+  },
+  "colors": {
+    "bg": [
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(17, 113, 200) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(80, 104, 125) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(67, 37, 87) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(139, 121, 229) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(84, 163, 227) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(160, 193, 236) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(172, 76, 84) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(116, 193, 175) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(173, 110, 137) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(66, 88, 166) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(48, 76, 64) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(90, 190, 205) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(147, 34, 28) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(43, 61, 109) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(35, 83, 87) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(121, 49, 123) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(212, 190, 179) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(0, 61, 90) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(252, 63, 67) 0%, rgb(10, 10, 10) 70%);",
+      "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(234, 0, 40) 0%, rgb(10, 10, 10) 70%);"
+    ]
+  },
+  "descriptions": [
+    "ARCANE",
+    "LEAGUE OF LEGENDS",
+    "VALORANT",
+    "TEAMFIGHT TACTICS",
+    "LEGENDS OF RUNETERRA",
+    "LOL: WILD RIFT",
+    "HEXTECH MAYHEM",
+    "RUINED KING",
+    "CONV/RGENCE",
+    "SONG OF NUNU",
+    "RIOT FORGE GAMES",
+    "LOL ESPORTS",
+    "VALORANT ESPORTS",
+    "ARCANE",
+    "UNIVERSE",
+    "RIOT GAMES MUSIC",
+    "RIOT GAMES",
+    "RIOT MERCH",
+    "RIOT MOBILE",
+    "RIOT SUPPORT"
+  ]
+}

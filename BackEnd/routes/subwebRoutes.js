@@ -1,12 +1,12 @@
 const express = require('express');
 
 const {
-  getsubWebVideo,
+  getSubWebVideo,
   createSubwebVideo,
 } = require('../controllers/subwebController');
 
-const subWebRouter = express.Router();
+const subwebRouter = express.Router();
 
-subWebRouter.route('/video').get(getsubWebVideo).post(createSubwebVideo);
+subwebRouter.route('/video').get(getSubWebVideo).post(createSubwebVideo);
 
-module.exports = subWebRouter;
+module.exports = subwebRouter;

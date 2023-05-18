@@ -1,7 +1,7 @@
-const Subweb = require('../models/subwebModel');
+const { Subweb } = require('../models');
 const { catchAsync, AppError } = require('../utils');
 
-exports.getsubWebVideo = catchAsync(async function (req, res, next) {
+exports.getSubWebVideo = catchAsync(async function (_, res) {
   const videos = await Subweb.find();
   const video = videos[0];
 

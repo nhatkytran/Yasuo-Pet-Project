@@ -3,7 +3,8 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 
-const subWebRouter = require('./routes/subwebRoutes');
+const { subwebRouter, allGamesRouter } = require('./routes');
+
 const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
@@ -20,7 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.options('*', cors());
 
-app.use('/api/v1/subweb', subWebRouter);
+app.use('/api/v1/subweb', subwebRouter);
+app.use('/api/v1/allGames', allGamesRouter);
 
 app.use(globalErrorHandler);
 

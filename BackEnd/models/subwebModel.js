@@ -6,6 +6,6 @@ const subwebShema = new mongoose.Schema({
 });
 
 const subwebCollentionName = 'subwebs';
-const Subweb = mongoose.model('SubWeb', subwebShema, subwebCollentionName);
+const Subweb = mongoose.model('Subweb', subwebShema, subwebCollentionName);
 
 module.exports = Subweb;
