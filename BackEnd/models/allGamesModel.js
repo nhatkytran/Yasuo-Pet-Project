@@ -10,17 +10,27 @@ const imageField = {
 };
 
 const allGamesSchema = new mongoose.Schema({
-  mains: [imageField],
-  sideLarges: [imageField],
-  sideSmalls: [
-    {
-      type: {
-        type: String,
-        enum: ['image', 'svg', 'text'],
-      },
-      [String]: { type: String },
+  images: {
+    mains: [imageField],
+    side: {
+      larges: [imageField],
+      smalls: [
+        {
+          type: {
+            type: String,
+            enum: ['image', 'svg', 'text'],
+            required: [true, 'All Games image must have `type`!'],
+          },
+          [String]: { type: String }, // link (image | svg) | content (svg)
+        },
+      ],
     },
-  ],
+  },
+  descriptions: [String],
+  image_alts: [String],
+  colors: {
+    bg: [String],
+  },
 });
 
 const allGamesCollectionName = 'allgames';

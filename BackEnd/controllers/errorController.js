@@ -5,7 +5,7 @@ const { NODE_ENV } = process.env;
 const handleValidationErrorDB = () =>
   new AppError('Type String is required!', 400);
 
-const globalErrorHandler = (error, req, res, next) => {
+const globalErrorHandler = (error, _, res, __) => {
   let newError = NODE_ENV === 'development' ? error : Object.create(error);
 
   if (NODE_ENV === 'production') {
