@@ -11,19 +11,27 @@ const imageField = {
 
 const allGamesSchema = new mongoose.Schema({
   images: {
-    mains: [imageField],
+    main: [imageField],
     side: {
       larges: [imageField],
-      smalls: [
-        {
-          type: {
-            type: String,
-            enum: ['image', 'svg', 'text'],
-            required: [true, 'All Games image must have `type`!'],
+      smalls: {
+        type: [
+          {
+            type: {
+              type: String,
+              enum: ['image', 'svg', 'text'],
+              required: [true, 'All Games image must have `type`!'],
+            },
+            // link (image | svg) | content (svg)
+            link: { type: String },
+            content: { type: String },
           },
-          [String]: { type: String }, // link (image | svg) | content (svg)
-        },
-      ],
+        ],
+        validate: [
+          smalls => smalls.every(item => !(item.link && item.content)),
+          'Item can only have either `link` or `content`',
+        ],
+      },
     },
   },
   descriptions: [String],
