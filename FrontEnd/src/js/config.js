@@ -1,4 +1,4 @@
-// have '_' character --> nomal text
+// have '_' character --> normal text
 // have or don't have '-' character --> can become a class
 
 export const BACKEND_URL = 'http://127.0.0.1:3000';

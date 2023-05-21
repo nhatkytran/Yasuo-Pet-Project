@@ -91,8 +91,8 @@ class SubwebView {
   playVideoFirstTime() {
     this.renderUI(FETCH_END);
     this.#trailerImage.classList.add('hide');
-    this.#trailerVideo.play();
     this.#displayTrailerContent(REMOVE);
+    this.#trailerVideo.play();
   }
 
   renderUI(state) {

@@ -16,6 +16,7 @@
 
   &__riot {
     padding: 1rem 0;
+    cursor: pointer;
     @include flex-align-center;
 
     &:hover &-logo,
@@ -26,7 +27,6 @@
     &-logo {
       fill: $header-text-color;
       transition: all ease 0.2s;
-      cursor: pointer;
     }
   }
 
