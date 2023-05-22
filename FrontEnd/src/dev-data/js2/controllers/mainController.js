@@ -24,21 +24,46 @@ function skeletonLoading() {
 
 // /////////////
 const mainHeader = document.querySelector('.main-header');
+const sidebarAllGames = document.querySelector('.sb-ag');
 
 // Observer pattern
 // Cache state
+// Body view --> Function for open or close modal
+// User closes sidebar during fetching --> Stop fetching
+
+const modal = document.querySelector('#modal');
+let scrollVertical;
+
+modal.addEventListener('click', () => {
+  modal.classList.remove('fade-in');
+  document.body.classList.remove('modal-open');
+
+  document.body.style.position = 'unset';
+  document.body.style.top = `unset`;
+
+  console.log(scrollVertical);
+  window.scrollTo({ top: scrollVertical });
+});
 
 const handleOpenAllGames = () => {
   console.log('Open All Games!');
 
-  window.dispatchEvent(
-    new CustomEvent('openAllGames', {
-      detail: 'World!',
-    })
-  );
+  modal.classList.add('fade-in');
+  document.body.classList.add('modal-open');
+
+  scrollVertical = window.scrollY;
+
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollVertical}px`;
+
+  //
+
+  sidebarAllGames.classList.remove;
+
+  sidebarAllGames.dispatchEvent(new CustomEvent('openAllGames'));
 };
 
-window.addEventListener('openAllGames', event => {
+sidebarAllGames.addEventListener('openAllGames', event => {
   console.log(123);
 });
 
