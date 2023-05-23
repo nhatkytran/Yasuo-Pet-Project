@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const bodyLeft = document.querySelector('.sb-ag-body__left');
 
 // bodyLeft.classList.add('remove');
@@ -23,49 +25,162 @@ function skeletonLoading() {
 // }, 1500);
 
 // /////////////
-const mainHeader = document.querySelector('.main-header');
-const sidebarAllGames = document.querySelector('.sb-ag');
 
 // Observer pattern
 // Cache state
 // Body view --> Function for open or close modal
 // User closes sidebar during fetching --> Stop fetching
 
+const mainHeader = document.querySelector('.main-header');
+const sidebarAllGames = document.querySelector('.sb-ag');
+const sidebarAllGamesHeader = document.querySelector('.sb-ag-header');
+const sidebarAllGamesBody = document.querySelector('.sb-ag-body');
+const sidebarAllGamesCloseButton = document.querySelector(
+  '.sb-ag-header__close'
+);
+
+const state = {
+  cache: false,
+  data: {},
+};
+
+// const bodyLeft
+const bodyLeftLoading = document.querySelector('.sb-ag-body__left-loading');
+const bodyLeftLoadingInner = document.querySelector(
+  '.sb-ag-body__left-loading-inner'
+);
+const bodyLeftLoadingError = document.querySelector(
+  '.sb-ag-body__left-loading-error'
+);
+
+const bodyRight = document.querySelector('.sb-ag-body__right');
+const bodyRightLoading = document.querySelector('.sb-ag-body__right-loading');
+const bodyRightLoadingInner = document.querySelector(
+  '.sb-ag-body__right-loading-inner'
+);
+const bodyRightLoadingError = document.querySelector(
+  '.sb-ag-body__right-loading-error'
+);
+
+const displayContentOrLoading = state => {
+  if (state === 'loading') {
+    bodyLeft.classList.add('remove');
+    bodyRight.classList.add('remove');
+    bodyLeftLoading.classList.remove('remove');
+    bodyRightLoading.classList.remove('remove');
+  }
+  if (state === 'content') {
+    bodyLeft.classList.remove('remove');
+    bodyRight.classList.remove('remove');
+    bodyLeftLoading.classList.add('remove');
+    bodyRightLoading.classList.add('remove');
+  }
+  if (state === 'none') {
+    bodyLeft.classList.add('remove');
+    bodyRight.classList.add('remove');
+    bodyLeftLoading.classList.add('remove');
+    bodyRightLoading.classList.add('remove');
+  }
+};
+
+const startFetching = async () => {
+  try {
+    const { data } = await axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:3000/api/v1/allGames/data',
+    });
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const fetchThenDisplayData = async () => {
+  try {
+    displayContentOrLoading('loading');
+    // Turn on loading animation
+
+    const data = await startFetching();
+
+    console.log(data);
+  } catch (error) {
+    console.error('Display data when error happens');
+    console.log(error);
+  } finally {
+    // Turn of adnimation of loading (performance)
+    // Hide loading
+  }
+};
+
+const displayData = () => {
+  // All actions like add image handled by fetchThenDisplayData function
+  displayContentOrLoading('content');
+  console.log('Display Data!');
+};
+
+sidebarAllGames.addEventListener('openAllGames', () => {
+  if (!state.cache) {
+    fetchThenDisplayData();
+  } else {
+    displayData();
+  }
+});
+
 const modal = document.querySelector('#modal');
 let scrollVertical;
+let modalIsClosing = false;
 
+// User click open then close immediately
+let modalIsOpening = false;
+
+// sidebarAllGamesCloseButton --> click
 modal.addEventListener('click', () => {
-  modal.classList.remove('fade-in');
-  document.body.classList.remove('modal-open');
+  // Handle user click multiple times while modal is closing
+  if (modalIsOpening || modalIsClosing) return;
 
-  document.body.style.position = 'unset';
-  document.body.style.top = `unset`;
+  modalIsClosing = true;
 
-  console.log(scrollVertical);
+  document.body.removeAttribute('style');
   window.scrollTo({ top: scrollVertical });
+
+  //
+
+  modal.classList.remove('fade-in');
+  sidebarAllGames.classList.remove('sidebar-arrow-open');
+  sidebarAllGames.classList.add('sidebar-arrow-close');
+
+  sidebarAllGamesHeader.classList.remove('fade-in');
+
+  setTimeout(() => {
+    modalIsClosing = false;
+    sidebarAllGames.classList.add('remove');
+    document.body.classList.remove('modal-open');
+    displayContentOrLoading('none');
+  }, 240);
 });
 
 const handleOpenAllGames = () => {
-  console.log('Open All Games!');
+  modalIsOpening = true;
 
-  modal.classList.add('fade-in');
   document.body.classList.add('modal-open');
-
+  modal.classList.add('fade-in');
   scrollVertical = window.scrollY;
-
   document.body.style.position = 'fixed';
   document.body.style.top = `-${scrollVertical}px`;
 
   //
+  sidebarAllGames.classList.remove('remove');
+  sidebarAllGames.classList.remove('sidebar-arrow-close');
+  sidebarAllGames.classList.add('sidebar-arrow-open');
 
-  sidebarAllGames.classList.remove;
+  sidebarAllGamesHeader.classList.add('fade-in');
 
-  sidebarAllGames.dispatchEvent(new CustomEvent('openAllGames'));
+  setTimeout(() => {
+    modalIsOpening = false;
+    sidebarAllGames.dispatchEvent(new CustomEvent('openAllGames'));
+  }, 240);
 };
-
-sidebarAllGames.addEventListener('openAllGames', event => {
-  console.log(123);
-});
 
 const mainHeaderClass = 'main-header';
 mainHeader.addEventListener('click', function (event) {

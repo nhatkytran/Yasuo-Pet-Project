@@ -755,11 +755,19 @@
 
     <div class="sb-ag-body">
       <div class="sb-ag-body__left-loading remove">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
+        <div class="sb-ag-body__left-loading-inner">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="sb-ag-body__left-loading-error remove">
+          <p>Something went wrong!</p>
+          <button class="button">Try again</button>
+        </div>
       </div>
-      <div class="sb-ag-body__left">
+
+      <div class="sb-ag-body__left remove">
         <!-- Events -->
         <div class="sb-ag-body__left-cover show sb-ag-body__left-cover--1">
           <div class="sb-ag-body__left-title">
@@ -901,9 +909,12 @@
             </path>
           </svg>
         </div>
+
+        <img class="sb-ag-body__right-loading-error remove" src="/src/assets/img/sidebarAllGames/fetch-error.png"
+          alt="Error Icon">
       </div>
 
-      <div class="sb-ag-body__right">
+      <div class="sb-ag-body__right remove">
         <div class="sb-ag-body__right-cover">
           <img class="sb-ag-body__right-img"
             alt="Ruined King: A League of Legends Story" /><!-- src="/src/assets/img/nav-ag/main--1.jpeg" -->

@@ -12,12 +12,22 @@
   @include show;
 }
 
-.fade-in {
-  animation: fadeIn ease 0.24s forwards;
+@mixin ease-24-forwards($animaiton) {
+  animation: $animaiton ease 0.24s forwards;
 }
 
+.fade-in {
+  @include ease-24-forwards(fade-in);
+}
 .fade-out {
-  animation: fadeOut ease 0.24s forwards;
+  @include ease-24-forwards(fade-out);
+}
+
+.sidebar-arrow-open {
+  @include ease-24-forwards(sidebar-arrow-open);
+}
+.sidebar-arrow-close {
+  @include ease-24-forwards(sidebar-arrow-close);
 }
 
 // Assets

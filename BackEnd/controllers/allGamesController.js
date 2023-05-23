@@ -6,8 +6,12 @@ exports.getData = catchAsync(async (_, res) => {
 
   if (!data) throw new AppError("All Games's data not found!", 404);
 
+  // Test
+  const start = Date.now();
+  while (Date.now() - start < 1000) {}
+
   res.status(200).json({
     status: 'success',
-    data,
+    allGamesAssets: data,
   });
 });
