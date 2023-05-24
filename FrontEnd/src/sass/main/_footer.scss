@@ -165,13 +165,13 @@
     &-link,
     &-link:visited,
     &-link:active {
-      font-family: FF-Mark, Arial, Helvetica, sans-serif;
       font-size: 1.3rem;
       color: #fff;
       padding: 0.8rem 1.6rem;
       border-radius: 0.6rem;
       text-decoration: none;
       transition: all linear 0.1s;
+      @include use-font(FF-Mark);
 
       &:hover {
         background-color: #323232;

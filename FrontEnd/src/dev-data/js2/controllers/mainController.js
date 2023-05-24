@@ -53,6 +53,8 @@ const bodyLeftLoadingError = document.querySelector(
   '.sb-ag-body__left-loading-error'
 );
 
+const bodyLeftLoadingErrorButton = bodyLeftLoadingError.querySelector('button');
+
 const bodyRight = document.querySelector('.sb-ag-body__right');
 const bodyRightLoading = document.querySelector('.sb-ag-body__right-loading');
 const bodyRightLoadingInner = document.querySelector(
@@ -68,6 +70,8 @@ const displayContentOrLoading = state => {
     bodyRight.classList.add('remove');
     bodyLeftLoading.classList.remove('remove');
     bodyRightLoading.classList.remove('remove');
+
+    displayLoadingInner();
   }
   if (state === 'content') {
     bodyLeft.classList.remove('remove');
@@ -83,10 +87,52 @@ const displayContentOrLoading = state => {
   }
 };
 
+const displayLoadingInner = () => {
+  bodyLeftLoadingInner.classList.remove('remove');
+  bodyLeftLoadingError.classList.add('remove');
+
+  bodyRightLoadingInner.classList.remove('remove');
+  bodyRightLoadingError.classList.add('remove');
+};
+
+const displayLoadingError = () => {
+  bodyLeftLoadingInner.classList.add('remove');
+  bodyLeftLoadingError.classList.remove('remove');
+
+  bodyRightLoadingInner.classList.add('remove');
+  bodyRightLoadingError.classList.remove('remove');
+
+  console.log('Display Error!');
+};
+
+bodyLeftLoadingErrorButton.addEventListener('click', () => {
+  fetchThenDisplayData();
+});
+
+let intervalID;
+
+const startSkeletionLoading = () => {
+  setTimeout(() => {
+    skeletonLoading();
+  }, 100);
+
+  intervalID = setInterval(() => {
+    skeletonLoading();
+  }, 1500);
+};
+const endSkeletonLoading = () => {
+  if (intervalID) clearInterval(intervalID);
+};
+
+let controller;
+
 const startFetching = async () => {
   try {
+    controller = new AbortController();
+
     const { data } = await axios({
       method: 'GET',
+      signal: controller.signal,
       url: 'http://127.0.0.1:3000/api/v1/allGames/data',
     });
 
@@ -96,20 +142,29 @@ const startFetching = async () => {
   }
 };
 
+const createImages = () => {
+  return true;
+};
+
 const fetchThenDisplayData = async () => {
   try {
     displayContentOrLoading('loading');
-    // Turn on loading animation
+    startSkeletionLoading();
 
     const data = await startFetching();
 
     console.log(data);
+
+    const isImageDisplayOk = createImages();
+
+    displayContentOrLoading('content');
   } catch (error) {
     console.error('Display data when error happens');
     console.log(error);
+
+    displayLoadingError();
   } finally {
-    // Turn of adnimation of loading (performance)
-    // Hide loading
+    endSkeletonLoading();
   }
 };
 
@@ -140,6 +195,10 @@ modal.addEventListener('click', () => {
   if (modalIsOpening || modalIsClosing) return;
 
   modalIsClosing = true;
+
+  if (controller) controller.abort();
+
+  displayContentOrLoading('none');
 
   document.body.removeAttribute('style');
   window.scrollTo({ top: scrollVertical });

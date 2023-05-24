@@ -8,7 +8,7 @@ exports.getData = catchAsync(async (_, res) => {
 
   // Test
   const start = Date.now();
-  while (Date.now() - start < 1000) {}
+  while (Date.now() - start < 2000) {}
 
   res.status(200).json({
     status: 'success',

@@ -109,14 +109,14 @@
 
     &-error {
       width: 100%;
-      color: #f46275;
+      color: $color-error-primary;
       font-size: 2.2rem;
       text-align: center;
       @include use-font(FF-Mark);
       @include absolute-position(-50%, -50%);
 
       button {
-        background-color: #f46275;
+        background-color: $color-error-primary;
         font-size: 1.6rem;
         padding: 0.4rem 0.8rem;
         margin-top: 0.6rem;
@@ -125,7 +125,7 @@
         @include use-font(FF-Mark-Medium);
 
         &:hover {
-          background-color: #fc6c7f;
+          background-color: $color-error-light;
         }
       }
     }
@@ -287,8 +287,11 @@
       flex-direction: column;
     }
 
-    &-cover {
-      cursor: pointer;
+    &-link,
+    &-link:visited,
+    &-link:active {
+      display: block;
+      text-decoration: none;
 
       &:hover .sb-ag-body__right-img {
         box-shadow: 0 14px 28px rgba(#fff, 0.1);
