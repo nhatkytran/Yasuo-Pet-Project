@@ -12,8 +12,8 @@
   @include show;
 }
 
-@mixin ease-24-forwards($animaiton) {
-  animation: $animaiton ease 0.24s forwards;
+@mixin ease-24-forwards($animation) {
+  animation: $animation ease 0.24s forwards;
 }
 
 .fade-in {

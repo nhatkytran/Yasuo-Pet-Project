@@ -258,3 +258,57 @@ mainHeader.addEventListener('click', function (event) {
     currentElement = currentElement.parentNode;
   }
 });
+
+// Super Hover
+
+const body = document.querySelector('.sb-ag-body');
+const bodyRightPoster = document.querySelector('.ag-poster-container');
+const classLink = 'sb-ag-body__left-link';
+const links = document.querySelectorAll(`.${classLink}`);
+
+links.forEach((link, index) => {
+  link.setAttribute('data-ag-image-order', index + 1);
+});
+
+const displayMain = () => {
+  bodyRight.classList.remove('remove');
+  bodyRightPoster.classList.add('remove');
+};
+const displayPoster = () => {
+  bodyRight.classList.add('remove');
+  bodyRightPoster.classList.remove('remove');
+};
+
+let displayTimeoutId;
+let lastLink = null;
+
+body.addEventListener('mousemove', event => {
+  const link = event.target.closest(`.${classLink}`);
+
+  if (link === null) {
+    // Link is NOT hovered
+    if (lastLink === null) return;
+
+    displayTimeoutId = setTimeout(displayMain, 240);
+
+    // lastLink removes index
+
+    lastLink = null;
+  } else {
+    // Link is hovered
+    if (link === lastLink) return;
+
+    if (displayTimeoutId) clearTimeout(displayTimeoutId);
+
+    displayPoster();
+
+    const { agImageOrder: order } = link.dataset;
+
+    console.log(order);
+
+    // lastLink removes index
+    // set index for current link
+
+    lastLink = link;
+  }
+});

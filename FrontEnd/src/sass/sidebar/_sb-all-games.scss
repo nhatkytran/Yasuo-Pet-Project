@@ -252,7 +252,7 @@
       color: rgb(168, 168, 168);
       text-decoration: none;
       padding: 0.8rem 1.6rem;
-      margin: 0.4rem 0;
+      margin: 0.8rem 0;
       border-radius: 0.6rem;
       transition: all ease 0.2s;
       @include use-font(FF-Mark);
@@ -285,6 +285,14 @@
       gap: 1.2rem;
       margin: 1.2rem 0;
       flex-direction: column;
+    }
+
+    &-cover {
+      animation: fade-in ease 0.24s forwards;
+
+      &:nth-child(2) {
+        animation-duration: 0.48s;
+      }
     }
 
     &-link,
