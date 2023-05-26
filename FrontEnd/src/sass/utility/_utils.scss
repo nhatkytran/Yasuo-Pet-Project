@@ -30,6 +30,10 @@
   @include ease-24-forwards(sidebar-arrow-close);
 }
 
+.z-index-1 {
+  z-index: 1 !important;
+}
+
 // Assets
 .arrow-down {
   width: 1.5rem;

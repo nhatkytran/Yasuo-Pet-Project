@@ -270,6 +270,11 @@ links.forEach((link, index) => {
   link.setAttribute('data-ag-image-order', index + 1);
 });
 
+const posters = document.querySelectorAll('.ag-poster');
+posters.forEach((poster, index) =>
+  poster.classList.add(`ag-poster--${index + 1}`)
+);
+
 const displayMain = () => {
   bodyRight.classList.remove('remove');
   bodyRightPoster.classList.add('remove');
@@ -281,34 +286,38 @@ const displayPoster = () => {
 
 let displayTimeoutId;
 let lastLink = null;
+let lastPosterOrder = null;
 
 body.addEventListener('mousemove', event => {
   const link = event.target.closest(`.${classLink}`);
 
-  if (link === null) {
-    // Link is NOT hovered
+  if (!link) {
     if (lastLink === null) return;
 
     displayTimeoutId = setTimeout(displayMain, 240);
-
-    // lastLink removes index
-
     lastLink = null;
   } else {
-    // Link is hovered
     if (link === lastLink) return;
 
+    // Clear timeout setting main images
     if (displayTimeoutId) clearTimeout(displayTimeoutId);
-
-    displayPoster();
 
     const { agImageOrder: order } = link.dataset;
 
-    console.log(order);
+    // z-index-1 sets `z-index: 1` help the image chosen takes precedence
+    // last poster removes index
+    // check incase last poster is null
+    if (lastPosterOrder)
+      document
+        .querySelector(`.ag-poster--${lastPosterOrder}`)
+        .classList.remove('z-index-1');
 
-    // lastLink removes index
-    // set index for current link
+    // set index for current poster
+    document.querySelector(`.ag-poster--${order}`).classList.add('z-index-1');
+
+    displayPoster();
 
     lastLink = link;
+    lastPosterOrder = order;
   }
 });
