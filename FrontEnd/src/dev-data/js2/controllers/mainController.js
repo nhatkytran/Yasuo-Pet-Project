@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BACKEND_URL } from '../../../js/config';
 
 const bodyLeft = document.querySelector('.sb-ag-body__left');
 
@@ -142,8 +143,82 @@ const startFetching = async () => {
   }
 };
 
-const createImages = () => {
-  return true;
+// Promisify
+
+const promisifyLoadingImage = (image, source) =>
+  new Promise((resolve, reject) => {
+    const loadController = new AbortController();
+    const errorController = new AbortController();
+
+    const loadHandler = () => {
+      errorController.abort();
+      resolve();
+    };
+    const errorHandler = () => {
+      loadController.abort();
+      reject();
+    };
+
+    image.addEventListener('load', loadHandler, {
+      once: true,
+      signal: loadController.signal,
+    });
+    image.addEventListener('error', errorHandler, {
+      once: true,
+      signal: errorController.signal,
+    });
+
+    image.src = source;
+  });
+
+const createMainImages = async images => {
+  try {
+    const bodyRightImages = bodyRight.querySelectorAll(
+      '.sb-ag-body__right-img'
+    );
+    const promises = [...bodyRightImages].map((image, index) =>
+      promisifyLoadingImage(image, `${BACKEND_URL}${images[index].link}`)
+    );
+
+    await Promise.all(promises);
+  } catch (error) {
+    console.log('*** Error load All!');
+    throw error;
+  }
+};
+
+const createPosterGenerateMarkup = (numberOfPosters, posterOptions) => {
+  const { colors, descriptions, image_alts } = posterOptions;
+
+  return Array(numberOfPosters)
+    .fill(null)
+    .map((_, index) => `<div>${index + 1}</div>`)
+    .join('');
+};
+
+const createPoster = async (images, posterOptions) => {
+  try {
+    const { larges: largeImages, smalls: smallImages } = images;
+
+    const numberOfPosters = largeImages.length;
+    const markup = createPosterGenerateMarkup(numberOfPosters, posterOptions);
+
+    console.log(markup);
+  } catch (error) {
+    console.log('*** Error Poster!');
+    throw error;
+  }
+};
+
+const createImages = async (images, posterOptions) => {
+  try {
+    await createMainImages(images.main);
+    await createPoster(images.side, posterOptions);
+
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 const fetchThenDisplayData = async () => {
@@ -155,7 +230,15 @@ const fetchThenDisplayData = async () => {
 
     console.log(data);
 
-    const isImageDisplayOk = createImages();
+    const { images, colors, descriptions, image_alts } = data.allGamesAssets;
+    const posterOptions = { colors, descriptions, image_alts };
+
+    const isImageDisplayOk = await createImages(images, posterOptions);
+
+    if (!isImageDisplayOk) throw new Error('Error loading images!');
+
+    state.cache = true;
+    state.data = data.allGamesAssets;
 
     displayContentOrLoading('content');
   } catch (error) {
@@ -169,9 +252,8 @@ const fetchThenDisplayData = async () => {
 };
 
 const displayData = () => {
-  // All actions like add image handled by fetchThenDisplayData function
-  displayContentOrLoading('content');
   console.log('Display Data!');
+  displayContentOrLoading('content');
 };
 
 sidebarAllGames.addEventListener('openAllGames', () => {
