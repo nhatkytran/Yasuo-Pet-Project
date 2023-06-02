@@ -226,5 +226,27 @@
       "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(252, 63, 67) 0%, rgb(10, 10, 10) 70%);",
       "background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(234, 0, 40) 0%, rgb(10, 10, 10) 70%);"
     ]
-  }
+  },
+  "platforms": [
+    [],
+    ["window"],
+    ["window"],
+    ["window", "phone"],
+    ["window", "phone"],
+    ["phone"],
+    ["window", "phone", "switch"],
+    ["window", "switch"],
+    [],
+    ["window", "switch"],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ]
 }

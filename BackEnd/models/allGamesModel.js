@@ -39,6 +39,7 @@ const allGamesSchema = new mongoose.Schema({
   colors: {
     bg: [String],
   },
+  platforms: [[String]],
 });
 
 const allGamesCollectionName = 'allgames';
