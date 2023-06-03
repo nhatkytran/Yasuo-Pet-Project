@@ -143,8 +143,6 @@ const startFetching = async () => {
   }
 };
 
-// Promisify
-
 const promisifyLoadingImage = (image, source) =>
   new Promise((resolve, reject) => {
     const loadController = new AbortController();
@@ -187,27 +185,19 @@ const createMainImages = async images => {
   }
 };
 
-const createPosterGenerateMarkup = (numberOfPosters, posterOptions) => {
-  const { colors, descriptions, image_alts, platforms } = posterOptions;
-
-  const imageOrText = (isImage, options) =>
+const createPosterGenerateMarkup = (smallImages, posterOptions) => {
+  const imageOrText = (isImage, content) =>
     isImage
-      ? `<img class="ag-poster__header-image" src=${options.src} alt=${options.alt} />`
-      : `<span class="ag-poster__header-label">${options.text}</span>`;
+      ? `<img class="ag-poster__header-image" src="" alt=${content} />`
+      : `<span class="ag-poster__header-label">${content}</span>`;
 
   const supportPlatform = platforms => {
     const windowPlatform = platforms.includes('window')
       ? `
       <svg width="8" height="8" viewBox="0 0 10 10">
-        <title>windows</title>
+        <title>window</title>
         <path
           d="M0 1.416L4.087.86l.002 3.929-4.084.023L0 1.416zm4.085 3.827l.003 3.933-4.085-.56V5.218l4.082.026zM4.58.79L9.998 0v4.741l-5.418.042V.79zM10 5.279L9.998 10 4.58 9.238l-.008-3.966L10 5.28z">
-        </path>
-      </svg>
-      <svg width="8" height="8" viewBox="0 0 7 10">
-        <title>phone</title>
-        <path
-          d="M2.5 8.125a.624.624 0 101.249.001.624.624 0 00-1.249 0zM0 .938v8.125C0 9.58.42 10 .938 10h4.375c.517 0 .937-.42.937-.937V.938A.938.938 0 005.312 0H.938A.938.938 0 000 .938zm.938 8.007v-7.89c0-.065.052-.117.117-.117h4.14c.065 0 .117.052.117.117v7.89a.118.118 0 01-.117.118h-4.14a.118.118 0 01-.117-.118z">
         </path>
       </svg>
     `
@@ -244,22 +234,26 @@ const createPosterGenerateMarkup = (numberOfPosters, posterOptions) => {
     return `${windowPlatform}${phonePlatform}${switchPlatform}`;
   };
 
-  return Array(numberOfPosters)
-    .fill(null)
+  const { colors, descriptions, image_alts, platforms } = posterOptions;
+
+  return smallImages
     .map(
-      (_, index) => `
-        <div class="ag-poster">
-          <img class="ag-poster__image" alt=${0}>
-          <div class="ag-poster__background">
+      (image, index) => `
+        <div class="ag-poster ag-poster--${index + 1}">
+          <img class="ag-poster__image" src="" alt="${image_alts[index]}">
+          <div class="ag-poster__background" style="${colors.bg[index]}">
             <div class="ag-poster__content">
               <div class="ag-poster__header">
-                <img class="ag-poster__header-image" alt=${0} />
-                <span class="ag-poster__header-label">${0}</span>
+                ${imageOrText(image.type !== 'text', image_alts[index])}
               </div>
-              <p class="ag-poster__description">${0}</p>
-              <div class="ag-poster__platform">
-                ${0}
-              </div>
+              <p class="ag-poster__description">${descriptions[index]}</p>
+              ${
+                platforms[index].length
+                  ? `<div class="ag-poster__platform">
+                    ${supportPlatform(platforms[index])}
+                  </div>`
+                  : ''
+              }
             </div>
           </div>
         </div>
@@ -268,29 +262,40 @@ const createPosterGenerateMarkup = (numberOfPosters, posterOptions) => {
     .join('');
 };
 
-const createPoster = async (images, posterOptions) => {
-  try {
-    const { larges: largeImages, smalls: smallImages } = images;
-
-    const numberOfPosters = largeImages.length;
-    const markup = createPosterGenerateMarkup(numberOfPosters, posterOptions);
-
-    console.log(markup);
-  } catch (error) {
-    console.log('*** Error Poster!');
-    throw error;
-  }
+const createPosterImages = async (images, ...imageEls) => {
+  const imagesPromisifying = imageEls.map((image, index) =>
+    promisifyLoadingImage(image, `${BACKEND_URL}${images[index].link}`)
+  );
+  await Promise.all(imagesPromisifying);
 };
 
-const createImages = async (images, posterOptions) => {
-  try {
-    await createMainImages(images.main);
-    await createPoster(images.side, posterOptions);
+const createPosterLargeImages = async largeImages => {
+  const imageEls = document.querySelectorAll('.ag-poster__image');
+  await createPosterImages(largeImages, ...imageEls);
+};
 
-    return true;
-  } catch (error) {
-    return false;
-  }
+const createPosterSmallImages = async smallImages => {
+  const smallImagesOnly = smallImages.filter(image => image.type !== 'text');
+  const imageEls = document.querySelectorAll('.ag-poster__header-image');
+  await createPosterImages(smallImagesOnly, ...imageEls);
+};
+
+const createPoster = async (images, posterOptions) => {
+  const { larges: largeImages, smalls: smallImages } = images;
+
+  const markup = createPosterGenerateMarkup(smallImages, posterOptions);
+  const posterContainer = document.querySelector('.ag-poster-container');
+
+  // Create poster's structure
+  posterContainer.insertAdjacentHTML('afterbegin', markup);
+
+  // Add poster's image
+  // Each poster has its large image
+  // Not every poster has samll image, some of the have title (added along with structure)
+  await Promise.all([
+    createPosterLargeImages(largeImages),
+    createPosterSmallImages(smallImages),
+  ]);
 };
 
 const fetchThenDisplayData = async () => {
@@ -302,12 +307,11 @@ const fetchThenDisplayData = async () => {
 
     console.log(data);
 
-    const { images, colors, descriptions, image_alts } = data.allGamesAssets;
-    const posterOptions = { colors, descriptions, image_alts };
-
-    const isImageDisplayOk = await createImages(images, posterOptions);
-
-    if (!isImageDisplayOk) throw new Error('Error loading images!');
+    const { images, ...posterOptions } = data.allGamesAssets;
+    await Promise.all([
+      createMainImages(images.main),
+      createPoster(images.side, posterOptions),
+    ]);
 
     state.cache = true;
     state.data = data.allGamesAssets;
@@ -315,7 +319,7 @@ const fetchThenDisplayData = async () => {
     displayContentOrLoading('content');
   } catch (error) {
     console.error('Display data when error happens');
-    console.log(error);
+    console.error(error);
 
     displayLoadingError();
   } finally {

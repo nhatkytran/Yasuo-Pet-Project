@@ -345,7 +345,6 @@
   &__background {
     width: 50%;
     height: 100%;
-    background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(17, 113, 200) 0%, rgb(10, 10, 10) 70%);
     text-align: center;
     border-top-left-radius: 0.6rem;
     border-bottom-left-radius: 0.6rem;
@@ -353,6 +352,9 @@
     left: 0;
     position: absolute;
     clip-path: polygon(77% 0, 63% 90%, 100% 100%, 100% 101%, 0% 101%, 0% 0%);
+
+    // background-image is added using JavaScript
+    // background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(17, 113, 200) 0%, rgb(10, 10, 10) 70%);
   }
 
   &__content {
