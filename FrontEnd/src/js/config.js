@@ -2,7 +2,7 @@
 // have or don't have '-' character --> can become a class
 
 export const BACKEND_URL = 'http://127.0.0.1:3000';
-export const FETCH_API_TIMEOUT = 30;
+export const FETCH_API_TIMEOUT = 60;
 
 export const FETCH_START = '_start';
 export const FETCH_END = '_end';
@@ -11,7 +11,7 @@ export const VIDEO_STATE_PLAY = 'play';
 export const VIDEO_STATE_PAUSE = 'pause';
 export const VIDEO_STATE_REPLAY = 'replay';
 
-export const TRAILER_CONTENT_TIMEOUT = 240;
+export const ANIMATION_TIMEOUT = 240;
 
 export const FADE_IN = 'fade-in';
 export const FADE_OUT = 'fade-out';

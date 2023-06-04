@@ -360,10 +360,10 @@ modal.addEventListener('click', () => {
 
   document.body.removeAttribute('style');
   window.scrollTo({ top: scrollVertical });
+  modal.classList.remove('fade-in');
 
   //
 
-  modal.classList.remove('fade-in');
   sidebarAllGames.classList.remove('sidebar-arrow-open');
   sidebarAllGames.classList.add('sidebar-arrow-close');
 
@@ -417,7 +417,7 @@ mainHeader.addEventListener('click', function (event) {
   }
 });
 
-// Super Hover
+// Super Hover //////////
 
 const body = document.querySelector('.sb-ag-body');
 const bodyRightPoster = document.querySelector('.ag-poster-container');

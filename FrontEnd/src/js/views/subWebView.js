@@ -5,7 +5,7 @@ import {
   VIDEO_STATE_PLAY,
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
-  TRAILER_CONTENT_TIMEOUT,
+  ANIMATION_TIMEOUT,
   FADE_IN,
   FADE_OUT,
   SPEAKER_STATE,
@@ -57,7 +57,7 @@ class SubwebView {
       this.#animateTrailerContent(FADE_IN, FADE_OUT);
       trailerContentTimeoutID = setTimeout(() => {
         this.#trailerContent.classList.add('remove');
-      }, TRAILER_CONTENT_TIMEOUT);
+      }, ANIMATION_TIMEOUT);
     };
 
     return function (action) {
