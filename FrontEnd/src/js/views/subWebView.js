@@ -13,30 +13,56 @@ import {
   ADD,
   REMOVE,
 } from '../config';
-import { $, $$, $_, $$_ } from '../helpers';
+import { $, $$, $_, $$_, classRemove } from '../helpers';
 
 class SubwebView {
-  #fetchButton = $('.trailer__play-video-play');
-  #fetchLoading = $('.trailer__play-video-loading');
-  #fetchSuccess = $('.trailer__play-video-success');
-  #fetchMessage = $('.trailer__play-video-message');
+  #fetchButton;
+  #fetchLoading;
+  #fetchSuccess;
+  #fetchMessage;
 
-  #trailerVideo = $('.trailer__bg-small-video');
-  #trailerImage = $('.trailer__bg-small-image');
+  #trailerVideo;
+  #trailerImage;
+  #trailerContent;
 
-  #trailerContent = $('.trailer__content');
+  #errorMessageCommon;
+  #errorMessageTimeout;
+  #errorMessageUserAction;
 
-  #errorMessageCommon = 'Something went wrong!';
-  #errorMessageTimeout = 'Request timout error!';
-  #errorMessageUserAction = 'User canceled request!';
+  #videoStateButtons;
+  #speakerWrapper;
+  #speakers;
+  #speakerProgressWrapper;
+  #speakerProgressBar;
 
-  #videoStateButtons = $$('.trailer__play-video-success-control svg');
-  #speakerWrapper = $('.trailer__play-video-success-speakers');
-  #speakers = $$_(this.#speakerWrapper, 'svg');
-  #speakerProgressWrapper = $('.trailer__play-video-success-bar');
-  #speakerProgressBar = $('.trailer__play-video-success-bar-active');
+  #purchaseSkinsButton;
 
-  #purchaseSkinsButton = $('.trailer__content-button-border');
+  constructor() {
+    const classPlayVideo = state => `.trailer__play-video-${state}`;
+    const classBg = item => `.trailer__bg-small-${item}`;
+    const classPlaySuccess = item => `.trailer__play-video-success-${item}`;
+
+    this.#fetchButton = $(classPlayVideo('play'));
+    this.#fetchLoading = $(classPlayVideo('loading'));
+    this.#fetchSuccess = $(classPlayVideo('success'));
+    this.#fetchMessage = $(classPlayVideo('message'));
+
+    this.#trailerVideo = $(classBg('video'));
+    this.#trailerImage = $(classBg('image'));
+    this.#trailerContent = $('.trailer__content');
+
+    this.#errorMessageCommon = 'Something went wrong!';
+    this.#errorMessageTimeout = 'Request timout error!';
+    this.#errorMessageUserAction = 'User canceled request!';
+
+    this.#videoStateButtons = $$(`${classPlaySuccess('control')} svg`);
+    this.#speakerWrapper = $(classPlaySuccess('speakers'));
+    this.#speakers = $$_(this.#speakerWrapper, 'svg');
+    this.#speakerProgressWrapper = $(classPlaySuccess('bar'));
+    this.#speakerProgressBar = $(classPlaySuccess('bar-active'));
+
+    this.#purchaseSkinsButton = $('.trailer__content-button-border');
+  }
 
   // in | out
   #animateTrailerContent = (currentState, expectedState) => {
@@ -49,14 +75,16 @@ class SubwebView {
 
     const trailerContentFadeOut = () => {
       if (trailerContentTimeoutID) clearTimeout(trailerContentTimeoutID);
-      this.#trailerContent.classList.remove('remove');
+
+      classRemove(REMOVE, this.#trailerContent);
       this.#animateTrailerContent(FADE_OUT, FADE_IN);
     };
 
     const trailerContentFadeIn = () => {
       this.#animateTrailerContent(FADE_IN, FADE_OUT);
+
       trailerContentTimeoutID = setTimeout(() => {
-        this.#trailerContent.classList.add('remove');
+        classRemove(ADD, this.#trailerContent);
       }, ANIMATION_TIMEOUT);
     };
 
@@ -67,15 +95,14 @@ class SubwebView {
   })();
 
   #displayControlPanel(currentPanel) {
-    [
+    classRemove(
+      ADD,
       this.#fetchButton,
       this.#fetchLoading,
       this.#fetchSuccess,
-      this.#fetchMessage,
-    ].forEach(panel => {
-      if (panel === currentPanel) currentPanel.classList.remove('remove');
-      else panel.classList.add('remove');
-    });
+      this.#fetchMessage
+    );
+    classRemove(REMOVE, currentPanel);
   }
 
   renderVideo({ linkMp4, linkWebm }) {
@@ -125,9 +152,10 @@ class SubwebView {
 
   #displayControlVideoState = expectedState =>
     this.#videoStateButtons.forEach(button =>
-      button.dataset.videoControlState === expectedState
-        ? button.classList.remove('remove')
-        : button.classList.add('remove')
+      classRemove(
+        button.dataset.videoControlState === expectedState ? REMOVE : ADD,
+        button
+      )
     );
 
   checkVideoStateRequired = button => button.dataset.videoControlState;
@@ -155,9 +183,7 @@ class SubwebView {
     const speakerIndex = Math.ceil((percent / 100) * SPEAKER_STATE);
 
     this.#speakers.forEach((speaker, index) =>
-      speakerIndex === index
-        ? speaker.classList.remove('remove')
-        : speaker.classList.add('remove')
+      classRemove(speakerIndex === index ? REMOVE : ADD, speaker)
     );
   };
 

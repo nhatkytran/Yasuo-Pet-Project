@@ -7,6 +7,8 @@ const handleModal = () => {
   let scrollVertical;
 
   const handleOpenModal = () => {
+    if (modalIsOpening || modalIsClosing) return;
+
     modalIsOpening = true;
     scrollVertical = modalView.open();
 
@@ -33,23 +35,50 @@ const handleModal = () => {
 const { handleOpenModal, handleCloseModal } = handleModal();
 
 const handleExploreAllgamesSidebar = () => {
+  let sidebarIsOpening;
+  let sidebarIsClosing;
+
   const handleOpenExploreAllgamesSidebar = () => {
+    if (sidebarIsOpening || sidebarIsClosing) return;
+
     handleOpenModal();
 
+    sidebarIsOpening = true;
+    exploreAllgamesView.open();
+
     setTimeout(() => {
+      sidebarIsOpening = false;
       exploreAllgamesView.openSidebarSignal();
     }, ANIMATION_TIMEOUT);
   };
 
-  return { handleOpenExploreAllgamesSidebar };
+  const handleCloseExploreAllgamesSidebar = () => {
+    if (sidebarIsOpening || sidebarIsClosing) return;
+
+    handleCloseModal();
+
+    sidebarIsClosing = true;
+    exploreAllgamesView.close(ANIMATION_TIMEOUT);
+
+    setTimeout(() => {
+      sidebarIsClosing = false;
+    }, ANIMATION_TIMEOUT);
+  };
+
+  return {
+    handleOpenExploreAllgamesSidebar,
+    handleCloseExploreAllgamesSidebar,
+  };
 };
 
-const { handleOpenExploreAllgamesSidebar } = handleExploreAllgamesSidebar();
+const { handleOpenExploreAllgamesSidebar, handleCloseExploreAllgamesSidebar } =
+  handleExploreAllgamesSidebar();
 
 function init() {
   modalView.addCloseModalHandler(handleCloseModal);
 
   exploreAllgamesView.addOpenSidebarHandler(handleOpenExploreAllgamesSidebar);
+  exploreAllgamesView.addCloseSidebarHandler(handleCloseExploreAllgamesSidebar);
 }
 
 init();

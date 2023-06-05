@@ -2,14 +2,18 @@ import { ADD, REMOVE } from '../config';
 import { $ } from '../helpers';
 
 class ModalView {
-  #modal = $('#modal');
+  #modal;
 
-  animateModal(state) {
+  constructor() {
+    this.#modal = $('#modal');
+  }
+
+  #animateModal(state) {
     if (state === ADD) this.#modal.classList.add('fade-in');
     if (state === REMOVE) this.#modal.classList.remove('fade-in');
   }
 
-  stopScrollBody() {
+  #stopScrollBody() {
     const scrollVertical = window.scrollY;
 
     document.body.style.cssText = `
@@ -22,13 +26,13 @@ class ModalView {
 
   open() {
     document.body.classList.add('modal-open');
-    this.animateModal(ADD);
+    this.#animateModal(ADD);
 
-    return this.stopScrollBody();
+    return this.#stopScrollBody();
   }
 
   close(scrollVertical) {
-    this.animateModal(REMOVE);
+    this.#animateModal(REMOVE);
     document.body.removeAttribute('style');
     window.scrollTo({ top: scrollVertical });
     document.body.classList.remove('modal-open');

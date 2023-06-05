@@ -24,3 +24,11 @@ export const DRAG_VOLUME = 'drag_volume';
 
 export const ADD = '_add';
 export const REMOVE = '_remove';
+
+export const NONE = '_none';
+export const LOADING = '_loading';
+export const ERROR = '_error';
+export const CONTENT = '_content';
+
+export const LEFT = 'left';
+export const RIGHT = 'right';

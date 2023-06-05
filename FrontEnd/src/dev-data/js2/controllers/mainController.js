@@ -350,52 +350,51 @@ let modalIsOpening = false;
 // sidebarAllGamesCloseButton --> click
 modal.addEventListener('click', () => {
   // Handle user click multiple times while modal is closing
-  if (modalIsOpening || modalIsClosing) return;
+  if (modalIsOpening || modalIsClosing) return; //////
 
-  modalIsClosing = true;
+  modalIsClosing = true; ///////
 
   if (controller) controller.abort();
 
-  displayContentOrLoading('none');
+  displayContentOrLoading('none'); ///////
 
-  document.body.removeAttribute('style');
-  window.scrollTo({ top: scrollVertical });
-  modal.classList.remove('fade-in');
+  document.body.removeAttribute('style'); ///////
+  window.scrollTo({ top: scrollVertical }); //////
+  modal.classList.remove('fade-in'); ////////
 
   //
 
-  sidebarAllGames.classList.remove('sidebar-arrow-open');
-  sidebarAllGames.classList.add('sidebar-arrow-close');
+  sidebarAllGames.classList.remove('sidebar-arrow-open'); /////
+  sidebarAllGames.classList.add('sidebar-arrow-close'); /////
 
-  sidebarAllGamesHeader.classList.remove('fade-in');
+  sidebarAllGamesHeader.classList.remove('fade-in'); ///////
 
   setTimeout(() => {
-    modalIsClosing = false;
-    sidebarAllGames.classList.add('remove');
-    document.body.classList.remove('modal-open');
-    displayContentOrLoading('none');
+    modalIsClosing = false; /////////
+    sidebarAllGames.classList.add('remove'); ///////
+    document.body.classList.remove('modal-open'); /////////
   }, 240);
 });
 
 const handleOpenAllGames = () => {
-  modalIsOpening = true;
+  modalIsOpening = true; /////
 
-  document.body.classList.add('modal-open');
-  modal.classList.add('fade-in');
-  scrollVertical = window.scrollY;
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${scrollVertical}px`;
+  document.body.classList.add('modal-open'); //////
+  modal.classList.add('fade-in'); //////
+  scrollVertical = window.scrollY; /////
+  document.body.style.position = 'fixed'; ////
+  document.body.style.top = `-${scrollVertical}px`; ////
 
   //
-  sidebarAllGames.classList.remove('remove');
-  sidebarAllGames.classList.remove('sidebar-arrow-close');
-  sidebarAllGames.classList.add('sidebar-arrow-open');
+  sidebarAllGames.classList.remove('remove'); ////////
+  sidebarAllGames.classList.remove('sidebar-arrow-close'); //////
+  sidebarAllGames.classList.add('sidebar-arrow-open'); /////
 
-  sidebarAllGamesHeader.classList.add('fade-in');
+  sidebarAllGamesHeader.classList.add('fade-in'); //////
 
   setTimeout(() => {
-    modalIsOpening = false;
-    sidebarAllGames.dispatchEvent(new CustomEvent('openAllGames'));
+    modalIsOpening = false; /////////
+    sidebarAllGames.dispatchEvent(new CustomEvent('openAllGames')); ///////////
   }, 240);
 };
 
