@@ -7,7 +7,7 @@ const newAbortSignal = () => {
   return abortController.signal;
 };
 
-const getTrailerVideo = async endpoint => {
+const getExploreAllgamesData = async endpoint => {
   const { data } = await axiosInstance.get(endpoint, {
     signal: newAbortSignal(),
   });
@@ -15,10 +15,13 @@ const getTrailerVideo = async endpoint => {
   return data;
 };
 
-const getTrailerVideoAbort = () => {
+const getExploreAllgamesDataAbort = () => {
   if (abortController) abortController.abort();
 };
 
-const subwebAxios = { getTrailerVideo, getTrailerVideoAbort };
+const exploreAllgamesAxios = {
+  getExploreAllgamesData,
+  getExploreAllgamesDataAbort,
+};
 
-export default subwebAxios;
+export default exploreAllgamesAxios;

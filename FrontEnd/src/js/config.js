@@ -30,5 +30,7 @@ export const LOADING = '_loading';
 export const ERROR = '_error';
 export const CONTENT = '_content';
 
+export const SKELETON_LOADING_INTERVAL = 1500;
+
 export const LEFT = 'left';
 export const RIGHT = 'right';

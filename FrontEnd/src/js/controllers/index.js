@@ -1,5 +1,10 @@
-import { ANIMATION_TIMEOUT } from '../config';
+import { ANIMATION_TIMEOUT, LOADING, ERROR, CONTENT } from '../config';
 import { modalView, exploreAllgamesView } from '../Views';
+
+import state, {
+  fetchExploreAllgamesData,
+  fetchExploreAllgamesDataAbort,
+} from '../model';
 
 const handleModal = () => {
   let modalIsOpening;
@@ -55,6 +60,7 @@ const handleExploreAllgamesSidebar = () => {
   const handleCloseExploreAllgamesSidebar = () => {
     if (sidebarIsOpening || sidebarIsClosing) return;
 
+    fetchExploreAllgamesDataAbort();
     handleCloseModal();
 
     sidebarIsClosing = true;
@@ -74,11 +80,37 @@ const handleExploreAllgamesSidebar = () => {
 const { handleOpenExploreAllgamesSidebar, handleCloseExploreAllgamesSidebar } =
   handleExploreAllgamesSidebar();
 
+const handleExploreAllgamesData = async () => {
+  if (state.isExploreAllgamesFetchData)
+    return exploreAllgamesView.displayContent(CONTENT);
+
+  try {
+    exploreAllgamesView.displayContent(LOADING);
+
+    const { images, ...posterOptions } = await fetchExploreAllgamesData();
+
+    await Promise.all([
+      exploreAllgamesView.createMainImages(images.main),
+      exploreAllgamesView.createPoster(images.side, posterOptions),
+    ]);
+
+    state.isExploreAllgamesFetchData = true;
+
+    exploreAllgamesView.displayContent(CONTENT);
+  } catch (error) {
+    console.error('Something went wrong!');
+    console.error(error);
+
+    exploreAllgamesView.displayContent(ERROR);
+  }
+};
+
 function init() {
   modalView.addCloseModalHandler(handleCloseModal);
 
   exploreAllgamesView.addOpenSidebarHandler(handleOpenExploreAllgamesSidebar);
   exploreAllgamesView.addCloseSidebarHandler(handleCloseExploreAllgamesSidebar);
+  exploreAllgamesView.addFetchAndDisplayData(handleExploreAllgamesData);
 }
 
 init();
