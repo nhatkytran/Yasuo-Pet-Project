@@ -327,8 +327,13 @@
 
 .ag-poster-container {
   width: 50%;
+  min-height: 36.5rem;
   padding: 0 0.8rem;
   position: relative;
+
+  @media only screen and (max-width: $px1040) {
+    width: 100%;
+  }
 }
 
 .ag-poster {
@@ -355,6 +360,10 @@
 
     // background-image is added using JavaScript
     // background-image: radial-gradient(160.43% 179.54% at 100.43% 100%, rgb(17, 113, 200) 0%, rgb(10, 10, 10) 70%);
+
+    @media only screen and (max-width: $px1040) {
+      clip-path: polygon(100% 0, 95% 90%, 100% 100%, 100% 101%, 0% 101%, 0% 0%);
+    }
   }
 
   &__content {
@@ -364,12 +373,21 @@
     flex-direction: column;
     justify-content: space-around;
     @include flex-align-center;
+
+    @media only screen and (max-width: $px1040) {
+      width: 100%;
+      padding: 13% 0 8%;
+    }
   }
 
   &__header {
     flex-grow: 0.7;
     justify-content: space-around;
     @include flex-align-center;
+
+    @media only screen and (max-width: $px1040) {
+      flex-grow: 1;
+    }
 
     &-image {
       width: 65%;
@@ -388,6 +406,7 @@
     font-size: 0.8rem;
     text-transform: uppercase;
     @include use-font(FF-Mark-Medium);
+    @include display-responsive($px1040, none);
   }
 
   &__platform {
@@ -396,6 +415,7 @@
     padding: 0 0.8rem;
     border-radius: 1.6rem;
     @include flex-align-center;
+    @include display-responsive($px1040, none);
 
     svg {
       fill: #fff;
