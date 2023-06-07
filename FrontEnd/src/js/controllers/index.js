@@ -1,4 +1,12 @@
-import { ANIMATION_TIMEOUT, NONE, LOADING, ERROR, CONTENT } from '../config';
+import {
+  ANIMATION_TIMEOUT,
+  NONE,
+  LOADING,
+  ERROR,
+  CONTENT,
+  MAIN,
+  SUB,
+} from '../config';
 import { checkAbortError } from '../helpers';
 import { modalView, exploreAllgamesView } from '../Views';
 
@@ -112,12 +120,18 @@ const handleExploreAllgamesData = async () => {
   }
 };
 
+const handleSelectExploreAllgamesPosters = state => {
+  if (state === MAIN) exploreAllgamesView.displayMainImages();
+  if (state === SUB) exploreAllgamesView.displayPosters();
+};
+
 function init() {
   modalView.addCloseModalHandler(handleCloseModal);
 
   exploreAllgamesView.addOpenSidebarHandler(handleOpenExploreAllgamesSidebar);
   exploreAllgamesView.addCloseSidebarHandler(handleCloseExploreAllgamesSidebar);
   exploreAllgamesView.addFetchAndDisplayData(handleExploreAllgamesData);
+  exploreAllgamesView.addHoverSelectPosters(handleSelectExploreAllgamesPosters);
 }
 
 init();

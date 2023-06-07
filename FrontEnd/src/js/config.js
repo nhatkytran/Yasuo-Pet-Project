@@ -38,3 +38,6 @@ export const SKELETON_LOADING_INTERVAL = 1500;
 
 export const LEFT = 'left';
 export const RIGHT = 'right';
+
+export const MAIN = '_main';
+export const SUB = '_sub';

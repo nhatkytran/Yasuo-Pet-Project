@@ -427,11 +427,6 @@ links.forEach((link, index) => {
   link.setAttribute('data-ag-image-order', index + 1);
 });
 
-const posters = document.querySelectorAll('.ag-poster');
-posters.forEach((poster, index) =>
-  poster.classList.add(`ag-poster--${index + 1}`)
-);
-
 const displayMain = () => {
   bodyRight.classList.remove('remove');
   bodyRightPoster.classList.add('remove');

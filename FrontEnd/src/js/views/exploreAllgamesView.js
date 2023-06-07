@@ -10,6 +10,8 @@ import {
   SKELETON_LOADING_INTERVAL,
   LEFT,
   RIGHT,
+  MAIN,
+  SUB,
 } from '../config';
 import {
   $,
@@ -42,6 +44,10 @@ class ExploreAllgamesView {
 
   #openSidebarEvent;
 
+  #posterLinksClass;
+  #posterLinks;
+  #posterContainer;
+
   constructor() {
     const classBody = side => `.sb-ag-body__${side}`;
     const classLoading = side => `.sb-ag-body__${side}-loading`;
@@ -73,6 +79,10 @@ class ExploreAllgamesView {
     this.#loadingBars = $$(`${classLoading(LEFT)} span`);
 
     this.#openSidebarEvent = 'openSidebarEvent';
+
+    this.#posterLinksClass = 'sb-ag-body__left-link';
+    this.#posterLinks = $$(`.${this.#posterLinksClass}`);
+    this.#posterContainer = $('.ag-poster-container');
   }
 
   #animateSidebar(state) {
@@ -308,6 +318,16 @@ class ExploreAllgamesView {
     ]);
   }
 
+  displayMainImages() {
+    classRemove(ADD, this.#posterContainer);
+    classRemove(REMOVE, this.#rightBody);
+  }
+
+  displayPosters() {
+    classRemove(ADD, this.#rightBody);
+    classRemove(REMOVE, this.#posterContainer);
+  }
+
   addOpenSidebarHandler(handler) {
     this.#mainHeader.addEventListener('click', event => {
       if (event.target.closest('.main-header__riot')) handler();
@@ -322,6 +342,44 @@ class ExploreAllgamesView {
   addFetchAndDisplayData(handler) {
     this.#sidebar.addEventListener(this.#openSidebarEvent, handler);
     this.#loadingErrorButton.addEventListener('click', handler);
+  }
+
+  addHoverSelectPosters(handler) {
+    this.#posterLinks.forEach((link, index) => {
+      link.setAttribute('data-ag-image-order', index + 1);
+    });
+
+    let timeoutID;
+    let lastLink = null;
+    let lastOrder = null;
+
+    this.#leftBody.addEventListener('mousemove', event => {
+      if (window.innerWidth <= 1040) return;
+
+      const link = event.target.closest(`.${this.#posterLinksClass}`);
+
+      if (!link) {
+        if (!lastLink) return;
+
+        timeoutID = setTimeout(handler.bind(null, MAIN), ANIMATION_TIMEOUT);
+        lastLink = null;
+      } else {
+        if (link === lastLink) return;
+
+        // Clear timeout setting main images
+        if (timeoutID) clearTimeout(timeoutID);
+
+        const order = link.dataset.agImageOrder;
+        // last poster removes index --> check in case last poster is null (first hover)
+        // z-index-1 sets `z-index: 1` help the image chosen takes
+        $(`.ag-poster--${lastOrder}`)?.classList.remove('z-index-1');
+        $(`.ag-poster--${order}`).classList.add('z-index-1');
+
+        handler(SUB);
+        lastLink = link;
+        lastOrder = order;
+      }
+    });
   }
 }
 
