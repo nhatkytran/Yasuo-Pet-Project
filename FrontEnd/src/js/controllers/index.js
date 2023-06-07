@@ -1,4 +1,5 @@
-import { ANIMATION_TIMEOUT, LOADING, ERROR, CONTENT } from '../config';
+import { ANIMATION_TIMEOUT, NONE, LOADING, ERROR, CONTENT } from '../config';
+import { checkAbortError } from '../helpers';
 import { modalView, exploreAllgamesView } from '../Views';
 
 import state, {
@@ -57,10 +58,11 @@ const handleExploreAllgamesSidebar = () => {
     }, ANIMATION_TIMEOUT);
   };
 
-  const handleCloseExploreAllgamesSidebar = () => {
+  const handleCloseExploreAllgamesSidebar = async () => {
     if (sidebarIsOpening || sidebarIsClosing) return;
 
-    fetchExploreAllgamesDataAbort();
+    await fetchExploreAllgamesDataAbort();
+
     handleCloseModal();
 
     sidebarIsClosing = true;
@@ -98,10 +100,15 @@ const handleExploreAllgamesData = async () => {
 
     exploreAllgamesView.displayContent(CONTENT);
   } catch (error) {
+    // test
     console.error('Something went wrong!');
     console.error(error);
 
     exploreAllgamesView.displayContent(ERROR);
+
+    // Abort error happens when close modal
+    // Display content to none to hide Error message because modal closes anyway
+    if (checkAbortError(error)) exploreAllgamesView.displayContent(NONE);
   }
 };
 

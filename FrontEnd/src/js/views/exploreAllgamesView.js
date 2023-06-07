@@ -129,19 +129,15 @@ class ExploreAllgamesView {
   displayContent(state) {
     this.#animateLoading.end();
 
-    if (state === NONE)
+    if (state === NONE) {
       classRemove(
         ADD,
         this.#leftBody,
         this.#rightBody,
         this.#leftLoading,
-        this.#rightLoading,
-        //
-        this.#leftLoadingProcess,
-        this.#rightLoadingProcess,
-        this.#leftLoadingError,
-        this.#rightLoadingError
+        this.#rightLoading
       );
+    }
 
     if (state === LOADING || state === ERROR) {
       classRemove(ADD, this.#leftBody, this.#rightBody);

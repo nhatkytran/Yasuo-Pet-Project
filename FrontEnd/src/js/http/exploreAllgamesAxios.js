@@ -15,8 +15,8 @@ const getExploreAllgamesData = async endpoint => {
   return data;
 };
 
-const getExploreAllgamesDataAbort = () => {
-  if (abortController) abortController.abort();
+const getExploreAllgamesDataAbort = async () => {
+  if (abortController) await abortController.abort();
 };
 
 const exploreAllgamesAxios = {

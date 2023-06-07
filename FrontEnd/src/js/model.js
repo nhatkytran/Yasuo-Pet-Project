@@ -26,7 +26,7 @@ export const fetchExploreAllgamesData = async () => {
   return response.allGamesAssets;
 };
 
-export const fetchExploreAllgamesDataAbort = () =>
-  exploreAllgamesAxios.getExploreAllgamesDataAbort();
+export const fetchExploreAllgamesDataAbort = async () =>
+  await exploreAllgamesAxios.getExploreAllgamesDataAbort();
 
 export default state;

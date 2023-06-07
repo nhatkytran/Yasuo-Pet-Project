@@ -8,6 +8,7 @@ import {
   CLICK_VOLUME,
   DRAG_VOLUME,
 } from '../config';
+import { checkTimeoutError, checkAbortError } from '../helpers';
 import state, { fetchTrailerVideo, fetchTrailerVideoAbort } from '../model';
 
 function subwebController(subwebView) {
@@ -25,10 +26,8 @@ function subwebController(subwebView) {
       console.error('Something went wrong!');
       console.error(error);
 
-      if (error.code === 'ECONNABORTED' && error.message.includes('timeout'))
-        subwebView.handleTimeoutErrorMessage();
-      if (error.code === 'ERR_CANCELED' && error.message.includes('canceled'))
-        subwebView.handleAbortErrorMessage();
+      if (checkTimeoutError(error)) subwebView.handleTimeoutErrorMessage();
+      if (checkAbortError(error)) subwebView.handleAbortErrorMessage();
 
       subwebView.renderError(error);
     }
