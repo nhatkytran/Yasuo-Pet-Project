@@ -89,10 +89,10 @@
       &-btn {
         background-color: rgba(0, 9, 19, 0.663);
         padding: 0.8rem;
-        border: 1px solid #0bc6e3;
+        border: 1px solid #26bbd2;
         border-radius: 0.2rem;
-        top: 1rem;
-        left: 1rem;
+        top: 1.4rem;
+        left: 1.4rem;
         position: absolute;
         @include display-responsive($px640, block);
 

@@ -48,6 +48,9 @@ class ExploreAllgamesView {
   #posterLinks;
   #posterContainer;
 
+  #linkTitlesClass;
+  #linkTitles;
+
   constructor() {
     const classBody = side => `.sb-ag-body__${side}`;
     const classLoading = side => `.sb-ag-body__${side}-loading`;
@@ -83,6 +86,9 @@ class ExploreAllgamesView {
     this.#posterLinksClass = 'sb-ag-body__left-link';
     this.#posterLinks = $$(`.${this.#posterLinksClass}`);
     this.#posterContainer = $('.ag-poster-container');
+
+    this.#linkTitlesClass = 'sb-ag-body__left-cover';
+    this.#linkTitles = $$(`.${this.#linkTitlesClass}`);
   }
 
   #animateSidebar(state) {
@@ -180,6 +186,11 @@ class ExploreAllgamesView {
   }
 
   close(timeToClose) {
+    // Close links
+    // (< 1040px --> select to see links, so we need to close)
+    this.#closeLinks();
+
+    // Remove all to close
     this.displayContent(NONE);
 
     // Closing animation
@@ -328,6 +339,17 @@ class ExploreAllgamesView {
     classRemove(REMOVE, this.#posterContainer);
   }
 
+  #closeLinks() {
+    this.#linkTitles.forEach(lt => lt.classList.remove('show'));
+  }
+
+  openLinks(linkTitle) {
+    this.#linkTitles.forEach(lt => {
+      if (lt !== linkTitle) lt.classList.remove('show');
+    });
+    linkTitle.classList.toggle('show');
+  }
+
   addOpenSidebarHandler(handler) {
     this.#mainHeader.addEventListener('click', event => {
       if (event.target.closest('.main-header__riot')) handler();
@@ -339,12 +361,12 @@ class ExploreAllgamesView {
     this.#modal.addEventListener('click', handler);
   }
 
-  addFetchAndDisplayData(handler) {
+  addFetchAndDisplayDataHandler(handler) {
     this.#sidebar.addEventListener(this.#openSidebarEvent, handler);
     this.#loadingErrorButton.addEventListener('click', handler);
   }
 
-  addHoverSelectPosters(handler) {
+  addHoverSelectPostersHandler(handler) {
     this.#posterLinks.forEach((link, index) => {
       link.setAttribute('data-ag-image-order', index + 1);
     });
@@ -379,6 +401,13 @@ class ExploreAllgamesView {
         lastLink = link;
         lastOrder = order;
       }
+    });
+  }
+
+  addOpenLinksHandler(handler) {
+    this.#leftBody.addEventListener('click', event => {
+      const target = event.target.closest(`.${this.#linkTitlesClass}`);
+      if (target) handler(target);
     });
   }
 }

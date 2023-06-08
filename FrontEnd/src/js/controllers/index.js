@@ -125,13 +125,18 @@ const handleSelectExploreAllgamesPosters = state => {
   if (state === SUB) exploreAllgamesView.displayPosters();
 };
 
+const handleOpenLinks = linkTitle => exploreAllgamesView.openLinks(linkTitle);
+
 function init() {
   modalView.addCloseModalHandler(handleCloseModal);
 
   exploreAllgamesView.addOpenSidebarHandler(handleOpenExploreAllgamesSidebar);
   exploreAllgamesView.addCloseSidebarHandler(handleCloseExploreAllgamesSidebar);
-  exploreAllgamesView.addFetchAndDisplayData(handleExploreAllgamesData);
-  exploreAllgamesView.addHoverSelectPosters(handleSelectExploreAllgamesPosters);
+  exploreAllgamesView.addFetchAndDisplayDataHandler(handleExploreAllgamesData);
+  exploreAllgamesView.addHoverSelectPostersHandler(
+    handleSelectExploreAllgamesPosters
+  );
+  exploreAllgamesView.addOpenLinksHandler(handleOpenLinks);
 }
 
 init();
