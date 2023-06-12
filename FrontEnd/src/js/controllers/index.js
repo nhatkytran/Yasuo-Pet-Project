@@ -1,169 +1,40 @@
-import {
-  ANIMATION_TIMEOUT,
-  NONE,
-  LOADING,
-  ERROR,
-  CONTENT,
-  MAIN,
-  SUB,
-} from '../config';
-import { checkAbortError } from '../helpers';
-import { modalView, exploreAllgamesView } from '../Views';
+import { modalView, subwebView, exploreAllgamesView } from '../Views';
+import ModalController from './modalController';
+import subwebController from './subwebController';
+import ExploreAllgamesController from './exploreAllgamesController';
 
-import state, {
-  fetchExploreAllgamesData,
-  fetchExploreAllgamesDataAbort,
-} from '../model';
+const modalController = new ModalController(modalView);
 
-const handleModal = () => {
-  let modalIsOpening;
-  let modalIsClosing;
-  let scrollVertical;
-
-  const handleOpenModal = () => {
-    if (modalIsOpening || modalIsClosing) return;
-
-    modalIsOpening = true;
-    scrollVertical = modalView.open();
-
-    setTimeout(() => {
-      modalIsOpening = false;
-    }, ANIMATION_TIMEOUT);
-  };
-
-  const handleCloseModal = () => {
-    if (modalIsOpening || modalIsClosing) return;
-
-    modalIsClosing = true;
-
-    // Delay with timeout to wait for sidebar's closing
-    setTimeout(() => {
-      modalIsClosing = false;
-      modalView.close(scrollVertical);
-    }, ANIMATION_TIMEOUT);
-  };
-
-  return { handleOpenModal, handleCloseModal };
-};
-
-const { handleOpenModal, handleCloseModal } = handleModal();
-
-const handleExploreAllgamesSidebar = () => {
-  let sidebarIsOpening;
-  let sidebarIsClosing;
-
-  const handleOpenExploreAllgamesSidebar = () => {
-    if (sidebarIsOpening || sidebarIsClosing) return;
-
-    handleOpenModal();
-
-    sidebarIsOpening = true;
-    exploreAllgamesView.open();
-
-    setTimeout(() => {
-      sidebarIsOpening = false;
-      exploreAllgamesView.openSidebarSignal();
-    }, ANIMATION_TIMEOUT);
-  };
-
-  const handleCloseExploreAllgamesSidebar = async () => {
-    if (sidebarIsOpening || sidebarIsClosing) return;
-
-    await fetchExploreAllgamesDataAbort();
-
-    handleCloseModal();
-
-    sidebarIsClosing = true;
-    exploreAllgamesView.close(ANIMATION_TIMEOUT);
-
-    setTimeout(() => {
-      sidebarIsClosing = false;
-    }, ANIMATION_TIMEOUT);
-  };
-
-  return {
-    handleOpenExploreAllgamesSidebar,
-    handleCloseExploreAllgamesSidebar,
-  };
-};
-
-const { handleOpenExploreAllgamesSidebar, handleCloseExploreAllgamesSidebar } =
-  handleExploreAllgamesSidebar();
-
-const handleExploreAllgamesData = async () => {
-  if (state.isExploreAllgamesFetchData)
-    return exploreAllgamesView.displayContent(CONTENT);
-
-  try {
-    exploreAllgamesView.displayContent(LOADING);
-
-    const { images, ...posterOptions } = await fetchExploreAllgamesData();
-
-    await Promise.all([
-      exploreAllgamesView.createMainImages(images.main),
-      exploreAllgamesView.createPoster(images.side, posterOptions),
-    ]);
-
-    state.isExploreAllgamesFetchData = true;
-
-    exploreAllgamesView.displayContent(CONTENT);
-  } catch (error) {
-    // test
-    console.error('Something went wrong!');
-    console.error(error);
-
-    exploreAllgamesView.displayContent(ERROR);
-
-    // Abort error happens when close modal
-    // Display content to none to hide Error message because modal closes anyway
-    if (checkAbortError(error)) exploreAllgamesView.displayContent(NONE);
-  }
-};
-
-const handleSelectExploreAllgamesPosters = state => {
-  if (state === MAIN) exploreAllgamesView.displayMainImages();
-  if (state === SUB) exploreAllgamesView.displayPosters();
-};
-
-const handleOpenLinks = linkTitle => exploreAllgamesView.openLinks(linkTitle);
-
-function init() {
-  modalView.addCloseModalHandler(handleCloseModal);
-
-  exploreAllgamesView.addOpenSidebarHandler(handleOpenExploreAllgamesSidebar);
-  exploreAllgamesView.addCloseSidebarHandler(handleCloseExploreAllgamesSidebar);
-  exploreAllgamesView.addFetchAndDisplayDataHandler(handleExploreAllgamesData);
-  exploreAllgamesView.addHoverSelectPostersHandler(
-    handleSelectExploreAllgamesPosters
-  );
-  exploreAllgamesView.addOpenLinksHandler(handleOpenLinks);
+function modalInit() {
+  modalView.addCloseModalHandler(modalController.close);
 }
 
-init();
+function subwebInit() {
+  const controller = new subwebController(subwebView);
 
-/////////////////////////////////////////////////
+  subwebView.addFetchVideoHandler(controller.fetchVideo);
+  subwebView.addFetchVideoHandlerAbort(controller.fetchVideoAbort);
+  subwebView.addPlayVideoHandler(controller.playVideoFirstTime);
+  subwebView.addControlVideoStateHandler(controller.handleVideoState);
+  subwebView.addReplayVideoHandler(controller.replayVideo);
+  subwebView.addSpeakerPowerHandler(controller.handleSpeakerPower);
+  subwebView.addSpeakerProgressHandler(...controller.handleSpeakerProgress());
+}
 
-// import { subwebView } from '../Views';
-// import subwebController from './subwebController';
+function exploreAllgamesInit() {
+  const controller = new ExploreAllgamesController(exploreAllgamesView);
 
-// const {
-//   handleFetchTrailerVideo,
-//   handlePlayTrailerVideo,
-//   handleFetchTrailerVideoAbort,
-//   handleTrailerVideoState,
-//   handleReplayVideoTrailer,
-//   handleSpeakerPower,
-//   handleSpeakerProgress,
-// } = subwebController(subwebView);
+  exploreAllgamesView.addOpenSidebarHandler(
+    controller.open.bind(controller, modalController.open)
+  );
+  exploreAllgamesView.addCloseSidebarHandler(
+    controller.close.bind(controller, modalController.close)
+  );
+  exploreAllgamesView.addFetchAndDisplayDataHandler(controller.handleData);
+  exploreAllgamesView.addHoverSelectPostersHandler(controller.selectPosters);
+  exploreAllgamesView.addOpenLinksHandler(controller.openLinks);
+}
 
-// function init() {
-//   subwebView.addFetchVideoHandler(handleFetchTrailerVideo); // Fetch Video, handle error
-//   subwebView.addPlayVideoHandler(handlePlayTrailerVideo); // Play video the first time
-//   subwebView.addFetchVideoHandlerAbort(handleFetchTrailerVideoAbort); // User cancel fetching video
-//   subwebView.addControlVideoStateHandler(handleTrailerVideoState); // Play, Pause, Replay video
-//   subwebView.addReplayVideoHandler(handleReplayVideoTrailer); // Video ends, display trailer image and replay button
-//   subwebView.addSpeakerPowerHandler(handleSpeakerPower); // Click speaker icon to turn on | off a volume
-//   subwebView.addSpeakerProgressHandler(...handleSpeakerProgress()); // Adjust volume: click | drag audio bar
-// }
-
-// init();
+modalInit();
+subwebInit();
+exploreAllgamesInit();

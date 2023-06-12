@@ -151,7 +151,8 @@ class ExploreAllgamesView {
         this.#leftBody,
         this.#rightBody,
         this.#leftLoading,
-        this.#rightLoading
+        this.#rightLoading,
+        this.#posterContainer
       );
     }
 
@@ -313,7 +314,7 @@ class ExploreAllgamesView {
       ...$$('.ag-poster__header-image')
     );
 
-  async createPoster(images, posterOptions) {
+  async createPosters(images, posterOptions) {
     const posterContainer = $('.ag-poster-container');
     const markup = this.#generatePosterMarkup(images.smalls, posterOptions);
 

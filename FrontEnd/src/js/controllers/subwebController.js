@@ -11,100 +11,98 @@ import {
 import { checkTimeoutError, checkAbortError } from '../helpers';
 import state, { fetchTrailerVideo, fetchTrailerVideoAbort } from '../model';
 
-function subwebController(subwebView) {
-  const handleFetchTrailerVideo = async () => {
+class SubwebController {
+  #subwebView;
+
+  // First time loading video with max volume
+  #previousSpeakerVolume = SPEAKER_VOLUME_MAX_PERCENT;
+
+  constructor(subwebView) {
+    this.#subwebView = subwebView;
+  }
+
+  fetchVideo = async () => {
     try {
-      // subwebView.#resetErrorMessage();
-      subwebView.renderUI(FETCH_START);
+      this.#subwebView.renderUI(FETCH_START);
 
       await fetchTrailerVideo();
 
       // subwebView.renderUI(FETCH_END); --> When video is ready --> subwebView.playVideo()
-      subwebView.renderVideo(state.videoTrailerLinks);
+      this.#subwebView.renderVideo(state.videoTrailerLinks);
     } catch (error) {
       // test
       console.error('Something went wrong!');
       console.error(error);
 
-      if (checkTimeoutError(error)) subwebView.handleTimeoutErrorMessage();
-      if (checkAbortError(error)) subwebView.handleAbortErrorMessage();
+      if (checkTimeoutError(error))
+        this.#subwebView.handleTimeoutErrorMessage();
+      if (checkAbortError(error)) this.#subwebView.handleAbortErrorMessage();
 
-      subwebView.renderError(error);
+      this.#subwebView.renderError(error);
     }
   };
 
-  const handlePlayTrailerVideo = () => subwebView.playVideoFirstTime();
+  fetchVideoAbort = () => fetchTrailerVideoAbort();
 
-  const handleFetchTrailerVideoAbort = () => fetchTrailerVideoAbort();
+  playVideoFirstTime = () => this.#subwebView.playVideoFirstTime();
 
-  const handleTrailerVideoState = button => {
-    const state = subwebView.checkVideoStateRequired(button);
+  // Play | Pause | Replay
+  handleVideoState = button => {
+    const state = this.#subwebView.checkVideoStateRequired(button);
 
     if (state === VIDEO_STATE_PLAY || state === VIDEO_STATE_REPLAY)
-      subwebView.playVideo();
-    if (state === VIDEO_STATE_PAUSE) subwebView.pauseVideo();
+      this.#subwebView.playVideo();
+    if (state === VIDEO_STATE_PAUSE) this.#subwebView.pauseVideo();
   };
 
-  const handleReplayVideoTrailer = () => subwebView.replayVideoUI();
+  // Video ends, display trailer image and replay button
+  replayVideo = () => this.#subwebView.replayVideoUI();
 
-  const adjustSpeakerVolumeAndProgress = currentSpeakerVolume => {
-    subwebView.renderSpeakerAndProgress(currentSpeakerVolume);
-    subwebView.adjustSpeakerVolume(currentSpeakerVolume);
+  #adjustSpeakerVolumeAndProgress = volume => {
+    this.#subwebView.renderSpeakerAndProgress(volume);
+    this.#subwebView.adjustSpeakerVolume(volume);
   };
 
-  const speakerPower = () => {
-    let previousSpeakerVolume = SPEAKER_VOLUME_MAX_PERCENT; // First time loading video with max volume
+  // Turn speaker on | off
+  handleSpeakerPower = () => {
+    const currentSpeakerVolume = this.#subwebView.checkSpeakerVolume();
+    const isMuted = currentSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT;
 
-    const setPreviousSpeakerVolume = newVolume =>
-      (previousSpeakerVolume = newVolume);
+    // if previousSpeakerVolume is 0, know that it is muted and need to get back to 100
+    if (this.#previousSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT)
+      this.#previousSpeakerVolume = SPEAKER_VOLUME_MAX_PERCENT;
 
-    const handleSpeakerPower = () => {
-      const currentSpeakerVolume = subwebView.checkSpeakerVolume();
-      const isMuted = currentSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT;
-
-      let expectedSpeakerVolume;
-
-      // if previousSpeakerVolume is 0, know that it is muted and need to get back to 100
-      if (previousSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT)
-        previousSpeakerVolume = setPreviousSpeakerVolume(
-          SPEAKER_VOLUME_MAX_PERCENT
-        );
-
-      expectedSpeakerVolume = isMuted ? previousSpeakerVolume : 0;
-
-      adjustSpeakerVolumeAndProgress(expectedSpeakerVolume);
-    };
-
-    return { handleSpeakerPower, setPreviousSpeakerVolume };
+    this.#adjustSpeakerVolumeAndProgress(
+      isMuted ? this.#previousSpeakerVolume : 0
+    );
   };
 
-  const { handleSpeakerPower, setPreviousSpeakerVolume } = speakerPower();
-
-  const handleSpeakerProgress = () => {
+  // Adjust volume: click | drag audio bar
+  handleSpeakerProgress = () => {
     let isReadyToDrag = false;
 
     const mousedown = event => {
       isReadyToDrag = true;
 
-      const currentSpeakerVolume = subwebView.calculateNewSpeakerVolume(
+      const currentVolume = this.#subwebView.calculateNewSpeakerVolume(
         event,
         CLICK_VOLUME
       );
 
-      setPreviousSpeakerVolume(currentSpeakerVolume);
-      adjustSpeakerVolumeAndProgress(currentSpeakerVolume);
+      this.#adjustSpeakerVolumeAndProgress(currentVolume);
+      this.#previousSpeakerVolume = currentVolume;
     };
 
     const mousemove = event => {
       if (!isReadyToDrag) return;
 
-      const currentSpeakerVolume = subwebView.calculateNewSpeakerVolume(
+      const currentVolume = this.#subwebView.calculateNewSpeakerVolume(
         event,
         DRAG_VOLUME
       );
 
-      setPreviousSpeakerVolume(currentSpeakerVolume);
-      adjustSpeakerVolumeAndProgress(currentSpeakerVolume);
+      this.#adjustSpeakerVolumeAndProgress(currentVolume);
+      this.#previousSpeakerVolume = currentVolume;
     };
 
     const mouseup = () => {
@@ -113,16 +111,6 @@ function subwebController(subwebView) {
 
     return [mousedown, mousemove, mouseup];
   };
-
-  return {
-    handleFetchTrailerVideo,
-    handlePlayTrailerVideo,
-    handleFetchTrailerVideoAbort,
-    handleTrailerVideoState,
-    handleReplayVideoTrailer,
-    handleSpeakerPower,
-    handleSpeakerProgress,
-  };
 }
 
-export default subwebController;
+export default SubwebController;
