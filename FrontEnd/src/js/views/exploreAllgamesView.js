@@ -181,7 +181,7 @@ class ExploreAllgamesView {
   }
 
   open() {
-    this.#sidebar.classList.remove('remove');
+    classRemove(REMOVE, this.#sidebar);
     this.#animateSidebar(ADD);
     this.#animateSidebarHeader(ADD);
   }
@@ -344,7 +344,7 @@ class ExploreAllgamesView {
     this.#linkTitles.forEach(lt => lt.classList.remove('show'));
   }
 
-  openLinks(linkTitle) {
+  toggleLinks(linkTitle) {
     this.#linkTitles.forEach(lt => {
       if (lt !== linkTitle) lt.classList.remove('show');
     });

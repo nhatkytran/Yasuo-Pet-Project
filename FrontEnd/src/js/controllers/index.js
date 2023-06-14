@@ -32,7 +32,7 @@ function exploreAllgamesInit() {
   );
   exploreAllgamesView.addFetchAndDisplayDataHandler(controller.handleData);
   exploreAllgamesView.addHoverSelectPostersHandler(controller.selectPosters);
-  exploreAllgamesView.addOpenLinksHandler(controller.openLinks);
+  exploreAllgamesView.addOpenLinksHandler(controller.toggleLinks);
 }
 
 modalInit();

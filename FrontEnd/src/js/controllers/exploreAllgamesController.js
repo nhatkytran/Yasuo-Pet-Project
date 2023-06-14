@@ -91,7 +91,7 @@ class ExploreAllgamesController {
     if (state === SUB) this.#exploreAllgamesView.displayPosters();
   };
 
-  openLinks = linkTitle => this.#exploreAllgamesView.openLinks(linkTitle);
+  toggleLinks = linkTitle => this.#exploreAllgamesView.toggleLinks(linkTitle);
 }
 
 export default ExploreAllgamesController;

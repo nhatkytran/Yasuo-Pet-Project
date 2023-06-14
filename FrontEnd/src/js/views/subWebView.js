@@ -70,7 +70,8 @@ class SubwebView {
     this.#trailerContent.classList.add(expectedState);
   };
 
-  #displayTrailerContent = (() => {
+  #displayTrailerContent = this.#displayTrailerContentFactory();
+  #displayTrailerContentFactory() {
     let trailerContentTimeoutID;
 
     const trailerContentFadeOut = () => {
@@ -92,7 +93,7 @@ class SubwebView {
       if (action === ADD) trailerContentFadeOut();
       if (action === REMOVE) trailerContentFadeIn();
     };
-  })();
+  }
 
   #displayControlPanel(currentPanel) {
     classRemove(
