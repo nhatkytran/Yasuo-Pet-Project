@@ -99,12 +99,9 @@
       width: 100%;
       height: 1rem;
       display: block;
-      background: linear-gradient(to right, rgb(27, 27, 27) 0%, #252525 50%, rgb(27, 27, 27) 100%);
-      background-size: 200% 100%;
       margin-bottom: 0.6rem;
       border-radius: 0.6rem;
       transition: all ease 1s;
-      // animation: shimmer cubic-bezier(0.42, 0, 0.002, 1) 1s forwards infinite;
     }
 
     &-error {
@@ -114,20 +111,6 @@
       text-align: center;
       @include use-font(FF-Mark);
       @include absolute-position(-50%, -50%);
-
-      button {
-        background-color: $color-error-primary;
-        font-size: 1.6rem;
-        padding: 0.4rem 0.8rem;
-        margin-top: 0.6rem;
-        border-radius: 0.4rem;
-        transition: all ease 0.2s;
-        @include use-font(FF-Mark-Medium);
-
-        &:hover {
-          background-color: $color-error-light;
-        }
-      }
     }
   }
 
@@ -155,6 +138,7 @@
     }
 
     &-error {
+      // test - check if default image'dimension is 6.4rem
       @include square-dimension(6.4rem);
       @include absolute-position(-50%, -50%);
     }

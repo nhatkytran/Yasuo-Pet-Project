@@ -1,9 +1,7 @@
-// Responsive
 .remove {
   display: none !important;
 }
 
-// Front-end Actions
 .hide {
   @include hide;
 }
@@ -28,6 +26,12 @@
 }
 .sidebar-arrow-close {
   @include ease-24-forwards(sidebar-arrow-close);
+}
+
+.shimmer-loading {
+  background: linear-gradient(to right, rgb(27, 27, 27) 0%, #252525 50%, rgb(27, 27, 27) 100%);
+  background-size: 200% 100%;
+  // animation: shimmer cubic-bezier(0.42, 0, 0.002, 1) 1s forwards infinite;
 }
 
 .z-index-1 {
@@ -133,5 +137,19 @@
 
   &:hover {
     background-color: $button-color-blue-hover;
+  }
+}
+
+.button-error {
+  background-color: $color-error-primary;
+  font-size: 1.6rem;
+  padding: 0.4rem 0.8rem;
+  margin-top: 0.6rem;
+  border-radius: 0.4rem;
+  transition: all ease 0.2s;
+  @include use-font(FF-Mark-Medium);
+
+  &:hover {
+    background-color: $color-error-light;
   }
 }

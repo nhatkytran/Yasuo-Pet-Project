@@ -6,13 +6,6 @@
   position: fixed;
   z-index: 1001;
 
-  // &.close-special {
-  //   animation: navbarXgClose linear 0.45s;
-  // }
-  // &.show {
-  //   animation: navbarXg linear 0.2s forwards;
-  // }
-
   @media only screen and (max-width: $px1040) {
     height: 100vh;
     border-bottom: none;
@@ -60,8 +53,12 @@
     justify-content: space-between;
     @include flex-align-center;
 
-    &-visit {
+    &-visit,
+    &-visit:link,
+    &-visit:active {
+      color: $header-text-color;
       font-size: 1.1rem;
+      text-decoration: none;
       padding: 0.43rem 1.2rem;
       margin-right: 0.6rem;
       border-radius: 0.6rem;
@@ -69,7 +66,7 @@
       top: 0.1rem;
       position: relative;
       cursor: pointer;
-      @include use-font(FF-Mark);
+      @include use-font(FF-Mark-Medium);
 
       &:hover {
         color: $color-button-blue;
@@ -79,6 +76,8 @@
     &-close {
       background-color: rgb(50, 50, 50);
       border-radius: 0.6rem;
+      top: 0.1rem;
+      position: relative;
       justify-content: space-around;
       cursor: pointer;
       @include flex-align-center;
@@ -103,6 +102,7 @@
   grid-gap: 0.8rem;
   grid-template-columns: repeat(8, 1fr);
   padding: 0 3.2rem 3.2rem;
+  position: relative;
 
   @media only screen and (max-width: $px1040) {
     grid-gap: 1.6rem;
@@ -111,6 +111,32 @@
   }
   @media only screen and (max-width: $px640) {
     padding: 1rem;
+  }
+
+  &-error {
+    width: 100%;
+    height: 100%;
+    background-color: #0c0c0c;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    @include flex-align-center;
+
+    @mixin error-dimension($width, $h) {
+      @media only screen and (max-width: $width) {
+        height: $h;
+      }
+    }
+    @include error-dimension($px1040, calc(100vh - 7.2rem));
+    @include error-dimension($px640, calc(100vh - 5.6rem));
+
+    img {
+      @include square-dimension(6.2rem);
+    }
+
+    button {
+      font-size: 1.4rem;
+    }
   }
 
   &-poster {
@@ -139,34 +165,24 @@
         border-bottom: 2px groove $button-color-blue-hover;
       }
 
-      .eg-poster {
-        height: 100%;
-        flex-direction: column;
-        @include flex-align-center;
-
-        &__description {
-          @media only screen and (max-width: $px1040) {
-            margin-top: 0.4rem;
-          }
-        }
-
-        &-img {
-          flex: 1;
-          flex-shrink: 1;
-          object-fit: cover;
-          border-bottom: 2px groove $color-button-blue;
-        }
+      .eg-poster-img {
+        flex-grow: 1;
+        border-bottom: 2px groove $color-button-blue;
       }
     }
   }
 
   .eg-poster {
-    display: block;
+    $image-border-radius: 0.4rem;
+
     color: rgb(209, 209, 209);
     font-size: 1.1rem;
     text-decoration: none;
+    flex-direction: column;
+    position: relative;
     @include use-font(FF-Mark);
     @include full-dimension;
+    @include flex-align-center;
 
     @media only screen and (max-width: $px1040) {
       padding-bottom: 0.8rem;
@@ -175,10 +191,14 @@
     &:hover .eg-poster-img {
       box-shadow: 0 14px 28px rgba(#fff, 0.1);
     }
+    &.loading:hover .eg-poster-img {
+      box-shadow: unset;
+    }
 
     &-img {
       width: 100%;
-      border-radius: 0.4rem;
+      object-fit: cover;
+      border-radius: $image-border-radius;
       transition: all ease 0.2s;
     }
 
@@ -188,6 +208,7 @@
 
       @media only screen and (max-width: $px1040) {
         font-size: 1.2rem;
+        margin-top: 0.4rem;
       }
     }
 
@@ -202,6 +223,12 @@
           @include square-dimension(1rem);
         }
       }
+    }
+
+    &-loading {
+      border-radius: $image-border-radius;
+      position: absolute;
+      @include full-dimension;
     }
   }
 }

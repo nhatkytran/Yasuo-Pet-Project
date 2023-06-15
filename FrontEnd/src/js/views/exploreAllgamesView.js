@@ -25,7 +25,7 @@ import {
 
 class ExploreAllgamesView {
   #modal;
-  #mainHeader;
+  #mainButton;
 
   #sidebar;
   #sidebarHeader;
@@ -58,7 +58,7 @@ class ExploreAllgamesView {
     const classLoadingError = side => `.sb-ag-body__${side}-loading-error`;
 
     this.#modal = $('#modal');
-    this.#mainHeader = $('.main-header');
+    this.#mainButton = $('.main-header__riot');
 
     this.#sidebar = $('.sb-ag');
     this.#sidebarHeader = $_(this.#sidebar, '.sb-ag-header');
@@ -352,9 +352,7 @@ class ExploreAllgamesView {
   }
 
   addOpenSidebarHandler(handler) {
-    this.#mainHeader.addEventListener('click', event => {
-      if (event.target.closest('.main-header__riot')) handler();
-    });
+    this.#mainButton.addEventListener('click', handler);
   }
 
   addCloseSidebarHandler(handler) {
