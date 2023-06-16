@@ -191,8 +191,13 @@
     &:hover .eg-poster-img {
       box-shadow: 0 14px 28px rgba(#fff, 0.1);
     }
-    &.loading:hover .eg-poster-img {
-      box-shadow: unset;
+
+    &.loading:hover {
+      cursor: default;
+
+      .eg-poster-img {
+        box-shadow: unset;
+      }
     }
 
     &-img {

@@ -199,9 +199,7 @@ class ExploreAllgamesView {
     this.#animateSidebarHeader(REMOVE);
 
     // Close
-    setTimeout(() => {
-      this.#sidebar.classList.add('remove');
-    }, timeToClose);
+    setTimeout(classRemove.bind(null, ADD, this.#sidebar), timeToClose);
   }
 
   openSidebarSignal() {

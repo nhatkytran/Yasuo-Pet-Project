@@ -1,5 +1,5 @@
 import {
-  FETCH_START,
+  START,
   VIDEO_STATE_PLAY,
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
@@ -23,11 +23,11 @@ class SubwebController {
 
   fetchVideo = async () => {
     try {
-      this.#subwebView.renderUI(FETCH_START);
+      this.#subwebView.renderUI(START);
 
       await fetchTrailerVideo();
 
-      // subwebView.renderUI(FETCH_END); --> When video is ready --> subwebView.playVideo()
+      // subwebView.renderUI(END); --> When video is ready --> subwebView.playVideo()
       this.#subwebView.renderVideo(state.videoTrailerLinks);
     } catch (error) {
       // test

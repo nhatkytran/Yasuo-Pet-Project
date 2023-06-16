@@ -4,8 +4,8 @@
 export const BACKEND_URL = 'http://127.0.0.1:3000';
 export const FETCH_API_TIMEOUT = 60;
 
-export const FETCH_START = 'fetch_start';
-export const FETCH_END = 'fetch_end';
+export const START = '_start';
+export const END = '_end';
 export const ERROR_TIMEOUT_CODE = 'ECONNABORTED';
 export const ERROR_ABORT_CODE = 'ERR_CANCELED';
 export const ERROR_TIMEOUT_MESSAGE = 'timeout';

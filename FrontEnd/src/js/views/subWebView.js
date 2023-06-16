@@ -1,7 +1,7 @@
 import {
   BACKEND_URL,
-  FETCH_START,
-  FETCH_END,
+  START,
+  END,
   VIDEO_STATE_PLAY,
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
@@ -117,18 +117,18 @@ class SubwebView {
   }
 
   playVideoFirstTime() {
-    this.renderUI(FETCH_END);
+    this.renderUI(END);
     this.#trailerImage.classList.add('hide');
     this.#displayTrailerContent(REMOVE);
     this.#trailerVideo.play();
   }
 
   renderUI(state) {
-    if (state === FETCH_START) {
+    if (state === START) {
       this.#resetErrorMessage();
       this.#displayControlPanel(this.#fetchLoading);
     }
-    if (state === FETCH_END) this.#displayControlPanel(this.#fetchSuccess);
+    if (state === END) this.#displayControlPanel(this.#fetchSuccess);
   }
 
   #resetErrorMessage() {
