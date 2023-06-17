@@ -16,6 +16,7 @@ export const VIDEO_STATE_PAUSE = 'pause';
 export const VIDEO_STATE_REPLAY = 'replay';
 
 export const ANIMATION_TIMEOUT = 240;
+export const ANIMATION_TIMEOUT_100 = 100;
 
 export const FADE_IN = 'fade-in';
 export const FADE_OUT = 'fade-out';
@@ -41,3 +42,5 @@ export const RIGHT = 'right';
 
 export const MAIN = '_main';
 export const SUB = '_sub';
+
+export const AFTER_LAODING = 'after_loading';

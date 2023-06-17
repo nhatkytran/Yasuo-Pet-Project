@@ -118,25 +118,6 @@
     position: relative;
     @include side-loading-dimension;
 
-    &-inner {
-      @include square-dimension(5.2rem);
-      @include absolute-position(-50%, -50%);
-
-      svg {
-        @include full-dimension;
-        @include absolute-position(-50%, -50%);
-      }
-
-      svg:nth-child(1) {
-        fill: #252c32;
-      }
-
-      svg:nth-child(2) {
-        fill: #00c8c8;
-        animation: diagonal-wipe 1.5s ease infinite;
-      }
-    }
-
     &-error {
       // test - check if default image'dimension is 6.4rem
       @include square-dimension(6.4rem);

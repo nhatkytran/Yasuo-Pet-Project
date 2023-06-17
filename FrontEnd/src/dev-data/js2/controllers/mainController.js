@@ -1,6 +1,8 @@
 import {
   ADD,
+  AFTER_LAODING,
   ANIMATION_TIMEOUT,
+  ANIMATION_TIMEOUT_100,
   CONTENT,
   END,
   ERROR,
@@ -11,11 +13,10 @@ import {
 } from '../../../js/config';
 import { $, $$, $_, classRemove } from '../../../js/helpers';
 
-const sidebar = $('.explore-games');
-const sidebarHeader = $('.explore-games__header');
-const mainBody = $('.explore-games__body');
 const mainBtn = $('.main-header__games');
 const closeButton = $('.explore-games__header-more-close');
+const sidebar = $('.explore-games');
+const sidebarHeader = $('.explore-games__header');
 
 const openSidebarEvent = 'openSidebarEvent';
 
@@ -28,6 +29,7 @@ classes --> {
   start: class animation for opening,
   end: class animation for closing
 }
+=> (state = START | END): void
 */
 const animateFactory = (node, classes) => state => {
   if (state !== START && state !== END) throw new Error('Invalid action!');
@@ -44,6 +46,7 @@ const animateSidebarHeader = animateFactory(sidebarHeader, {
   start: 'fade-in',
   end: 'fade-out',
 });
+
 const animateSidebar = animateFactory(sidebar, {
   start: 'sidebar-arrow-open',
   end: 'sidebar-arrow-close',
@@ -87,55 +90,39 @@ closeButton.addEventListener('click', () => {
 
 const posters = $$('.explore-games__body-poster');
 const links = $$('.eg-poster');
-const loadings = $$('.eg-poster-loading');
-const loadingError = document.querySelector('.explore-games__body-error');
 
-links.forEach(link =>
-  link.addEventListener('click', function (event) {
-    if (this.classList.contains('loading')) event.preventDefault();
-  })
-);
+const bodyState = $('.explore-games__body-state');
+const bodyStateLoading = $_(bodyState, '.explore-games__body-state-loading');
+const bodyStateError = $_(bodyState, '.explore-games__body-state-error');
 
-const displayContent = state => {
-  if (state === NONE || state === ERROR) {
-    posters.forEach((poster, index) => {
-      // Can not use class `remove`, we need to keep images to remain size of the sidebar
-      poster.classList.add('hide');
-      links[index].classList.remove('loading');
-      classRemove(ADD, loadings[index]);
-    });
-
-    classRemove(state === NONE ? ADD : REMOVE, loadingError);
-  }
-
-  if (state === LOADING) {
-    console.log(123);
-
-    classRemove(ADD, loadingError);
-
-    posters.forEach((poster, index) => {
-      // Can not use class `remove`, we need to keep images to remain size of the sidebar
-      poster.classList.remove('hide');
-      links[index].classList.add('loading');
-      classRemove(REMOVE, loadings[index]);
-    });
-  }
-
-  if (state === CONTENT) {
-    posters.forEach((poster, index) => {
-      // Can not use class `remove`, we need to keep images to remain size of the sidebar
-      poster.classList.remove('hide');
-      links[index].classList.remove('loading');
-      classRemove(ADD, loadings[index]);
-    });
-  }
-};
-
-displayContent(NONE); // Display NONE by default
+displayContent(NONE);
 
 // displayContent(ERROR);
 // displayContent(LOADING);
 // displayContent(CONTENT);
+
+function displayContent(state) {
+  const removeBodyState = () =>
+    classRemove(ADD, bodyState, bodyStateLoading, bodyStateError);
+
+  if (state === NONE || state === LOADING || state === ERROR) {
+    // Use class `hide` for keeping images to remain thesize of the sidebar
+    posters.forEach(poster => poster.classList.add('hide'));
+    removeBodyState();
+
+    if (state === NONE) return;
+
+    classRemove(REMOVE, bodyState, LOADING ? bodyStateLoading : bodyStateError);
+  }
+}
+
+const fakeFetch = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Data');
+    }, 1000);
+  });
+};
 
 const state = {
   isExploreGamesFetchData: false,
@@ -145,12 +132,9 @@ const fetchData = async () => {
   try {
     displayContent(LOADING);
 
-    console.log(456);
+    await fakeFetch();
 
-    const start = Date.now();
-    while (Date.now() - start < 1000) {}
-
-    // throw new Error();
+    state.isExploreGamesFetchData = true;
   } catch (error) {
     // test
     console.error('Something went wrong!');
@@ -162,14 +146,18 @@ const fetchData = async () => {
 };
 
 const handleData = async () => {
+  let firstTime = true;
   if (!state.isExploreGamesFetchData) await fetchData();
-  if (state.isExploreGamesFetchData) displayContent(CONTENT);
+  if (state.isExploreGamesFetchData) {
+    displayContent(CONTENT, firstTime ? AFTER_LAODING : '');
+    firstTime = false;
+  }
 };
 
 sidebar.addEventListener(openSidebarEvent, () => {
   handleData();
 });
 
-const errorButton = $_($('.explore-games__body-error'), 'button');
+const errorButton = $_($('.explore-games__body-state-error'), 'button');
 
 errorButton.addEventListener('click', handleData);

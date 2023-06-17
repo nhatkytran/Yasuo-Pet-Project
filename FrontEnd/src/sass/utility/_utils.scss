@@ -14,6 +14,10 @@
   animation: $animation ease 0.24s forwards;
 }
 
+.fade-in-100 {
+  animation: fade-in ease 0.1s forwards;
+}
+
 .fade-in {
   @include ease-24-forwards(fade-in);
 }
@@ -31,7 +35,26 @@
 .shimmer-loading {
   background: linear-gradient(to right, rgb(27, 27, 27) 0%, #252525 50%, rgb(27, 27, 27) 100%);
   background-size: 200% 100%;
-  // animation: shimmer cubic-bezier(0.42, 0, 0.002, 1) 1s forwards infinite;
+  animation: shimmer cubic-bezier(0.42, 0, 0.002, 1) 1s forwards infinite;
+}
+
+.diagonal-wipe-loading {
+  @include square-dimension(5.2rem);
+  @include absolute-position(-50%, -50%);
+
+  svg {
+    @include full-dimension;
+    @include absolute-position(-50%, -50%);
+  }
+
+  svg:nth-child(1) {
+    fill: #252c32;
+  }
+
+  svg:nth-child(2) {
+    fill: #00c8c8;
+    animation: diagonal-wipe 1.5s ease infinite;
+  }
 }
 
 .z-index-1 {

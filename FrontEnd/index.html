@@ -910,7 +910,7 @@
       </div>
 
       <div class="sb-ag-body__right-loading remove">
-        <div class="sb-ag-body__right-loading-inner">
+        <div class="sb-ag-body__right-loading-inner diagonal-wipe-loading">
           <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 425 425">
             <path
               d="M94.73,94.85h94.12V47.37h-73c-37.83,0-68.49,30.74-68.49,68.66v73.17h47.37V94.85z M179.04,212.94 l-84.31,84.51v-60.77H47.37v141.83h141.49v-47.48h-60.63l84.31-84.52L179.04,212.94z M330.34,331.03h-94.12v47.48h73 c37.83,0,68.49-30.74,68.49-68.66v-73.17h-47.37V331.03z M236.22,47.37v47.48h60.63l-84.31,84.52l33.49,33.57l84.31-84.52v60.77 h47.37V47.37H236.22z">
@@ -955,7 +955,7 @@
   </div>
 
   <!-- Side bar explore game -->
-  <div class="explore-games remove">
+  <div class="explore-games">
     <div class="explore-games__header">
       <span class="explore-games__header-riot">Riot games</span>
       <div class="explore-games__header-more">
@@ -971,8 +971,8 @@
     </div>
 
     <div class="explore-games__body">
-      <!-- Poster relies on size of image, so we need low quality image to remain its size -->
-      <!-- `loading` class for .eg-poster to prevent hover effect and default action of <a> tag while loading -->
+      <!-- Poster relies on size of image, so we need a low quality image to remain its size -->
+      <!-- src="/src/assets/img/nav-eg/lazy.webp" -->
       <div class="explore-games__body-poster">
         <a class="eg-poster" href="">
           <img class="eg-poster-img" src="/src/assets/img/nav-eg/lazy.webp" alt="Introducing Riot Mobile, a mobile companion that helps you
@@ -983,8 +983,6 @@
             connected with players and find the content and experiences you care
             about most.
           </h4>
-
-          <div class="eg-poster-loading shimmer-loading remove"></div>
         </a>
       </div>
       <div class="explore-games__body-poster">
@@ -995,8 +993,6 @@
             Learn more about Arcane, a new animated series from the world of
             League of Legends.
           </h4>
-
-          <div class="eg-poster-loading shimmer-loading remove"></div>
         </a>
       </div>
 
@@ -1018,8 +1014,6 @@
               </path>
             </svg>
           </div>
-
-          <div class="eg-poster-loading shimmer-loading remove"></div>
         </a>
       </div>
       <div class="explore-games__body-poster">
@@ -1040,8 +1034,6 @@
               </path>
             </svg>
           </div>
-
-          <div class="eg-poster-loading shimmer-loading remove"></div>
         </a>
       </div>
       <div class="explore-games__body-poster">
@@ -1062,8 +1054,6 @@
               </path>
             </svg>
           </div>
-
-          <div class="eg-poster-loading shimmer-loading remove"></div>
         </a>
       </div>
       <div class="explore-games__body-poster">
@@ -1084,15 +1074,28 @@
               </path>
             </svg>
           </div>
-
-          <div class="eg-poster-loading shimmer-loading remove"></div>
         </a>
       </div>
 
       <!-- Position absolute so not take up space of Grid -->
-      <div class="explore-games__body-error remove">
-        <img class="" src="/src/assets/img/fetch-error.png" alt="Error Icon">
-        <button class="button button-error">Try again</button>
+      <div class="explore-games__body-state">
+        <div class="explore-games__body-state-loading diagonal-wipe-loading">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 425 425">
+            <path
+              d="M94.73,94.85h94.12V47.37h-73c-37.83,0-68.49,30.74-68.49,68.66v73.17h47.37V94.85z M179.04,212.94 l-84.31,84.51v-60.77H47.37v141.83h141.49v-47.48h-60.63l84.31-84.52L179.04,212.94z M330.34,331.03h-94.12v47.48h73 c37.83,0,68.49-30.74,68.49-68.66v-73.17h-47.37V331.03z M236.22,47.37v47.48h60.63l-84.31,84.52l33.49,33.57l84.31-84.52v60.77 h47.37V47.37H236.22z">
+            </path>
+          </svg>
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 425 425">
+            <path
+              d="M94.73,94.85h94.12V47.37h-73c-37.83,0-68.49,30.74-68.49,68.66v73.17h47.37V94.85z M179.04,212.94 l-84.31,84.51v-60.77H47.37v141.83h141.49v-47.48h-60.63l84.31-84.52L179.04,212.94z M330.34,331.03h-94.12v47.48h73 c37.83,0,68.49-30.74,68.49-68.66v-73.17h-47.37V331.03z M236.22,47.37v47.48h60.63l-84.31,84.52l33.49,33.57l84.31-84.52v60.77 h47.37V47.37H236.22z">
+            </path>
+          </svg>
+        </div>
+
+        <div class="explore-games__body-state-error">
+          <img class="" src="/src/assets/img/fetch-error.png" alt="Error Icon">
+          <button class="button button-error">Try again</button>
+        </div>
       </div>
     </div>
   </div>
