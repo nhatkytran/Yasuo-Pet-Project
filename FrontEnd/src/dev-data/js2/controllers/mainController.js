@@ -102,18 +102,34 @@ displayContent(NONE);
 // displayContent(CONTENT);
 
 function displayContent(state) {
-  const removeBodyState = () =>
-    classRemove(ADD, bodyState, bodyStateLoading, bodyStateError);
+  classRemove(ADD, bodyState, bodyStateLoading, bodyStateError);
 
   if (state === NONE || state === LOADING || state === ERROR) {
     // Use class `hide` for keeping images to remain thesize of the sidebar
-    posters.forEach(poster => poster.classList.add('hide'));
-    removeBodyState();
+    posters.forEach(poster => {
+      // `transition: 'all ease 0.2s';` is set in CSS for better animation \
+      // when display content. Use `unset` when close model to get animation
+      poster.style.transition = 'unset';
+      poster.classList.add('hide');
+      poster.style.transition = 'all ease 0.2s'; // back to first CSS set in CSS file
+    });
 
     if (state === NONE) return;
 
-    classRemove(REMOVE, bodyState, LOADING ? bodyStateLoading : bodyStateError);
+    classRemove(
+      REMOVE,
+      bodyState,
+      state === LOADING ? bodyStateLoading : bodyStateError
+    );
   }
+
+  if (state === CONTENT)
+    posters.forEach(
+      (poster, index) =>
+        setTimeout(() => {
+          poster.classList.remove('hide');
+        }, index * ANIMATION_TIMEOUT_100 - 20) // -20 so it is a little bit faster
+    );
 }
 
 const fakeFetch = () => {
@@ -134,6 +150,7 @@ const fetchData = async () => {
 
     await fakeFetch();
 
+    throw new Error('Something went wrong!');
     state.isExploreGamesFetchData = true;
   } catch (error) {
     // test
@@ -146,12 +163,8 @@ const fetchData = async () => {
 };
 
 const handleData = async () => {
-  let firstTime = true;
   if (!state.isExploreGamesFetchData) await fetchData();
-  if (state.isExploreGamesFetchData) {
-    displayContent(CONTENT, firstTime ? AFTER_LAODING : '');
-    firstTime = false;
-  }
+  if (state.isExploreGamesFetchData) displayContent(CONTENT);
 };
 
 sidebar.addEventListener(openSidebarEvent, () => {
