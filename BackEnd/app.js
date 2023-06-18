@@ -3,7 +3,11 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 
-const { subwebRouter, allGamesRouter } = require('./routes');
+const {
+  subwebRouter,
+  allGamesRouter,
+  exploreGamesRouter,
+} = require('./routes');
 
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -18,11 +22,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// test --> cors only for Yasuo The King
 app.use(cors());
 app.options('*', cors());
 
 app.use('/api/v1/subweb', subwebRouter);
 app.use('/api/v1/allGames', allGamesRouter);
+app.use('/api/v1/exploreGames', exploreGamesRouter);
 
 app.use(globalErrorHandler);
 
