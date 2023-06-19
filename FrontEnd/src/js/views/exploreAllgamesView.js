@@ -3,6 +3,7 @@ import {
   ANIMATION_TIMEOUT,
   ADD,
   REMOVE,
+  OPEN_SIDEBAR_EVENT,
   NONE,
   LOADING,
   ERROR,
@@ -13,6 +14,7 @@ import {
   MAIN,
   SUB,
 } from '../config';
+
 import {
   $,
   $$,
@@ -41,8 +43,6 @@ class ExploreAllgamesView {
   #rightLoadingError;
   #loadingErrorButton;
   #loadingBars;
-
-  #openSidebarEvent;
 
   #posterLinksClass;
   #posterLinks;
@@ -80,8 +80,6 @@ class ExploreAllgamesView {
 
     this.#loadingErrorButton = $_(this.#leftLoadingError, 'button');
     this.#loadingBars = $$(`${classLoading(LEFT)} span`);
-
-    this.#openSidebarEvent = 'openSidebarEvent';
 
     this.#posterLinksClass = 'sb-ag-body__left-link';
     this.#posterLinks = $$(`.${this.#posterLinksClass}`);
@@ -186,6 +184,10 @@ class ExploreAllgamesView {
     this.#animateSidebarHeader(ADD);
   }
 
+  openSidebarSignal() {
+    this.#sidebar.dispatchEvent(new CustomEvent(OPEN_SIDEBAR_EVENT));
+  }
+
   close(timeToClose) {
     // Close links
     // (< 1040px --> select to see links, so we need to close)
@@ -200,10 +202,6 @@ class ExploreAllgamesView {
 
     // Close
     setTimeout(classRemove.bind(null, ADD, this.#sidebar), timeToClose);
-  }
-
-  openSidebarSignal() {
-    this.#sidebar.dispatchEvent(new CustomEvent(this.#openSidebarEvent));
   }
 
   async createMainImages(images) {
@@ -359,7 +357,7 @@ class ExploreAllgamesView {
   }
 
   addFetchAndDisplayDataHandler(handler) {
-    this.#sidebar.addEventListener(this.#openSidebarEvent, handler);
+    this.#sidebar.addEventListener(OPEN_SIDEBAR_EVENT, handler);
     this.#loadingErrorButton.addEventListener('click', handler);
   }
 

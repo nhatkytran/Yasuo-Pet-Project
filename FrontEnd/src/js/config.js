@@ -30,6 +30,8 @@ export const DRAG_VOLUME = 'drag_volume';
 export const ADD = '_add';
 export const REMOVE = '_remove';
 
+export const OPEN_SIDEBAR_EVENT = 'open_sidebar_event';
+
 export const NONE = '_none';
 export const LOADING = '_loading';
 export const ERROR = '_error';
@@ -42,5 +44,3 @@ export const RIGHT = 'right';
 
 export const MAIN = '_main';
 export const SUB = '_sub';
-
-export const AFTER_LAODING = 'after_loading';

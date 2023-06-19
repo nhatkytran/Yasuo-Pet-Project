@@ -1,8 +1,9 @@
+import axios from 'axios';
 import {
   ADD,
-  AFTER_LAODING,
   ANIMATION_TIMEOUT,
   ANIMATION_TIMEOUT_100,
+  BACKEND_URL,
   CONTENT,
   END,
   ERROR,
@@ -11,7 +12,13 @@ import {
   REMOVE,
   START,
 } from '../../../js/config';
-import { $, $$, $_, classRemove } from '../../../js/helpers';
+import {
+  $,
+  $$,
+  $_,
+  classRemove,
+  promisifyLoadingImage,
+} from '../../../js/helpers';
 
 const mainBtn = $('.main-header__games');
 const closeButton = $('.explore-games__header-more-close');
@@ -132,12 +139,16 @@ function displayContent(state) {
     );
 }
 
-const fakeFetch = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve('Data');
-    }, 1000);
-  });
+const fakeFetch = async () => {
+  const response = await axios.get(`${BACKEND_URL}/api/v1/exploreGames/data`);
+  const data = response.data.exploreGamesAssets.images;
+
+  const images = $$('.eg-poster-img');
+  const promises = [...images].map((image, index) =>
+    promisifyLoadingImage(image, `${BACKEND_URL}${data[index].link}`)
+  );
+
+  await Promise.all(promises);
 };
 
 const state = {
@@ -150,7 +161,6 @@ const fetchData = async () => {
 
     await fakeFetch();
 
-    throw new Error('Something went wrong!');
     state.isExploreGamesFetchData = true;
   } catch (error) {
     // test

@@ -1,7 +1,14 @@
-import { modalView, subwebView, exploreAllgamesView } from '../Views';
+import {
+  modalView,
+  subwebView,
+  exploreAllgamesView,
+  exploreGamesView,
+} from '../Views';
+
 import ModalController from './modalController';
 import subwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
+import ExploreGamesController from './exploreGamesController';
 
 const modalController = new ModalController(modalView);
 
@@ -35,6 +42,16 @@ function exploreAllgamesInit() {
   exploreAllgamesView.addOpenLinksHandler(controller.toggleLinks);
 }
 
+function exploreGamesInit() {
+  const controller = new ExploreGamesController(exploreGamesView);
+
+  exploreGamesView.addOpenSidebarHandler(
+    controller.open.bind(controller, modalController.open)
+  );
+  exploreGamesView.addFetchAndDisplayDataHandler();
+}
+
 modalInit();
 subwebInit();
 exploreAllgamesInit();
+exploreGamesInit();
