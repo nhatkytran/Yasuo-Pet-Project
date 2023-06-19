@@ -11,6 +11,9 @@ export const ERROR_ABORT_CODE = 'ERR_CANCELED';
 export const ERROR_TIMEOUT_MESSAGE = 'timeout';
 export const ERROR_ABORT_MESSAGE = 'canceled';
 
+export const ADD = '_add';
+export const REMOVE = '_remove';
+
 export const VIDEO_STATE_PLAY = 'play';
 export const VIDEO_STATE_PAUSE = 'pause';
 export const VIDEO_STATE_REPLAY = 'replay';
@@ -18,6 +21,8 @@ export const VIDEO_STATE_REPLAY = 'replay';
 export const ANIMATION_TIMEOUT = 240;
 export const ANIMATION_TIMEOUT_100 = 100;
 
+export const SIDEBAR_ARROW_OPEN = 'sidebar-arrow-open';
+export const SIDEBAR_ARROW_CLOSE = 'sidebar-arrow-close';
 export const FADE_IN = 'fade-in';
 export const FADE_OUT = 'fade-out';
 
@@ -26,9 +31,6 @@ export const SPEAKER_VOLUME_MAX_PERCENT = 100;
 export const SPEAKER_VOLUME_MIN_PERCENT = 0;
 export const CLICK_VOLUME = 'click_volume';
 export const DRAG_VOLUME = 'drag_volume';
-
-export const ADD = '_add';
-export const REMOVE = '_remove';
 
 export const OPEN_SIDEBAR_EVENT = 'open_sidebar_event';
 

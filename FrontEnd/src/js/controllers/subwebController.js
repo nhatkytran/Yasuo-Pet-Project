@@ -8,7 +8,8 @@ import {
   CLICK_VOLUME,
   DRAG_VOLUME,
 } from '../config';
-import { checkTimeoutError, checkAbortError } from '../helpers';
+
+import { checkTimeoutError, checkAbortError } from '../utils';
 import state, { fetchTrailerVideo, fetchTrailerVideoAbort } from '../model';
 
 class SubwebController {

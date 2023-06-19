@@ -8,7 +8,7 @@ import {
   SUB,
 } from '../config';
 
-import { checkAbortError } from '../helpers';
+import { checkAbortError } from '../utils';
 
 import state, {
   fetchExploreAllgamesData,

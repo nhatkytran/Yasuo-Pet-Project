@@ -1,8 +1,14 @@
 import {
   BACKEND_URL,
   ANIMATION_TIMEOUT,
+  START,
+  END,
   ADD,
   REMOVE,
+  SIDEBAR_ARROW_OPEN,
+  SIDEBAR_ARROW_CLOSE,
+  FADE_IN,
+  FADE_OUT,
   OPEN_SIDEBAR_EVENT,
   NONE,
   LOADING,
@@ -20,10 +26,11 @@ import {
   $$,
   $_,
   $$_,
+  animateFactory,
   classRemove,
-  promisifyLoadingImage,
   mapMarkup,
-} from '../helpers';
+  promisifyLoadingImage,
+} from '../utils';
 
 class ExploreAllgamesView {
   #modal;
@@ -50,6 +57,9 @@ class ExploreAllgamesView {
 
   #linkTitlesClass;
   #linkTitles;
+
+  #animateSidebar;
+  #animateSidebarHeader;
 
   constructor() {
     const classBody = side => `.sb-ag-body__${side}`;
@@ -87,22 +97,15 @@ class ExploreAllgamesView {
 
     this.#linkTitlesClass = 'sb-ag-body__left-cover';
     this.#linkTitles = $$(`.${this.#linkTitlesClass}`);
-  }
 
-  #animateSidebar(state) {
-    if (state === ADD) {
-      this.#sidebar.classList.remove('sidebar-arrow-close');
-      this.#sidebar.classList.add('sidebar-arrow-open');
-    }
-    if (state === REMOVE) {
-      this.#sidebar.classList.remove('sidebar-arrow-open');
-      this.#sidebar.classList.add('sidebar-arrow-close');
-    }
-  }
-
-  #animateSidebarHeader(state) {
-    if (state === ADD) this.#sidebarHeader.classList.add('fade-in');
-    if (state === REMOVE) this.#sidebarHeader.classList.remove('fade-in');
+    this.#animateSidebar = animateFactory(this.#sidebar, {
+      start: SIDEBAR_ARROW_OPEN,
+      end: SIDEBAR_ARROW_CLOSE,
+    });
+    this.#animateSidebarHeader = animateFactory(this.#sidebarHeader, {
+      start: FADE_IN,
+      end: FADE_OUT,
+    });
   }
 
   #skeletonLoading() {
@@ -180,8 +183,8 @@ class ExploreAllgamesView {
 
   open() {
     classRemove(REMOVE, this.#sidebar);
-    this.#animateSidebar(ADD);
-    this.#animateSidebarHeader(ADD);
+    this.#animateSidebar(START);
+    this.#animateSidebarHeader(START);
   }
 
   openSidebarSignal() {
@@ -197,8 +200,8 @@ class ExploreAllgamesView {
     this.displayContent(NONE);
 
     // Closing animation
-    this.#animateSidebar(REMOVE);
-    this.#animateSidebarHeader(REMOVE);
+    this.#animateSidebar(END);
+    this.#animateSidebarHeader(END);
 
     // Close
     setTimeout(classRemove.bind(null, ADD, this.#sidebar), timeToClose);

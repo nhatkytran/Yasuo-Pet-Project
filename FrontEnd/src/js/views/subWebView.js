@@ -2,6 +2,8 @@ import {
   BACKEND_URL,
   START,
   END,
+  ADD,
+  REMOVE,
   VIDEO_STATE_PLAY,
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
@@ -10,10 +12,9 @@ import {
   FADE_OUT,
   SPEAKER_STATE,
   DRAG_VOLUME,
-  ADD,
-  REMOVE,
 } from '../config';
-import { $, $$, $_, $$_, classRemove } from '../helpers';
+
+import { $, $$, $_, $$_, animateFactory, classRemove } from '../utils';
 
 class SubwebView {
   #fetchButton;
@@ -36,6 +37,8 @@ class SubwebView {
   #speakerProgressBar;
 
   #purchaseSkinsButton;
+
+  #animateTrailerContent;
 
   constructor() {
     const classPlayVideo = state => `.trailer__play-video-${state}`;
@@ -62,13 +65,12 @@ class SubwebView {
     this.#speakerProgressBar = $(classPlaySuccess('bar-active'));
 
     this.#purchaseSkinsButton = $('.trailer__content-button-border');
-  }
 
-  // in | out
-  #animateTrailerContent = (currentState, expectedState) => {
-    this.#trailerContent.classList.remove(currentState);
-    this.#trailerContent.classList.add(expectedState);
-  };
+    this.#animateTrailerContent = animateFactory(this.#trailerContent, {
+      start: FADE_IN,
+      end: FADE_OUT,
+    });
+  }
 
   #displayTrailerContent = this.#displayTrailerContentFactory();
   #displayTrailerContentFactory() {
@@ -78,11 +80,11 @@ class SubwebView {
       if (trailerContentTimeoutID) clearTimeout(trailerContentTimeoutID);
 
       classRemove(REMOVE, this.#trailerContent);
-      this.#animateTrailerContent(FADE_OUT, FADE_IN);
+      this.#animateTrailerContent(START);
     };
 
     const trailerContentFadeIn = () => {
-      this.#animateTrailerContent(FADE_IN, FADE_OUT);
+      this.#animateTrailerContent(END);
 
       trailerContentTimeoutID = setTimeout(() => {
         classRemove(ADD, this.#trailerContent);

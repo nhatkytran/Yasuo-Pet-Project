@@ -1,6 +1,5 @@
-import { REMOVE, OPEN_SIDEBAR_EVENT, START } from '../config';
-import { $, $_, classRemove } from '../helpers';
-import { animateFactory } from '../utils';
+import { START, REMOVE, OPEN_SIDEBAR_EVENT } from '../config';
+import { $, $_, animateFactory, classRemove } from '../utils';
 
 class ExploreGamesView {
   #modal;
