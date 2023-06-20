@@ -1,4 +1,4 @@
-import { START, END } from '../config';
+import { START, END, INVALID_ACTION_MESSAGE } from '../config';
 
 /*
 node --> animated element
@@ -9,7 +9,7 @@ classes --> {
 => (state = START | END): void
 */
 const animateFactory = (node, classes) => state => {
-  if (state !== START && state !== END) throw new Error('Invalid action!');
+  if (state !== START && state !== END) throw new Error(INVALID_ACTION_MESSAGE);
 
   const add = state === START ? classes.start : classes.end;
   const remove = state === START ? classes.end : classes.start;

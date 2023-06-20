@@ -48,7 +48,10 @@ function exploreGamesInit() {
   exploreGamesView.addOpenSidebarHandler(
     controller.open.bind(controller, modalController.open)
   );
-  exploreGamesView.addFetchAndDisplayDataHandler();
+  exploreGamesView.addCloseSidebarHandler(
+    controller.close.bind(controller, modalController.close)
+  );
+  exploreGamesView.addFetchAndDisplayDataHandler(controller.handleData);
 }
 
 modalInit();

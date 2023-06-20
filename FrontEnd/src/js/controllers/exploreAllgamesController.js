@@ -39,7 +39,7 @@ class ExploreAllgamesController {
     }, ANIMATION_TIMEOUT);
   };
 
-  close = async handleCloseModal => {
+  close = handleCloseModal => {
     if (this.#sidebarIsOpening || this.#sidebarIsClosing) return;
 
     fetchExploreAllgamesDataAbort();

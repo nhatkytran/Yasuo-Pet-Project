@@ -51,28 +51,33 @@ class ExploreAllgamesView {
   #loadingErrorButton;
   #loadingBars;
 
-  #posterLinksClass;
-  #posterLinks;
   #posterContainer;
-
+  #posterLinksClass;
   #linkTitlesClass;
+  #posterLinks;
   #linkTitles;
 
   #animateSidebar;
   #animateSidebarHeader;
 
   constructor() {
-    const classBody = side => `.sb-ag-body__${side}`;
-    const classLoading = side => `.sb-ag-body__${side}-loading`;
-    const classLoadingProcess = side => `.sb-ag-body__${side}-loading-inner`;
-    const classLoadingError = side => `.sb-ag-body__${side}-loading-error`;
+    const classSidebar = '.sb-ag';
+    const classBody = side => `${classSidebar}-body__${side}`;
+    const classLoading = side => `${classSidebar}-body__${side}-loading`;
+    const classLoadingProcess = side =>
+      `${classSidebar}-body__${side}-loading-inner`;
+    const classLoadingError = side =>
+      `${classSidebar}-body__${side}-loading-error`;
 
     this.#modal = $('#modal');
     this.#mainButton = $('.main-header__riot');
 
-    this.#sidebar = $('.sb-ag');
-    this.#sidebarHeader = $_(this.#sidebar, '.sb-ag-header');
-    this.#sidebarCloseButton = $_(this.#sidebarHeader, '.sb-ag-header__close');
+    this.#sidebar = $(classSidebar);
+    this.#sidebarHeader = $_(this.#sidebar, `${classSidebar}-header`);
+    this.#sidebarCloseButton = $_(
+      this.#sidebarHeader,
+      `${classSidebar}-header__close`
+    );
 
     this.#leftBody = $(classBody(LEFT));
     this.#rightBody = $(classBody(RIGHT));
@@ -91,12 +96,11 @@ class ExploreAllgamesView {
     this.#loadingErrorButton = $_(this.#leftLoadingError, 'button');
     this.#loadingBars = $$(`${classLoading(LEFT)} span`);
 
-    this.#posterLinksClass = 'sb-ag-body__left-link';
-    this.#posterLinks = $$(`.${this.#posterLinksClass}`);
     this.#posterContainer = $('.ag-poster-container');
-
-    this.#linkTitlesClass = 'sb-ag-body__left-cover';
-    this.#linkTitles = $$(`.${this.#linkTitlesClass}`);
+    this.#posterLinksClass = `${classSidebar}-body__left-link`;
+    this.#linkTitlesClass = `${classSidebar}-body__left-cover`;
+    this.#posterLinks = $$(this.#posterLinksClass);
+    this.#linkTitles = $$(this.#linkTitlesClass);
 
     this.#animateSidebar = animateFactory(this.#sidebar, {
       start: SIDEBAR_ARROW_OPEN,
@@ -376,7 +380,7 @@ class ExploreAllgamesView {
     this.#leftBody.addEventListener('mousemove', event => {
       if (window.innerWidth <= 1040) return;
 
-      const link = event.target.closest(`.${this.#posterLinksClass}`);
+      const link = event.target.closest(this.#posterLinksClass);
 
       if (!link) {
         if (!lastLink) return;
@@ -404,7 +408,7 @@ class ExploreAllgamesView {
 
   addOpenLinksHandler(handler) {
     this.#leftBody.addEventListener('click', event => {
-      const target = event.target.closest(`.${this.#linkTitlesClass}`);
+      const target = event.target.closest(this.#linkTitlesClass);
       if (target) handler(target);
     });
   }

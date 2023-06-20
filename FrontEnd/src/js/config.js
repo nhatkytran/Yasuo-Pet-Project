@@ -13,6 +13,9 @@ export const ERROR_ABORT_MESSAGE = 'canceled';
 
 export const ADD = '_add';
 export const REMOVE = '_remove';
+export const SHOW = 'show';
+export const HIDE = 'hide';
+export const INVALID_ACTION_MESSAGE = 'Invalid action!';
 
 export const VIDEO_STATE_PLAY = 'play';
 export const VIDEO_STATE_PAUSE = 'pause';
