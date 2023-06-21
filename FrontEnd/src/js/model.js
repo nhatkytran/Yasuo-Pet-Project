@@ -1,10 +1,35 @@
 import { subwebAxios, exploreAllgamesAxios, exploreGamesAxios } from './http';
 
-const state = {
-  videoTrailerLinks: {},
-  isExploreAllgamesFetchData: false,
-  isExploreGamesFetchData: false,
+const createState = () => {
+  const state = {
+    videoTrailerLinks: {},
+    _isExploreAllgamesFetchData: false,
+    _isExploreGamesFetchData: false,
+  };
+
+  // Why set function like this instead of using `this` keyword in `state` object?
+  // Because we pass function around, with this implementation we no need to bind this \
+  // every time we pass function around
+  // --> Can not use this --> Can not use setter and getter
+
+  state.isExploreAllgamesFetchData = () => {
+    return state._isExploreAllgamesFetchData;
+  };
+  state.setExploreAllgamesFetchData = value => {
+    state._isExploreAllgamesFetchData = value;
+  };
+
+  state.isExploreGamesFetchData = () => {
+    return state._isExploreGamesFetchData;
+  };
+  state.setExploreGamesFetchData = value => {
+    state._isExploreGamesFetchData = value;
+  };
+
+  return state;
 };
+
+const state = createState();
 
 // Subweb //////////////////////////////
 
