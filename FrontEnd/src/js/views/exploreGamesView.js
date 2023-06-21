@@ -126,6 +126,10 @@ class ExploreGamesView {
     this.#animateSidebarHeader(START);
   }
 
+  openSidebarSignal() {
+    this.#sidebar.dispatchEvent(new CustomEvent(OPEN_SIDEBAR_EVENT));
+  }
+
   close(timeToClose) {
     this.displayContent(NONE);
 
@@ -133,10 +137,6 @@ class ExploreGamesView {
     this.#animateSidebarHeader(END);
 
     setTimeout(classRemove.bind(null, ADD, this.#sidebar), timeToClose);
-  }
-
-  openSidebarSignal() {
-    this.#sidebar.dispatchEvent(new CustomEvent(OPEN_SIDEBAR_EVENT));
   }
 
   async createPosters(data) {
