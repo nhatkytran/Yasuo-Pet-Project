@@ -120,7 +120,6 @@
       width: 8rem;
       transition: all ease 0.3s;
       filter: brightness(0.75);
-      cursor: pointer;
       @include yasuo-round-dimension($px1040, 7rem, width-type);
       @include display-responsive($px840, none);
 

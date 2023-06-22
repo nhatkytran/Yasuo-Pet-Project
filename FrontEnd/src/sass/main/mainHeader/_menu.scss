@@ -37,25 +37,6 @@
   }
 }
 
-.mh-menu__cover {
-  background-color: rgba(0, 0, 0, 0.6);
-  top: 0;
-  left: 0;
-  position: absolute;
-  z-index: 1001;
-  transition: all ease 0.2s;
-  @include full-dimension;
-  @include hide;
-
-  &.show {
-    @include show;
-
-    .mh-menu {
-      transform: translateX(0);
-    }
-  }
-}
-
 .mh-menu {
   width: 100%;
   max-width: 48rem;
@@ -63,14 +44,19 @@
   background-color: $color-layer;
   padding: 0 1.6rem 1.6rem;
   border-left: 1px groove $color-button-blue-dark;
-  transform: translateX(100%);
-  transition: all ease 0.6s;
+  transition: all ease 0.24s;
   overflow-y: scroll;
-  position: fixed;
   top: 0;
   right: 0;
+  position: fixed;
+  z-index: 1001;
+  transform: translateX(100%);
   @include use-font(FF-Mark-Bold);
   @include scroll-bar(#256b79, 0.6rem);
+
+  &.slide-to-origin {
+    transform: translate(0);
+  }
 
   &__header {
     width: 100%;
@@ -106,23 +92,9 @@
   }
 
   &__item {
-    padding: 1.2rem 1.6rem;
     margin: 0.8rem 0;
     border-radius: 0.6rem;
     transition: all ease 0.2s;
-    cursor: pointer;
-
-    &:hover {
-      background-color: rgb(35, 35, 35);
-
-      .mh-menu__link {
-        color: $color-button-blue;
-
-        &-icon {
-          fill: $color-button-blue;
-        }
-      }
-    }
 
     &:nth-child(1) {
       margin-top: 0;
@@ -133,6 +105,10 @@
     &:nth-child(9) {
       margin-top: 0.8rem;
     }
+
+    &:hover {
+      background-color: rgb(35, 35, 35);
+    }
   }
 
   &__link:link,
@@ -142,12 +118,21 @@
     letter-spacing: 0.2rem;
     text-decoration: none;
     text-transform: uppercase;
+    padding: 1.2rem 1.6rem;
     transition: all ease 0.2s;
     justify-content: space-between;
     @include flex-align-center;
 
     @media only screen and (max-width: $px640) {
       font-size: 1.4rem;
+    }
+
+    &:hover {
+      color: $color-button-blue;
+
+      .mh-menu__link-icon {
+        fill: $color-button-blue;
+      }
     }
 
     &-icon {
@@ -160,10 +145,6 @@
 
   .mh-menu__universe-x {
     transition: all ease 0.2s;
-
-    &.universe-x {
-      transform: rotate(45deg);
-    }
   }
 
   &-more {
@@ -174,12 +155,13 @@
     @include hide;
 
     &.show {
-      height: 14.8rem;
+      // class `show` in utils.css file already have `@include show;` but \
+      // it can't take precedence by `@include hide;` above --> so declare again
       @include show;
+      height: 14.8rem;
     }
 
     &__item {
-      padding: 1.2rem 1.6rem;
       border-radius: 0.6rem;
       transition: all ease 0.2s;
       cursor: pointer;
@@ -204,6 +186,7 @@
     &__link:link,
     &__link:visited {
       font-size: 1.3rem;
+      padding: 1.2rem 1.6rem;
 
       @media only screen and (max-width: $px640) {
         font-size: 1.2rem;

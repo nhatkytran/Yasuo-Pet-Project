@@ -11,8 +11,8 @@ export const ERROR_ABORT_CODE = 'ERR_CANCELED';
 export const ERROR_TIMEOUT_MESSAGE = 'timeout';
 export const ERROR_ABORT_MESSAGE = 'canceled';
 
-export const ADD = '_add';
-export const REMOVE = '_remove';
+export const ADD = 'add';
+export const REMOVE = 'remove';
 export const SHOW = 'show';
 export const HIDE = 'hide';
 export const INVALID_ACTION_MESSAGE = 'Invalid action!';

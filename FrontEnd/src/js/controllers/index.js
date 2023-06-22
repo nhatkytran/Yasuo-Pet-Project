@@ -3,12 +3,14 @@ import {
   subwebView,
   exploreAllgamesView,
   exploreGamesView,
+  menuMobileView,
 } from '../Views';
 
 import ModalController from './modalController';
 import subwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
+import MenuMobileController from './menuMobileController';
 
 const modalController = new ModalController(modalView);
 
@@ -54,7 +56,20 @@ function exploreGamesInit() {
   exploreGamesView.addFetchAndDisplayDataHandler(controller.handleData);
 }
 
+function menuMobileInit() {
+  const controller = new MenuMobileController(menuMobileView);
+
+  menuMobileView.addOpenMenuHandler(
+    controller.open.bind(controller, modalController.open)
+  );
+  menuMobileView.addCloseMenuHandler(
+    controller.close.bind(controller, modalController.close)
+  );
+  menuMobileView.addToggleUniverseMobile(controller.toggle);
+}
+
 modalInit();
 subwebInit();
 exploreAllgamesInit();
 exploreGamesInit();
+menuMobileInit();
