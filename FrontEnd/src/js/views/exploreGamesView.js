@@ -120,24 +120,23 @@ class ExploreGamesView {
       });
   }
 
-  open() {
+  open = () => {
     classRemove(REMOVE, this.#sidebar);
     this.#animateSidebar(START);
     this.#animateSidebarHeader(START);
-  }
+  };
 
-  openSidebarSignal() {
+  openSidebarSignal = () =>
     this.#sidebar.dispatchEvent(new CustomEvent(OPEN_SIDEBAR_EVENT));
-  }
 
-  close(timeToClose) {
+  close = timeToClose => {
     this.displayContent(NONE);
 
     this.#animateSidebar(END);
     this.#animateSidebarHeader(END);
 
     setTimeout(classRemove.bind(null, ADD, this.#sidebar), timeToClose);
-  }
+  };
 
   async createPosters(data) {
     const images = $$('.eg-poster-img');

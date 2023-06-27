@@ -9,9 +9,8 @@ class MenuMobileController extends ModalContentController {
     this.#menuMobileView = menuMobileView;
   }
 
-  open = handleOpenModal => {
+  open = handleOpenModal =>
     super.open(handleOpenModal, this.#menuMobileView.open);
-  };
 
   close = handleCloseModal => {
     if (super.close(handleCloseModal, this.#menuMobileView.close)) {

@@ -185,17 +185,16 @@ class ExploreAllgamesView {
     }
   }
 
-  open() {
+  open = () => {
     classRemove(REMOVE, this.#sidebar);
     this.#animateSidebar(START);
     this.#animateSidebarHeader(START);
-  }
+  };
 
-  openSidebarSignal() {
+  openSidebarSignal = () =>
     this.#sidebar.dispatchEvent(new CustomEvent(OPEN_SIDEBAR_EVENT));
-  }
 
-  close(timeToClose) {
+  close = timeToClose => {
     // Close links
     // (< 1040px --> select to see links, so we need to close)
     this.#closeLinks();
@@ -209,7 +208,7 @@ class ExploreAllgamesView {
 
     // Close
     setTimeout(classRemove.bind(null, ADD, this.#sidebar), timeToClose);
-  }
+  };
 
   async createMainImages(images) {
     const imageEls = $$_(this.#rightBody, '.sb-ag-body__right-img');

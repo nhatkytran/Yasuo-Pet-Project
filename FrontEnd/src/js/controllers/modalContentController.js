@@ -1,4 +1,5 @@
-import { ANIMATION_TIMEOUT } from '../config';
+import { ANIMATION_TIMEOUT, NONE, LOADING, ERROR, CONTENT } from '../config';
+import { checkAbortError } from '../utils';
 
 class ModalContentController {
   #isOpening;
@@ -7,6 +8,10 @@ class ModalContentController {
   // open | close
   // return true | false the Child Classes can handle another actions
   // For example: emit signal,...
+
+  // Why getter?
+  // Help Child Class access to method via `super`
+  // For example: super.open()
 
   get open() {
     return (handleOpenModal, openContent) => {
@@ -32,7 +37,7 @@ class ModalContentController {
       handleCloseModal();
 
       this.#isClosing = true;
-      closeContent();
+      closeContent(ANIMATION_TIMEOUT); // Sidebar Arrow needs ANIMATION_TIMEOUT
 
       setTimeout(() => {
         this.#isClosing = false;
