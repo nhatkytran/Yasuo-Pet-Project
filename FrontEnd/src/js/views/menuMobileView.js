@@ -34,15 +34,15 @@ class MenuMobileView {
     if (window.innerWidth >= 1140) this.#closeHandler();
   };
 
-  open() {
+  open = () => {
     this.#menu.classList.add(this.#menuAnimationClass);
     window.addEventListener('resize', this.#windowResizeClose);
-  }
+  };
 
-  close() {
+  close = () => {
     this.#menu.classList.remove(this.#menuAnimationClass);
     window.removeEventListener('resize', this.#windowResizeClose);
-  }
+  };
 
   #universeMobileAnimate = (action, transform) => {
     this.#universeMobileMore.classList[action]('show');

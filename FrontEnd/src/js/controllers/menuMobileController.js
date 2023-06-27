@@ -1,45 +1,23 @@
-import { ANIMATION_TIMEOUT } from '../config';
+import ModalContentController from './modalContentController';
 
-class MenuMobileController {
+class MenuMobileController extends ModalContentController {
   #menuMobileView;
-
-  #menuIsOpening;
-  #menuIsClosing;
-
   #universeMobileOpening;
 
   constructor(menuMobileView) {
+    super();
     this.#menuMobileView = menuMobileView;
   }
 
   open = handleOpenModal => {
-    if (this.#menuIsOpening || this.#menuIsClosing) return;
-
-    handleOpenModal();
-
-    this.#menuIsOpening = true;
-    this.#menuMobileView.open();
-
-    setTimeout(() => {
-      this.#menuIsOpening = false;
-    }, ANIMATION_TIMEOUT);
+    super.open(handleOpenModal, this.#menuMobileView.open);
   };
 
   close = handleCloseModal => {
-    if (this.#menuIsOpening || this.#menuIsClosing) return;
-
-    handleCloseModal();
-
-    this.#menuIsClosing = true;
-    this.#menuMobileView.close();
-
-    // in case Universe Mobile is opening --> close
-    this.#universeMobileOpening = false;
-    this.#menuMobileView.closeUniverseMobile();
-
-    setTimeout(() => {
-      this.#menuIsClosing = false;
-    }, ANIMATION_TIMEOUT);
+    if (super.close(handleCloseModal, this.#menuMobileView.close)) {
+      this.#universeMobileOpening = false;
+      this.#menuMobileView.closeUniverseMobile();
+    }
   };
 
   toggle = event => {
