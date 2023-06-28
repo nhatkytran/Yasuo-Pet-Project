@@ -36,12 +36,21 @@
   }
 }
 
-@keyframes diagonal-wipe {
+// Works great for 5.2rem
+@keyframes diagonal-wipe-5d2 {
   0% {
     clip-path: polygon(-2.5rem 2.5rem, 2.5rem 7.5rem, -2.6rem 12.7rem, -7.7rem 7.6rem);
   }
   100% {
     clip-path: polygon(7.6rem -7.7rem, 12.7rem -2.6rem, 7.6rem 2.6rem, 2.5rem -2.6rem);
+  }
+}
+@keyframes diagonal-wipe-7d2 {
+  0% {
+    clip-path: polygon(-2.5rem 2.5rem, 6.5rem 11.5rem, 2.4rem 16.7rem, -3.7rem 11.6rem);
+  }
+  100% {
+    clip-path: polygon(7.6rem -7.7rem, 12.7rem -2.6rem, 7.6rem 1.6rem, 2.5rem -2.6rem);
   }
 }
 

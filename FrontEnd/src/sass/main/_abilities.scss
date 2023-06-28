@@ -63,18 +63,6 @@
 
     &-header {
       color: $header-text-color;
-      opacity: 0;
-      transform: translateX(40rem);
-      transition: all ease 0.4s;
-
-      // test
-      opacity: 1;
-      transform: translateX(0);
-
-      &.scroll {
-        opacity: 1;
-        transform: translateX(0);
-      }
 
       &-ab {
         font-style: italic;
@@ -148,16 +136,11 @@
         }
 
         &-img {
-          background-image: url(/src/assets/img/gallery/yasuo-samurai_optimized.jpeg);
+          background-image: url("/src/assets/img/skills/yasuo-samurai.jpeg");
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center center;
-
-          // &::before {
-          //   background-color: rgba(0, 0, 0, 0.3);
-          //   @include full-dimension;
-          //   @include pseudo-element-features;
-          // }
+          z-index: 1; // By default, display image instead of video
         }
 
         &-s {
@@ -298,11 +281,16 @@
       }
     }
 
-    &.active .ab__skills-skill-img {
-      margin-top: 1rem;
-      outline-offset: 0.5rem;
-      outline: 0.1rem solid $color-ab;
-      filter: brightness(1);
+    &.active {
+      .ab__skills-skill-img {
+        margin-top: 1rem;
+        outline-offset: 0.5rem;
+        outline: 0.1rem solid $color-ab;
+        filter: brightness(1);
+      }
+      .ab__skills-skill-dot {
+        background-color: rgb(203, 165, 95);
+      }
     }
 
     &-img {
