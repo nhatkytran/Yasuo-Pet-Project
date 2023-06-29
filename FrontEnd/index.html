@@ -21,8 +21,8 @@
 
   <title>Yasuo | The King of All Kings</title>
 
-  <script defer type="module" src="./src/js/controllers/index.js"></script>
-  <!-- <script defer type="module" src="./src/dev-data/js2/controllers/mainController.js"></script> -->
+  <!-- <script defer type="module" src="./src/js/controllers/index.js"></script> -->
+  <script defer type="module" src="./src/dev-data/js2/controllers/mainController.js"></script>
 </head>
 
 <body><!-- class="modal-open" -->
@@ -739,11 +739,11 @@
       <div class="abilities__content-body">
         <div class="abilities__content-body-skills">
           <div class="ab__skills">
-            <div class="ab__skills-skill ab__skills-skill--p">
+            <div class="ab__skills-skill ab__skills-skill--p"><!-- active  -->
               <img class="ab__skills-skill-img" src="/src/assets/img/Skills/P.png" alt="Yasuo skills" />
               <div class="ab__skills-skill-dot"></div>
             </div>
-            <div class="ab__skills-skill active ab__skills-skill--q">
+            <div class="ab__skills-skill ab__skills-skill--q">
               <img class="ab__skills-skill-img" src="/src/assets/img/Skills/Q.png" alt="Yasuo skills" />
               <div class="ab__skills-skill-dot"></div>
             </div>
@@ -766,25 +766,30 @@
           </div>
           <div class="ab__skills-desc">
             <div class="ab__skills-desc-s">
-              <p class="ab__skills-desc-s-small">Q</p>
-              <h1 class="ab__skills-desc-s-big">STEEL TEMPEST</h1>
+              <p class="ab__skills-desc-s-small">Soul</p>
+              <h1 class="ab__skills-desc-s-big">SAMURAI</h1>
               <p class="ab__skills-desc-s-medium">
-                Thrusts forward, damaging all enemies in a line. On hit, grants a
-                stack of Gathering Storm for a few seconds. At 2 stacks, Steel
-                Tempest fires a whirlwind that knocks Airborne. Steel Tempest is
-                treated as a basic attack and scales with all the same things.
+                Honour may not win power, but it wins respect. And respect earns power. Today is victory over yourself
+                of yesterday; tomorrow is your victory over lesser men. A warrior is worthless unless he rises above
+                others and stands strong in the midst of a storm.
               </p>
             </div>
 
-            <div class="ab__skills-desc-s">
-              <p class="ab__skills-desc-s-small">Qqwdasd</p>
-              <h1 class="ab__skills-desc-s-big">STEEL TEMPESTasdqwdasd</h1>
-              <p class="ab__skills-desc-s-medium">
-                Thrusts forward, damaging all enemies in a line. On hit, grants a
-                stack of Gathering Storm for a few seconds. At 2 stacks, Steel
-                Tempest fires a whirlwind that knocks Airborne. Steel Tempest is
-                treated as a basic attack and scales with all the same things.
-              </p>
+            <div class="ab__skills-desc-loading diagonal-wipe-loading remove">
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 425 425">
+                <path
+                  d="M94.73,94.85h94.12V47.37h-73c-37.83,0-68.49,30.74-68.49,68.66v73.17h47.37V94.85z M179.04,212.94 l-84.31,84.51v-60.77H47.37v141.83h141.49v-47.48h-60.63l84.31-84.52L179.04,212.94z M330.34,331.03h-94.12v47.48h73 c37.83,0,68.49-30.74,68.49-68.66v-73.17h-47.37V331.03z M236.22,47.37v47.48h60.63l-84.31,84.52l33.49,33.57l84.31-84.52v60.77 h47.37V47.37H236.22z">
+                </path>
+              </svg>
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 425 425">
+                <path
+                  d="M94.73,94.85h94.12V47.37h-73c-37.83,0-68.49,30.74-68.49,68.66v73.17h47.37V94.85z M179.04,212.94 l-84.31,84.51v-60.77H47.37v141.83h141.49v-47.48h-60.63l84.31-84.52L179.04,212.94z M330.34,331.03h-94.12v47.48h73 c37.83,0,68.49-30.74,68.49-68.66v-73.17h-47.37V331.03z M236.22,47.37v47.48h60.63l-84.31,84.52l33.49,33.57l84.31-84.52v60.77 h47.37V47.37H236.22z">
+                </path>
+              </svg>
+            </div>
+
+            <div class="ab__skills-desc-error remove">
+              <img class="" src="/src/assets/img/fetch-error.png" alt="Error Icon">
             </div>
           </div>
         </div>
@@ -792,13 +797,8 @@
         <div class="abilities__content-body-video">
           <div class="abilities__content-body-video-img"></div>
           <video class="abilities__content-body-video-s" muted>
-            <source src="/src/assets/img/Skills/1.mp4" type="video/mp4" />
-            <source src="/src/assets/img/Skills/1.webm" type="video/webm" />
-            Your browser does not support video!
-          </video>
-          <video class="abilities__content-body-video-s" muted>
-            <source src="/src/assets/img/Skills/2.mp4" type="video/mp4" />
-            <source src="/src/assets/img/Skills/2.webm" type="video/webm" />
+            <source type="video/mp4" />
+            <source type="video/webm" />
             Your browser does not support video!
           </video>
           <div class="abilities__content-body-video-overlay"></div>

@@ -15,8 +15,7 @@
   @include abilities-min-height($px840, 87.6rem);
   @include abilities-min-height($px740, 82.6rem);
   @include abilities-min-height(40.5em, 84.6rem); // 648px
-  @include abilities-min-height($px640, 75.6rem);
-  @include abilities-min-height(39em, 77.6rem); // 624px
+  @include abilities-min-height($px640, 76.6rem);
 
   &-icon,
   &__overlay,
@@ -140,7 +139,6 @@
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center center;
-          z-index: 1; // By default, display image instead of video
         }
 
         &-s {
@@ -183,8 +181,7 @@
       @include footer-top($px840, 74rem);
       @include footer-top($px740, 69rem);
       @include footer-top(40.5em, 71rem); // 648px
-      @include footer-top($px640, 63rem);
-      @include footer-top(39em, 65rem); // 624px
+      @include footer-top($px640, 64rem);
 
       &::before {
         width: calc(100% - 10rem);
@@ -227,27 +224,11 @@
       border-radius: 50%;
       transition: all ease 0.4s;
       top: -0.7rem;
-      left: 13.68rem;
+      left: calc(100%);
       position: absolute;
       justify-content: center;
       @include square-dimension(1.4rem);
       @include flex-align-center;
-
-      &.active &::before {
-        animation: fadeInOpa ease 1s forwards;
-        -webkit-animation: fadeInOpa ease 1s forwards;
-      }
-
-      &::before {
-        width: 0.1rem;
-        height: 1.4rem;
-        background-color: $color-ab;
-        transform-origin: center bottom;
-        top: -1.8rem;
-        left: 50%;
-        transform: translateX(-50%);
-        @include pseudo-element-features;
-      }
     }
   }
 
@@ -367,5 +348,9 @@
       font-size: 1.4rem;
       color: $header-navbar-color;
     }
+  }
+
+  &-error {
+    @include absolute-position(-50%, -50%);
   }
 }
