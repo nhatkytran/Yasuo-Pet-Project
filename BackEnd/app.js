@@ -7,6 +7,7 @@ const {
   subwebRouter,
   allGamesRouter,
   exploreGamesRouter,
+  abilitiesRouter,
 } = require('./routes');
 
 const globalErrorHandler = require('./controllers/errorController');
@@ -29,6 +30,7 @@ app.options('*', cors());
 app.use('/api/v1/subweb', subwebRouter);
 app.use('/api/v1/allGames', allGamesRouter);
 app.use('/api/v1/exploreGames', exploreGamesRouter);
+app.use('/api/v1/abilities', abilitiesRouter);
 
 app.use(globalErrorHandler);
 

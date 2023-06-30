@@ -68,8 +68,11 @@ function menuMobileInit() {
   menuMobileView.addToggleUniverseMobile(controller.toggle);
 }
 
+function abilitiesInit() {}
+
 modalInit();
 subwebInit();
 exploreAllgamesInit();
 exploreGamesInit();
 menuMobileInit();
+abilitiesInit();

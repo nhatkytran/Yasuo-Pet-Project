@@ -2,6 +2,10 @@
 
 import { $, $$ } from '../config';
 
+const state = {
+  abilitiesData: {},
+};
+
 const skillsContainer = $('.ab__skills');
 const skills = $$('.ab__skills-skill');
 const skillCircle = $('.ab__skills-progress-circle');
@@ -21,6 +25,10 @@ skillsContainer.addEventListener('click', event => {
   const index = Number(target.dataset.abSkill);
 
   handleSkillChosen(index);
+
+  // Abort fetching
+
+  // Check to start fetching again
 });
 
 function handleSkillChosen(index) {
