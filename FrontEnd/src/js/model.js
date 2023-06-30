@@ -1,9 +1,15 @@
-import { subwebAxios, exploreAllgamesAxios, exploreGamesAxios } from './http';
+import {
+  subwebAxios,
+  exploreAllgamesAxios,
+  exploreGamesAxios,
+  abilitiesAxios,
+} from './http';
 
 const state = {
   videoTrailerLinks: {},
   isExploreAllgamesFetchData: false,
   isExploreGamesFetchData: false,
+  isAbilitiesFetchData: false,
 };
 
 // Subweb //////////////////////////////
@@ -42,5 +48,20 @@ export const fetchExploreGamesData = async () => {
 
 export const fetchExploreGamesDataAbort = () =>
   exploreGamesAxios.getExploreGamesDataAbort();
+
+// Abilities //////////////////////////////
+
+export const fetchAbilitiesData = async () => {
+  const response = await abilitiesAxios.getAbilitiesData(
+    '/api/v1/abilities/data'
+  );
+
+  return response.abilitiesAssets;
+};
+
+export const fetchAbilitiesDataAbort = () =>
+  abilitiesAxios.getAbilitiesDataAbort();
+
+// //////////////////////////////
 
 export default state;

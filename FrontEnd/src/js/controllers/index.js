@@ -4,6 +4,7 @@ import {
   exploreAllgamesView,
   exploreGamesView,
   menuMobileView,
+  abilitiesView,
 } from '../Views';
 
 import ModalController from './modalController';
@@ -11,6 +12,7 @@ import subwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
 import MenuMobileController from './menuMobileController';
+import AbilitiesController from './abilitesController';
 
 const modalController = new ModalController(modalView);
 
@@ -68,7 +70,11 @@ function menuMobileInit() {
   menuMobileView.addToggleUniverseMobile(controller.toggle);
 }
 
-function abilitiesInit() {}
+function abilitiesInit() {
+  const controller = new AbilitiesController(abilitiesView);
+
+  abilitiesView.addChooseSkillHander(controller.chooseSkill);
+}
 
 modalInit();
 subwebInit();
