@@ -1,4 +1,5 @@
 import { CONTENT, LOADING, ERROR } from '../config';
+import { checkAbortError } from '../utils';
 import state, { fetchAbilitiesData, fetchAbilitiesDataAbort } from '../model';
 
 class AbilitiesController {
@@ -11,14 +12,28 @@ class AbilitiesController {
 
   chooseSkill = index => {
     this.#abilitiesView.markSkillChosen(index, this.#lastSkillIndex);
-    this.#lastSkillIndex = index;
 
-    // fetchAbilitiesDataAbort();
+    if (!state.isAbilitiesFetchData) {
+      fetchAbilitiesDataAbort();
+      this.handleData();
+    } else {
+      this.#abilitiesView.markDescriptionChosen(index, this.#lastSkillIndex);
+    }
+
+    this.#lastSkillIndex = index;
   };
 
   #fetchData = async () => {
     try {
-      this.#abilitiesView.displayContent(CONTENT);
+      this.#abilitiesView.displayContent(LOADING);
+
+      const { videos, descriptions } = await fetchAbilitiesData();
+
+      // await this.#abilitiesView.createVideos(videos);
+      this.#abilitiesView.createDescriptions(
+        descriptions,
+        this.#lastSkillIndex
+      );
 
       // Only need to know we fetched data or not
 
@@ -37,7 +52,7 @@ class AbilitiesController {
 
   handleData = async () => {
     if (!state.isAbilitiesFetchData) await this.#fetchData();
-    if (state.isAbilitiesFetchData) console.log('Display data!');
+    if (state.isAbilitiesFetchData) this.#abilitiesView.displayContent(CONTENT);
   };
 }
 

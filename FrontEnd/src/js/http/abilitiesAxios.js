@@ -7,7 +7,7 @@ const newAbortSignal = () => {
   return abortController.signal;
 };
 
-const getAbilitesData = async endpoint => {
+const getAbilitiesData = async endpoint => {
   const { data } = await axiosInstance.get(endpoint, {
     signal: newAbortSignal(),
   });
@@ -15,13 +15,13 @@ const getAbilitesData = async endpoint => {
   return data;
 };
 
-const getAbilitesDataAbort = () => {
+const getAbilitiesDataAbort = () => {
   if (abortController) abortController.abort();
 };
 
 const abilitiesAxios = {
-  getAbilitesData,
-  getAbilitesDataAbort,
+  getAbilitiesData,
+  getAbilitiesDataAbort,
 };
 
 export default abilitiesAxios;

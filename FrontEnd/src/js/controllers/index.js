@@ -74,6 +74,7 @@ function abilitiesInit() {
   const controller = new AbilitiesController(abilitiesView);
 
   abilitiesView.addChooseSkillHander(controller.chooseSkill);
+  abilitiesView.addReFetchHandler(controller.handleData);
 }
 
 modalInit();
