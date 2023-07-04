@@ -18,6 +18,10 @@
   animation: fade-in ease 0.1s forwards;
 }
 
+.fade-in-500 {
+  animation: fade-in ease 0.5s forwards;
+}
+
 .fade-in {
   @include ease-24-forwards(fade-in);
 }

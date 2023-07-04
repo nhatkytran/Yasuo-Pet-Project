@@ -4,3 +4,4 @@ export { checkTimeoutError, checkAbortError } from './checkFetchError';
 export { default as classRemove } from './classRemove';
 export { default as mapMarkup } from './mapMarkup';
 export { default as promisifyLoadingImage } from './promisifyLoadingImage';
+export { default as promisifyLoadingVideo } from './promisifyLoadingVideo';

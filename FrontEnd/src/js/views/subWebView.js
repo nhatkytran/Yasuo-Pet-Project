@@ -109,11 +109,18 @@ class SubwebView {
   }
 
   renderVideo({ linkMp4, linkWebm }) {
-    [linkMp4, linkWebm].forEach(link => {
+    const sources = [
+      [linkMp4, 'video/mp4'],
+      [linkWebm, 'video/webm'],
+    ];
+
+    sources.forEach(([link, type]) => {
       const videoLink = `${BACKEND_URL}${link}`;
       const source = document.createElement('source');
 
+      source.type = type;
       source.src = videoLink;
+
       this.#trailerVideo.appendChild(source);
     });
   }

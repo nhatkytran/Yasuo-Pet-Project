@@ -1,5 +1,14 @@
 import { ADD, REMOVE, LOADING, ERROR, CONTENT } from '../config';
-import { $, $_, $$, $$_, classRemove, mapMarkup } from '../utils';
+
+import {
+  $,
+  $_,
+  $$,
+  $$_,
+  classRemove,
+  mapMarkup,
+  promisifyLoadingVideo,
+} from '../utils';
 
 class AbilitiesView {
   #skillsContainer;
@@ -15,6 +24,9 @@ class AbilitiesView {
   #descriptionError;
   #descriptionErrorButton;
 
+  #videoContainer;
+  #videos;
+
   constructor() {
     this.#skillsContainer = $('.ab__skills');
     this.#skills = $$('.ab__skills-skill');
@@ -25,6 +37,9 @@ class AbilitiesView {
     this.#descriptionLoading = $('.ab__skills-desc-loading');
     this.#descriptionError = $('.ab__skills-desc-error');
     this.#descriptionErrorButton = $_(this.#descriptionError, 'button');
+
+    this.#videoContainer = $('.abilities__content-body-video');
+    // this.#videos; // No videos created at this time
 
     this.#skills.forEach((skill, index) =>
       skill.setAttribute('data-ab-skill', index)
@@ -71,6 +86,11 @@ class AbilitiesView {
     return mapMarkup(descriptions, markupCallback);
   }
 
+  markDescriptionChosen(index, lastIndex) {
+    classRemove(ADD, this.#descriptionContents[lastIndex]);
+    classRemove(REMOVE, this.#descriptionContents[index]);
+  }
+
   createDescriptions(descriptions, shownIndex) {
     const markup = this.#generateDescriptionMarkup(descriptions, shownIndex);
 
@@ -83,9 +103,47 @@ class AbilitiesView {
     );
   }
 
-  markDescriptionChosen(index, lastIndex) {
-    classRemove(ADD, this.#descriptionContents[lastIndex]);
-    classRemove(REMOVE, this.#descriptionContents[index]);
+  #generateVideoMarkup(videos, shownIndex) {
+    const markupCallback = (_, index) => `
+      <video class="abilities__content-body-video-s fade-in-500 ${
+        shownIndex === index ? '' : 'remove'
+      }">
+        Your browser does not support video!
+      </video>
+    `;
+
+    return mapMarkup(videos, markupCallback);
+  }
+
+  markVideoChosen(index, lastIndex) {
+    classRemove(ADD, this.#videos[lastIndex]);
+    classRemove(REMOVE, this.#videos[index]);
+  }
+
+  controlVideoChosen(index, lastIndex) {
+    this.#videos[lastIndex].pause();
+    this.#videos[lastIndex].currentTime = 0;
+    this.#videos[index].play();
+  }
+
+  async createVideos(videos, shownIndex) {
+    const markup = this.#generateVideoMarkup(videos, shownIndex);
+
+    this.#videoContainer.insertAdjacentHTML('afterbegin', markup);
+
+    this.#videos = $$_(
+      this.#videoContainer,
+      '.abilities__content-body-video-s'
+    );
+
+    const promises = videos.map((video, index) =>
+      promisifyLoadingVideo(this.#videos[index], {
+        mp4: video.mp4,
+        webm: video.webm,
+      })
+    );
+
+    await Promise.all(promises);
   }
 
   addChooseSkillHander(handler) {

@@ -18,6 +18,9 @@ class AbilitiesController {
       this.handleData();
     } else {
       this.#abilitiesView.markDescriptionChosen(index, this.#lastSkillIndex);
+
+      this.#abilitiesView.markVideoChosen(index, this.#lastSkillIndex);
+      this.#abilitiesView.controlVideoChosen(index, this.#lastSkillIndex);
     }
 
     this.#lastSkillIndex = index;
@@ -29,16 +32,14 @@ class AbilitiesController {
 
       const { videos, descriptions } = await fetchAbilitiesData();
 
-      // await this.#abilitiesView.createVideos(videos);
+      await this.#abilitiesView.createVideos(videos, this.#lastSkillIndex);
       this.#abilitiesView.createDescriptions(
         descriptions,
         this.#lastSkillIndex
       );
 
       // Only need to know we fetched data or not
-
-      // Fix // createMainImages and createPosters do all the things like inject data into HTML
-
+      // createDescriptions and createVideos do all the things like inject data into HTML
       state.isAbilitiesFetchData = true;
     } catch (error) {
       // test
@@ -52,7 +53,16 @@ class AbilitiesController {
 
   handleData = async () => {
     if (!state.isAbilitiesFetchData) await this.#fetchData();
-    if (state.isAbilitiesFetchData) this.#abilitiesView.displayContent(CONTENT);
+    if (state.isAbilitiesFetchData) {
+      this.#abilitiesView.displayContent(CONTENT);
+
+      // Play video the first time
+      // At first time, current video is also last video
+      this.#abilitiesView.controlVideoChosen(
+        this.#lastSkillIndex,
+        this.#lastSkillIndex
+      );
+    }
   };
 }
 
