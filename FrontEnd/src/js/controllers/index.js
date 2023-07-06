@@ -5,6 +5,7 @@ import {
   exploreGamesView,
   menuMobileView,
   abilitiesView,
+  skinsView,
 } from '../Views';
 
 import ModalController from './modalController';
@@ -13,6 +14,7 @@ import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
 import MenuMobileController from './menuMobileController';
 import AbilitiesController from './abilitesController';
+import SkinsController from './skinsController';
 
 const modalController = new ModalController(modalView);
 
@@ -77,9 +79,16 @@ function abilitiesInit() {
   abilitiesView.addReFetchHandler(controller.handleData);
 }
 
+function skinsUnit() {
+  const controller = new SkinsController(skinsView);
+
+  skinsView.addIntersectionObserver();
+}
+
 modalInit();
 subwebInit();
 exploreAllgamesInit();
 exploreGamesInit();
 menuMobileInit();
 abilitiesInit();
+skinsUnit();

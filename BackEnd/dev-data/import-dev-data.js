@@ -3,7 +3,13 @@ const path = require('path');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
-const { Subweb, AllGames, ExploreGames, Abilities } = require('../models');
+const {
+  Subweb,
+  AllGames,
+  ExploreGames,
+  Abilities,
+  Skins,
+} = require('../models');
 
 dotenv.config({ path: path.join(__dirname, '..', 'config.env') });
 
@@ -16,6 +22,7 @@ const subwebVideosData = getData('subwebVideos.json');
 const allGamesData = getData('allGames.json');
 const exploreGamesData = getData('exploreGames.json');
 const abilitiesData = getData('abilities.json');
+const skinsData = getData('skins.json');
 
 async function importData() {
   try {
@@ -24,6 +31,7 @@ async function importData() {
       AllGames.create(allGamesData),
       ExploreGames.create(exploreGamesData),
       Abilities.create(abilitiesData),
+      Skins.create(skinsData),
     ]);
     console.log('Data import - Successful!');
   } catch (error) {
@@ -41,6 +49,7 @@ async function deleteData() {
       AllGames.deleteMany(),
       ExploreGames.deleteMany(),
       Abilities.deleteMany(),
+      Skins.deleteMany(),
     ]);
     console.log('Data delete - Successful!');
   } catch (error) {

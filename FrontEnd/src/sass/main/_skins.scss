@@ -199,7 +199,6 @@
       }
       @media only screen and (max-width: $px640) {
         width: 100%;
-        height: 6.5;
         bottom: 0;
         transform: translate(-50%, 100%);
       }
@@ -633,4 +632,26 @@
       }
     }
   }
+}
+
+.skins-overlay__loading {
+  @include square-dimension(7.2rem);
+
+  svg:nth-child(2) {
+    animation: diagonal-wipe-7d2 1.5s ease infinite;
+  }
+
+  @media only screen and (max-width: $px840) {
+    @include square-dimension(5.2rem);
+
+    svg:nth-child(2) {
+      animation: diagonal-wipe-7d2 1.5s ease infinite;
+    }
+  }
+}
+
+.skins-overlay__error {
+  flex-direction: column;
+  @include flex-align-center;
+  @include absolute-position(-50%, -50%);
 }

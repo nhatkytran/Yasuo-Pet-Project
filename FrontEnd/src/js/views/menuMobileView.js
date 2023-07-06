@@ -28,7 +28,7 @@ class MenuMobileView {
     this.#menuAnimationClass = 'slide-to-origin';
   }
 
-  #closeHandler;
+  #closeHandler; // addCloseMenuHandler
   #windowResizeClose = () => {
     // #closeHandler set by addCloseMenuHandler
     if (window.innerWidth >= 1140) this.#closeHandler();
