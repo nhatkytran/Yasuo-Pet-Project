@@ -82,7 +82,7 @@ function abilitiesInit() {
 function skinsUnit() {
   const controller = new SkinsController(skinsView);
 
-  skinsView.addIntersectionObserver();
+  skinsView.addIntersectionObserver(controller.handleData);
 }
 
 modalInit();

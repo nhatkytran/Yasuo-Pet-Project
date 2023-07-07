@@ -5,3 +5,4 @@ export { default as classRemove } from './classRemove';
 export { default as mapMarkup } from './mapMarkup';
 export { default as promisifyLoadingImage } from './promisifyLoadingImage';
 export { default as promisifyLoadingVideo } from './promisifyLoadingVideo';
+export { default as checkEmptyObject } from './checkEmptyObject';

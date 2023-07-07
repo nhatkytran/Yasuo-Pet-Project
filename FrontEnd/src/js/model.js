@@ -3,6 +3,7 @@ import {
   exploreAllgamesAxios,
   exploreGamesAxios,
   abilitiesAxios,
+  skinsAxios,
 } from './http';
 
 const state = {
@@ -10,6 +11,7 @@ const state = {
   isExploreAllgamesFetchData: false,
   isExploreGamesFetchData: false,
   isAbilitiesFetchData: false,
+  skinsData: {},
 };
 
 // Subweb //////////////////////////////
@@ -61,6 +63,14 @@ export const fetchAbilitiesData = async () => {
 
 export const fetchAbilitiesDataAbort = () =>
   abilitiesAxios.getAbilitiesDataAbort();
+
+// Skins //////////////////////////////
+
+export const fetchSkinsData = async () => {
+  const response = await skinsAxios.getSkinsData('/api/v1/skins/data');
+
+  return response.skinsAssets;
+};
 
 // //////////////////////////////
 

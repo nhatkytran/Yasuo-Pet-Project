@@ -1,49 +1,124 @@
 {
-  "images": [
+  "skins": [
     {
-      "link": "/img/skins/skin-0.jpeg"
+      "name": "YASUO",
+      "image": "/img/skins/skin-0.jpeg",
+      "type": "ORIGINAL",
+      "price": 0,
+      "tags": ["Yasuo", "ORIGINAL skins"],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-1.jpeg"
+      "name": "HIGH NOON YASUO",
+      "image": "/img/skins/skin-1.jpeg",
+      "type": "HIGH NOON",
+      "price": 199,
+      "tags": ["Yasuo", "HIGH NOON skins"],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-2.jpeg"
+      "name": "PROJECT: YASUO",
+      "image": "/img/skins/skin-2.jpeg",
+      "type": "PROJECT",
+      "price": 299,
+      "tags": ["Yasuo", "PROJECT skins"],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-3.jpeg"
+      "name": "BLOOD MOON YASUO",
+      "image": "/img/skins/skin-3.jpeg",
+      "type": "BLOOD MOON",
+      "price": 199,
+      "tags": ["Yasuo", "BLOOD MOON skins"],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-4.jpeg"
+      "name": "NIGHTBRINGER YASUO",
+      "image": "/img/skins/skin-4.jpeg",
+      "type": "NIGHTBRINGER AND DAWNBRINGER",
+      "price": 999,
+      "tags": ["Yasuo", "NIGHTBRINGER AND DAWNBRINGER skins"],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-5.jpeg"
+      "name": "ODYSSEY YASUO",
+      "image": "/img/skins/skin-5.jpeg",
+      "type": "",
+      "price": 599,
+      "tags": [],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-6.jpeg"
+      "name": "BATTLE BOSS YASUO",
+      "image": "/img/skins/skin-6.jpeg",
+      "type": "",
+      "price": 599,
+      "tags": [],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-7.jpeg"
+      "name": "TRUE DAMAGE YASUO",
+      "image": "/img/skins/skin-7.jpeg",
+      "type": "TRUE DAMAGE",
+      "price": 699,
+      "tags": ["Yasuo", "TRUE DAMAGE skins"],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-8.jpeg"
+      "name": "TRUE DAMAGE YASUO PRESTIGE EDITION",
+      "image": "/img/skins/skin-8.jpeg",
+      "type": "TRUE DAMAGE",
+      "price": 799,
+      "tags": ["Yasuo", "TRUE DAMAGE skins"],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-9.jpeg"
+      "name": "SPIRIT BLOSSOM YASUO",
+      "image": "/img/skins/skin-9.jpeg",
+      "type": "",
+      "price": 899,
+      "tags": [],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-10.jpeg"
+      "name": "SEA DOG YASUO",
+      "image": "/img/skins/skin-10.jpeg",
+      "type": "",
+      "price": 599,
+      "tags": [],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-11.jpeg"
+      "name": "TRUTH DRAGON YASUO",
+      "image": "/img/skins/skin-11.jpeg",
+      "type": "",
+      "price": 799,
+      "tags": [],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-12.jpeg"
+      "name": "DREAM DRAGON YASUO",
+      "image": "/img/skins/skin-12.jpeg",
+      "type": "",
+      "price": 899,
+      "tags": [],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-13.jpeg"
+      "name": "INKSHADOW YASUO",
+      "image": "/img/skins/skin-13.jpeg",
+      "type": "",
+      "price": 799,
+      "tags": [],
+      "details": []
     },
     {
-      "link": "/img/skins/skin-14.jpeg"
+      "name": "PRESTIGE INKSHADOW YASUO",
+      "image": "/img/skins/skin-14.jpeg",
+      "type": "",
+      "price": 899,
+      "tags": [],
+      "details": []
     }
   ]
 }

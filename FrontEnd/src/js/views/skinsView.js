@@ -57,6 +57,21 @@ class SkinsView {
     this.#exploreMobile.classList.add('hide');
 
     if (state === LOADING) classRemove(REMOVE, this.#skinsOverlayLoading);
+    if (state === ERROR) classRemove(REMOVE, this.#skinsOverlayError);
+    if (state === CONTENT) {
+      classRemove(
+        REMOVE,
+        this.#imagesContainer,
+        this.#titleBoard,
+        this.#buttonLeftContainer,
+        this.#buttonRightContainer
+      );
+      this.#exploreMobile.classList.remove('hide');
+    }
+  }
+
+  createImages(images) {
+    console.log(images);
   }
 
   addIntersectionObserver(handler) {
@@ -66,18 +81,18 @@ class SkinsView {
     };
 
     const callback = (entries, observerSelf) => {
-      const [entry] = entries;
-
-      if (entry.isIntersecting) {
-        console.log('Fetch Data');
-
+      if (entries[0].isIntersecting) {
+        handler();
         observerSelf.disconnect();
       }
     };
 
     const observer = new IntersectionObserver(callback, options);
-
     observer.observe(this.#section);
+
+    // addIntersectionObserver only runs one time used for first fetching data
+    // so we can listen button error to fetch again
+    this.#skinsOVerlayErrorButton.addEventListener('click', handler);
   }
 }
 

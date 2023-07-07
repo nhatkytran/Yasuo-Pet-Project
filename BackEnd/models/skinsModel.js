@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 
 const skinsSchema = new mongoose.Schema({
-  images: [
+  skins: [
     {
-      link: { type: String },
+      name: { type: String },
+      image: { type: String },
+      type: { type: String },
+      price: { type: Number },
+      tags: [String],
+      details: [String],
     },
   ],
 });
