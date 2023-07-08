@@ -4,11 +4,13 @@ const skinsSchema = new mongoose.Schema({
   skins: [
     {
       name: { type: String },
-      image: { type: String },
-      type: { type: String },
+      releaseYear: { type: Number },
+      collection: { type: String },
       price: { type: Number },
       tags: [String],
       details: [String],
+      image: { type: String },
+      youtubeLink: { type: String },
     },
   ],
 });

@@ -1,124 +1,191 @@
 {
   "skins": [
     {
-      "name": "YASUO",
-      "image": "/img/skins/skin-0.jpeg",
-      "type": "ORIGINAL",
+      "name": "YASUO - THE UNFORGIVEN",
+      "releaseYear": 2013,
+      "collection": "ORIGINAL",
       "price": 0,
+      "details": [
+        "An Ionian of deep resolve, Yasuo is an agile swordsman who wields the air itself against his enemies. As a proud young man, he was falsely accused of murdering his master—unable to prove his innocence, he was forced to slay his own brother in self defense. Even after his master's true killer was revealed, Yasuo still could not forgive himself for all he had done, and now wanders his homeland with only the wind to guide his blade."
+      ],
       "tags": ["Yasuo", "ORIGINAL skins"],
-      "details": []
+      "image": "/img/skins/skin-0.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=fkM20LgOdKQ"
     },
     {
       "name": "HIGH NOON YASUO",
-      "image": "/img/skins/skin-1.jpeg",
-      "type": "HIGH NOON",
+      "releaseYear": 2013,
+      "collection": "HIGH NOON",
       "price": 199,
       "tags": ["Yasuo", "HIGH NOON skins"],
-      "details": []
+      "details": [
+        "The mysterious and reluctant sheriff of a two-street town, Yasuo is in self-imposed exile after being accused of murder in the eastern territories. Even so, he has driven off entire bandit gangs as well as many of the desert's deadliest threats, saving hundreds of lives along the way."
+      ],
+      "image": "/img/skins/skin-1.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=JtX5AgXvMl4"
     },
     {
       "name": "PROJECT: YASUO",
-      "image": "/img/skins/skin-2.jpeg",
-      "type": "PROJECT",
+      "releaseYear": 2014,
+      "collection": "PROJECT",
       "price": 299,
       "tags": ["Yasuo", "PROJECT skins"],
-      "details": []
+      "details": [
+        "Yasuo returned from advanced combat only to be accused of a crime he did not commit. Knowing that PROJECT's corporate leadership was somehow involved, Yasuo fights with the G/NETIC rebels, cutting away the lies of technology with his plasma coated blade."
+      ],
+      "image": "/img/skins/skin-2.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=ThurVGxe5Qs&pp=ygUccHJvamVjdCB5YXN1byBza2luIHNwb3RsaWdodA%3D%3D"
     },
     {
       "name": "BLOOD MOON YASUO",
-      "image": "/img/skins/skin-3.jpeg",
-      "type": "BLOOD MOON",
+      "releaseYear": 2016,
+      "collection": "BLOOD MOON",
       "price": 199,
       "tags": ["Yasuo", "BLOOD MOON skins"],
-      "details": []
+      "details": [
+        "Ceremonial executioner of the Blood Moon cult, Yasuo's blade is inhabited by an insidious, bloodthirsty demon whose hunger for death can never be satisfied. This suits Yasuo well, for he is possessed of an inner darkness even deeper than the creature whispering at his side."
+      ],
+      "image": "/img/skins/skin-3.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=myJP_MPqLAw"
     },
     {
       "name": "NIGHTBRINGER YASUO",
-      "image": "/img/skins/skin-4.jpeg",
-      "type": "NIGHTBRINGER AND DAWNBRINGER",
+      "releaseYear": 2017,
+      "collection": "ORDER VERSUS CHAOS",
       "price": 999,
-      "tags": ["Yasuo", "NIGHTBRINGER AND DAWNBRINGER skins"],
-      "details": []
+      "tags": [
+        "Yasuo",
+        "ORDER VERSUS CHAOS skins",
+        "NIGHTBRINGER AND DAWNBRINGER skins"
+      ],
+      "details": [
+        "Born from festering echoes at the dawn of creation, Yasuo is the hellish embodiment of chaos in the cosmos. Fated to clash against the Dawnbringer for all time, he awaits a day when his darkness will finally cleave away her light."
+      ],
+      "image": "/img/skins/skin-4.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=4ibWAzx3TZs"
     },
     {
       "name": "ODYSSEY YASUO",
-      "image": "/img/skins/skin-5.jpeg",
-      "type": "",
+      "releaseYear": 2018,
+      "collection": "ODYSSEY",
       "price": 599,
-      "tags": [],
-      "details": []
+      "tags": ["Yasuo", "ODYSSEY skins"],
+      "details": [
+        "Yasuo never wanted to be a space pirate… until he was framed for his brother's murder, and had to flee his life of relative luxury. Now on the run from a dozen different military and paramilitary factions, he's putting together an eccentric crew to make a new life among the stars."
+      ],
+      "image": "/img/skins/skin-5.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=rtIdN_Lldf4"
     },
     {
       "name": "BATTLE BOSS YASUO",
-      "image": "/img/skins/skin-6.jpeg",
-      "type": "",
+      "releaseYear": 2019,
+      "collection": "ARCADE: BATTLE BOSS",
       "price": 599,
-      "tags": [],
-      "details": []
+      "tags": ["Yasuo", "ARCADE: BATTLE BOSS skins", "BATTLE BOSS skins"],
+      "details": [
+        "One-time protagonist of the 1979 cult classic “Hasagi,” Yasuo was infected with Veigar's malignant code after the Battle Boss takeover of Arcadia. He maintains his impossibly complex gameplay patterns and high-damage attacks, but now fights for the forces of evil."
+      ],
+      "image": "/img/skins/skin-6.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=aeWzGTaHaXM"
     },
     {
       "name": "TRUE DAMAGE YASUO",
-      "image": "/img/skins/skin-7.jpeg",
-      "type": "TRUE DAMAGE",
+      "releaseYear": 2019,
+      "collection": "TRUE DAMAGE",
       "price": 699,
       "tags": ["Yasuo", "TRUE DAMAGE skins"],
-      "details": []
+      "details": [
+        "As enigmatic as he is skilled, Yasuo is the veteran producer all others turn to for inspiration. His beats transcend genre, painting whole universes with wild textures of sound. Notoriously selective about his collaborations, Yasuo sees True Damage as his platform to revolutionize how society experiences music."
+      ],
+      "image": "/img/skins/skin-7.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=kjba6GI5inw"
     },
     {
       "name": "TRUE DAMAGE YASUO PRESTIGE EDITION",
-      "image": "/img/skins/skin-8.jpeg",
-      "type": "TRUE DAMAGE",
+      "releaseYear": 2019,
+      "collection": "TRUE DAMAGE",
       "price": 799,
-      "tags": ["Yasuo", "TRUE DAMAGE skins"],
-      "details": []
+      "tags": ["Yasuo", "TRUE DAMAGE skins", "PRESTIGE skins"],
+      "details": [
+        "League of Legends and AAPE BY *A BATHING APE® are proud to present True Damage Yasuo Prestige Edition, an in-game skin designed in collaboration with AAPE BY *A BATHING APE®.",
+        "The True Damage Yasuo Prestige Edition skin is our latest foray into partnered in-game skins, taking inspiration and designs from the AAPE BY *A BATHING APE® X LEAGUE OF LEGENDS collection, which is now available for purchase in select stores and online.",
+        "True Damage Yasuo Prestige Edition will be exclusively unlockable starting today for 100 Prestige Points for the rest of 2020. For more information on the AAPE BY *A BATHING APE® X LEAGUE OF LEGENDS collection."
+      ],
+      "image": "/img/skins/skin-8.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=M8IzgxlwFuQ"
     },
     {
       "name": "SPIRIT BLOSSOM YASUO",
-      "image": "/img/skins/skin-9.jpeg",
-      "type": "",
+      "releaseYear": 2020,
+      "collection": "SPIRIT BLOSSOM",
       "price": 899,
-      "tags": [],
-      "details": []
-    },
-    {
-      "name": "SEA DOG YASUO",
-      "image": "/img/skins/skin-10.jpeg",
-      "type": "",
-      "price": 599,
-      "tags": [],
-      "details": []
+      "tags": ["Yasuo", "SPIRIT BLOSSOM skins"],
+      "details": [
+        "Long ago, two brothers fought a bitter war across Ionia. Yasuo, the younger brother, was a warlord renowned for his roguish demeanor—until he was accused of crimes against the country and took up arms to defend himself. Both were fated to fall in their final duel… a lesson, perhaps, in pride and hubris."
+      ],
+      "image": "/img/skins/skin-9.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=0vCk1-seVi0"
     },
     {
       "name": "TRUTH DRAGON YASUO",
-      "image": "/img/skins/skin-11.jpeg",
-      "type": "",
+      "releaseYear": 2021,
+      "collection": "DRAGONMANCERS",
       "price": 799,
-      "tags": [],
-      "details": []
+      "tags": ["Yasuo", "DRAGONMANCERS skins", "DRAGON skins"],
+      "details": [
+        "Alone against an army, Yasuo chose to stand and fight. He blocked a narrow pass between two mountains, allowing innocents to escape the bloodshed. Wielding the truth of steel as a dance, he felled countless foes — but even he could not hold out forever. The Dragon of Truth, moved by his swordsmanship, came down from its peak to bless him..."
+      ],
+      "image": "/img/skins/skin-10.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=Tg6FmLQvL0o"
     },
     {
       "name": "DREAM DRAGON YASUO",
-      "image": "/img/skins/skin-12.jpeg",
-      "type": "",
+      "releaseYear": 2021,
+      "collection": "DRAGONMANCERS",
       "price": 899,
-      "tags": [],
-      "details": []
+      "tags": ["Yasuo", "DRAGONMANCERS skins", "DRAGON skins"],
+      "details": [
+        "The song of steel grew silent, and Yasuo was the last living soul on the battlefield — though he imagined he could hear the thankful murmurs of the villagers he'd protected. Wounded and dying, Yasuo produced his flute to play a last haunting elegy. The Dragon of Dreams descended from its mountaintop, moved by Yasuo's song, and offered him its power..."
+      ],
+      "image": "/img/skins/skin-11.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=V-KU_kcofRs"
+    },
+    {
+      "name": "SEA DOG YASUO",
+      "releaseYear": 2022,
+      "collection": "RUINED",
+      "price": 699,
+      "tags": ["Yasuo", "RUINED skins", "SEA DOG skins"],
+      "details": [
+        "Empowered by the Buhru during his fight against Viego of Camavor, Yasuo made an unlikely champion for the children of Nagakabouros — his obsession with past events flew in the face of everything they believed in. Yet even the mangiest sea dog has his day, and Yasuo stood against the forces of darkness, emerging triumphant."
+      ],
+      "image": "/img/skins/skin-12.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=NRlpZYii0Xk"
     },
     {
       "name": "INKSHADOW YASUO",
-      "image": "/img/skins/skin-13.jpeg",
-      "type": "",
+      "releaseYear": 2023,
+      "collection": "INKSHADOW",
       "price": 799,
-      "tags": [],
-      "details": []
+      "tags": ["Yasuo", "INKSHADOW skins"],
+      "details": [
+        "Displaced from his home alongside Master Yi, Yasuo now uses his Inkshadow tattoos to ride the wind between Rabadon City and the outskirts, protecting civilians seeking asylum with help from the mysterious Man of Masks. Though he gave up his freedom in exchange for power, he sees the price as penance for being unable to help those who needed it most."
+      ],
+      "image": "/img/skins/skin-13.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=6WqNLO1juuE"
     },
     {
       "name": "PRESTIGE INKSHADOW YASUO",
-      "image": "/img/skins/skin-14.jpeg",
-      "type": "",
+      "releaseYear": 2023,
+      "collection": "INKSHADOW",
       "price": 899,
-      "tags": [],
-      "details": []
+      "tags": ["Yasuo", "INKSHADOW skins", "PRESTIGE skins"],
+      "details": [
+        "Displaced from his home alongside Master Yi, Yasuo now uses his Inkshadow tattoos to ride the wind between Rabadon City and the outskirts, protecting civilians seeking asylum with help from the mysterious Man of Masks. Though he gave up his freedom in exchange for power, he sees the price as penance for being unable to help those who needed it most.",
+        "Sporting an elevated take on traditional Ionian menswear coupled with a fearlessly bare set of stunning blackout tattoos, Yasuo's gala look celebrates elegant rebellion, sartorial subversion, and an uprising of unprecedented design."
+      ],
+      "image": "/img/skins/skin-14.jpeg",
+      "youtubeLink": "https://www.youtube.com/watch?v=73ibzrfNVTE"
     }
   ]
 }
