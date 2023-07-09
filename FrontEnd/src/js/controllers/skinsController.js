@@ -15,7 +15,9 @@ class SkinsController {
 
       const data = await fetchSkinsData();
 
-      await this.#skinsView.createImages(data.images);
+      console.log(data);
+
+      // await this.#skinsView.createImages(data.images);
 
       state.skinsData = data;
     } catch (error) {
@@ -28,6 +30,7 @@ class SkinsController {
   };
 
   handleData = async () => {
+    return;
     // Skins and Skins2 use the same data, so we one of them needs to fetch data
     if (checkEmptyObject(state.skinsData)) await this.#fetchData();
     if (!checkEmptyObject(state.skinsData))

@@ -111,15 +111,3 @@
 //     transform: scale(1);
 //   }
 // }
-
-@keyframes spacingExpanding {
-  0% {
-    letter-spacing: 0.7rem;
-  }
-  50% {
-    letter-spacing: 1rem;
-  }
-  100% {
-    letter-spacing: 0.7rem;
-  }
-}

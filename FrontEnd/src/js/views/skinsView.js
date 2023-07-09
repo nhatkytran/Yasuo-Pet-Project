@@ -11,6 +11,8 @@ class SkinsView {
   #skinsOverlayError;
   #skinsOVerlayErrorButton;
 
+  #buttonQuestion;
+
   #buttonLeftContainer;
   #buttonLeft;
   #buttonRightContainer;
@@ -31,6 +33,8 @@ class SkinsView {
     this.#skinsOverlayError = $('.skins-overlay__error');
     this.#skinsOVerlayErrorButton = $_(this.#skinsOverlayError, 'button');
 
+    this.#buttonQuestion = $('.skins-overlay__question');
+
     this.#buttonLeftContainer = $('.skins-btn__left');
     this.#buttonLeft = $_(this.#buttonLeftContainer, '.btn__circle-small');
     this.#buttonRightContainer = $('.skins-btn__right');
@@ -41,7 +45,7 @@ class SkinsView {
 
     this.#titleBoard = $('.skins-overlay__container-big');
 
-    this.displayContent();
+    // this.displayContent();
   }
 
   displayContent(state) {
@@ -50,9 +54,10 @@ class SkinsView {
       this.#imagesContainer,
       this.#skinsOverlayLoading,
       this.#skinsOverlayError,
-      this.#titleBoard,
+      this.#buttonQuestion,
       this.#buttonLeftContainer,
-      this.#buttonRightContainer
+      this.#buttonRightContainer,
+      this.#titleBoard
     );
     this.#exploreMobile.classList.add('hide');
 
@@ -62,9 +67,10 @@ class SkinsView {
       classRemove(
         REMOVE,
         this.#imagesContainer,
-        this.#titleBoard,
+        this.#buttonQuestion,
         this.#buttonLeftContainer,
-        this.#buttonRightContainer
+        this.#buttonRightContainer,
+        this.#titleBoard
       );
       this.#exploreMobile.classList.remove('hide');
     }
