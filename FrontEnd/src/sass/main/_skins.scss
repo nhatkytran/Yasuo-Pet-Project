@@ -32,7 +32,7 @@
     }
   }
 
-  &_container {
+  &-container {
     $height: 80rem;
     width: calc(100% - 12rem);
     max-width: 136rem;
@@ -133,12 +133,12 @@
     }
   }
 
-  &_images {
+  &-images {
     width: calc(100% - 8rem);
     max-width: 136rem;
     height: 90%;
     // overflow: hidden;
-    @include flex-align-center;
+    transform: scale(0.1);
     @include absolute-position(-50%, -50%);
 
     @include skins-width($px1040, calc(100% - 6rem));
@@ -148,6 +148,7 @@
       flex-shrink: 0;
       transition: all ease 0.4s;
       object-fit: cover;
+      position: absolute;
       @include full-dimension;
     }
   }

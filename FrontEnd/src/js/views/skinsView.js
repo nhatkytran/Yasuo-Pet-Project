@@ -1,10 +1,11 @@
 import { ADD, REMOVE, CONTENT, LOADING, ERROR } from '../config';
-import { $, $_, classRemove } from '../utils';
+import { $, $_, $$, classRemove } from '../utils';
 
 class SkinsView {
   #section;
 
   #imagesContainer;
+  #images;
 
   #skinsOverlay;
   #skinsOverlayLoading;
@@ -26,7 +27,12 @@ class SkinsView {
   constructor() {
     this.#section = $('.skins.section');
 
-    this.#imagesContainer = $('.skins_images');
+    this.#imagesContainer = $('.skins-images');
+
+    // test
+    this.#images = $$('.skins-images__slider');
+
+    console.log(this.#images);
 
     this.#skinsOverlay = $('.skins-overlay');
     this.#skinsOverlayLoading = $('.skins-overlay__loading');
@@ -46,6 +52,36 @@ class SkinsView {
     this.#titleBoard = $('.skins-overlay__container-big');
 
     // this.displayContent();
+
+    this.#images = [...this.#images];
+
+    function test() {
+      const length = this.#images.length;
+      const point = Math.ceil(length / 2);
+
+      const currentImageIndex = 0; // [-floor:(ceil - 1)]
+
+      let count = 0;
+
+      this.#images.forEach((_, index) => {
+        count += 1;
+
+        let asIndex = index - currentImageIndex;
+        let shouldIndex;
+
+        // if (count <= point) {
+        // } else {
+        // }
+
+        this.#images[asIndex].style.transform = `translateX(${
+          (index - 2) * 100
+        }%)`;
+      });
+
+      // this.#buttonLeft.addEventListener('click')
+    }
+
+    test.call(this);
   }
 
   displayContent(state) {
