@@ -137,8 +137,8 @@
     width: calc(100% - 8rem);
     max-width: 136rem;
     height: 90%;
-    // overflow: hidden;
-    transform: scale(0.1);
+    overflow: hidden;
+    // transform: scale(0.1);
     @include absolute-position(-50%, -50%);
 
     @include skins-width($px1040, calc(100% - 6rem));

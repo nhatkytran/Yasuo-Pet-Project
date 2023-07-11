@@ -57,28 +57,88 @@ class SkinsView {
 
     function test() {
       const length = this.#images.length;
-      const point = Math.ceil(length / 2);
+      const ceil = Math.ceil(length / 2); // Number of slides on the right side (include current slide)
+      const floor = Math.floor(length / 2); // On the left side
 
-      const currentImageIndex = 0; // [-floor:(ceil - 1)]
+      let currentIndex = 0;
+      let rightIndices = [];
+      let leftIndices = [];
+      let prevRightIndex = null;
+      let prevLeftIndex = null;
 
-      let count = 0;
+      function slide(currentIndex, side) {
+        // Find indices on the right side
+        rightIndices = Array(ceil)
+          .fill(null)
+          .map((_, index) => {
+            let shouldIndex = currentIndex + index;
+            if (shouldIndex >= length) shouldIndex %= length;
+            return shouldIndex;
+          });
 
-      this.#images.forEach((_, index) => {
-        count += 1;
+        console.log(rightIndices);
 
-        let asIndex = index - currentImageIndex;
-        let shouldIndex;
+        // Find indices on the left side
+        leftIndices = Array(floor)
+          .fill(null)
+          .map((_, index) => {
+            let shouldIndex = length - floor + currentIndex + index;
+            if (shouldIndex >= length) shouldIndex %= length;
+            return shouldIndex;
+          });
 
-        // if (count <= point) {
-        // } else {
-        // }
+        console.log(leftIndices);
 
-        this.#images[asIndex].style.transform = `translateX(${
-          (index - 2) * 100
-        }%)`;
+        // Handle z-index-1-neg (this is just the name of a class `_utils.scss`)
+        // When translateX, the last image can precede and take up the current view
+        // So, we need to set z-index = -1 for the last image (base on left or right)
+        // With each called, we remove previous setting z-index
+        this.#images[prevRightIndex]?.classList.remove('z-index-1-neg');
+        this.#images[prevLeftIndex]?.classList.remove('z-index-1-neg');
+
+        if (side === 'right') {
+          const rightIndex = rightIndices.at(-1);
+          this.#images[rightIndex].classList.add('z-index-1-neg');
+          prevRightIndex = rightIndex;
+        }
+
+        if (side === 'left') {
+          const leftIndex = leftIndices[0];
+          this.#images[leftIndex].classList.add('z-index-1-neg');
+          prevLeftIndex = leftIndex;
+        }
+
+        // Control translateX - Right
+        rightIndices.forEach((rightIndex, index) => {
+          this.#images[rightIndex].style.transform = `translateX(${
+            index * 100
+          }%)`;
+        });
+
+        // Control translateX - Left
+        // Reverse to calculate translateX easier
+        [...leftIndices].reverse().forEach((leftIndex, index) => {
+          // index -->  0  1  2
+          // index --> -3 -2 -1
+          this.#images[leftIndex].style.transform = `translateX(${
+            (-index - 1) * 100
+          }%)`;
+        });
+      }
+
+      slide.call(this, currentIndex, null);
+
+      this.#buttonLeft.addEventListener('click', () => {
+        currentIndex -= 1;
+        if (currentIndex < 0) currentIndex = length - 1;
+        slide.call(this, currentIndex, 'left');
       });
 
-      // this.#buttonLeft.addEventListener('click')
+      this.#buttonRight.addEventListener('click', () => {
+        currentIndex += 1;
+        if (currentIndex === length) currentIndex = 0;
+        slide.call(this, currentIndex, 'right');
+      });
     }
 
     test.call(this);
