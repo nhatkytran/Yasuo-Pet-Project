@@ -1,5 +1,21 @@
-import { ADD, REMOVE, CONTENT, LOADING, ERROR } from '../config';
-import { $, $_, $$, classRemove } from '../utils';
+import {
+  BACKEND_URL,
+  ANIMATION_TIMEOUT,
+  ADD,
+  REMOVE,
+  CONTENT,
+  LOADING,
+  ERROR,
+} from '../config';
+
+import {
+  $,
+  $_,
+  $$,
+  classRemove,
+  mapMarkup,
+  promisifyLoadingImage,
+} from '../utils';
 
 class SkinsView {
   #section;
@@ -7,7 +23,6 @@ class SkinsView {
   #imagesContainer;
   #images;
 
-  #skinsOverlay;
   #skinsOverlayLoading;
   #skinsOverlayError;
   #skinsOVerlayErrorButton;
@@ -28,13 +43,8 @@ class SkinsView {
     this.#section = $('.skins.section');
 
     this.#imagesContainer = $('.skins-images');
+    // this.#images; // Selected after displaying content
 
-    // test
-    this.#images = $$('.skins-images__slider');
-
-    console.log(this.#images);
-
-    this.#skinsOverlay = $('.skins-overlay');
     this.#skinsOverlayLoading = $('.skins-overlay__loading');
     this.#skinsOverlayError = $('.skins-overlay__error');
     this.#skinsOVerlayErrorButton = $_(this.#skinsOverlayError, 'button');
@@ -51,9 +61,9 @@ class SkinsView {
 
     this.#titleBoard = $('.skins-overlay__container-big');
 
-    // this.displayContent();
+    this.displayContent();
 
-    this.#images = [...this.#images];
+    // this.#images = [...this.#images];
 
     function test() {
       const length = this.#images.length;
@@ -67,6 +77,28 @@ class SkinsView {
       let prevLeftIndex = null;
 
       function slide(currentIndex, side) {
+        // Handle z-index-1-neg (this is just the name of a class `_utils.scss`)
+        // When translateX, the last image can precede and take up the current view
+        // So, we need to set z-index = -1 for the last image (base on left or right)
+        // With each called, we remove previous setting z-index
+        this.#images[prevRightIndex]?.classList.remove('z-index-1-neg');
+        this.#images[prevLeftIndex]?.classList.remove('z-index-1-neg');
+
+        if (side === 'right') {
+          // 3 4 0 1 2 --> Click `right` --> // 3 0 1 2 4
+          // So `leftIndex` if affected
+          const leftIndex = leftIndices[0];
+          console.log(leftIndex);
+          this.#images[leftIndex].classList.add('z-index-1-neg');
+          prevLeftIndex = leftIndex;
+        }
+
+        if (side === 'left') {
+          const rightIndex = rightIndices.at(-1);
+          this.#images[rightIndex].classList.add('z-index-1-neg');
+          prevRightIndex = rightIndex;
+        }
+
         // Find indices on the right side
         rightIndices = Array(ceil)
           .fill(null)
@@ -89,25 +121,6 @@ class SkinsView {
 
         console.log(leftIndices);
 
-        // Handle z-index-1-neg (this is just the name of a class `_utils.scss`)
-        // When translateX, the last image can precede and take up the current view
-        // So, we need to set z-index = -1 for the last image (base on left or right)
-        // With each called, we remove previous setting z-index
-        this.#images[prevRightIndex]?.classList.remove('z-index-1-neg');
-        this.#images[prevLeftIndex]?.classList.remove('z-index-1-neg');
-
-        if (side === 'right') {
-          const rightIndex = rightIndices.at(-1);
-          this.#images[rightIndex].classList.add('z-index-1-neg');
-          prevRightIndex = rightIndex;
-        }
-
-        if (side === 'left') {
-          const leftIndex = leftIndices[0];
-          this.#images[leftIndex].classList.add('z-index-1-neg');
-          prevLeftIndex = leftIndex;
-        }
-
         // Control translateX - Right
         rightIndices.forEach((rightIndex, index) => {
           this.#images[rightIndex].style.transform = `translateX(${
@@ -128,6 +141,16 @@ class SkinsView {
 
       slide.call(this, currentIndex, null);
 
+      // Prevent to click to fast
+      const debounce = fn => {
+        let timeout;
+
+        return (...args) => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => fn(...args), ANIMATION_TIMEOUT);
+        };
+      };
+
       this.#buttonLeft.addEventListener('click', () => {
         currentIndex -= 1;
         if (currentIndex < 0) currentIndex = length - 1;
@@ -141,7 +164,19 @@ class SkinsView {
       });
     }
 
-    test.call(this);
+    // test.call(this);
+  }
+
+  animateImageZIndex(options) {
+    const { side, prevRightIndex, prevLeftIndex } = options;
+
+    this.#images[prevRightIndex]?.classList.remove('z-index-1-neg');
+    this.#images[prevLeftIndex]?.classList.remove('z-index-1-neg');
+
+    if (side === 'left')
+      this.#images[options.rightIndex].classList.add('z-index-1-neg');
+    if (side === 'right')
+      this.#images[options.leftIndex].classList.add('z-index-1-neg');
   }
 
   displayContent(state) {
@@ -169,12 +204,33 @@ class SkinsView {
         this.#titleBoard
       );
       this.#exploreMobile.classList.remove('hide');
+
+      // After fetching data successfully, `skinsController` will display content
+      // Images not is in the same position --> adjust position of images
     }
   }
 
-  createImages(images) {
-    console.log(images);
+  #generateImageMarkup = skins => {
+    const markupCallback = skin =>
+      `<img class="skins-images__slider" src="" alt="${skin.releaseYear} - ${skin.collection} - ${skin.name}">`;
+
+    return mapMarkup(skins, markupCallback);
+  };
+
+  async createImages(skins) {
+    const markup = this.#generateImageMarkup(skins);
+    this.#imagesContainer.insertAdjacentHTML('afterbegin', markup);
+
+    this.#images = $$('.skins-images__slider');
+
+    const promises = [...this.#images].map((image, index) =>
+      promisifyLoadingImage(image, `${BACKEND_URL}${skins[index].image}`)
+    );
+
+    await Promise.all(promises);
   }
+
+  countImages = () => this.#images.length;
 
   addIntersectionObserver(handler) {
     const options = {
