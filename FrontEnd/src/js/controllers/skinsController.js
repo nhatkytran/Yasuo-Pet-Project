@@ -7,6 +7,7 @@ class SkinsController {
   #totalSkins;
   #totalSkinsCeil; // Number of slides on the right side (include current slide)
   #totalSkinsFloor; // On the left side
+  #currentIndex; // Initialized by handleSlideFactory;
 
   constructor(skinsView) {
     this.#skinsView = skinsView;
@@ -32,19 +33,23 @@ class SkinsController {
   };
 
   handleData = async () => {
-    return;
     // Skins and Skins2 use the same data, so we one of them needs to fetch data
     if (checkEmptyObject(state.skinsData)) await this.#fetchData();
     if (!checkEmptyObject(state.skinsData))
       this.#skinsView.displayContent(CONTENT);
 
+    // After render images to view, prepare date to slide
     this.#totalSkins = this.#skinsView.countImages();
     this.#totalSkinsCeil = Math.ceil(this.#totalSkins / 2);
     this.#totalSkinsFloor = Math.floor(this.#totalSkins / 2);
+
+    this.handleSlide(null);
   };
 
-  handleSlide = () => {
-    let currentIndex = 0;
+  handleSlide = this.handleSlideFactory();
+  handleSlideFactory() {
+    this.#currentIndex = 0;
+
     let rightIndices = [];
     let leftIndices = [];
     let prevRightIndex = null;
@@ -64,6 +69,7 @@ class SkinsController {
       // So `leftIndex` if affected
 
       if (side === LEFT) {
+        // The first time run with `side` is null --> fill `leftIndices` and `rightIndices`
         const rightIndex = rightIndices.at(-1);
 
         options.side = LEFT;
@@ -79,16 +85,86 @@ class SkinsController {
         prevLeftIndex = leftIndex;
       }
 
-      this.#skinsView.handleImagesZIndex(options);
+      this.#skinsView.animateImageZIndex(options);
     };
 
-    return (currentIndex, side) => {
+    const handleImagesIndices = () => {
+      // Find indices on the left side
+      leftIndices = Array(this.#totalSkinsFloor)
+        .fill(null)
+        .map((_, index) => {
+          let shouldIndex =
+            this.#currentIndex +
+            index +
+            this.#totalSkins -
+            this.#totalSkinsFloor;
+
+          if (shouldIndex >= length) shouldIndex %= this.#totalSkins;
+
+          return shouldIndex;
+        });
+
+      // Find indices on the right side
+      rightIndices = Array(this.#totalSkinsCeil)
+        .fill(null)
+        .map((_, index) => {
+          let shouldIndex = this.#currentIndex + index;
+          if (shouldIndex >= length) shouldIndex %= this.#totalSkins;
+
+          return shouldIndex;
+        });
+    };
+
+    const handleImagesTransformX = () => {
+      // Control translateX - Left
+      // Reverse to calculate translateX easier
+      [...leftIndices].reverse().forEach((leftIndex, index) =>
+        // index -->  0  1  2
+        // index --> -3 -2 -1
+        this.#skinsView.imageTranslateX(leftIndex, (-index - 1) * 100)
+      );
+
+      // Control translateX - Right
+      rightIndices.forEach((rightIndex, index) =>
+        this.#skinsView.imageTranslateX(rightIndex, index * 100)
+      );
+    };
+
+    const handleTitleBoard = index => {
+      const skins = state.skinsData.skins[index];
+
+      this.#skinsView.titleBoardName(skins.name);
+      this.#skinsView.titleBoardPrice(skins.price, '$');
+      this.#skinsView.titleBoardOrder(index + 1, this.#totalSkins);
+    };
+
+    return side => {
       // `side` is `null` --> Adjust position of images for default
-      if (side !== null || side !== LEFT || side !== RIGHT)
+      if (side !== null && side !== LEFT && side !== RIGHT)
         throw new Error('Require `side` argument: null | left | right');
 
-      handleImagesZIndex(side);
+      if (side === LEFT) {
+        this.#currentIndex -= 1;
+        if (this.#currentIndex < 0) this.#currentIndex = this.#totalSkins - 1;
+      }
+      if (side === RIGHT) {
+        this.#currentIndex += 1;
+        if (this.#currentIndex === this.#totalSkins) this.#currentIndex = 0;
+      }
+
+      handleImagesZIndex(side); // if `side` is `null` --> return
+      handleImagesIndices();
+      handleImagesTransformX();
+      handleTitleBoard(this.#currentIndex);
     };
+  }
+
+  buySkinsQuestion = () => {
+    alert('Click `EXPLORE button` to view details and buy skin');
+  };
+
+  exploreSkins = () => {
+    console.log(`Buy skin --> ${this.#currentIndex}`);
   };
 }
 

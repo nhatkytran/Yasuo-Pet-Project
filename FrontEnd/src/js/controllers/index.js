@@ -83,6 +83,9 @@ function skinsUnit() {
   const controller = new SkinsController(skinsView);
 
   skinsView.addIntersectionObserver(controller.handleData);
+  skinsView.addSlideHandler(controller.handleSlide);
+  skinsView.addBuySkinsQuestionHandler(controller.buySkinsQuestion);
+  skinsView.addExploreSkinsHandler(controller.exploreSkins);
 }
 
 modalInit();

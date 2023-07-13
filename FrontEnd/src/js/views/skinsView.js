@@ -1,11 +1,12 @@
 import {
   BACKEND_URL,
-  ANIMATION_TIMEOUT,
   ADD,
   REMOVE,
   CONTENT,
   LOADING,
   ERROR,
+  LEFT,
+  RIGHT,
 } from '../config';
 
 import {
@@ -34,149 +35,44 @@ class SkinsView {
   #buttonRightContainer;
   #buttonRight;
 
+  #buySkinsQuestionButton;
   #exploreDesktop;
   #exploreMobile;
 
   #titleBoard;
+  #titleBoardNameContainer;
+  #titleBoardPriceContainer;
+  #titleBoardOrderContainer;
 
   constructor() {
     this.#section = $('.skins.section');
 
     this.#imagesContainer = $('.skins-images');
-    // this.#images; // Selected after displaying content
 
-    this.#skinsOverlayLoading = $('.skins-overlay__loading');
-    this.#skinsOverlayError = $('.skins-overlay__error');
+    const skinsOverlay = '.skins-overlay';
+
+    this.#skinsOverlayLoading = $(`${skinsOverlay}__loading`);
+    this.#skinsOverlayError = $(`${skinsOverlay}__error`);
     this.#skinsOVerlayErrorButton = $_(this.#skinsOverlayError, 'button');
 
-    this.#buttonQuestion = $('.skins-overlay__question');
+    this.#buttonQuestion = $(`${skinsOverlay}__question`);
 
     this.#buttonLeftContainer = $('.skins-btn__left');
     this.#buttonLeft = $_(this.#buttonLeftContainer, '.btn__circle-small');
     this.#buttonRightContainer = $('.skins-btn__right');
     this.#buttonRight = $_(this.#buttonRightContainer, '.btn__circle-small');
 
-    this.#exploreDesktop = $('.skins-overlay__about-explore-btn');
-    this.#exploreMobile = $('.skins-overlay__explore');
+    this.#buySkinsQuestionButton = $(`${skinsOverlay}__question`);
+    this.#exploreDesktop = $(`${skinsOverlay}__about-explore-btn`);
+    this.#exploreMobile = $(`${skinsOverlay}__explore`);
 
-    this.#titleBoard = $('.skins-overlay__container-big');
+    this.#titleBoard = $(`${skinsOverlay}__container-big`);
+    this.#titleBoardNameContainer = $(`${skinsOverlay}__about-who`);
+    this.#titleBoardPriceContainer = $(`${skinsOverlay}__about-more-price`);
+    this.#titleBoardOrderContainer = $(`${skinsOverlay}__about-more-order`);
 
+    // Buy default --> Hide images, buttons, titleBoard
     this.displayContent();
-
-    // this.#images = [...this.#images];
-
-    function test() {
-      const length = this.#images.length;
-      const ceil = Math.ceil(length / 2); // Number of slides on the right side (include current slide)
-      const floor = Math.floor(length / 2); // On the left side
-
-      let currentIndex = 0;
-      let rightIndices = [];
-      let leftIndices = [];
-      let prevRightIndex = null;
-      let prevLeftIndex = null;
-
-      function slide(currentIndex, side) {
-        // Handle z-index-1-neg (this is just the name of a class `_utils.scss`)
-        // When translateX, the last image can precede and take up the current view
-        // So, we need to set z-index = -1 for the last image (base on left or right)
-        // With each called, we remove previous setting z-index
-        this.#images[prevRightIndex]?.classList.remove('z-index-1-neg');
-        this.#images[prevLeftIndex]?.classList.remove('z-index-1-neg');
-
-        if (side === 'right') {
-          // 3 4 0 1 2 --> Click `right` --> // 3 0 1 2 4
-          // So `leftIndex` if affected
-          const leftIndex = leftIndices[0];
-          console.log(leftIndex);
-          this.#images[leftIndex].classList.add('z-index-1-neg');
-          prevLeftIndex = leftIndex;
-        }
-
-        if (side === 'left') {
-          const rightIndex = rightIndices.at(-1);
-          this.#images[rightIndex].classList.add('z-index-1-neg');
-          prevRightIndex = rightIndex;
-        }
-
-        // Find indices on the right side
-        rightIndices = Array(ceil)
-          .fill(null)
-          .map((_, index) => {
-            let shouldIndex = currentIndex + index;
-            if (shouldIndex >= length) shouldIndex %= length;
-            return shouldIndex;
-          });
-
-        console.log(rightIndices);
-
-        // Find indices on the left side
-        leftIndices = Array(floor)
-          .fill(null)
-          .map((_, index) => {
-            let shouldIndex = length - floor + currentIndex + index;
-            if (shouldIndex >= length) shouldIndex %= length;
-            return shouldIndex;
-          });
-
-        console.log(leftIndices);
-
-        // Control translateX - Right
-        rightIndices.forEach((rightIndex, index) => {
-          this.#images[rightIndex].style.transform = `translateX(${
-            index * 100
-          }%)`;
-        });
-
-        // Control translateX - Left
-        // Reverse to calculate translateX easier
-        [...leftIndices].reverse().forEach((leftIndex, index) => {
-          // index -->  0  1  2
-          // index --> -3 -2 -1
-          this.#images[leftIndex].style.transform = `translateX(${
-            (-index - 1) * 100
-          }%)`;
-        });
-      }
-
-      slide.call(this, currentIndex, null);
-
-      // Prevent to click to fast
-      const debounce = fn => {
-        let timeout;
-
-        return (...args) => {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => fn(...args), ANIMATION_TIMEOUT);
-        };
-      };
-
-      this.#buttonLeft.addEventListener('click', () => {
-        currentIndex -= 1;
-        if (currentIndex < 0) currentIndex = length - 1;
-        slide.call(this, currentIndex, 'left');
-      });
-
-      this.#buttonRight.addEventListener('click', () => {
-        currentIndex += 1;
-        if (currentIndex === length) currentIndex = 0;
-        slide.call(this, currentIndex, 'right');
-      });
-    }
-
-    // test.call(this);
-  }
-
-  animateImageZIndex(options) {
-    const { side, prevRightIndex, prevLeftIndex } = options;
-
-    this.#images[prevRightIndex]?.classList.remove('z-index-1-neg');
-    this.#images[prevLeftIndex]?.classList.remove('z-index-1-neg');
-
-    if (side === 'left')
-      this.#images[options.rightIndex].classList.add('z-index-1-neg');
-    if (side === 'right')
-      this.#images[options.leftIndex].classList.add('z-index-1-neg');
   }
 
   displayContent(state) {
@@ -204,10 +100,19 @@ class SkinsView {
         this.#titleBoard
       );
       this.#exploreMobile.classList.remove('hide');
-
-      // After fetching data successfully, `skinsController` will display content
-      // Images not is in the same position --> adjust position of images
     }
+  }
+
+  animateImageZIndex(options) {
+    const { side, prevRightIndex, prevLeftIndex } = options;
+
+    this.#images[prevRightIndex]?.classList.remove('z-index-1-neg');
+    this.#images[prevLeftIndex]?.classList.remove('z-index-1-neg');
+
+    if (side === 'left')
+      this.#images[options.rightIndex].classList.add('z-index-1-neg');
+    if (side === 'right')
+      this.#images[options.leftIndex].classList.add('z-index-1-neg');
   }
 
   #generateImageMarkup = skins => {
@@ -232,6 +137,25 @@ class SkinsView {
 
   countImages = () => this.#images.length;
 
+  imageTranslateX = (sideIndex, translate) =>
+    (this.#images[sideIndex].style.transform = `translateX(${translate}%)`);
+
+  titleBoardName = name =>
+    (this.#titleBoardNameContainer.innerHTML = `<h1 class="skins-overlay__about-who-name">${name}</h1>`);
+
+  titleBoardPrice = (price, unit) => {
+    const priceMarkup = price === 0 ? 'NO SALE' : `${price}${unit}`;
+
+    this.#titleBoardPriceContainer.innerHTML = `
+      <span>PRICE</span>
+      <span class="skins-overlay__about-more-price-separate">:</span>
+      <span class="skins-overlay__about-more-price-number">${priceMarkup}</span>
+    `;
+  };
+
+  titleBoardOrder = (order, total) =>
+    (this.#titleBoardOrderContainer.innerHTML = `<span>${order} / ${total}</span>`);
+
   addIntersectionObserver(handler) {
     const options = {
       root: null,
@@ -251,6 +175,20 @@ class SkinsView {
     // addIntersectionObserver only runs one time used for first fetching data
     // so we can listen button error to fetch again
     this.#skinsOVerlayErrorButton.addEventListener('click', handler);
+  }
+
+  addSlideHandler(handler) {
+    this.#buttonLeft.addEventListener('click', handler.bind(null, LEFT));
+    this.#buttonRight.addEventListener('click', handler.bind(null, RIGHT));
+  }
+
+  addBuySkinsQuestionHandler(handler) {
+    this.#buySkinsQuestionButton.addEventListener('click', handler);
+  }
+
+  addExploreSkinsHandler(handler) {
+    this.#exploreDesktop.addEventListener('click', handler);
+    this.#exploreMobile.addEventListener('click', handler);
   }
 }
 
