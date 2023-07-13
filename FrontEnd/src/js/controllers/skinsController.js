@@ -19,7 +19,6 @@ class SkinsController {
 
       const data = await fetchSkinsData();
 
-      console.log(data);
       await this.#skinsView.createImages(data.skins);
 
       state.skinsData = data;
@@ -138,6 +137,10 @@ class SkinsController {
       this.#skinsView.titleBoardOrder(index + 1, this.#totalSkins);
     };
 
+    const handleLogoDingdong = () => {
+      this.#skinsView.headerLogoDingdong();
+    };
+
     return side => {
       // `side` is `null` --> Adjust position of images for default
       if (side !== null && side !== LEFT && side !== RIGHT)
@@ -156,6 +159,7 @@ class SkinsController {
       handleImagesIndices();
       handleImagesTransformX();
       handleTitleBoard(this.#currentIndex);
+      handleLogoDingdong();
     };
   }
 
@@ -164,7 +168,7 @@ class SkinsController {
   };
 
   exploreSkins = () => {
-    console.log(`Buy skin --> ${this.#currentIndex}`);
+    alert(`Buy skin --> ${this.#currentIndex}`);
   };
 }
 

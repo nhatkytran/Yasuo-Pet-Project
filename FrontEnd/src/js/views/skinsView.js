@@ -21,6 +21,7 @@ import {
 class SkinsView {
   #section;
 
+  #headerLogo;
   #imagesContainer;
   #images;
 
@@ -47,6 +48,7 @@ class SkinsView {
   constructor() {
     this.#section = $('.skins.section');
 
+    this.#headerLogo = $('.skins-container__header-logo');
     this.#imagesContainer = $('.skins-images');
 
     const skinsOverlay = '.skins-overlay';
@@ -140,21 +142,40 @@ class SkinsView {
   imageTranslateX = (sideIndex, translate) =>
     (this.#images[sideIndex].style.transform = `translateX(${translate}%)`);
 
+  headerLogoDingdong() {
+    this.#headerLogo.classList.add('dingdong');
+    // debounce
+    setTimeout(() => {
+      this.#headerLogo.classList.remove('dingdong');
+    }, 400);
+  }
+
+  #titleBoardItem = (container, markup) => (container.innerHTML = markup);
+
   titleBoardName = name =>
-    (this.#titleBoardNameContainer.innerHTML = `<h1 class="skins-overlay__about-who-name">${name}</h1>`);
+    this.#titleBoardItem(
+      this.#titleBoardNameContainer,
+      `<h1 class="skins-overlay__about-who-name">${name}</h1>`
+    );
 
   titleBoardPrice = (price, unit) => {
     const priceMarkup = price === 0 ? 'NO SALE' : `${price}${unit}`;
 
-    this.#titleBoardPriceContainer.innerHTML = `
-      <span>PRICE</span>
-      <span class="skins-overlay__about-more-price-separate">:</span>
-      <span class="skins-overlay__about-more-price-number">${priceMarkup}</span>
-    `;
+    this.#titleBoardItem(
+      this.#titleBoardPriceContainer,
+      `
+        <span>PRICE</span>
+        <span class="skins-overlay__about-more-price-separate">:</span>
+        <span class="skins-overlay__about-more-price-number">${priceMarkup}</span>
+      `
+    );
   };
 
   titleBoardOrder = (order, total) =>
-    (this.#titleBoardOrderContainer.innerHTML = `<span>${order} / ${total}</span>`);
+    this.#titleBoardItem(
+      this.#titleBoardOrderContainer,
+      `<span>${order} / ${total}</span>`
+    );
 
   addIntersectionObserver(handler) {
     const options = {
