@@ -1,5 +1,6 @@
 import {
   BACKEND_URL,
+  ANIMATION_TIMEOUT_400,
   ADD,
   REMOVE,
   CONTENT,
@@ -14,6 +15,7 @@ import {
   $_,
   $$,
   classRemove,
+  debounce,
   mapMarkup,
   promisifyLoadingImage,
 } from '../utils';
@@ -142,12 +144,15 @@ class SkinsView {
   imageTranslateX = (sideIndex, translate) =>
     (this.#images[sideIndex].style.transform = `translateX(${translate}%)`);
 
+  #headerLogoDingdongRemove = debounce(
+    () => this.#headerLogo.classList.remove('dingdong'),
+    ANIMATION_TIMEOUT_400,
+    this
+  );
+
   headerLogoDingdong() {
     this.#headerLogo.classList.add('dingdong');
-    // debounce
-    setTimeout(() => {
-      this.#headerLogo.classList.remove('dingdong');
-    }, 400);
+    this.#headerLogoDingdongRemove();
   }
 
   #titleBoardItem = (container, markup) => (container.innerHTML = markup);

@@ -4,6 +4,10 @@
 export const BACKEND_URL = 'http://127.0.0.1:3000';
 export const FETCH_API_TIMEOUT = 60;
 
+export const ANIMATION_TIMEOUT = 240;
+export const ANIMATION_TIMEOUT_100 = 100;
+export const ANIMATION_TIMEOUT_400 = 400;
+
 export const START = '_start';
 export const END = '_end';
 export const ERROR_TIMEOUT_CODE = 'ECONNABORTED';
@@ -20,9 +24,6 @@ export const INVALID_ACTION_MESSAGE = 'Invalid action!';
 export const VIDEO_STATE_PLAY = 'play';
 export const VIDEO_STATE_PAUSE = 'pause';
 export const VIDEO_STATE_REPLAY = 'replay';
-
-export const ANIMATION_TIMEOUT = 240;
-export const ANIMATION_TIMEOUT_100 = 100;
 
 export const SIDEBAR_ARROW_OPEN = 'sidebar-arrow-open';
 export const SIDEBAR_ARROW_CLOSE = 'sidebar-arrow-close';

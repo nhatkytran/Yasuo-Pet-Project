@@ -1,5 +1,5 @@
 import { CONTENT, LOADING, ERROR, LEFT, RIGHT } from '../config';
-import { checkEmptyObject } from '../utils';
+import { checkEmptyObject, sideIndices } from '../utils';
 import state, { fetchSkinsData } from '../model';
 
 class SkinsController {
@@ -62,6 +62,7 @@ class SkinsController {
       if (side === null) return;
 
       const options = { prevLeftIndex, prevRightIndex };
+      let optionsAdition = {};
 
       // Logic
       // 3 4 0 1 2 --> Click `right` --> // 3 0 1 2 4
@@ -70,48 +71,30 @@ class SkinsController {
       if (side === LEFT) {
         // The first time run with `side` is null --> fill `leftIndices` and `rightIndices`
         const rightIndex = rightIndices.at(-1);
-
-        options.side = LEFT;
-        options.rightIndex = rightIndex;
+        optionsAdition = { side: LEFT, rightIndex };
         prevRightIndex = rightIndex;
       }
-
       if (side === RIGHT) {
         const leftIndex = leftIndices[0];
-
-        options.side = RIGHT;
-        options.leftIndex = leftIndex;
+        optionsAdition = { side: RIGHT, leftIndex };
         prevLeftIndex = leftIndex;
       }
 
-      this.#skinsView.animateImageZIndex(options);
+      this.#skinsView.animateImageZIndex({ ...options, ...optionsAdition });
     };
 
     const handleImagesIndices = () => {
       // Find indices on the left side
-      leftIndices = Array(this.#totalSkinsFloor)
-        .fill(null)
-        .map((_, index) => {
-          let shouldIndex =
-            this.#currentIndex +
-            index +
-            this.#totalSkins -
-            this.#totalSkinsFloor;
-
-          if (shouldIndex >= length) shouldIndex %= this.#totalSkins;
-
-          return shouldIndex;
-        });
+      leftIndices = Array.from(
+        { length: this.#totalSkinsFloor },
+        sideIndices(this.#currentIndex, this.#totalSkins, this.#totalSkinsFloor)
+      );
 
       // Find indices on the right side
-      rightIndices = Array(this.#totalSkinsCeil)
-        .fill(null)
-        .map((_, index) => {
-          let shouldIndex = this.#currentIndex + index;
-          if (shouldIndex >= length) shouldIndex %= this.#totalSkins;
-
-          return shouldIndex;
-        });
+      rightIndices = Array.from(
+        { length: this.#totalSkinsCeil },
+        sideIndices(this.#currentIndex, this.#totalSkins)
+      );
     };
 
     const handleImagesTransformX = () => {
