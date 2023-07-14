@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-const skinsSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   skins: [
     {
       name: { type: String },
       releaseYear: { type: Number },
-      collection: { type: String },
+      inCollection: { type: String },
       price: { type: Number },
       tags: [String],
       details: [String],
@@ -15,7 +15,7 @@ const skinsSchema = new mongoose.Schema({
   ],
 });
 
-const skinsCollectionName = 'skins';
-const Skins = mongoose.model('Skins', skinsSchema, skinsCollectionName);
+const cltName = 'skins';
+const Skins = mongoose.model('Skins', schema, cltName);
 
 module.exports = Skins;

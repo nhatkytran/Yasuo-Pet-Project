@@ -3,7 +3,7 @@
     {
       "name": "YASUO - THE UNFORGIVEN",
       "releaseYear": 2013,
-      "collection": "ORIGINAL",
+      "inCollection": "ORIGINAL",
       "price": 0,
       "details": [
         "An Ionian of deep resolve, Yasuo is an agile swordsman who wields the air itself against his enemies. As a proud young man, he was falsely accused of murdering his master—unable to prove his innocence, he was forced to slay his own brother in self defense. Even after his master's true killer was revealed, Yasuo still could not forgive himself for all he had done, and now wanders his homeland with only the wind to guide his blade."
@@ -15,7 +15,7 @@
     {
       "name": "HIGH NOON YASUO",
       "releaseYear": 2013,
-      "collection": "HIGH NOON",
+      "inCollection": "HIGH NOON",
       "price": 299,
       "tags": ["Yasuo", "HIGH NOON skins"],
       "details": [
@@ -27,7 +27,7 @@
     {
       "name": "PROJECT: YASUO",
       "releaseYear": 2014,
-      "collection": "PROJECT",
+      "inCollection": "PROJECT",
       "price": 399,
       "tags": ["Yasuo", "PROJECT skins"],
       "details": [
@@ -39,7 +39,7 @@
     {
       "name": "BLOOD MOON YASUO",
       "releaseYear": 2016,
-      "collection": "BLOOD MOON",
+      "inCollection": "BLOOD MOON",
       "price": 399,
       "tags": ["Yasuo", "BLOOD MOON skins"],
       "details": [
@@ -51,7 +51,7 @@
     {
       "name": "NIGHTBRINGER YASUO",
       "releaseYear": 2017,
-      "collection": "ORDER VERSUS CHAOS",
+      "inCollection": "ORDER VERSUS CHAOS",
       "price": 999,
       "tags": [
         "Yasuo",
@@ -67,7 +67,7 @@
     {
       "name": "ODYSSEY YASUO",
       "releaseYear": 2018,
-      "collection": "ODYSSEY",
+      "inCollection": "ODYSSEY",
       "price": 599,
       "tags": ["Yasuo", "ODYSSEY skins"],
       "details": [
@@ -79,7 +79,7 @@
     {
       "name": "BATTLE BOSS YASUO",
       "releaseYear": 2019,
-      "collection": "ARCADE: BATTLE BOSS",
+      "inCollection": "ARCADE: BATTLE BOSS",
       "price": 599,
       "tags": ["Yasuo", "ARCADE: BATTLE BOSS skins", "BATTLE BOSS skins"],
       "details": [
@@ -91,7 +91,7 @@
     {
       "name": "TRUE DAMAGE YASUO",
       "releaseYear": 2019,
-      "collection": "TRUE DAMAGE",
+      "inCollection": "TRUE DAMAGE",
       "price": 699,
       "tags": ["Yasuo", "TRUE DAMAGE skins"],
       "details": [
@@ -103,13 +103,13 @@
     {
       "name": "TRUE DAMAGE YASUO PRESTIGE EDITION",
       "releaseYear": 2019,
-      "collection": "TRUE DAMAGE",
+      "inCollection": "TRUE DAMAGE",
       "price": 799,
       "tags": ["Yasuo", "TRUE DAMAGE skins", "PRESTIGE skins"],
       "details": [
         "League of Legends and AAPE BY *A BATHING APE® are proud to present True Damage Yasuo Prestige Edition, an in-game skin designed in collaboration with AAPE BY *A BATHING APE®.",
-        "The True Damage Yasuo Prestige Edition skin is our latest foray into partnered in-game skins, taking inspiration and designs from the AAPE BY *A BATHING APE® X LEAGUE OF LEGENDS collection, which is now available for purchase in select stores and online.",
-        "True Damage Yasuo Prestige Edition will be exclusively unlockable starting today for 100 Prestige Points for the rest of 2020. For more information on the AAPE BY *A BATHING APE® X LEAGUE OF LEGENDS collection."
+        "The True Damage Yasuo Prestige Edition skin is our latest foray into partnered in-game skins, taking inspiration and designs from the AAPE BY *A BATHING APE® X LEAGUE OF LEGENDS inCollection, which is now available for purchase in select stores and online.",
+        "True Damage Yasuo Prestige Edition will be exclusively unlockable starting today for 100 Prestige Points for the rest of 2020. For more information on the AAPE BY *A BATHING APE® X LEAGUE OF LEGENDS inCollection."
       ],
       "image": "/img/skins/skin-8.jpeg",
       "youtubeLink": "https://www.youtube.com/watch?v=M8IzgxlwFuQ"
@@ -117,7 +117,7 @@
     {
       "name": "SPIRIT BLOSSOM YASUO",
       "releaseYear": 2020,
-      "collection": "SPIRIT BLOSSOM",
+      "inCollection": "SPIRIT BLOSSOM",
       "price": 899,
       "tags": ["Yasuo", "SPIRIT BLOSSOM skins"],
       "details": [
@@ -129,7 +129,7 @@
     {
       "name": "TRUTH DRAGON YASUO",
       "releaseYear": 2021,
-      "collection": "DRAGONMANCERS",
+      "inCollection": "DRAGONMANCERS",
       "price": 799,
       "tags": ["Yasuo", "DRAGONMANCERS skins", "DRAGON skins"],
       "details": [
@@ -141,7 +141,7 @@
     {
       "name": "DREAM DRAGON YASUO",
       "releaseYear": 2021,
-      "collection": "DRAGONMANCERS",
+      "inCollection": "DRAGONMANCERS",
       "price": 899,
       "tags": ["Yasuo", "DRAGONMANCERS skins", "DRAGON skins"],
       "details": [
@@ -153,7 +153,7 @@
     {
       "name": "SEA DOG YASUO",
       "releaseYear": 2022,
-      "collection": "RUINED",
+      "inCollection": "RUINED",
       "price": 699,
       "tags": ["Yasuo", "RUINED skins", "SEA DOG skins"],
       "details": [
@@ -165,7 +165,7 @@
     {
       "name": "INKSHADOW YASUO",
       "releaseYear": 2023,
-      "collection": "INKSHADOW",
+      "inCollection": "INKSHADOW",
       "price": 799,
       "tags": ["Yasuo", "INKSHADOW skins"],
       "details": [
@@ -177,7 +177,7 @@
     {
       "name": "PRESTIGE INKSHADOW YASUO",
       "releaseYear": 2023,
-      "collection": "INKSHADOW",
+      "inCollection": "INKSHADOW",
       "price": 899,
       "tags": ["Yasuo", "INKSHADOW skins", "PRESTIGE skins"],
       "details": [

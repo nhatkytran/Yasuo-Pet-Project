@@ -9,7 +9,7 @@ const imageField = {
   link: { type: String },
 };
 
-const allGamesSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   images: {
     main: [imageField],
     side: {
@@ -42,11 +42,7 @@ const allGamesSchema = new mongoose.Schema({
   platforms: [[String]],
 });
 
-const allGamesCollectionName = 'allgames';
-const AllGames = mongoose.model(
-  'AllGames',
-  allGamesSchema,
-  allGamesCollectionName
-);
+const cltName = 'allgames';
+const AllGames = mongoose.model('AllGames', schema, cltName);
 
 module.exports = AllGames;

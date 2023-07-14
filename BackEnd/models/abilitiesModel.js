@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const abilitiesShema = new mongoose.Schema({
+const shema = new mongoose.Schema({
   videos: [
     {
       mp4: { type: String },
@@ -16,11 +16,7 @@ const abilitiesShema = new mongoose.Schema({
   ],
 });
 
-const abilitiesCollectionName = 'abilities';
-const Abilities = mongoose.model(
-  'Abilities',
-  abilitiesShema,
-  abilitiesCollectionName
-);
+const cltName = 'abilities';
+const Abilities = mongoose.model('Abilities', shema, cltName);
 
 module.exports = Abilities;

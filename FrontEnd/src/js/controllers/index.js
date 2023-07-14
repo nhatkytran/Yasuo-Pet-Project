@@ -79,7 +79,7 @@ function abilitiesInit() {
   abilitiesView.addReFetchHandler(controller.handleData);
 }
 
-function skinsUnit() {
+function skinsInit() {
   const controller = new SkinsController(skinsView);
 
   skinsView.addIntersectionObserver(controller.handleData);
@@ -94,4 +94,4 @@ exploreAllgamesInit();
 exploreGamesInit();
 menuMobileInit();
 abilitiesInit();
-skinsUnit();
+skinsInit();

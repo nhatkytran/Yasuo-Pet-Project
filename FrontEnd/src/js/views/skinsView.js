@@ -121,7 +121,7 @@ class SkinsView {
 
   #generateImageMarkup = skins => {
     const markupCallback = skin =>
-      `<img class="skins-images__slider" src="" alt="${skin.releaseYear} - ${skin.collection} - ${skin.name}">`;
+      `<img class="skins-images__slider" src="" alt="${skin.releaseYear} - ${skin.inCollection} - ${skin.name}">`;
 
     return mapMarkup(skins, markupCallback);
   };
