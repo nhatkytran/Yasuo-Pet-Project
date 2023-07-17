@@ -10,6 +10,23 @@
     padding: 3rem 0 5rem;
   }
 
+  &-mobile-slider-header {
+    color: #fff;
+    font-size: 3rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-style: italic;
+    letter-spacing: 0.05rem;
+    margin: 0.4rem 0 2rem;
+    display: none;
+    @include display-responsive($px1040, block);
+    @include use-font(Beaufort-Bold);
+
+    @media only screen and (max-width: $px640) {
+      font-size: 2rem;
+    }
+  }
+
   &-overlay-text {
     left: 50%;
     transform: rotate(-90deg) translate(40%, -700%);
@@ -50,14 +67,24 @@
       left: 0;
       bottom: 0;
       position: absolute;
+      z-index: 10;
       @include display-responsive($px1040, none);
     }
   }
 
-  &-img {
-    // As default img --> inline --> so div is longer than img
-    display: block;
+  &-img-wrapper {
     width: 100%;
+    padding-top: calc((151 / 256 * 100%));
+    background-color: red;
+    position: relative;
+
+    img {
+      // As default img --> inline --> so div is longer than img
+      display: block;
+      width: 100%;
+      position: absolute;
+      top: 0;
+    }
   }
 
   &-header {
@@ -90,6 +117,7 @@
       width: 100%;
       height: 10rem;
       padding-left: 6rem;
+      transition: all ease 0.4s;
     }
   }
 
@@ -110,31 +138,31 @@
     }
 
     &.active &__name {
-      $lg: linear-gradient($border-color, $border-color);
-      background: $lg, $lg, $lg;
-      background-repeat: no-repeat;
-      background-size: calc(100% - 2.4rem) 0.5px, 100% 0.5px, 0.5px calc(100% - 2.4rem);
-      background-position: left 0 top 0, left 0 bottom 0, right 0 bottom 0;
+      background-size:
+        calc(100% - 2.4rem) 0.3px,
+        100% 0.3px,
+        0.3px calc(100% - 2.4rem);
+      background-position:
+        left 0 top 0,
+        left 0 bottom 0,
+        right 0 bottom 0;
 
       &::after {
-        top: 0;
-        right: 1.1rem;
         @include button-border(2.6rem, $border-color);
-        transform: skew(45deg);
-        width: 0.1rem;
       }
     }
 
     &__image {
-      background-image: url("/src/assets/img/Skins/12.jpeg");
+      background-image: url("/src/assets/img/Skins/skin-0.jpeg");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
-      transition: all ease 0.2s;
+      transition: all ease 0.4s;
       @include square-dimension(10rem);
     }
 
     &__name {
+      $lg: linear-gradient($border-color, $border-color);
       flex: 1;
       height: calc(100% - 0.8rem);
       color: #fff;
@@ -143,8 +171,28 @@
       margin-right: 0.4rem;
       position: relative;
       overflow: hidden;
+      background: $lg, $lg, $lg;
+      background-repeat: no-repeat;
+      background-size:
+        0 0,
+        0 0,
+        0 0;
+      background-position:
+        0 0,
+        0 0,
+        0 0;
+      transition: background-size ease 0.4s;
       @include use-font(Spiegel-Regular);
       @include flex-align-center;
+
+      &::after {
+        top: 0;
+        right: 1.1rem;
+        @include button-border(0, $border-color);
+        transform: skew(45deg) !important;
+        width: 0.05rem !important;
+        transition: all ease 0.4s !important;
+      }
 
       p {
         margin: 2rem;
@@ -156,7 +204,7 @@
       filter: brightness(1);
 
       .skins2-button__image {
-        transform: scale(1.05);
+        transform: scale(1.07);
       }
     }
   }
@@ -222,7 +270,7 @@
   }
 
   &__image {
-    background-image: url("/src/assets/img/Skins/12.jpeg");
+    background-image: url("/src/assets/img/Skins/skin-0.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -235,9 +283,19 @@
       $lg: linear-gradient($border-color, $border-color);
       background: $lg, $lg, $lg, $lg, $lg, $lg;
       background-repeat: no-repeat;
-      background-size: calc(100% - 1.6rem) 1px, 1px 1.6rem, 1px calc(100% - 3.2rem), calc(100% - 1.6rem) 1px, 1.6rem 1px,
-        1px 100%;
-      background-position: left 0 top 0, right 0 top 1.6rem, right 0 top 3.2rem, right 0 bottom 0, right 5.2rem bottom 0,
+      background-size:
+        calc(100% - 1.6rem) 0.9px,
+        0.9px 1.6rem,
+        0.9px calc(100% - 3.2rem),
+        calc(100% - 1.6rem) 0.9px,
+        1.6rem 0.9px,
+        0.9px 100%;
+      background-position:
+        left 0 top 0,
+        right 0 top 1.6rem,
+        right 0 top 3.2rem,
+        right 0 bottom 0,
+        right 5.2rem bottom 0,
         left 0 bottom 0;
       overflow: hidden;
       display: none;
@@ -248,8 +306,8 @@
         top: 0;
         right: 0.6rem;
         @include button-border(1.8rem, $border-color);
-        width: 2px;
-        transform: skew(45deg);
+        width: 1.7px !important;
+        transform: skew(45deg) !important;
       }
     }
   }

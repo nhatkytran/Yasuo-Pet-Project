@@ -88,10 +88,13 @@ function skinsInit() {
   skinsView.addExploreSkinsHandler(controller.exploreSkins);
 }
 
-modalInit();
-subwebInit();
-exploreAllgamesInit();
-exploreGamesInit();
-menuMobileInit();
-abilitiesInit();
-skinsInit();
+function skins2Init() {}
+
+// modalInit();
+// subwebInit();
+// exploreAllgamesInit();
+// exploreGamesInit();
+// menuMobileInit();
+// abilitiesInit();
+// skinsInit();
+skins2Init();
