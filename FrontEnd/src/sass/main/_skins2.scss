@@ -118,6 +118,15 @@
       height: 10rem;
       padding-left: 6rem;
       transition: all ease 0.4s;
+
+      &:hover .skins2-button:not(.active) {
+        filter: brightness(1);
+
+        .skins2-button__image {
+          filter: brightness(0.8);
+          transform: scale(1.07);
+        }
+      }
     }
   }
 
@@ -199,14 +208,6 @@
         font-size: 1.4rem;
       }
     }
-
-    &:hover:not(.active) {
-      filter: brightness(1);
-
-      .skins2-button__image {
-        transform: scale(1.07);
-      }
-    }
   }
 
   &-quote {
@@ -257,11 +258,11 @@
         filter: brightness(0.6);
       }
     }
-  }
 
-  &__button {
     &:hover {
-      cursor: pointer;
+      .skins2-mobile-slider__image {
+        filter: brightness(0.8);
+      }
 
       .skins2-mobile-slider__name {
         filter: brightness(1);
@@ -276,6 +277,7 @@
     background-position: center center;
     margin: 0 auto;
     position: relative;
+    transition: all ease 0.24s;
     @include square-dimension(6rem);
 
     &-overlay {
