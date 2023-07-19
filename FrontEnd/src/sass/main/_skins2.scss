@@ -110,6 +110,7 @@
 
     ul {
       list-style: none;
+      transition: all ease 0.4s;
       @include full-dimension;
     }
 

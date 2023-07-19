@@ -7,14 +7,47 @@ const sliderList = $('.skins2-slider-list');
 const slideItems = $$('.skins2-slider-item');
 const slideButtons = $$('.skins2-button');
 
+const { height: slideItemHeight } = slideItems[0].getBoundingClientRect();
+
 slideButtons.forEach((button, index) => {
   button.setAttribute('data-slide-button-index', index);
 });
+
+let prevIndex = 1; // By default, index of 1 is active
+let currentTranslateY = 0; // `rem` unit
+
+slider.addEventListener('click', event => {
+  if (isDragged) return;
+
+  const target = event.target.closest('.skins2-button');
+
+  if (!target) return;
+
+  const index = Number(target.dataset.slideButtonIndex);
+
+  currentTranslateY = ((index - 1) * -slideItemHeight) / 10;
+
+  slide(currentTranslateY);
+  slideAnimate(index);
+
+  prevIndex = index;
+});
+
+function slide(translateY) {
+  sliderList.style.transform = `translateY(${translateY}rem)`;
+}
+
+function slideAnimate(index) {
+  slideButtons[prevIndex].classList.remove('active');
+  slideButtons[index].classList.add('active');
+}
 
 let isDragged = false; // if true --> prevent `click` event
 let isReadyToDrag = false;
 let oldClientY;
 let newClientY;
+
+const totalItems = 11; // Count after fetching data
 
 function dragStart(event) {
   isReadyToDrag = true;
@@ -23,75 +56,31 @@ function dragStart(event) {
 
 function dragProgress(event) {
   if (!isReadyToDrag) return;
-  console.log(currentPercent);
 
   isDragged = true;
   newClientY = event.clientY;
 
   const diff = newClientY - oldClientY;
 
-  if (diff === 0) return;
-
-  // dif > 0 and diff < 0
-  slideItems.forEach(slideItem => {
-    slideItem.style.transform = `translateY(${currentPercent + diff}%)`;
-  });
+  if (diff !== 0) slide(currentTranslateY + diff / 10);
 }
 
-function dragStop(event) {
+function dragStop() {
   isReadyToDrag = false;
+  isDragged = false; // `click` event before `mouseup` event
 
-  // `mouseup` <--> `click`
-  // Handle isDragged with `mousedown` (`click` set isDragged to false by itself)
-  if (event.type === 'mouseleave') isDragged = false;
+  currentTranslateY += (newClientY - oldClientY) / 10; // `rem` unit
 
-  // Adjust currentPercent and Position
-  currentPercent += newClientY - oldClientY;
+  if (currentTranslateY > 10) currentTranslateY = 10;
+  if (currentTranslateY < -(totalItems - 2) * 10)
+    currentTranslateY = -(totalItems - 2) * 10;
 
-  if (currentPercent > 100) currentPercent = 100;
+  currentTranslateY = Math.round(currentTranslateY / 10) * 10;
 
-  // <
-
-  slideItems.forEach(slideItem => {
-    slideItem.style.transform = `translateY(${currentPercent}%)`;
-  });
+  slide(currentTranslateY);
 }
 
-sliderList.addEventListener('mousedown', dragStart);
-sliderList.addEventListener('mousemove', dragProgress);
-sliderList.addEventListener('mouseup', dragStop);
-sliderList.addEventListener('mouseleave', dragStop);
-
-let prevIndex = 1; // By default, index of 1 is active
-let currentIndex = 1;
-let currentPercent = (currentIndex - 1) * -100;
-
-slider.addEventListener('click', event => {
-  if (isDragged) return (isDragged = false);
-
-  const target = event.target.closest('.skins2-button');
-
-  if (!target) return;
-
-  const index = Number(target.dataset.slideButtonIndex);
-
-  currentIndex = index;
-
-  slide();
-  slideAnimate();
-
-  prevIndex = index;
-});
-
-function slide() {
-  currentPercent = (currentIndex - 1) * -100;
-
-  slideItems.forEach(slideItem => {
-    slideItem.style.transform = `translateY(${currentPercent}%)`;
-  });
-}
-
-function slideAnimate() {
-  if (prevIndex !== null) slideButtons[prevIndex].classList.remove('active');
-  slideButtons[currentIndex].classList.add('active');
-}
+slider.addEventListener('mousedown', dragStart);
+slider.addEventListener('mousemove', dragProgress);
+slider.addEventListener('mouseup', dragStop);
+slider.addEventListener('mouseleave', dragStop);
