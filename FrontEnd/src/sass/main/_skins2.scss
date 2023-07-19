@@ -228,6 +228,7 @@
 .skins2-mobile-slider {
   width: calc(100% - 12rem);
   margin: 0 auto;
+  overflow: hidden;
   @include display-responsive($px1040, block);
 
   @media only screen and (max-width: $px640) {
@@ -236,8 +237,8 @@
 
   &__list {
     list-style: none;
+    transition: all ease 0.4s;
     flex-wrap: nowrap;
-    overflow: hidden;
     @include full-dimension;
     @include flex-align-center;
   }
@@ -247,10 +248,8 @@
     width: 11rem;
     padding: 2.5rem 0.5rem;
 
-    &.active {
-      .skins2-mobile-slider__image-overlay {
-        display: block;
-      }
+    &.active .skins2-mobile-slider__image-overlay {
+      display: block;
     }
 
     &:not(.active) {
@@ -287,18 +286,14 @@
       background: $lg, $lg, $lg, $lg, $lg, $lg;
       background-repeat: no-repeat;
       background-size:
-        calc(100% - 1.6rem) 0.9px,
-        0.9px 1.6rem,
-        0.9px calc(100% - 3.2rem),
-        calc(100% - 1.6rem) 0.9px,
-        1.6rem 0.9px,
-        0.9px 100%;
+        calc(100% - 1.6rem) 0.8px,
+        0.8px calc(100% - 1.6rem),
+        100% 0.8px,
+        0.8px 100%;
       background-position:
         left 0 top 0,
         right 0 top 1.6rem,
-        right 0 top 3.2rem,
         right 0 bottom 0,
-        right 5.2rem bottom 0,
         left 0 bottom 0;
       overflow: hidden;
       display: none;
@@ -309,7 +304,7 @@
         top: 0;
         right: 0.6rem;
         @include button-border(1.8rem, $border-color);
-        width: 1.7px !important;
+        width: 1.5px !important;
         transform: skew(45deg) !important;
       }
     }
