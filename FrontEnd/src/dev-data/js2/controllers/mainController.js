@@ -66,6 +66,8 @@ import { $, $$ } from '../../../js/utils';
 // }
 
 // function dragStop() {
+//   if (event.type === 'mouseleave' && !isDragged) return;
+
 //   isReadyToDrag = false;
 //   isDragged = false; // `click` event before `mouseup` event
 
@@ -91,7 +93,7 @@ const slider = $('.skins2-mobile-slider');
 const sliderList = $('.skins2-mobile-slider__list');
 const sliderItems = $$('.skins2-mobile-slider__item');
 
-const { width: sliderWidth } = slider.getBoundingClientRect();
+let { width: sliderWidth } = slider.getBoundingClientRect();
 const { width: sliderItemWidth } = sliderItems[0].getBoundingClientRect();
 
 sliderItems.forEach((item, index) => {
@@ -117,12 +119,24 @@ let currentTranslateXDefault = countTranslateX(1);
 currentTranslateX = currentTranslateXDefault;
 slide(currentTranslateX);
 
+// Resize
+window.addEventListener('resize', () => {
+  sliderWidth = slider.getBoundingClientRect().width;
+  currentTranslateXDefault = countTranslateX(1);
+
+  // Count new value for currentTranslateX
+
+  // slide
+});
+
 function slideAnimate(index) {
   sliderItems[prevIndex].classList.remove('active');
   sliderItems[index].classList.add('active');
 }
 
 slider.addEventListener('click', event => {
+  if (isDragged) return;
+
   const target = event.target.closest('.skins2-mobile-slider__item');
 
   if (!target) return;
@@ -130,6 +144,10 @@ slider.addEventListener('click', event => {
   const index = Number(target.dataset.slideItemIndex);
 
   currentTranslateX = countTranslateX(index);
+
+  console.log(currentTranslateXDefault);
+  console.log(currentTranslateX);
+  console.log('---');
 
   slide(currentTranslateX);
   slideAnimate(index);
@@ -151,6 +169,7 @@ function dragStart(event) {
 
 function dragProgress(event) {
   if (!isReadyToDrag) return;
+  console.log(123);
 
   isDragged = true;
   newClientX = event.clientX || event.touches[0].clientX;
@@ -160,20 +179,40 @@ function dragProgress(event) {
   if (diff !== 0) slide(currentTranslateX + diff / 10);
 }
 
-function dragStop() {
+function dragStop(event) {
+  if (event.type === 'mouseleave' && !isDragged) return;
+
   isReadyToDrag = false;
   isDragged = false; // `click` event before `mouseup` event
 
   currentTranslateX += (newClientX - oldClientX) / 10; // `rem` unit
 
-  // if ((currentTranslateX > currentTranslateXDefault - sliderItemWidth) / 10)
-  //   currentTranslateX = (currentTranslateXDefault - sliderItemWidth) / 10;
-  // if (currentTranslateY < -(totalItems - 2) * 10)
-  //   currentTranslateY = -(totalItems - 2) * 10;
+  // It is like when index = 0, but we choose index = 1 is default
+  // so we need to plus 1 `sliderItemWidth`
+  const pointDefault = currentTranslateXDefault + sliderItemWidth / 10;
+  const limitAfter = -(
+    (sliderItemWidth / 10) * (totalItems - 1) -
+    pointDefault
+  );
 
-  // currentTranslateY = Math.round(currentTranslateY / 10) * 10;
+  if (currentTranslateX > pointDefault) currentTranslateX = pointDefault;
+  if (currentTranslateX < limitAfter) currentTranslateX = limitAfter;
 
-  // slide(currentTranslateX);
+  // translateX for index 0 --> pointDefault
+  const middle = sliderItemWidth / 10 / 2; // `rem` unit
+
+  if (Math.abs(pointDefault - currentTranslateX) < middle)
+    currentTranslateX = pointDefault;
+
+  // translateX for left indices (excludes index 0)
+  for (let i = 0; i < totalItems - 1; i++) {
+    const translateX = currentTranslateXDefault - (i * sliderItemWidth) / 10;
+
+    if (Math.abs(translateX - currentTranslateX) < middle)
+      currentTranslateX = translateX;
+  }
+
+  slide(currentTranslateX);
 }
 
 slider.addEventListener('mousedown', dragStart);
@@ -184,5 +223,3 @@ slider.addEventListener('mouseleave', dragStop);
 slider.addEventListener('touchstart', dragStart, { passive: true });
 slider.addEventListener('touchmove', dragProgress, { passive: true });
 slider.addEventListener('touchend', dragStop);
-
-// Resize
