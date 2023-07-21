@@ -89,11 +89,16 @@ import { $, $$ } from '../../../js/utils';
 
 // Mobile //////////
 
+const skinsImageWrapper = $('.skins2-img-wrapper');
 const slider = $('.skins2-mobile-slider');
 const sliderList = $('.skins2-mobile-slider__list');
 const sliderItems = $$('.skins2-mobile-slider__item');
 
-let { width: sliderWidth } = slider.getBoundingClientRect();
+// width of `slider is equal to width of `skinsImageWrapper`
+// but `slider` can be display none at sometimes
+// so we use width of `skinsImageWrapper`
+let { width: sliderWidth } = skinsImageWrapper.getBoundingClientRect();
+
 const { width: sliderItemWidth } = sliderItems[0].getBoundingClientRect();
 
 sliderItems.forEach((item, index) => {
@@ -111,22 +116,33 @@ function slide(translateX) {
   sliderList.style.transform = `translateX(${translateX}rem)`;
 }
 
-let currentTranslateXDefault = countTranslateX(1);
-
 // currentTranslateX changes when drag
 // currentTranslateXDefault is used to hold the default value (changes with `resize` event)
+let currentTranslateXDefault = countTranslateX(1);
 
 currentTranslateX = currentTranslateXDefault;
 slide(currentTranslateX);
 
 // Resize
 window.addEventListener('resize', () => {
-  sliderWidth = slider.getBoundingClientRect().width;
+  sliderWidth = skinsImageWrapper.getBoundingClientRect().width;
   currentTranslateXDefault = countTranslateX(1);
 
-  // Count new value for currentTranslateX
+  const pointDefault = currentTranslateXDefault + sliderItemWidth / 10;
+  const middle = sliderItemWidth / 10 / 2; // `rem` unit
 
-  // slide
+  if (Math.abs(pointDefault - currentTranslateX) < middle)
+    currentTranslateX = pointDefault;
+
+  // translateX for left indices (excludes index 0)
+  for (let i = 0; i < totalItems - 1; i++) {
+    const translateX = currentTranslateXDefault - (i * sliderItemWidth) / 10;
+
+    if (Math.abs(translateX - currentTranslateX) < middle)
+      currentTranslateX = translateX;
+  }
+
+  slide(currentTranslateX);
 });
 
 function slideAnimate(index) {
@@ -144,10 +160,6 @@ slider.addEventListener('click', event => {
   const index = Number(target.dataset.slideItemIndex);
 
   currentTranslateX = countTranslateX(index);
-
-  console.log(currentTranslateXDefault);
-  console.log(currentTranslateX);
-  console.log('---');
 
   slide(currentTranslateX);
   slideAnimate(index);
@@ -169,7 +181,6 @@ function dragStart(event) {
 
 function dragProgress(event) {
   if (!isReadyToDrag) return;
-  console.log(123);
 
   isDragged = true;
   newClientX = event.clientX || event.touches[0].clientX;
