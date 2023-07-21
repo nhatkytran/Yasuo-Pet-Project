@@ -77,12 +77,37 @@
     padding-top: calc((151 / 256 * 100%));
     position: relative;
 
-    img {
+    .skins2-img-loading {
+      @include diagonal-wipe-loading($px1140);
+    }
+
+    .skins2-img-error {
+      @include img-error-column;
+
+      @media only screen and (max-width: $px1140) {
+        img {
+          width: 5.4rem;
+        }
+        button {
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    .skins2-img {
       // As default img --> inline --> so div is longer than img
       display: block;
       width: 100%;
-      position: absolute;
       top: 0;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 0.4s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;
+
+      &.active {
+        z-index: 1;
+        opacity: 1;
+        transition-delay: 0s;
+      }
     }
   }
 
@@ -228,8 +253,11 @@
   width: calc(100% - 12rem);
   margin: 0 auto;
   overflow: hidden;
-  @include display-responsive($px1040, block);
+  display: none;
 
+  @media only screen and (max-width: $px1040) {
+    display: block;
+  }
   @media only screen and (max-width: $px640) {
     width: 100%;
   }

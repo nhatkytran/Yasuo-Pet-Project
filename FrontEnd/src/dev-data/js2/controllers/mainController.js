@@ -99,7 +99,9 @@ const sliderItems = $$('.skins2-mobile-slider__item');
 // so we use width of `skinsImageWrapper`
 let { width: sliderWidth } = skinsImageWrapper.getBoundingClientRect();
 
-const { width: sliderItemWidth } = sliderItems[0].getBoundingClientRect();
+// const { width: sliderItemWidth } = sliderItems[0].getBoundingClientRect();
+const sliderItemWidth = 110;
+const middle = sliderItemWidth / 10 / 2;
 
 sliderItems.forEach((item, index) => {
   item.setAttribute('data-slide-item-index', index);
@@ -123,13 +125,15 @@ let currentTranslateXDefault = countTranslateX(1);
 currentTranslateX = currentTranslateXDefault;
 slide(currentTranslateX);
 
+console.log(currentTranslateXDefault);
+console.log(currentTranslateX);
+
 // Resize
 window.addEventListener('resize', () => {
   sliderWidth = skinsImageWrapper.getBoundingClientRect().width;
   currentTranslateXDefault = countTranslateX(1);
 
   const pointDefault = currentTranslateXDefault + sliderItemWidth / 10;
-  const middle = sliderItemWidth / 10 / 2; // `rem` unit
 
   if (Math.abs(pointDefault - currentTranslateX) < middle)
     currentTranslateX = pointDefault;
@@ -141,6 +145,9 @@ window.addEventListener('resize', () => {
     if (Math.abs(translateX - currentTranslateX) < middle)
       currentTranslateX = translateX;
   }
+
+  console.log(currentTranslateXDefault);
+  console.log(currentTranslateX);
 
   slide(currentTranslateX);
 });
@@ -163,6 +170,8 @@ slider.addEventListener('click', event => {
 
   slide(currentTranslateX);
   slideAnimate(index);
+
+  // chooseImage(index);
 
   prevIndex = index;
 });
@@ -191,12 +200,15 @@ function dragProgress(event) {
 }
 
 function dragStop(event) {
-  if (event.type === 'mouseleave' && !isDragged) return;
-
   isReadyToDrag = false;
-  isDragged = false; // `click` event before `mouseup` event
 
-  currentTranslateX += (newClientX - oldClientX) / 10; // `rem` unit
+  if (!isDragged) return;
+  isDragged = false;
+
+  const diff = newClientX - oldClientX;
+  if (diff === 0) return;
+
+  currentTranslateX += diff / 10; // `rem` unit
 
   // It is like when index = 0, but we choose index = 1 is default
   // so we need to plus 1 `sliderItemWidth`
@@ -208,9 +220,6 @@ function dragStop(event) {
 
   if (currentTranslateX > pointDefault) currentTranslateX = pointDefault;
   if (currentTranslateX < limitAfter) currentTranslateX = limitAfter;
-
-  // translateX for index 0 --> pointDefault
-  const middle = sliderItemWidth / 10 / 2; // `rem` unit
 
   if (Math.abs(pointDefault - currentTranslateX) < middle)
     currentTranslateX = pointDefault;
@@ -234,3 +243,12 @@ slider.addEventListener('mouseleave', dragStop);
 slider.addEventListener('touchstart', dragStart, { passive: true });
 slider.addEventListener('touchmove', dragProgress, { passive: true });
 slider.addEventListener('touchend', dragStop);
+
+// Chose image //////////
+
+// const images = $$('.skins2-img');
+
+// function chooseImage(index) {
+//   images[prevIndex].classList.remove('active');
+//   images[index].classList.add('active');
+// }

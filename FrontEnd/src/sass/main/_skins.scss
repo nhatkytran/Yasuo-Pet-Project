@@ -18,7 +18,7 @@
     $px640: 4.35,
     $px540: 4.95,
     $px440: 5.45,
-    $px340: 6.05,
+    $px340: 6.05
   );
   @each $width, $i in $map {
     @media only screen and (max-width: $width) {
@@ -61,7 +61,7 @@
       $px640: 4.3,
       $px540: 4.9,
       $px440: 5.4,
-      $px340: 6,
+      $px340: 6
     );
     @each $width, $i in $map {
       @media only screen and (max-width: $width) {
@@ -639,7 +639,7 @@
       @include square-dimension(5.2rem);
 
       svg:nth-child(2) {
-        animation: diagonal-wipe-7d2 1.5s ease infinite;
+        animation: diagonal-wipe-5d2 1.5s ease infinite;
       }
     }
   }

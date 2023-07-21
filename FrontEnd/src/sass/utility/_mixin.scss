@@ -150,3 +150,25 @@
   transition: all ease 0.2s;
   @include pseudo-element-features;
 }
+
+@mixin diagonal-wipe-loading($width-responsive) {
+  @include square-dimension(7.2rem);
+
+  svg:nth-child(2) {
+    animation: diagonal-wipe-7d2 1.5s ease infinite;
+  }
+
+  @media only screen and (max-width: $width-responsive) {
+    @include square-dimension(5.2rem);
+
+    svg:nth-child(2) {
+      animation: diagonal-wipe-5d2 1.5s ease infinite;
+    }
+  }
+}
+
+@mixin img-error-column {
+  flex-direction: column;
+  @include flex-align-center;
+  @include absolute-position(-50%, -50%);
+}
