@@ -187,10 +187,7 @@
     }
 
     &__image {
-      background-image: url("/src/assets/img/Skins/skin-0.jpeg");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center;
+      object-fit: cover;
       transition: all ease 0.4s;
       @include square-dimension(10rem);
     }
@@ -275,10 +272,6 @@
     width: 11rem;
     padding: 2.5rem 0.5rem;
 
-    &.active .skins2-mobile-slider__image-overlay {
-      display: block;
-    }
-
     &:not(.active) {
       .skins2-mobile-slider__image,
       .skins2-mobile-slider__name {
@@ -286,11 +279,19 @@
       }
     }
 
+    &.active {
+      &:hover .skins2-mobile-slider__image {
+        filter: brightness(1);
+      }
+      .skins2-mobile-slider__image-overlay {
+        display: block;
+      }
+    }
+
     &:hover {
       .skins2-mobile-slider__image {
         filter: brightness(0.8);
       }
-
       .skins2-mobile-slider__name {
         filter: brightness(1);
       }
@@ -298,14 +299,17 @@
   }
 
   &__image {
-    background-image: url("/src/assets/img/Skins/skin-0.jpeg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
+    object-fit: cover;
     margin: 0 auto;
     position: relative;
     transition: all ease 0.24s;
     @include square-dimension(6rem);
+
+    img {
+      object-fit: cover;
+      transition: all ease 0.24s;
+      @include full-dimension;
+    }
 
     &-overlay {
       $border-color: #d0a85c;
@@ -313,10 +317,10 @@
       background: $lg, $lg, $lg, $lg, $lg, $lg;
       background-repeat: no-repeat;
       background-size:
-        calc(100% - 1.6rem) 0.8px,
-        0.8px calc(100% - 1.6rem),
-        100% 0.8px,
-        0.8px 100%;
+        calc(100% - 1.6rem) 0.9px,
+        0.9px calc(100% - 1.6rem),
+        100% 0.9px,
+        0.9px 100%;
       background-position:
         left 0 top 0,
         right 0 top 1.6rem,

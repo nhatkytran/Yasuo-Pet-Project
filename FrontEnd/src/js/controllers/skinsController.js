@@ -4,7 +4,7 @@ import state, { fetchSkinsData } from '../model';
 
 class SkinsController {
   #skinsView;
-  #totalSkins;
+  #totalSkins; // Counted after fetching data
   #totalSkinsCeil; // Number of slides on the right side (include current slide)
   #totalSkinsFloor; // On the left side
   #currentIndex; // Initialized by handleSlideFactory;
@@ -32,7 +32,7 @@ class SkinsController {
   };
 
   handleData = async () => {
-    // Skins and Skins2 use the same data, so we one of them needs to fetch data
+    // Skins and Skins2 use the same data, so only one of them needs to fetch data
     if (checkEmptyObject(state.skinsData)) await this.#fetchData();
     if (!checkEmptyObject(state.skinsData))
       this.#skinsView.displayContent(CONTENT);

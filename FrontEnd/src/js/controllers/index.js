@@ -6,6 +6,7 @@ import {
   menuMobileView,
   abilitiesView,
   skinsView,
+  skins2View,
 } from '../Views';
 
 import ModalController from './modalController';
@@ -15,6 +16,7 @@ import ExploreGamesController from './exploreGamesController';
 import MenuMobileController from './menuMobileController';
 import AbilitiesController from './abilitesController';
 import SkinsController from './skinsController';
+import Skins2Controller from './skins2Controller';
 
 const modalController = new ModalController(modalView);
 
@@ -88,7 +90,11 @@ function skinsInit() {
   skinsView.addExploreSkinsHandler(controller.exploreSkins);
 }
 
-function skins2Init() {}
+function skins2Init() {
+  const controller = new Skins2Controller(skins2View);
+
+  skins2View.addIntersectionObserver(controller.handleData);
+}
 
 // modalInit();
 // subwebInit();

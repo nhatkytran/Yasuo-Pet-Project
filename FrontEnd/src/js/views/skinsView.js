@@ -16,6 +16,7 @@ import {
   $$,
   classRemove,
   debounce,
+  intersectOneTime,
   mapMarkup,
   promisifyLoadingImage,
 } from '../utils';
@@ -188,18 +189,7 @@ class SkinsView {
       threshold: 0.3,
     };
 
-    const callback = (entries, observerSelf) => {
-      if (entries[0].isIntersecting) {
-        handler();
-        observerSelf.disconnect();
-      }
-    };
-
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.#section);
-
-    // addIntersectionObserver only runs one time used for first fetching data
-    // so we can listen button error to fetch again
+    intersectOneTime(this.#section, options, handler);
     this.#skinsOVerlayErrorButton.addEventListener('click', handler);
   }
 
