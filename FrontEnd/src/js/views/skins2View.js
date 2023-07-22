@@ -28,6 +28,13 @@ class Skins2View {
   #mbSliderDivImagesWrapper;
   #mbSliderDivImages; // After fetching
 
+  // Value from `getBoundingClientRect` can be 0 if initialized with elements disply none
+  // So we hard code some value and comnent `class` as reference
+  // Value is added at `prepareDataForSliders`
+
+  #slideItemHeight; // class: skins2-slider-item
+  #slideButtons;
+
   constructor() {
     this.#section = $('.skins2.section');
 
@@ -161,6 +168,25 @@ class Skins2View {
     await this.#createItem(skins, ...this.#images);
   }
 
+  prepareDataForSliders() {
+    this.#slideItemHeight = 100;
+    this.#slideButtons = $$('.skins2-button');
+
+    this.#slideButtons.forEach((button, index) => {
+      button.setAttribute('data-slide-button-index', index);
+    });
+  }
+
+  getSlideItemHeight = () => this.#slideItemHeight;
+
+  slide = translateY =>
+    (this.#sliderDivImagesWrapper.style.transform = `translateY(${translateY}rem)`);
+
+  slideAnimate = (index, prevIndex) => {
+    this.#slideButtons[prevIndex].classList.remove('active');
+    this.#slideButtons[index].classList.add('active');
+  };
+
   addIntersectionObserver(handler) {
     const options = {
       root: null,
@@ -169,6 +195,22 @@ class Skins2View {
 
     intersectOneTime(this.#section, options, handler);
     this.#skinsErrorButton.addEventListener('click', handler);
+  }
+
+  addChooseSlideHandler(handler) {
+    this.#slider.addEventListener('click', event => {
+      const target = event.target.closest('.skins2-button');
+
+      if (target)
+        handler(Number(target.dataset.slideButtonIndex), this.#slideItemHeight);
+    });
+  }
+
+  addDragSlideHandler(startHandler, progressHandler, stopHandler) {
+    this.#slider.addEventListener('mousedown', startHandler);
+    this.#slider.addEventListener('mousemove', progressHandler);
+    this.#slider.addEventListener('mouseup', stopHandler);
+    this.#slider.addEventListener('mouseleave', stopHandler);
   }
 }
 

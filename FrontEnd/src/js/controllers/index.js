@@ -94,6 +94,19 @@ function skins2Init() {
   const controller = new Skins2Controller(skins2View);
 
   skins2View.addIntersectionObserver(controller.handleData);
+
+  skins2View.addChooseSlideHandler(controller.slideActions.chooseSlide);
+  skins2View.addDragSlideHandler(
+    controller.slideActions.dragStart,
+    controller.slideActions.dragProgress,
+    controller.slideActions.dragStop
+  );
+
+  // skins2View.addDragSlider(
+  //   controller.dragStart,
+  //   controller.dragProgress,
+  //   controller.dragStop
+  // );
 }
 
 // modalInit();

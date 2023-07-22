@@ -1,10 +1,9 @@
-import { CONTENT, LOADING, ERROR } from '../config';
+import { CONTENT, LOADING, ERROR, REM } from '../config';
 import { checkEmptyObject } from '../utils';
 import state, { fetchSkinsData } from '../model';
 
 class Skins2Controller {
   #skins2View;
-  #totalSkins; // Counted after fetching data
 
   constructor(skins2View) {
     this.#skins2View = skins2View;
@@ -16,13 +15,15 @@ class Skins2Controller {
 
       const data = await fetchSkinsData();
 
-      console.log(data);
-
-      await this.#skins2View.createImages(data.skins);
-      await this.#skins2View.createSlider(data.skins);
-      await this.#skins2View.createMbSlider(data.skins);
+      await Promise.all([
+        this.#skins2View.createImages(data.skins),
+        this.#skins2View.createSlider(data.skins),
+        this.#skins2View.createMbSlider(data.skins),
+      ]);
 
       state.skinsData = data;
+
+      this.#skins2View.prepareDataForSliders();
     } catch (error) {
       // test
       console.error('Something went wrong!');
@@ -37,11 +38,73 @@ class Skins2Controller {
     if (checkEmptyObject(state.skinsData)) await this.#fetchData();
     if (!checkEmptyObject(state.skinsData))
       this.#skins2View.displayContent(CONTENT);
-
-    this.#totalSkins = state.skinsData.skins.length;
-
-    console.log(this.#totalSkins);
   };
+
+  #handleSlider = () => {
+    let prevIndex = 1; // By default, index of 1 is active
+    let currentTranslateY = 0; // `rem` unit
+    let isDragged = false;
+    let isReadyToDrag = false;
+    let startClientY;
+    let newClientY;
+
+    const chooseSlide = (index, slideItemHeight) => {
+      if (isDragged) return;
+
+      currentTranslateY = ((index - 1) * -slideItemHeight) / 10;
+
+      this.#skins2View.slide(currentTranslateY);
+      this.#skins2View.slideAnimate(index, prevIndex);
+
+      prevIndex = index;
+    };
+
+    const dragStart = event => {
+      isReadyToDrag = true;
+      startClientY = event.clientY;
+    };
+
+    const dragProgress = event => {
+      if (!isReadyToDrag) return;
+
+      isDragged = true;
+      newClientY = event.clientY;
+
+      const diff = newClientY - startClientY;
+
+      if (diff !== 0) this.#skins2View.slide(currentTranslateY + diff / REM);
+    };
+
+    const dragStop = () => {
+      isReadyToDrag = false;
+
+      if (!isDragged) return;
+      isDragged = false; // `click` event before `mouseup` event
+
+      currentTranslateY += (newClientY - startClientY) / REM;
+
+      const slideItemHeight = this.#skins2View.getSlideItemHeight() / REM;
+      const totalItems = state.skinsData.skins.length;
+
+      if (currentTranslateY > slideItemHeight)
+        currentTranslateY = slideItemHeight;
+      if (currentTranslateY < -(totalItems - 2) * slideItemHeight)
+        currentTranslateY = -(totalItems - 2) * slideItemHeight;
+
+      currentTranslateY = Math.round(currentTranslateY / 10) * 10;
+
+      this.#skins2View.slide(currentTranslateY);
+    };
+
+    return {
+      chooseSlide,
+      dragStart,
+      dragProgress,
+      dragStop,
+    };
+  };
+
+  slideActions = this.#handleSlider();
 }
 
 export default Skins2Controller;
