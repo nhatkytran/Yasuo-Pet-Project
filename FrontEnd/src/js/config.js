@@ -52,3 +52,5 @@ export const MAIN = '_main';
 export const SUB = '_sub';
 
 export const REM = 10;
+export const X = 'X';
+export const Y = 'Y';

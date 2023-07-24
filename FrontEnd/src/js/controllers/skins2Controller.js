@@ -5,8 +5,14 @@ import state, { fetchSkinsData } from '../model';
 class Skins2Controller {
   #skins2View;
 
+  slideActions;
+  mbSlideActions;
+
   constructor(skins2View) {
     this.#skins2View = skins2View;
+
+    this.slideActions = this.#handleSlider();
+    this.mbSlideActions = this.#handleMbSlider();
   }
 
   #fetchData = async () => {
@@ -104,7 +110,28 @@ class Skins2Controller {
     };
   };
 
-  slideActions = this.#handleSlider();
+  #handleMbSlider = () => {
+    let prevIndex = 1;
+    let currentTranslateXDefault = this.#skins2View.countMbTranslateX(1);
+    let currentTranslateX = currentTranslateXDefault;
+    let isDragged = false;
+    let isReadyToDrag = false;
+    let startClientX;
+    let newClientX;
+
+    console.log(currentTranslateXDefault);
+    console.log(currentTranslateX);
+
+    this.#skins2View.mbSlide(currentTranslateX);
+
+    const chooseMbSlide = (index, mbSlideItemWidth) => {
+      console.log(index, mbSlideItemWidth);
+    };
+
+    return {
+      chooseMbSlide,
+    };
+  };
 }
 
 export default Skins2Controller;

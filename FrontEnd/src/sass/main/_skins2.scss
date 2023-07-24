@@ -271,6 +271,7 @@
     flex-shrink: 0;
     width: 11rem;
     padding: 2.5rem 0.5rem;
+    cursor: pointer;
 
     &:not(.active) {
       .skins2-mobile-slider__image,

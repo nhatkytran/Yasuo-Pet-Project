@@ -101,12 +101,7 @@ function skins2Init() {
     controller.slideActions.dragProgress,
     controller.slideActions.dragStop
   );
-
-  // skins2View.addDragSlider(
-  //   controller.dragStart,
-  //   controller.dragProgress,
-  //   controller.dragStop
-  // );
+  skins2View.addChooseMbSlideHandler(controller.mbSlideActions.chooseMbSlide);
 }
 
 // modalInit();

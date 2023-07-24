@@ -88,10 +88,11 @@ import { $, $$ } from '../../../js/utils';
 // slider.addEventListener('mouseleave', dragStop);
 
 // Mobile //////////
-
 const skinsImageWrapper = $('.skins2-img-wrapper');
+
 const slider = $('.skins2-mobile-slider');
 const sliderList = $('.skins2-mobile-slider__list');
+
 const sliderItems = $$('.skins2-mobile-slider__item');
 
 // width of `slider is equal to width of `skinsImageWrapper`

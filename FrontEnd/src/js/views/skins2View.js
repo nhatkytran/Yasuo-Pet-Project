@@ -1,4 +1,14 @@
-import { BACKEND_URL, ADD, REMOVE, CONTENT, LOADING, ERROR } from '../config';
+import {
+  BACKEND_URL,
+  ADD,
+  REMOVE,
+  CONTENT,
+  LOADING,
+  ERROR,
+  REM,
+  X,
+  Y,
+} from '../config';
 
 import {
   $,
@@ -34,6 +44,10 @@ class Skins2View {
 
   #slideItemHeight; // class: skins2-slider-item
   #slideButtons;
+
+  #mbSliderWidth;
+  #mbSlideItemWidth; // class: skins2-mobile-slider__item
+  #mbSlideButtons;
 
   constructor() {
     this.#section = $('.skins2.section');
@@ -169,22 +183,61 @@ class Skins2View {
   }
 
   prepareDataForSliders() {
+    const addButtonDataHTML = buttons =>
+      buttons.forEach((button, index) => {
+        button.setAttribute('data-slide-button-index', index);
+      });
+
+    // Desktop //////////
     this.#slideItemHeight = 100;
     this.#slideButtons = $$('.skins2-button');
+    addButtonDataHTML(this.#slideButtons);
 
-    this.#slideButtons.forEach((button, index) => {
-      button.setAttribute('data-slide-button-index', index);
-    });
+    // Mobile //////////
+    this.#mbSlideItemWidth = 110;
+    this.#mbSlideButtons = $$('.skins2-mobile-slider__item');
+    addButtonDataHTML(this.#mbSlideButtons);
+
+    // width of `this.#mbSlider` is equal to width of `this.#imagesWrapper`
+    // but `this.#mbSlider` can be display none sometimes (responsive --> none)
+    // so we use width of `this.#imagesWrapper`
+    this.#mbSliderWidth = this.#imagesWrapper.getBoundingClientRect().width;
   }
 
   getSlideItemHeight = () => this.#slideItemHeight;
+  getMbSlideItemWidth = () => this.#mbSlideItemWidth;
 
-  slide = translateY =>
-    (this.#sliderDivImagesWrapper.style.transform = `translateY(${translateY}rem)`);
+  slide = this.#slideFactory(Y);
+  mbSlide = this.#slideFactory(X);
+  #slideFactory(side) {
+    return translate => {
+      const wrapper =
+        side === X
+          ? this.#mbSliderDivImagesWrapper
+          : this.#sliderDivImagesWrapper;
 
-  slideAnimate = (index, prevIndex) => {
-    this.#slideButtons[prevIndex].classList.remove('active');
-    this.#slideButtons[index].classList.add('active');
+      wrapper.style.transform = `translate${side}(${translate}rem)`;
+    };
+  }
+
+  slideAnimate = this.#slideAnimateFactory(Y);
+  mbSlideAnimate = this.#slideAnimateFactory(X);
+  #slideAnimateFactory(side) {
+    return (index, prevIndex) => {
+      const buttons = side === X ? this.#mbSlideButtons : this.#slideButtons;
+
+      buttons[prevIndex].classList.remove('active');
+      buttons[index].classList.add('active');
+    };
+  }
+
+  countMbTranslateX = index => {
+    // Why 1 / 2 ? We need a point is the middle of `this.#mbSlideItemWidth`
+    const distance = this.#mbSlideItemWidth * (index + 1 / 2);
+    console.log(distance);
+    const translatePX = this.#mbSliderWidth / 2 - distance;
+
+    return translatePX / REM;
   };
 
   addIntersectionObserver(handler) {
@@ -211,6 +264,18 @@ class Skins2View {
     this.#slider.addEventListener('mousemove', progressHandler);
     this.#slider.addEventListener('mouseup', stopHandler);
     this.#slider.addEventListener('mouseleave', stopHandler);
+  }
+
+  addChooseMbSlideHandler(handler) {
+    this.#mbSlider.addEventListener('click', event => {
+      const target = event.target.closest('.skins2-mobile-slider__item');
+
+      if (target)
+        handler(
+          Number(target.dataset.slideButtonIndex),
+          this.#mbSlideItemWidth
+        );
+    });
   }
 }
 
