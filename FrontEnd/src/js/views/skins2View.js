@@ -99,7 +99,7 @@ class Skins2View {
     const stringCallback = (active, name, imageAlt) => `
       <li class="skins2-slider-item">
         <button class="button skins2-button ${active}">
-        <img class="skins2-button__image" src="" alt="${imageAlt}">
+        <img class="skins2-button__image" src="" alt="${imageAlt}" draggable="false">
           <div class="skins2-button__name">
             <p>${name}</p>
           </div>
@@ -115,7 +115,7 @@ class Skins2View {
       <li class="skins2-mobile-slider__item ${active}">
         <button class="button skins2-mobile-slider__button">
           <div class="skins2-mobile-slider__image">
-            <img src="" alt="${imageAlt}">
+            <img src="" alt="${imageAlt}" draggable="false">
             <div class="skins2-mobile-slider__image-overlay fade-in"></div>
           </div>
           <p class="skins2-mobile-slider__name">${name}</p>
@@ -188,6 +188,8 @@ class Skins2View {
         button.setAttribute('data-slide-button-index', index);
       });
 
+    this.#images = $$('.skins2-img');
+
     // Desktop //////////
     this.#slideItemHeight = 100;
     this.#slideButtons = $$('.skins2-button');
@@ -197,12 +199,15 @@ class Skins2View {
     this.#mbSlideItemWidth = 110;
     this.#mbSlideButtons = $$('.skins2-mobile-slider__item');
     addButtonDataHTML(this.#mbSlideButtons);
+    this.setMbSliderWidth();
+  }
 
+  setMbSliderWidth = () => {
     // width of `this.#mbSlider` is equal to width of `this.#imagesWrapper`
     // but `this.#mbSlider` can be display none sometimes (responsive --> none)
     // so we use width of `this.#imagesWrapper`
     this.#mbSliderWidth = this.#imagesWrapper.getBoundingClientRect().width;
-  }
+  };
 
   getSlideItemHeight = () => this.#slideItemHeight;
   getMbSlideItemWidth = () => this.#mbSlideItemWidth;
@@ -231,13 +236,18 @@ class Skins2View {
     };
   }
 
+  countTranslateY = index => ((index - 1) * -this.#slideItemHeight) / REM;
   countMbTranslateX = index => {
     // Why 1 / 2 ? We need a point is the middle of `this.#mbSlideItemWidth`
     const distance = this.#mbSlideItemWidth * (index + 1 / 2);
-    console.log(distance);
     const translatePX = this.#mbSliderWidth / 2 - distance;
 
     return translatePX / REM;
+  };
+
+  chooseMainImage = (index, prevIndex) => {
+    this.#images[prevIndex].classList.remove('active');
+    this.#images[index].classList.add('active');
   };
 
   addIntersectionObserver(handler) {
@@ -253,9 +263,7 @@ class Skins2View {
   addChooseSlideHandler(handler) {
     this.#slider.addEventListener('click', event => {
       const target = event.target.closest('.skins2-button');
-
-      if (target)
-        handler(Number(target.dataset.slideButtonIndex), this.#slideItemHeight);
+      if (target) handler(Number(target.dataset.slideButtonIndex));
     });
   }
 
@@ -269,13 +277,24 @@ class Skins2View {
   addChooseMbSlideHandler(handler) {
     this.#mbSlider.addEventListener('click', event => {
       const target = event.target.closest('.skins2-mobile-slider__item');
-
-      if (target)
-        handler(
-          Number(target.dataset.slideButtonIndex),
-          this.#mbSlideItemWidth
-        );
+      if (target) handler(Number(target.dataset.slideButtonIndex));
     });
+  }
+
+  addDragMbSlideHandler(startHandler, progressHandler, stopHandler) {
+    this.#mbSlider.addEventListener('mousedown', startHandler);
+    this.#mbSlider.addEventListener('mousemove', progressHandler);
+    this.#mbSlider.addEventListener('mouseup', stopHandler);
+    this.#mbSlider.addEventListener('mouseleave', stopHandler);
+
+    const touchOptions = { passive: true }; // Make touch events smooth - recommended by Browser
+    this.#mbSlider.addEventListener('touchstart', startHandler, touchOptions);
+    this.#mbSlider.addEventListener('touchmove', progressHandler, touchOptions);
+    this.#mbSlider.addEventListener('touchend', stopHandler);
+  }
+
+  addMbSliderResizeHandler(handler) {
+    window.addEventListener('resize', handler);
   }
 }
 

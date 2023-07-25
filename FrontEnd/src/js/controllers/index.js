@@ -101,7 +101,15 @@ function skins2Init() {
     controller.slideActions.dragProgress,
     controller.slideActions.dragStop
   );
+
   skins2View.addChooseMbSlideHandler(controller.mbSlideActions.chooseMbSlide);
+  skins2View.addDragMbSlideHandler(
+    controller.mbSlideActions.dragStart,
+    controller.mbSlideActions.dragProgress,
+    controller.mbSlideActions.dragStop
+  );
+
+  skins2View.addMbSliderResizeHandler(controller.mbSlideActions.resize);
 }
 
 // modalInit();

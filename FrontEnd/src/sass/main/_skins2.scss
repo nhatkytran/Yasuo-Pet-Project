@@ -209,10 +209,10 @@
         0 0,
         0 0;
       background-position:
-        0 0,
-        0 0,
-        0 0;
-      transition: background-size ease 0.4s;
+        left 0 top 0,
+        left 0 bottom 0,
+        right 0 bottom 0;
+      transition: background-size ease 0.24s;
       @include use-font(Spiegel-Regular);
       @include flex-align-center;
 
@@ -222,7 +222,7 @@
         @include button-border(0, $border-color);
         transform: skew(45deg) !important;
         width: 0.05rem !important;
-        transition: all ease 0.4s !important;
+        transition: all ease 0.24s !important;
       }
 
       p {
