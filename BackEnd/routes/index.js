@@ -3,3 +3,4 @@ exports.allGamesRouter = require('./allGamesRoutes');
 exports.exploreGamesRouter = require('./exploreGamesRoutes');
 exports.abilitiesRouter = require('./abilitiesRoutes');
 exports.skinsRouter = require('./skinsRoutes');
+exports.ruinedRouter = require('./ruinedRoutes');
