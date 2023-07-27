@@ -9,6 +9,7 @@ const {
   exploreGamesRouter,
   abilitiesRouter,
   skinsRouter,
+  ruinedRouter,
 } = require('./routes');
 
 const globalErrorHandler = require('./controllers/errorController');
@@ -33,6 +34,7 @@ app.use('/api/v1/allGames', allGamesRouter);
 app.use('/api/v1/exploreGames', exploreGamesRouter);
 app.use('/api/v1/abilities', abilitiesRouter);
 app.use('/api/v1/skins', skinsRouter);
+app.use('/api/v1/ruined', ruinedRouter);
 
 app.use(globalErrorHandler);
 
