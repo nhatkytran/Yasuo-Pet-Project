@@ -4,6 +4,7 @@ import {
   exploreGamesAxios,
   abilitiesAxios,
   skinsAxios,
+  ruinedAxios,
 } from './http';
 
 const state = {
@@ -12,6 +13,7 @@ const state = {
   isExploreGamesFetchData: false,
   isAbilitiesFetchData: false,
   skinsData: {},
+  ruinedData: {},
 };
 
 // Subweb //////////////////////////////
@@ -70,6 +72,14 @@ export const fetchSkinsData = async () => {
   const response = await skinsAxios.getSkinsData('/api/v1/skins/data');
 
   return response.skinsAssets;
+};
+
+// Ruined //////////////////////////////
+
+export const fetchRuinedData = async () => {
+  const response = await ruinedAxios.getRuinedData('/api/v1/ruined/data');
+
+  return response.ruinedAssets;
 };
 
 // //////////////////////////////

@@ -6,3 +6,4 @@ export { default as skinsView } from './skinsView';
 export { default as skins2View } from './skins2View';
 export { default as exploreAllgamesView } from './exploreAllgamesView';
 export { default as exploreGamesView } from './exploreGamesView';
+export { default as ruinedView } from './ruinedView';

@@ -22,27 +22,28 @@
 
   &__king {
     height: 100%;
-    transform: translate(-10rem, -2rem) scale(1.2);
+    transform: translate(-6rem, -2rem) scale(1.2);
 
     @mixin king-transform($width, $x-translate, $y-translate, $scale) {
       @media only screen and (max-width: $width) {
         transform: translate($x-translate, $y-translate) scale($scale);
       }
     }
+    @include king-transform($px1040, -8rem, -2rem, 1.2);
     @include king-transform($px840, -12rem, -2rem, 1.2);
     @include king-transform($px640, -13rem, -2rem, 1.2);
     @include king-transform($px540, -14rem, -2rem, 1.2);
     @include king-transform($px340, -16rem, -2rem, 1.2);
 
-    &-helper {
-      transform: translate(-44.5rem, 7rem) scale(0.4);
+    &-veigo {
+      height: 100%;
+    }
 
-      @include king-transform($px840, -46.5rem, 7rem, 0.4);
-      @include king-transform(44.25em, 6.8rem, 0.6rem, 0.4); // 708px
-      @include king-transform($px640, -47.5rem, 6.8rem, 0.4);
-      @include king-transform(39.25em, 5.8rem, 0.6rem, 0.4); // 628px
-      @include king-transform($px540, 4.8rem, 0.6rem, 0.4);
-      @include king-transform($px340, 2.8rem, 0.6rem, 0.4);
+    &-helper {
+      transform: translate(-33.5rem, 2.6rem) scale(0.35);
+      @include king-transform(43.3125em, 19.8rem, -3.7rem, 0.35); // 693px
+      @include king-transform($px640, -33.5rem, 2.6rem, 0.35);
+      @include king-transform(38.375em, 19.8rem, -3.7rem, 0.35); // 614px
     }
   }
 
@@ -92,28 +93,36 @@
   }
 
   &__bg {
-    background-image: url("/src/assets/img/ruined/RuinedKing_Yasuo_PromoModule01.jpeg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
-    background-origin: left;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 36% 100%);
     @include full-dimension;
     @include absolute-position(-50%, -50%);
 
-    @mixin bg-position($width, $x-position) {
-      @media only screen and (max-width: $width) {
-        background-position: $x-position 50%;
+    &-loading {
+      @include diagonal-wipe-loading($px1140);
+    }
+
+    &-error {
+      @include img-error-column;
+
+      @media only screen and (max-width: $px1140) {
+        img {
+          width: 5.4rem;
+        }
+        button {
+          font-size: 1.2rem;
+        }
       }
     }
-    @include bg-position($px1440, 55%);
-    @include bg-position($px1340, 60%);
-    @include bg-position($px1240, 65%);
-    @include bg-position($px1140, 70%);
-    @include bg-position($px1040, 75%);
-    @include bg-position($px940, 80%);
-    @include bg-position($px840, 85%);
-    @include bg-position($px640, 50%);
+
+    &-image-wrapper {
+      @include full-dimension;
+    }
+
+    &-image {
+      object-fit: cover;
+      background-origin: left;
+      @include full-dimension;
+    }
   }
 
   &__bg-border {
