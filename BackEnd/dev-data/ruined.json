@@ -1,6 +1,13 @@
 {
   "images": {
-    "main": "/img/ruined/main.jpeg",
-    "sub": "/img/ruined/sub.png"
+    "main": {
+      "link": "/img/ruined/main.jpeg",
+      "alt": "Yasuo - Ruined King"
+    },
+    "sub": {
+      "link": "/img/ruined/sub.png",
+      "linkHelper": "/img/ruined/subHelper.png",
+      "alt": "Veigo - Ruined King"
+    }
   }
 }

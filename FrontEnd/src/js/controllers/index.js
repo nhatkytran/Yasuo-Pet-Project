@@ -7,6 +7,7 @@ import {
   abilitiesView,
   skinsView,
   skins2View,
+  ruinedView,
 } from '../Views';
 
 import ModalController from './modalController';
@@ -17,6 +18,7 @@ import MenuMobileController from './menuMobileController';
 import AbilitiesController from './abilitesController';
 import SkinsController from './skinsController';
 import Skins2Controller from './skins2Controller';
+import RuinedController from './ruinedController';
 
 const modalController = new ModalController(modalView);
 
@@ -112,6 +114,12 @@ function skins2Init() {
   skins2View.addMbSliderResizeHandler(controller.mbSlideActions.resize);
 }
 
+function ruinedInit() {
+  const controller = new RuinedController(ruinedView);
+
+  ruinedView.addIntersectionObserver(controller.handleData);
+}
+
 // modalInit();
 // subwebInit();
 // exploreAllgamesInit();
@@ -119,4 +127,5 @@ function skins2Init() {
 // menuMobileInit();
 // abilitiesInit();
 // skinsInit();
-skins2Init();
+// skins2Init();
+ruinedInit();

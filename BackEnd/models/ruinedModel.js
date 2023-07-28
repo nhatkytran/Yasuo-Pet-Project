@@ -1,9 +1,17 @@
 const mongoose = require('mongoose');
 
+const imageType = {
+  link: { type: String },
+  alt: { type: String },
+};
+
 const schema = new mongoose.Schema({
   images: {
-    main: { type: String },
-    sub: { type: String },
+    main: imageType,
+    sub: {
+      ...imageType,
+      linkHelper: { type: String },
+    },
   },
 });
 
