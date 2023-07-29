@@ -1,4 +1,4 @@
-.login-from__warning {
+.warning {
   width: 100%;
   background-color: #be29cc;
   padding: 4rem 8rem;
@@ -6,9 +6,15 @@
   bottom: 0;
   position: fixed;
   z-index: 1001;
-  gap: 8rem;
-  justify-content: space-between;
-  @include flex-align-center;
+
+  &-wrapper {
+    width: 100%;
+    max-width: 130rem;
+    margin: 0 auto;
+    gap: 8rem;
+    justify-content: space-between;
+    @include flex-align-center;
+  }
 
   &-hero {
     color: $header-text-color;
@@ -66,8 +72,11 @@
   }
 
   @media only screen and (max-width: $px1040) {
-    gap: 6rem;
     padding: 2.6rem 6rem;
+
+    &-wrapper {
+      gap: 6rem;
+    }
 
     &-header {
       font-size: 2rem;
@@ -93,8 +102,11 @@
   }
 
   @media only screen and (max-width: $px840) {
-    gap: 4rem;
     padding: 2.6rem 4rem;
+
+    &-wrapper {
+      gap: 4rem;
+    }
 
     &-header {
       font-size: 1.8rem;
@@ -120,8 +132,11 @@
   }
 
   @media only screen and (max-width: $px740) {
-    gap: 3rem;
     padding: 2.4rem 3rem;
+
+    &-wrapper {
+      gap: 3rem;
+    }
 
     &-actions {
       gap: 1rem;
@@ -129,9 +144,12 @@
   }
 
   @media only screen and (max-width: $px640) {
-    gap: 2.6rem;
-    flex-direction: column;
     padding: 4rem 3rem;
+
+    &-wrapper {
+      gap: 2.6rem;
+      flex-direction: column;
+    }
 
     &-hero {
       text-align: center;
@@ -210,8 +228,11 @@
   }
 
   @media only screen and (max-width: $px340) {
-    gap: 2rem;
     padding: 2rem;
+
+    &-wrapper {
+      gap: 2rem;
+    }
 
     &-header {
       font-size: 1.4rem;

@@ -173,6 +173,9 @@
 .z-index-1-neg {
   z-index: -1 !important; }
 
+.turn-white {
+  filter: brightness(0) invert(1); }
+
 .arrow-down {
   width: 1.5rem;
   height: 1.5rem;
@@ -501,154 +504,163 @@ body.modal-open #modal {
   .login-form__privacy a {
     color: #171717; }
 
-.login-from__warning {
+.warning {
   width: 100%;
   background-color: #be29cc;
   padding: 4rem 8rem;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
   bottom: 0;
   position: fixed;
-  z-index: 1001;
-  gap: 8rem;
-  justify-content: space-between;
-  display: flex;
-  align-items: center; }
-  .login-from__warning-hero {
+  z-index: 1001; }
+  .warning-wrapper {
+    width: 100%;
+    max-width: 130rem;
+    margin: 0 auto;
+    gap: 8rem;
+    justify-content: space-between;
+    display: flex;
+    align-items: center; }
+  .warning-hero {
     color: #f9f9f9; }
-  .login-from__warning-header {
+  .warning-header {
     font-size: 2.2rem;
     font-family: FF-Mark-Bold, Arial, sans-serif; }
-  .login-from__warning-description {
+  .warning-description {
     font-size: 1.6rem;
     margin-top: 1.4rem;
     font-family: FF-Mark-Medium, Arial, sans-serif; }
-  .login-from__warning-actions {
+  .warning-actions {
     gap: 2.6rem;
     flex-shrink: 0;
     justify-content: space-between;
     display: flex;
     align-items: center; }
-  .login-from__warning-button {
+  .warning-button {
     transition: all ease 0.2s;
     font-family: FF-Mark-Medium, Arial, sans-serif; }
-  .login-from__warning-create {
+  .warning-create {
     color: #f9f9f9;
     background-color: #71117a;
     padding: 1.6rem 1.8rem;
     border-radius: 0.4rem; }
-    .login-from__warning-create:hover {
+    .warning-create:hover {
       background-color: #58105f; }
-  .login-from__warning-close {
+  .warning-close {
     background-color: #c748d3;
     padding: 1.6rem;
     border-radius: 1.6rem;
     justify-content: center;
     display: flex;
     align-items: center; }
-    .login-from__warning-close:hover {
+    .warning-close:hover {
       filter: brightness(1.05); }
-    .login-from__warning-close svg {
+    .warning-close svg {
       fill: #f9f9f9;
       width: 2rem !important;
       height: 2rem !important; }
   @media only screen and (max-width: 65em) {
-    .login-from__warning {
-      gap: 6rem;
+    .warning {
       padding: 2.6rem 6rem; }
-      .login-from__warning-header {
+      .warning-wrapper {
+        gap: 6rem; }
+      .warning-header {
         font-size: 2rem; }
-      .login-from__warning-description {
+      .warning-description {
         font-size: 1.4rem;
         margin-top: 1.2rem; }
-      .login-from__warning-actions {
+      .warning-actions {
         gap: 1.8rem; }
-      .login-from__warning-create {
+      .warning-create {
         font-size: 1.2rem;
         padding: 1.4rem 1.6rem; }
-      .login-from__warning-close {
+      .warning-close {
         padding: 1.2rem; } }
   @media only screen and (max-width: 52.5em) {
-    .login-from__warning {
-      gap: 4rem;
+    .warning {
       padding: 2.6rem 4rem; }
-      .login-from__warning-header {
+      .warning-wrapper {
+        gap: 4rem; }
+      .warning-header {
         font-size: 1.8rem; }
-      .login-from__warning-description {
+      .warning-description {
         font-size: 1.2rem;
         margin-top: 1rem; }
-      .login-from__warning-actions {
+      .warning-actions {
         gap: 1.4rem; }
-      .login-from__warning-create {
+      .warning-create {
         font-size: 1rem;
         padding: 1.2rem 1.4rem; }
-      .login-from__warning-close {
+      .warning-close {
         padding: 0.9rem; } }
   @media only screen and (max-width: 46.25em) {
-    .login-from__warning {
-      gap: 3rem;
+    .warning {
       padding: 2.4rem 3rem; }
-      .login-from__warning-actions {
+      .warning-wrapper {
+        gap: 3rem; }
+      .warning-actions {
         gap: 1rem; } }
   @media only screen and (max-width: 40em) {
-    .login-from__warning {
-      gap: 2.6rem;
-      flex-direction: column;
+    .warning {
       padding: 4rem 3rem; }
-      .login-from__warning-hero {
+      .warning-wrapper {
+        gap: 2.6rem;
+        flex-direction: column; }
+      .warning-hero {
         text-align: center; }
-      .login-from__warning-header {
+      .warning-header {
         font-size: 2.2rem; }
-      .login-from__warning-description {
+      .warning-description {
         font-size: 1.6rem;
         margin-top: 1rem; }
-      .login-from__warning-actions {
+      .warning-actions {
         gap: 2rem;
         flex-direction: column; }
-      .login-from__warning-create {
+      .warning-create {
         font-size: 1.4rem;
         padding: 1.6rem 1.8rem; }
-      .login-from__warning-close {
+      .warning-close {
         padding: 1.6rem; } }
   @media only screen and (max-width: 33.75em) {
-    .login-from__warning {
+    .warning {
       padding: 3rem 2rem; }
-      .login-from__warning-header {
+      .warning-header {
         font-size: 2rem; }
-      .login-from__warning-description {
+      .warning-description {
         font-size: 1.4rem; }
-      .login-from__warning-actions {
+      .warning-actions {
         gap: 1.6rem; }
-      .login-from__warning-create {
+      .warning-create {
         font-size: 1.2rem;
         padding: 1.2rem 1.4rem; }
-      .login-from__warning-close {
+      .warning-close {
         padding: 1.2rem; } }
   @media only screen and (max-width: 27.5em) {
-    .login-from__warning-header {
+    .warning-header {
       font-size: 1.6rem; }
-    .login-from__warning-description {
+    .warning-description {
       font-size: 1.2rem; }
-    .login-from__warning-actions {
+    .warning-actions {
       gap: 1.4rem; }
-    .login-from__warning-create {
+    .warning-create {
       font-size: 1rem;
       padding: 1rem 1.2rem; }
-    .login-from__warning-close {
+    .warning-close {
       padding: 1rem; } }
   @media only screen and (max-width: 21.25em) {
-    .login-from__warning {
-      gap: 2rem;
+    .warning {
       padding: 2rem; }
-      .login-from__warning-header {
+      .warning-wrapper {
+        gap: 2rem; }
+      .warning-header {
         font-size: 1.4rem; }
-      .login-from__warning-description {
+      .warning-description {
         font-size: 1.1rem; }
-      .login-from__warning-actions {
+      .warning-actions {
         gap: 1rem; }
-      .login-from__warning-create {
+      .warning-create {
         font-size: 1rem;
         padding: 1rem 1.2rem; }
-      .login-from__warning-close {
+      .warning-close {
         padding: 1rem; } }
 
 #toast {
@@ -4146,68 +4158,86 @@ body.modal-open #modal {
         bottom: -2.2rem;
         transform: unset; } }
   .gallery__image {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    transition: all ease 0.2s; }
-    @media only screen and (min-width: 40em) {
-      .gallery__image:hover {
-        transform: scale(1.02); }
-        .gallery__image:hover .gallery__image-overlay {
-          opacity: 1;
-          pointer-events: all; } }
+    position: relative;
+    transition: all ease 0.2s;
+    cursor: pointer; }
+    .gallery__image img {
+      object-fit: cover;
+      width: 100% !important;
+      height: 100% !important; }
+    .gallery__image:hover {
+      transform: scale(1.02); }
+      .gallery__image:hover .gallery__image-overlay {
+        opacity: 1;
+        pointer-events: all; }
     .gallery__image-overlay {
       background-color: rgba(0, 0, 0, 0.5);
       border: 1px solid #c4b998;
       transition: all ease 0.2s;
+      text-align: center;
       justify-content: center;
       display: flex;
       align-items: center;
       width: 100% !important;
       height: 100% !important;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       opacity: 0;
       pointer-events: none; }
       .gallery__image-overlay-title {
-        font-size: 1rem;
+        font-size: 1.1rem;
         color: #d4ccb2;
         letter-spacing: 0.2rem;
         font-family: Beaufort-Regular, Arial, sans-serif; }
+        @media only screen and (max-width: 65em) {
+          .gallery__image-overlay-title {
+            font-size: 1rem; } }
+        @media only screen and (max-width: 40em) {
+          .gallery__image-overlay-title {
+            font-size: 0.8rem; } }
     .gallery__image--0 {
-      background-image: url("/src/assets/img/gallery/the-soul_optimized.jpeg");
       grid-row: 4/span 2;
       grid-column: 4/span 2; }
     .gallery__image--1 {
-      background-image: url("/src/assets/img/gallery/yasuo-ahri_optimized.jpeg");
       grid-row: 1/span 4;
       grid-column: 1/span 3; }
     .gallery__image--2 {
-      background-image: url("/src/assets/img/gallery/yasuo-akali_optimized.jpeg");
       grid-row: 1/span 3;
       grid-column: 4/span 2; }
     .gallery__image--3 {
-      background-image: url("/src/assets/img/gallery/first-yasuo_optimized.jpeg");
       grid-row: 1/span 5;
       grid-column: 6/span 1; }
     .gallery__image--4 {
-      background-image: url("/src/assets/img/gallery/yasuo-yone_optimized.jpeg");
       grid-row: 1/span 2;
       grid-column: 7/span 2; }
     .gallery__image--5 {
-      background-image: url("/src/assets/img/gallery/yasuo-bloodmoon_optimized.jpg");
       grid-row: 5/span 4;
       grid-column: 1/span 2; }
     .gallery__image--6 {
-      background-image: url("/src/assets/img/gallery/yasuo-swordman_optimized.jpeg");
       grid-row: 5/span 4;
       grid-column: 3/span 1; }
     .gallery__image--7 {
-      background-image: url("/src/assets/img/gallery/yasuo-samurai_optimized.jpeg");
       grid-row: 6/span 3;
       grid-column: 4/span 3; }
     .gallery__image--8 {
-      background-image: url("/src/assets/img/gallery/yasuo-blossom_optimized.jpeg");
       grid-row: 3/span 6;
       grid-column: 7/span 2; }
+
+.gallery-chosen {
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  width: 100% !important;
+  height: 100% !important; }
+  .gallery-chosen-image {
+    margin-top: 10rem;
+    width: 20rem !important;
+    height: 20rem !important; }
 
 .solo {
   width: 100%;
