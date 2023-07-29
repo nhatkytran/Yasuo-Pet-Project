@@ -62,18 +62,20 @@
   }
 
   &__image {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+    position: relative;
     transition: all ease 0.2s;
+    cursor: pointer;
 
-    @media only screen and (min-width: $px640) {
-      &:hover {
-        transform: scale(1.02);
+    img {
+      object-fit: cover;
+      @include full-dimension;
+    }
 
-        .gallery__image-overlay {
-          @include show;
-        }
+    &:hover {
+      transform: scale(1.02);
+
+      .gallery__image-overlay {
+        @include show;
       }
     }
 
@@ -81,51 +83,74 @@
       background-color: rgba(0, 0, 0, 0.5);
       border: 1px solid #c4b998;
       transition: all ease 0.2s;
+      text-align: center;
       justify-content: center;
       @include flex-align-center;
       @include full-dimension;
+      @include absolute-position(-50%, -50%);
       @include hide;
 
       &-title {
-        font-size: 1rem;
+        font-size: 1.1rem;
         color: #d4ccb2;
         letter-spacing: 0.2rem;
         @include use-font(Beaufort-Regular);
+
+        @mixin font-size($width, $font-size) {
+          @media only screen and (max-width: $width) {
+            font-size: $font-size;
+          }
+        }
+        @include font-size($px1040, 1rem);
+        @include font-size($px640, 0.8rem);
       }
     }
 
-    @mixin image-and-position($image-name, $grid-row, $grid-column) {
-      background-image: url("/src/assets/img/gallery/#{$image-name}");
+    @mixin image-position($grid-row, $grid-column) {
       grid-row: $grid-row;
       grid-column: $grid-column;
     }
-
     &--0 {
-      @include image-and-position("the-soul_optimized.jpeg", 4 / span 2, 4 / span 2);
+      @include image-position(4 / span 2, 4 / span 2);
     }
     &--1 {
-      @include image-and-position("yasuo-ahri_optimized.jpeg", 1 / span 4, 1 / span 3);
+      @include image-position(1 / span 4, 1 / span 3);
     }
     &--2 {
-      @include image-and-position("yasuo-akali_optimized.jpeg", 1 / span 3, 4 / span 2);
+      @include image-position(1 / span 3, 4 / span 2);
     }
     &--3 {
-      @include image-and-position("first-yasuo_optimized.jpeg", 1 / span 5, 6 / span 1);
+      @include image-position(1 / span 5, 6 / span 1);
     }
     &--4 {
-      @include image-and-position("yasuo-yone_optimized.jpeg", 1 / span 2, 7 / span 2);
+      @include image-position(1 / span 2, 7 / span 2);
     }
     &--5 {
-      @include image-and-position("yasuo-bloodmoon_optimized.jpg", 5 / span 4, 1 / span 2);
+      @include image-position(5 / span 4, 1 / span 2);
     }
     &--6 {
-      @include image-and-position("yasuo-swordman_optimized.jpeg", 5 / span 4, 3 / span 1);
+      @include image-position(5 / span 4, 3 / span 1);
     }
     &--7 {
-      @include image-and-position("yasuo-samurai_optimized.jpeg", 6 / span 3, 4 / span 3);
+      @include image-position(6 / span 3, 4 / span 3);
     }
     &--8 {
-      @include image-and-position("yasuo-blossom_optimized.jpeg", 3 / span 6, 7 / span 2);
+      @include image-position(3 / span 6, 7 / span 2);
     }
+  }
+}
+
+.gallery-chosen {
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  @include full-dimension;
+
+  &-image {
+    margin-top: 10rem;
+    @include square-dimension(20rem);
   }
 }

@@ -68,6 +68,11 @@
   z-index: -1 !important;
 }
 
+// Colors
+.turn-white {
+  filter: brightness(0) invert(1);
+}
+
 // Assets
 .arrow-down {
   width: 1.5rem;
