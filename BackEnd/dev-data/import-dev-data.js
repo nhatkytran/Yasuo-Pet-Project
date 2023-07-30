@@ -10,6 +10,7 @@ const {
   Abilities,
   Skins,
   Ruined,
+  Gallery,
 } = require('../models');
 
 dotenv.config({ path: path.join(__dirname, '..', 'config.env') });
@@ -25,6 +26,7 @@ const exploreGamesData = getData('exploreGames.json');
 const abilitiesData = getData('abilities.json');
 const skinsData = getData('skins.json');
 const ruinedData = getData('ruined.json');
+const galleryData = getData('gallery.json');
 
 async function importData() {
   try {
@@ -35,6 +37,7 @@ async function importData() {
       Abilities.create(abilitiesData),
       Skins.create(skinsData),
       Ruined.create(ruinedData),
+      Gallery.create(galleryData),
     ]);
     console.log('Data import - Successful!');
   } catch (error) {
@@ -54,6 +57,7 @@ async function deleteData() {
       Abilities.deleteMany(),
       Skins.deleteMany(),
       Ruined.deleteMany(),
+      Gallery.deleteMany(),
     ]);
     console.log('Data delete - Successful!');
   } catch (error) {
