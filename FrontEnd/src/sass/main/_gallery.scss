@@ -24,6 +24,15 @@
   }
 }
 
+.gallery__loading {
+  @include diagonal-wipe-loading($px1140);
+}
+
+.gallery__error {
+  @include img-error-column;
+  @include img-error-responsive($px1140, 5.4rem, 1.2rem);
+}
+
 .gallery {
   display: grid;
   width: calc(100% - 12rem);
@@ -144,6 +153,7 @@
   top: 0;
   left: 0;
   position: fixed;
+  pointer-events: none;
   z-index: 1000;
   display: flex;
   justify-content: center;
@@ -152,5 +162,10 @@
   &-image {
     margin-top: 10rem;
     @include square-dimension(20rem);
+    display: none;
+
+    &.active {
+      display: block;
+    }
   }
 }

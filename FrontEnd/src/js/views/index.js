@@ -7,3 +7,4 @@ export { default as skins2View } from './skins2View';
 export { default as exploreAllgamesView } from './exploreAllgamesView';
 export { default as exploreGamesView } from './exploreGamesView';
 export { default as ruinedView } from './ruinedView';
+export { default as galleryView } from './galleryView';
