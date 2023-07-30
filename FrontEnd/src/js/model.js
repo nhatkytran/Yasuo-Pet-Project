@@ -5,6 +5,7 @@ import {
   abilitiesAxios,
   skinsAxios,
   ruinedAxios,
+  galleryAxios,
 } from './http';
 
 const state = {
@@ -14,6 +15,7 @@ const state = {
   isAbilitiesFetchData: false,
   skinsData: {},
   ruinedData: {},
+  galleryData: {},
 };
 
 // Subweb //////////////////////////////
@@ -80,6 +82,14 @@ export const fetchRuinedData = async () => {
   const response = await ruinedAxios.getRuinedData('/api/v1/ruined/data');
 
   return response.ruinedAssets;
+};
+
+// Gallery //////////////////////////////
+
+export const fetchGalleryData = async () => {
+  const response = await galleryAxios.getGalleryData('/api/v1/gallery/data');
+
+  return response.galleryAssets;
 };
 
 // //////////////////////////////

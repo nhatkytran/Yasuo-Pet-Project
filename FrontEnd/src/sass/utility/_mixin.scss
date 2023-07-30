@@ -172,3 +172,14 @@
   @include flex-align-center;
   @include absolute-position(-50%, -50%);
 }
+
+@mixin img-error-responsive($width, $image-width, $font-size) {
+  @media only screen and (max-width: $width) {
+    img {
+      width: $image-width;
+    }
+    button {
+      font-size: $font-size;
+    }
+  }
+}

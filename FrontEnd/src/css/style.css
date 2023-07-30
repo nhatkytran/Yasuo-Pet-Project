@@ -4114,6 +4114,32 @@ body.modal-open #modal {
       .gallery__container-sub {
         display: block !important; } }
 
+.gallery__loading {
+  width: 7.2rem !important;
+  height: 7.2rem !important; }
+  .gallery__loading svg:nth-child(2) {
+    animation: diagonal-wipe-7d2 1.5s ease infinite; }
+  @media only screen and (max-width: 71.25em) {
+    .gallery__loading {
+      width: 5.2rem !important;
+      height: 5.2rem !important; }
+      .gallery__loading svg:nth-child(2) {
+        animation: diagonal-wipe-5d2 1.5s ease infinite; } }
+
+.gallery__error {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+  @media only screen and (max-width: 71.25em) {
+    .gallery__error img {
+      width: 5.4rem; }
+    .gallery__error button {
+      font-size: 1.2rem; } }
+
 .gallery {
   display: grid;
   width: calc(100% - 12rem);
@@ -4229,6 +4255,7 @@ body.modal-open #modal {
   top: 0;
   left: 0;
   position: fixed;
+  pointer-events: none;
   z-index: 1000;
   display: flex;
   justify-content: center;
@@ -4237,7 +4264,10 @@ body.modal-open #modal {
   .gallery-chosen-image {
     margin-top: 10rem;
     width: 20rem !important;
-    height: 20rem !important; }
+    height: 20rem !important;
+    display: none; }
+    .gallery-chosen-image.active {
+      display: block; }
 
 .solo {
   width: 100%;

@@ -103,15 +103,7 @@
 
     &-error {
       @include img-error-column;
-
-      @media only screen and (max-width: $px1140) {
-        img {
-          width: 5.4rem;
-        }
-        button {
-          font-size: 1.2rem;
-        }
-      }
+      @include img-error-responsive($px1140, 5.4rem, 1.2rem);
     }
 
     &-image-wrapper {

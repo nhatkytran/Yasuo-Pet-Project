@@ -8,6 +8,7 @@ import {
   skinsView,
   skins2View,
   ruinedView,
+  galleryView,
 } from '../Views';
 
 import ModalController from './modalController';
@@ -19,6 +20,7 @@ import AbilitiesController from './abilitesController';
 import SkinsController from './skinsController';
 import Skins2Controller from './skins2Controller';
 import RuinedController from './ruinedController';
+import GalleryController from './galleryController';
 
 const modalController = new ModalController(modalView);
 
@@ -120,6 +122,12 @@ function ruinedInit() {
   ruinedView.addIntersectionObserver(controller.handleData);
 }
 
+function galleryInit() {
+  const controller = new GalleryController(galleryView);
+
+  galleryView.addIntersectionObserver(controller.handleData);
+}
+
 // modalInit();
 // subwebInit();
 // exploreAllgamesInit();
@@ -129,3 +137,4 @@ function ruinedInit() {
 // skinsInit();
 // skins2Init();
 // ruinedInit();
+galleryInit();
