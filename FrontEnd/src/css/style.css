@@ -511,7 +511,11 @@ body.modal-open #modal {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
   bottom: 0;
   position: fixed;
-  z-index: 1001; }
+  z-index: 1001;
+  transform: translateY(100%);
+  transition: all ease 0.24s; }
+  .warning.slide {
+    transform: translateY(0); }
   .warning-wrapper {
     width: 100%;
     max-width: 130rem;

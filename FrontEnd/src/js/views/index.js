@@ -8,3 +8,4 @@ export { default as exploreAllgamesView } from './exploreAllgamesView';
 export { default as exploreGamesView } from './exploreGamesView';
 export { default as ruinedView } from './ruinedView';
 export { default as galleryView } from './galleryView';
+export { default as warningView } from './warningView';

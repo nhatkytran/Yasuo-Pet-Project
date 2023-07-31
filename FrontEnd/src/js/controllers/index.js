@@ -9,9 +9,11 @@ import {
   skins2View,
   ruinedView,
   galleryView,
+  warningView,
 } from '../Views';
 
 import ModalController from './modalController';
+import WarningController from './warningController';
 import subwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
@@ -23,6 +25,7 @@ import RuinedController from './ruinedController';
 import GalleryController from './galleryController';
 
 const modalController = new ModalController(modalView);
+const warningController = new WarningController(warningView);
 
 function modalInit() {
   modalView.addCloseModalHandler(modalController.close);
@@ -125,7 +128,29 @@ function ruinedInit() {
 function galleryInit() {
   const controller = new GalleryController(galleryView);
 
+  const modalActions = {
+    handleOpenModal: modalController.open,
+    handleCloseModal: modalController.close,
+  };
+  const warningActions = {
+    open: warningController.open,
+    close: warningController.close,
+    handleMessages: warningController.handleMessages,
+    registerAccept: warningController.registerAccept,
+    registerReject: warningController.registerReject,
+  };
+
   galleryView.addIntersectionObserver(controller.handleData);
+  // galleryView.addChooseImageHandler(
+  //   controller.handleChooseImage.bind(controller, modalActions, warningActions)
+  // );
+  // galleryView.addClooseImageChosenHandler(
+  //   controller.handleCloseImageChosen.bind(
+  //     controller,
+  //     modalActions,
+  //     warningActions
+  //   )
+  // );
 }
 
 // modalInit();

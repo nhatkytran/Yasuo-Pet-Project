@@ -6,6 +6,12 @@
   bottom: 0;
   position: fixed;
   z-index: 1001;
+  transform: translateY(100%);
+  transition: all ease 0.24s;
+
+  &.slide {
+    transform: translateY(0);
+  }
 
   &-wrapper {
     width: 100%;

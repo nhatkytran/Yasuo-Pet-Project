@@ -11,9 +11,11 @@ import {
 } from '../utils';
 
 class GalleryView {
+  #modal;
   #section;
 
   #gallery;
+  #galleryItems; // After fetching
   #images; // After fetching
   #galleryChosen;
   #logos; // After fetching
@@ -23,6 +25,7 @@ class GalleryView {
   #galleryErrorButton;
 
   constructor() {
+    this.#modal = $('#modal');
     this.#section = $('.gallery__container.section');
 
     this.#gallery = $('.gallery');
@@ -56,7 +59,7 @@ class GalleryView {
 
   #generateLogoMarkup = gallery => {
     const markupCallback = item => {
-      const turnWhite = item.logo.color ? 'turn-white' : '';
+      const turnWhite = !item.logo.color ? 'turn-white' : '';
       return `<img class="gallery-chosen-image ${turnWhite}" src="" alt="${item.title}">`;
     };
 
@@ -80,6 +83,7 @@ class GalleryView {
     const markup = this.#generateImageMarkup(gallery);
     this.#gallery.insertAdjacentHTML('beforeend', markup);
 
+    this.#galleryItems = $$('.gallery__image');
     this.#images = $$('.gallery__image img');
 
     const promises = [...this.#images].map((image, index) =>
@@ -96,6 +100,22 @@ class GalleryView {
     ]);
   }
 
+  prepareData() {
+    this.#galleryItems.forEach((item, index) =>
+      item.setAttribute('data-index', index)
+    );
+  }
+
+  openGalleryLogo(index) {
+    classRemove(REMOVE, this.#galleryChosen);
+    this.#logos[index].classList.add('active');
+  }
+
+  closeGalleryLogo() {
+    classRemove(ADD, this.#galleryChosen);
+    this.#logos.forEach(logo => logo.classList.remove('active'));
+  }
+
   addIntersectionObserver(handler) {
     const options = {
       root: null,
@@ -104,6 +124,17 @@ class GalleryView {
 
     intersectOneTime(this.#section, options, handler);
     this.#galleryErrorButton.addEventListener('click', handler);
+  }
+
+  addChooseImageHandler(handler) {
+    this.#gallery.addEventListener('click', event => {
+      const target = event.target.closest('.gallery__image');
+      if (target) handler(Number(target.dataset.index));
+    });
+  }
+
+  addClooseImageChosenHandler(handler) {
+    this.#modal.addEventListener('click', handler);
   }
 }
 
