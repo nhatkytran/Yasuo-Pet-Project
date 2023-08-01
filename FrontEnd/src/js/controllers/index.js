@@ -126,31 +126,27 @@ function ruinedInit() {
 }
 
 function galleryInit() {
-  const controller = new GalleryController(galleryView);
+  const { open, close } = modalController;
+  const { handleMessages, registerAccept, registerDecline } = warningController;
 
-  const modalActions = {
-    handleOpenModal: modalController.open,
-    handleCloseModal: modalController.close,
-  };
+  const modalActions = { open, close };
   const warningActions = {
     open: warningController.open,
     close: warningController.close,
-    handleMessages: warningController.handleMessages,
-    registerAccept: warningController.registerAccept,
-    registerReject: warningController.registerReject,
+    handleMessages,
+    registerAccept,
+    registerDecline,
   };
 
+  const controller = new GalleryController(
+    galleryView,
+    modalActions,
+    warningActions
+  );
+
   galleryView.addIntersectionObserver(controller.handleData);
-  // galleryView.addChooseImageHandler(
-  //   controller.handleChooseImage.bind(controller, modalActions, warningActions)
-  // );
-  // galleryView.addClooseImageChosenHandler(
-  //   controller.handleCloseImageChosen.bind(
-  //     controller,
-  //     modalActions,
-  //     warningActions
-  //   )
-  // );
+  galleryView.addChoosenOpenHandler(controller.galleryChoosenActions.open);
+  galleryView.addChoosenCloseHandler(controller.galleryChoosenActions.close);
 }
 
 // modalInit();

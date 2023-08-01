@@ -3,8 +3,8 @@
     {
       "image": "/img/gallery/main/main--0.jpeg",
       "logo": {
-        "link": "/img/gallery/logo/logo--0.png",
-        "color": true
+        "link": "/img/gallery/logo/logo--0.webp",
+        "color": false
       },
       "link": "https://www.youtube.com/watch?v=sVZpHFXcFJw",
       "title": "SOUL"
