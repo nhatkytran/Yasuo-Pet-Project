@@ -38,8 +38,11 @@ class WarningView {
     });
   }
 
-  addRejectHandler(handler) {
-    this.#buttonReject.addEventListener('click', handler);
+  addDeclineHandler(abortController, handler) {
+    this.#buttonReject.addEventListener('click', handler, {
+      once: true,
+      signal: abortController.signal,
+    });
   }
 }
 

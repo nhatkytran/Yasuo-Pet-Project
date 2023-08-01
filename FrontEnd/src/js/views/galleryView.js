@@ -106,15 +106,21 @@ class GalleryView {
     );
   }
 
-  openGalleryLogo(index) {
-    classRemove(REMOVE, this.#galleryChosen);
-    this.#logos[index].classList.add('active');
-  }
+  #galleryLogo = () => {
+    const actions = removeClassAction => index => {
+      const activeClassAction = removeClassAction === REMOVE ? ADD : REMOVE;
 
-  closeGalleryLogo() {
-    classRemove(ADD, this.#galleryChosen);
-    this.#logos.forEach(logo => logo.classList.remove('active'));
-  }
+      classRemove(removeClassAction, this.#galleryChosen);
+      this.#logos[index].classList[activeClassAction]('active');
+    };
+
+    return {
+      open: actions(REMOVE),
+      close: actions(ADD),
+    };
+  };
+
+  galleryLogo = this.#galleryLogo();
 
   addIntersectionObserver(handler) {
     const options = {
@@ -126,14 +132,14 @@ class GalleryView {
     this.#galleryErrorButton.addEventListener('click', handler);
   }
 
-  addChooseImageHandler(handler) {
+  addChoosenOpenHandler(handler) {
     this.#gallery.addEventListener('click', event => {
       const target = event.target.closest('.gallery__image');
       if (target) handler(Number(target.dataset.index));
     });
   }
 
-  addClooseImageChosenHandler(handler) {
+  addChoosenCloseHandler(handler) {
     this.#modal.addEventListener('click', handler);
   }
 }

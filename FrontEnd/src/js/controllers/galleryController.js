@@ -4,9 +4,13 @@ import state, { fetchGalleryData } from '../model';
 
 class GalleryController {
   #galleryView;
+  #modalActions;
+  #warningActions;
 
-  constructor(galleryView) {
+  constructor(galleryView, modalActions, warningActions) {
     this.#galleryView = galleryView;
+    this.#modalActions = modalActions;
+    this.#warningActions = warningActions;
   }
 
   #fetchData = async () => {
@@ -37,54 +41,51 @@ class GalleryController {
       this.#galleryView.displayContent(CONTENT);
   };
 
-  #handleGalleryChoosen = (modalActions, warningActions) => {
+  #handleGalleryChoosen = () => {
     let abortController = null;
+    let prevIndex = null;
+    let URL;
 
-    const open = () => {};
+    const registerWarningAction = () => {
+      abortController = new AbortController();
 
-    const close = () => {};
+      this.#warningActions.registerAccept(
+        abortController,
+        () => (window.location.href = URL)
+      );
+      this.#warningActions.registerDecline(abortController, close);
+    };
+
+    const open = index => {
+      this.#modalActions.open();
+      this.#galleryView.galleryLogo.open(index);
+
+      URL = state.galleryData.gallery[index].link;
+
+      this.#warningActions.handleMessages({
+        description: `You are being redirected to [<span style="user-select: all">${URL}</span>]. This is a trusted URL, but not a part of 'Yasuo | The King of All Kings'`,
+        buttonMessage: "I know, let's go",
+      });
+      this.#warningActions.open();
+
+      prevIndex = index;
+
+      registerWarningAction();
+    };
+
+    const close = () => {
+      this.#modalActions.close();
+      this.#galleryView.galleryLogo.close(prevIndex);
+      this.#warningActions.close();
+
+      if (abortController !== null) abortController.abort();
+      abortController = null;
+    };
 
     return { open, close };
   };
 
   galleryChoosenActions = this.#handleGalleryChoosen();
-
-  #abortController = null;
-
-  handleCloseImageChosen = (modalActions, warningActions) => {
-    modalActions.handleCloseModal();
-
-    this.#galleryView.closeGalleryLogo();
-
-    warningActions.handleMessages({});
-    warningActions.close();
-
-    if (this.#abortController !== null) this.#abortController.abort();
-    this.#abortController = null;
-  };
-
-  handleChooseImage = (modalActions, warningActions, index) => {
-    modalActions.handleOpenModal();
-
-    this.#galleryView.openGalleryLogo(index);
-
-    const URL = state.galleryData.gallery[index].link;
-
-    warningActions.handleMessages({
-      description: `You are being redirected to [<span style="user-select: all">${URL}</span>]. This is the trusted URL, but not a part of 'Yasuo | The King of All Kings'`,
-      buttonMessage: "I know, let's go",
-    });
-    warningActions.open();
-
-    this.#abortController = new AbortController();
-
-    warningActions.registerAccept(this.#abortController, () => {
-      window.location.href = URL;
-    });
-    warningActions.registerReject(
-      this.handleCloseImageChosen.bind(this, modalActions, warningActions)
-    );
-  };
 }
 
 export default GalleryController;

@@ -13,7 +13,9 @@ class WarningController {
     this.#warningView.close();
   };
 
-  handleMessages = ({ title, description, buttonMessage }) => {
+  handleMessages = (options = {}) => {
+    const { title, description, buttonMessage } = options;
+
     this.#warningView.changeMessages({
       title: title || 'Attention League of Legends Players',
       description: description || '',
@@ -21,15 +23,11 @@ class WarningController {
     });
   };
 
-  registerAccept = (abortController, callback) => {
+  registerAccept = (abortController, callback) =>
     this.#warningView.addAcceptHandler(abortController, callback);
-  };
 
-  // Fix
-
-  registerReject = (abortController, callback) => {
-    this.#warningView.addRejectHandler(abortController, callback);
-  };
+  registerDecline = (abortController, callback) =>
+    this.#warningView.addDeclineHandler(abortController, callback);
 }
 
 export default WarningController;
