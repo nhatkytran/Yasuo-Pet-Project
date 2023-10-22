@@ -1,11 +1,38 @@
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
+const { createDB } = require('../utils');
 
-const { DATABASE, DATABASE_NAME, DATABASE_PASSWORD } = process.env;
+const {
+  DATABASE,
+  DATABASE_NAME,
+  DATABASE_PASSWORD,
+  DATABASE_COLLECTION_YASUO,
+  DATABASE_COLLECTION_SESSION,
+  DATABASE_COLLECTION_SESSION_SECRET,
+} = process.env;
 
-const DB = DATABASE.replace('<DATABASE_NAME>', DATABASE_NAME).replace(
-  '<DATABASE_PASSWORD>',
-  DATABASE_PASSWORD
-);
+const commonAlters = {
+  '<DATABASE_NAME>': DATABASE_NAME,
+  '<DATABASE_PASSWORD>': DATABASE_PASSWORD,
+};
+
+const MS = createDB(DATABASE, {
+  ...commonAlters,
+  '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_SESSION,
+});
+
+exports.sessionOptions = {
+  secret: DATABASE_COLLECTION_SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({ mongoUrl: MS }),
+  cookie: { maxAge: 24 * 60 * 60 * 1000 },
+};
+
+const DB = createDB(DATABASE, {
+  ...commonAlters,
+  '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_YASUO,
+});
 
 mongoose
   .set('strictQuery', true)
