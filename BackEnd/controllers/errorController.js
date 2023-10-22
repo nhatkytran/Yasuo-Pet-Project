@@ -2,15 +2,33 @@ const { AppError } = require('../utils');
 
 const { NODE_ENV } = process.env;
 
-const handleValidationErrorDB = () =>
-  new AppError('Type String is required!', 400);
+const handleValidationErrorDB = error => new AppError(error.message, 400);
+
+const handleCastErrorDB = error =>
+  new AppError(`Invalid ${error.path}: ${error.value}`, 400);
+
+const handleDuplicateError = error => {
+  const [key, value] = Object.entries(error.keyValue)[0];
+
+  return new AppError(
+    `Duplicate field < ${key} >: < ${value} >. Please use another value!`,
+    400
+  );
+};
 
 const globalErrorHandler = (error, _, res, __) => {
   let newError = NODE_ENV === 'development' ? error : Object.create(error);
 
   if (NODE_ENV === 'production') {
+    // ValidationError
     if (newError.name === 'ValidationError')
       newError = handleValidationErrorDB(newError);
+
+    // CastError --> Invalid id
+    if (newError.name === 'CastError') newError = handleCastErrorDB(newError);
+
+    // Duplicate Erro
+    if (newError.code === 11000) newError = handleDuplicateError(newError);
   }
 
   newError.statusCode = newError.statusCode || 500;
