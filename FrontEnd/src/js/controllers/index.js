@@ -1,31 +1,37 @@
-import {
-  modalView,
-  subwebView,
-  exploreAllgamesView,
-  exploreGamesView,
-  menuMobileView,
-  abilitiesView,
-  skinsView,
-  skins2View,
-  ruinedView,
-  galleryView,
-  warningView,
-} from '../Views';
+// import {
+//   modalView,
+//   subwebView,
+//   exploreAllgamesView,
+//   exploreGamesView,
+//   menuMobileView,
+//   abilitiesView,
+//   skinsView,
+//   skins2View,
+//   ruinedView,
+//   galleryView,
+//   warningView,
+// } from '../Views';
 
-import ModalController from './modalController';
-import WarningController from './warningController';
-import subwebController from './subwebController';
-import ExploreAllgamesController from './exploreAllgamesController';
-import ExploreGamesController from './exploreGamesController';
-import MenuMobileController from './menuMobileController';
-import AbilitiesController from './abilitesController';
-import SkinsController from './skinsController';
-import Skins2Controller from './skins2Controller';
-import RuinedController from './ruinedController';
-import GalleryController from './galleryController';
+// import ModalController from './modalController';
+// import WarningController from './warningController';
+// import subwebController from './subwebController';
+// import ExploreAllgamesController from './exploreAllgamesController';
+// import ExploreGamesController from './exploreGamesController';
+// import MenuMobileController from './menuMobileController';
+// import AbilitiesController from './abilitesController';
+// import SkinsController from './skinsController';
+// import Skins2Controller from './skins2Controller';
+// import RuinedController from './ruinedController';
+// import GalleryController from './galleryController';
 
-const modalController = new ModalController(modalView);
-const warningController = new WarningController(warningView);
+// const modalController = new ModalController(modalView);
+// const warningController = new WarningController(warningView);
+
+// --- Test Webpack ---
+
+console.log(123);
+
+// --------
 
 function modalInit() {
   modalView.addCloseModalHandler(modalController.close);
@@ -158,4 +164,4 @@ function galleryInit() {
 // skinsInit();
 // skins2Init();
 // ruinedInit();
-galleryInit();
+// galleryInit();

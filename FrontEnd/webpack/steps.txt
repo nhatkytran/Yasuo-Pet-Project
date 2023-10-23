@@ -1,0 +1,53 @@
+This folder is used for taking notes about the process of configuring Webpack
+
++++ 1. Webpack basics +++
+
+npm install webpack webpack-cli --save-dev
+npm install webpack-merge
+npm install webpack-dev-server --save-dev
+
+"dev": "webpack serve --config webpack/webpack.dev.config.js --hot",
+"prod": "webpack --config webpack/webpack.prod.config.js"
+
+webpack.common.config.js
+---
+const path = require('path');
+const common = {
+  entry: './src/js/controllers/index.js',
+  output: {
+    path: path.resolve(__dirname, '../dist'),
+    filename: 'bundle.js',
+  },
+};
+module.exports = common;
+
+webpack.dev.config.js
+---
+const path = require('path');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.config');
+module.exports = merge(common, {
+  mode: 'development',
+  devServer: {
+    port: 8080,
+    static: {
+      directory: path.resolve(__dirname, '..'),
+    },
+    devMiddleware: {
+      index: 'index.html',
+      writeToDisk: true, // By default, dist folder is created in memory
+    },
+    client: {
+      overlay: true,
+    },
+    liveReload: false,
+  },
+});
+
+webpack.prod.config.js
+---
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.config');
+module.exports = merge(common, {
+  mode: 'production',
+});
