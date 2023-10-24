@@ -1,11 +1,29 @@
-const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+const { mainCwd } = require('./utils');
 
 const common = {
-  entry: './src/js/controllers/index.js',
+  entry: mainCwd('src/js/controllers/index.js'),
   output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: 'bundle.js',
+    path: mainCwd('dist'),
+    filename: '[name].[contenthash:12].js',
   },
+  module: {
+    rules: [
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
+    ],
+  },
+  plugins: [
+    new CleanWebpackPlugin(), // This will clean the 'dist' folder on each build
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: mainCwd('index.html'),
+    }),
+  ],
 };
 
 module.exports = common;

@@ -29,7 +29,10 @@
 
 // --- Test Webpack ---
 
+import { three } from './test';
+
 console.log(123);
+console.log(three());
 
 // --------
 

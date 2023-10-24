@@ -1,6 +1,6 @@
-const path = require('path');
 const { merge } = require('webpack-merge');
 
+const { mainCwd } = require('./utils');
 const common = require('./webpack.common.config');
 
 module.exports = merge(common, {
@@ -8,7 +8,7 @@ module.exports = merge(common, {
   devServer: {
     port: 8080,
     static: {
-      directory: path.resolve(__dirname, '..'),
+      directory: mainCwd(),
     },
     devMiddleware: {
       index: 'index.html',
@@ -17,6 +17,6 @@ module.exports = merge(common, {
     client: {
       overlay: true,
     },
-    liveReload: false,
+    liveReload: true,
   },
 });
