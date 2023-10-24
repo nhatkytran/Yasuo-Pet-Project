@@ -40,7 +40,7 @@ module.exports = merge(common, {
     client: {
       overlay: true,
     },
-    liveReload: false,
+    liveReload: true,
   },
 });
 
@@ -51,3 +51,68 @@ const common = require('./webpack.common.config');
 module.exports = merge(common, {
   mode: 'production',
 });
+
++++ 2. Extract HTML +++
+
+npm install html-webpack-plugin html-loader --save-dev
+
+webpack.common.config.js
+---
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { mainCwd } = require('./utils');
+const common = {
+  entry: mainCwd('src/js/controllers/index.js'),
+  output: {
+    path: mainCwd('dist'),
+    filename: '[name].[contenthash:12].js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: mainCwd('index.html'),
+    }),
+  ],
+};
+module.exports = common;
+
++++ 3. Remove unneccessary files +++
+
+When in dev mode, every time we change some things --> create more files
+npm install clean-webpack-plugin --save-dev
+
+webpack.common.config.js
+---
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { mainCwd } = require('./utils');
+const common = {
+  entry: mainCwd('src/js/controllers/index.js'),
+  output: {
+    path: mainCwd('dist'),
+    filename: '[name].[contenthash:12].js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
+    ],
+  },
+  plugins: [
+    new CleanWebpackPlugin(), // This will clean the 'dist' folder on each build
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: mainCwd('index.html'),
+    }),
+  ],
+};
+module.exports = common;
