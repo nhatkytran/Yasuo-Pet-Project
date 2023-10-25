@@ -5,6 +5,14 @@ const common = require('./webpack.common.config');
 
 module.exports = merge(common, {
   mode: 'development',
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
   devServer: {
     port: 8080,
     static: {

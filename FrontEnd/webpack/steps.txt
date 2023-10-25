@@ -52,6 +52,8 @@ module.exports = merge(common, {
   mode: 'production',
 });
 
+
+
 +++ 2. Extract HTML +++
 
 npm install html-webpack-plugin html-loader --save-dev
@@ -82,6 +84,8 @@ const common = {
   ],
 };
 module.exports = common;
+
+
 
 +++ 3. Remove unneccessary files +++
 
@@ -116,3 +120,109 @@ const common = {
   ],
 };
 module.exports = common;
+
+
+
++++ 4. CSS, SCSS configuration +++
+
+npm install style-loader css-loader sass-loader node-sass --save-dev
+npm install mini-css-extract-plugin --save-dev
+
+webpack.dev.config.js
+---
+module: {
+  rules: [
+    {
+      test: /\.scss$/,
+      use: ['style-loader', 'css-loader', 'sass-loader'],
+    },
+  ],
+}
+
+webpack.prod.config.js
+---
+module: {
+  rules: [
+    {
+      test: /\.scss$/,
+      use: [
+        MiniCssExtractPlugin.loader, // Extract CSS into separate files
+        'css-loader', // Translates CSS into CommonJS
+        'sass-loader', // Compiles Sass to CSS
+      ],
+    },
+  ],
+},
+plugins: [
+  new MiniCssExtractPlugin({
+    filename: '[name].[contenthash:12].css', // Specify the output CSS filename
+  }),
+]
+
+
+
++++ 5. CSS Optimization for production +++
+
+Remove duplicate code, make code shorter,...
+
+npm install css-minimizer-webpack-plugin --save-dev
+
+webpack.prod.config.js
+---
+optimization: {
+  minimize: true,
+  minimizer: [
+    `...`, // Keep settings of Webpack
+    new CssMinimizerPlugin({
+      minimizerOptions: {
+        preset: ['default', { discardComments: { removeAll: true } }],
+      },
+    }),
+  ],
+}
+
+
+
++++ 6. PostCSS +++
+
+Support CSS on many browsers: -webkit,...
+
+npm install autoprefixer postcss-loader --save-dev
+
+webpack.prod.config.js
+---
+use: [
+  MiniCssExtractPlugin.loader, // Extract CSS into separate files
+  'css-loader', // Translates CSS into CommonJS
+  'postcss-loader',
+  'sass-loader', // Compiles Sass to CSS
+]
+
+Create more files
+
+postcss.config.js
+---
+const AutoPrefixer = require('autoprefixer');
+module.exports = {
+  plugins: [AutoPrefixer],
+};
+
+.browserslist
+---
+last 10 versions
+
+
++++ 7. Remove unused CSS +++
+
+npm install purgecss-webpack-plugin --save-dev
+
+webpack.prod.config.js
+---
+plugins: [
+  new MiniCssExtractPlugin({
+    filename: '[name].[contenthash:12].css', // Specify the output CSS filename
+  }),
+  new PurgeCSSPlugin({
+    paths: glob.sync(mainCwd('/src/**/*'), { nodir: true }),
+  }),
+],
