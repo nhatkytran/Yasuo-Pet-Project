@@ -226,3 +226,23 @@ plugins: [
     paths: glob.sync(mainCwd('/src/**/*'), { nodir: true }),
   }),
 ],
+
+
+
++++ 8. Source Map +++
+
+When something went wrong in your production code or web-dev-server, it helps you know where went wrong in development code
+(For both CSS and JS)
+You can use only Source Map in dev if you don't want expose you code
+
+webpack.dev.config.js
+---
+devtool: 'eval-source-map', // faster than 'source-map' and good for development
+
+webpack.prod.config.js
+---
+devtool: 'source-map'
+
+
++++ Optimization for JS +++
+Section 5, 7, 8, 10

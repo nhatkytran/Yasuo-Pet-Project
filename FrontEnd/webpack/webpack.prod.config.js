@@ -9,6 +9,7 @@ const { mainCwd } = require('./utils');
 
 module.exports = merge(common, {
   mode: 'production',
+  // devtool: 'source-map', // Don't expose you code unless needing to debug in production code
   optimization: {
     minimize: true,
     minimizer: [
