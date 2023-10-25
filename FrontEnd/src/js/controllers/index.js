@@ -29,6 +29,8 @@
 
 // --- Test Webpack ---
 
+import '../../sass/main.scss';
+
 import { three } from './test';
 
 console.log(123);
