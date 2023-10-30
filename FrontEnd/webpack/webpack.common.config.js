@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { mainCwd } = require('./utils');
 
 const common = {
-  entry: mainCwd('src/js/controllers/index.js'),
+  entry: mainCwd('src/js/index.js'),
   output: {
     path: mainCwd('dist'),
     filename: '[name].[contenthash:12].js',

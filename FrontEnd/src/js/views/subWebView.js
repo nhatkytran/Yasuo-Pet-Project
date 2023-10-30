@@ -1,20 +1,29 @@
 import {
   BACKEND_URL,
+  ANIMATION_TIMEOUT,
   START,
   END,
+  ERROR,
   ADD,
   REMOVE,
   VIDEO_STATE_PLAY,
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
-  ANIMATION_TIMEOUT,
   FADE_IN,
   FADE_OUT,
   SPEAKER_STATE,
   DRAG_VOLUME,
 } from '../config';
 
-import { $, $$, $_, $$_, animateFactory, classRemove } from '../utils';
+import {
+  $,
+  $$,
+  $_,
+  $$_,
+  addEvent,
+  animateFactory,
+  classRemove,
+} from '../utils';
 
 class SubwebView {
   #fetchButton;
@@ -36,6 +45,7 @@ class SubwebView {
   #speakerProgressWrapper;
   #speakerProgressBar;
 
+  #loginButton;
   #purchaseSkinsButton;
 
   #animateTrailerContent;
@@ -64,6 +74,7 @@ class SubwebView {
     this.#speakerProgressWrapper = $(classPlaySuccess('bar'));
     this.#speakerProgressBar = $(classPlaySuccess('bar-active'));
 
+    this.#loginButton = $('.sub-header__content-login');
     this.#purchaseSkinsButton = $('.trailer__content-button-border');
 
     this.#animateTrailerContent = animateFactory(this.#trailerContent, {
@@ -74,26 +85,26 @@ class SubwebView {
 
   #displayTrailerContent = this.#displayTrailerContentFactory();
   #displayTrailerContentFactory() {
-    let trailerContentTimeoutID;
+    let timeoutId;
 
-    const trailerContentFadeOut = () => {
-      if (trailerContentTimeoutID) clearTimeout(trailerContentTimeoutID);
+    const trailerContentFadeIn = () => {
+      if (timeoutId) clearTimeout(timeoutId);
 
       classRemove(REMOVE, this.#trailerContent);
       this.#animateTrailerContent(START);
     };
 
-    const trailerContentFadeIn = () => {
+    const trailerContentFadeOut = () => {
       this.#animateTrailerContent(END);
 
-      trailerContentTimeoutID = setTimeout(() => {
+      timeoutId = setTimeout(() => {
         classRemove(ADD, this.#trailerContent);
       }, ANIMATION_TIMEOUT);
     };
 
-    return function (action) {
-      if (action === ADD) trailerContentFadeOut();
-      if (action === REMOVE) trailerContentFadeIn();
+    return action => {
+      if (action === ADD) trailerContentFadeIn();
+      if (action === REMOVE) trailerContentFadeOut();
     };
   }
 
@@ -132,33 +143,27 @@ class SubwebView {
     this.#trailerVideo.play();
   }
 
+  #handleErrorMessage = message =>
+    ($_(this.#fetchMessage, 'p').textContent = message);
+
+  #resetErrorMessage = () => this.#handleErrorMessage(this.#errorMessageCommon);
+
+  handleTimeoutErrorMessage = () =>
+    this.#handleErrorMessage(this.#errorMessageTimeout);
+
+  handleAbortErrorMessage = () =>
+    this.#handleErrorMessage(this.#errorMessageUserAction);
+
   renderUI(state) {
     if (state === START) {
       this.#resetErrorMessage();
       this.#displayControlPanel(this.#fetchLoading);
     }
     if (state === END) this.#displayControlPanel(this.#fetchSuccess);
+    if (state === ERROR) this.#displayControlPanel(this.#fetchMessage);
   }
 
-  #resetErrorMessage() {
-    this.#handleErrorMessage(this.#errorMessageCommon);
-  }
-
-  #handleErrorMessage(message) {
-    $_(this.#fetchMessage, 'p').textContent = message;
-  }
-
-  handleTimeoutErrorMessage() {
-    this.#handleErrorMessage(this.#errorMessageTimeout);
-  }
-
-  handleAbortErrorMessage() {
-    this.#handleErrorMessage(this.#errorMessageUserAction);
-  }
-
-  renderError() {
-    this.#displayControlPanel(this.#fetchMessage);
-  }
+  checkVideoStateRequired = button => button.dataset.videoControlState;
 
   #displayControlVideoState = expectedState =>
     this.#videoStateButtons.forEach(button =>
@@ -168,18 +173,16 @@ class SubwebView {
       )
     );
 
-  checkVideoStateRequired = button => button.dataset.videoControlState;
+  playVideo() {
+    this.#displayControlVideoState(VIDEO_STATE_PAUSE);
+    this.#trailerVideo.play();
+    this.#displayTrailerContent(REMOVE);
+  }
 
   pauseVideo() {
     this.#displayControlVideoState(VIDEO_STATE_PLAY);
     this.#trailerVideo.pause();
     this.#displayTrailerContent(ADD);
-  }
-
-  playVideo() {
-    this.#displayControlVideoState(VIDEO_STATE_PAUSE);
-    this.#trailerVideo.play();
-    this.#displayTrailerContent(REMOVE);
   }
 
   replayVideoUI() {
@@ -234,10 +237,13 @@ class SubwebView {
     this.#trailerVideo.volume = speakerVolume / 100;
   }
 
+  //
+  // Events listening //////////
+  //
+
   addFetchVideoHandler(handler) {
-    [this.#fetchButton, $_(this.#fetchMessage, 'span')].forEach(buttonEl =>
-      buttonEl.addEventListener('click', handler)
-    );
+    const buttons = [this.#fetchButton, $_(this.#fetchMessage, 'span')];
+    addEvent(buttons, 'click', handler);
   }
 
   addPlayVideoHandler(handler) {
@@ -245,15 +251,12 @@ class SubwebView {
   }
 
   addFetchVideoHandlerAbort(handler) {
-    this.#purchaseSkinsButton.addEventListener('click', handler);
+    const buttons = [this.#loginButton, this.#purchaseSkinsButton];
+    addEvent(buttons, 'click', handler);
   }
 
   addControlVideoStateHandler(handler) {
-    this.#videoStateButtons.forEach(videoStateButton =>
-      videoStateButton.addEventListener('click', function () {
-        handler(this);
-      })
-    );
+    addEvent(this.#videoStateButtons, 'click', handler);
   }
 
   addReplayVideoHandler(handler) {

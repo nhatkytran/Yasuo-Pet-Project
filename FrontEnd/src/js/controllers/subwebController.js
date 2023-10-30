@@ -1,5 +1,6 @@
 import {
   START,
+  ERROR,
   VIDEO_STATE_PLAY,
   VIDEO_STATE_PAUSE,
   VIDEO_STATE_REPLAY,
@@ -9,64 +10,57 @@ import {
   DRAG_VOLUME,
 } from '../config';
 
-import { checkTimeoutError, checkAbortError } from '../utils';
+import { catchAsync, checkTimeoutError, checkAbortError } from '../utils';
 import state, { fetchTrailerVideo, fetchTrailerVideoAbort } from '../model';
 
 class SubwebController {
-  #subwebView;
+  #SubwebView;
+  #previousSpeakerVolume = SPEAKER_VOLUME_MAX_PERCENT; // First time loading video with max volume
 
-  // First time loading video with max volume
-  #previousSpeakerVolume = SPEAKER_VOLUME_MAX_PERCENT;
-
-  constructor(subwebView) {
-    this.#subwebView = subwebView;
+  constructor(SubwebView) {
+    this.#SubwebView = SubwebView;
   }
 
-  fetchVideo = async () => {
-    try {
-      this.#subwebView.renderUI(START);
-
+  fetchVideo = catchAsync({
+    onProcess: async () => {
+      this.#SubwebView.renderUI(START);
       await fetchTrailerVideo();
 
-      // subwebView.renderUI(END); --> When video is ready --> subwebView.playVideo()
-      this.#subwebView.renderVideo(state.videoTrailerLinks);
-    } catch (error) {
-      // test
-      console.error('Something went wrong!');
-      console.error(error);
-
+      // SubwebView.renderUI(END); --> When video is ready --> SubwebView.playVideo()
+      this.#SubwebView.renderVideo(state.videoTrailerLinks);
+    },
+    onError: error => {
       if (checkTimeoutError(error))
-        this.#subwebView.handleTimeoutErrorMessage();
-      if (checkAbortError(error)) this.#subwebView.handleAbortErrorMessage();
+        this.#SubwebView.handleTimeoutErrorMessage();
+      if (checkAbortError(error)) this.#SubwebView.handleAbortErrorMessage();
 
-      this.#subwebView.renderError(error);
-    }
-  };
+      this.#SubwebView.renderUI(ERROR);
+    },
+  });
 
+  playVideoFirstTime = () => this.#SubwebView.playVideoFirstTime();
   fetchVideoAbort = () => fetchTrailerVideoAbort();
 
-  playVideoFirstTime = () => this.#subwebView.playVideoFirstTime();
-
   // Play | Pause | Replay
-  handleVideoState = button => {
-    const state = this.#subwebView.checkVideoStateRequired(button);
+  handleVideoState = (_, button) => {
+    const state = this.#SubwebView.checkVideoStateRequired(button);
 
     if (state === VIDEO_STATE_PLAY || state === VIDEO_STATE_REPLAY)
-      this.#subwebView.playVideo();
-    if (state === VIDEO_STATE_PAUSE) this.#subwebView.pauseVideo();
+      this.#SubwebView.playVideo();
+    if (state === VIDEO_STATE_PAUSE) this.#SubwebView.pauseVideo();
   };
 
   // Video ends, display trailer image and replay button
-  replayVideo = () => this.#subwebView.replayVideoUI();
+  replayVideo = () => this.#SubwebView.replayVideoUI();
 
   #adjustSpeakerVolumeAndProgress = volume => {
-    this.#subwebView.renderSpeakerAndProgress(volume);
-    this.#subwebView.adjustSpeakerVolume(volume);
+    this.#SubwebView.renderSpeakerAndProgress(volume);
+    this.#SubwebView.adjustSpeakerVolume(volume);
   };
 
   // Turn speaker on | off
   handleSpeakerPower = () => {
-    const currentSpeakerVolume = this.#subwebView.checkSpeakerVolume();
+    const currentSpeakerVolume = this.#SubwebView.checkSpeakerVolume();
     const isMuted = currentSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT;
 
     // if previousSpeakerVolume is 0, know that it is muted and need to get back to 100
@@ -85,7 +79,7 @@ class SubwebController {
     const mousedown = event => {
       isReadyToDrag = true;
 
-      const currentVolume = this.#subwebView.calculateNewSpeakerVolume(
+      const currentVolume = this.#SubwebView.calculateNewSpeakerVolume(
         event,
         CLICK_VOLUME
       );
@@ -97,7 +91,7 @@ class SubwebController {
     const mousemove = event => {
       if (!isReadyToDrag) return;
 
-      const currentVolume = this.#subwebView.calculateNewSpeakerVolume(
+      const currentVolume = this.#SubwebView.calculateNewSpeakerVolume(
         event,
         DRAG_VOLUME
       );

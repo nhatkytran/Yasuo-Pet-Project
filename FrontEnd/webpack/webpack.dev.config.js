@@ -27,5 +27,6 @@ module.exports = merge(common, {
       overlay: true,
     },
     liveReload: true,
+    hot: false,
   },
 });
