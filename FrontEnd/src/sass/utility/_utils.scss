@@ -1,11 +1,9 @@
 .remove {
   display: none !important;
 }
-
 .hide {
   @include hide;
 }
-
 .show {
   @include show;
 }
@@ -14,16 +12,14 @@
   animation: $animation ease 0.24s forwards;
 }
 
+.fade-in {
+  @include ease-24-forwards(fade-in);
+}
 .fade-in-100 {
   animation: fade-in ease 0.1s forwards;
 }
-
 .fade-in-500 {
   animation: fade-in ease 0.5s forwards;
-}
-
-.fade-in {
-  @include ease-24-forwards(fade-in);
 }
 .fade-out {
   @include ease-24-forwards(fade-out);

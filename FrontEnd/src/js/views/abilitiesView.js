@@ -36,7 +36,9 @@ class AbilitiesView {
     // this.#descriptionContents; // No contents created at this time except for the default one
     this.#descriptionLoading = $('.ab__skills-desc-loading');
     this.#descriptionError = $('.ab__skills-desc-error');
+    console.log(123);
     this.#descriptionErrorButton = $_(this.#descriptionError, 'button');
+    console.log(456);
 
     this.#videoContainer = $('.abilities__content-body-video');
     // this.#videos; // No videos created at this time

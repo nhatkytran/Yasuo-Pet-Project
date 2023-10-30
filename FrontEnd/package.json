@@ -4,7 +4,7 @@
   "description": "big project",
   "default": "index.html",
   "scripts": {
-    "dev": "webpack serve --config webpack/webpack.dev.config.js --hot",
+    "dev": "webpack serve --config webpack/webpack.dev.config.js",
     "prod": "webpack --config webpack/webpack.prod.config.js"
   },
   "author": "Nhat Ky Tran",

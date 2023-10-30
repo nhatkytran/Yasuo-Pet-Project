@@ -1,13 +1,10 @@
 import { START, END, INVALID_ACTION_MESSAGE } from '../config';
 
-/*
-node --> animated element
-classes --> {
-  start: class animation for opening,
-  end: class animation for closing
-}
-=> (state = START | END): void
-*/
+/**
+ * @param {HTMLElement} node animated element
+ * @param {Object} classes { start: class animation for opening, end: class animation for closing }
+ * @returns {Function} (state = START | END): void
+ */
 const animateFactory = (node, classes) => state => {
   if (state !== START && state !== END) throw new Error(INVALID_ACTION_MESSAGE);
 

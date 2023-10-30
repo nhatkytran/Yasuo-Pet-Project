@@ -27,32 +27,31 @@
 // const modalController = new ModalController(modalView);
 // const warningController = new WarningController(warningView);
 
-// --- Test Webpack ---
-
-import '../../sass/main.scss';
-
-import { three } from './test';
-
-console.log(123);
-console.log(three());
-console.log(a);
-
-// --------
+import './errorController';
+import { SubwebView } from '../views';
+import SubwebController from './subwebController';
 
 function modalInit() {
   modalView.addCloseModalHandler(modalController.close);
 }
 
 function subwebInit() {
-  const controller = new subwebController(subwebView);
+  const {
+    fetchVideo,
+    playVideoFirstTime,
+    fetchVideoAbort,
+    handleVideoState,
+    replayVideo,
+  } = new SubwebController(SubwebView);
 
-  subwebView.addFetchVideoHandler(controller.fetchVideo);
-  subwebView.addFetchVideoHandlerAbort(controller.fetchVideoAbort);
-  subwebView.addPlayVideoHandler(controller.playVideoFirstTime);
-  subwebView.addControlVideoStateHandler(controller.handleVideoState);
-  subwebView.addReplayVideoHandler(controller.replayVideo);
-  subwebView.addSpeakerPowerHandler(controller.handleSpeakerPower);
-  subwebView.addSpeakerProgressHandler(...controller.handleSpeakerProgress());
+  SubwebView.addFetchVideoHandler(fetchVideo);
+  SubwebView.addPlayVideoHandler(playVideoFirstTime);
+  SubwebView.addFetchVideoHandlerAbort(fetchVideoAbort);
+  SubwebView.addControlVideoStateHandler(handleVideoState);
+  SubwebView.addReplayVideoHandler(replayVideo);
+
+  // SubwebView.addSpeakerPowerHandler(handleSpeakerPower);
+  // SubwebView.addSpeakerProgressHandler(...handleSpeakerProgress());
 }
 
 function exploreAllgamesInit() {
@@ -160,6 +159,11 @@ function galleryInit() {
   galleryView.addChoosenOpenHandler(controller.galleryChoosenActions.open);
   galleryView.addChoosenCloseHandler(controller.galleryChoosenActions.close);
 }
+
+const inits = {
+  subwebInit,
+};
+Object.values(inits).forEach(init => init.call(null));
 
 // modalInit();
 // subwebInit();
