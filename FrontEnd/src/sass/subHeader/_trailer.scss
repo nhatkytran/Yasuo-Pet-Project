@@ -191,7 +191,6 @@
             transition: all ease 0.2s;
             @include square-dimension(1rem);
             @include pseudo-element-features;
-            @include absolute-position-y-axis;
             @include hide;
           }
         }
@@ -230,7 +229,9 @@
       @include button-padding($px440, 1.6rem, 3.2rem);
 
       &:hover .trailer__content-button-border {
-        background-size: 100% 1px, 1px 100%;
+        background-size:
+          100% 1px,
+          1px 100%;
 
         &::before {
           left: -1.2rem;
@@ -245,8 +246,14 @@
         $lg: linear-gradient($border, $border);
         background: $lg, $lg, $lg, $lg;
         background-repeat: no-repeat;
-        background-size: calc(100% - 1.8rem) 1px, 1px calc(100% - 1.8rem);
-        background-position: right 0 top 0, left 0 bottom 0, left 0 bottom 0, right 0 top 0;
+        background-size:
+          calc(100% - 1.8rem) 1px,
+          1px calc(100% - 1.8rem);
+        background-position:
+          right 0 top 0,
+          left 0 bottom 0,
+          left 0 bottom 0,
+          right 0 top 0;
         transition: all ease 0.2s;
         overflow: hidden;
         @include square-dimension(calc(100% + 0.8rem));

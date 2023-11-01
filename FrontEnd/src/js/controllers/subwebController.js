@@ -60,8 +60,8 @@ class SubwebController {
 
   // Turn speaker on | off
   handleSpeakerPower = () => {
-    const currentSpeakerVolume = this.#SubwebView.checkSpeakerVolume();
-    const isMuted = currentSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT;
+    const currentVolume = this.#SubwebView.checkSpeakerVolume();
+    const isMuted = currentVolume === SPEAKER_VOLUME_MIN_PERCENT;
 
     // if previousSpeakerVolume is 0, know that it is muted and need to get back to 100
     if (this.#previousSpeakerVolume === SPEAKER_VOLUME_MIN_PERCENT)

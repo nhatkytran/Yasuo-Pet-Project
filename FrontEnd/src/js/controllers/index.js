@@ -27,7 +27,8 @@
 // const modalController = new ModalController(modalView);
 // const warningController = new WarningController(warningView);
 
-import './errorController';
+// import './errorController';
+
 import { SubwebView } from '../views';
 import SubwebController from './subwebController';
 
@@ -42,6 +43,8 @@ function subwebInit() {
     fetchVideoAbort,
     handleVideoState,
     replayVideo,
+    handleSpeakerPower,
+    handleSpeakerProgress,
   } = new SubwebController(SubwebView);
 
   SubwebView.addFetchVideoHandler(fetchVideo);
@@ -49,9 +52,8 @@ function subwebInit() {
   SubwebView.addFetchVideoHandlerAbort(fetchVideoAbort);
   SubwebView.addControlVideoStateHandler(handleVideoState);
   SubwebView.addReplayVideoHandler(replayVideo);
-
-  // SubwebView.addSpeakerPowerHandler(handleSpeakerPower);
-  // SubwebView.addSpeakerProgressHandler(...handleSpeakerProgress());
+  SubwebView.addSpeakerPowerHandler(handleSpeakerPower);
+  SubwebView.addSpeakerProgressHandler(...handleSpeakerProgress());
 }
 
 function exploreAllgamesInit() {
