@@ -11,9 +11,16 @@ import {
   VIDEO_STATE_REPLAY,
   FADE_IN,
   FADE_OUT,
-  SPEAKER_STATE,
   DRAG_VOLUME,
 } from '../config';
+
+import {
+  dragAndDropEvent,
+  checkVolumeFactory,
+  renderVolumeFactory,
+  adjustVolumeFactory,
+  calculateNewVolumeFactory,
+} from '../libraries/speakerEvents';
 
 import {
   $,
@@ -25,58 +32,36 @@ import {
   classRemove,
 } from '../utils';
 
+const classBg = item => `.trailer__bg-small-${item}`;
+const classPlayVideo = state => `.trailer__play-video-${state}`;
+const classPlaySuccess = item => `.trailer__play-video-success-${item}`;
+
 class SubwebView {
-  #fetchButton;
-  #fetchLoading;
-  #fetchSuccess;
-  #fetchMessage;
+  #fetchButton = $(classPlayVideo('play'));
+  #fetchLoading = $(classPlayVideo('loading'));
+  #fetchSuccess = $(classPlayVideo('success'));
+  #fetchMessage = $(classPlayVideo('message'));
 
-  #trailerVideo;
-  #trailerImage;
-  #trailerContent;
+  #trailerVideo = $(classBg('video'));
+  #trailerImage = $(classBg('image'));
+  #trailerContent = $('.trailer__content');
 
-  #errorMessageCommon;
-  #errorMessageTimeout;
-  #errorMessageUserAction;
+  #errorMessageCommon = 'Something went wrong!';
+  #errorMessageTimeout = 'Request timout error!';
+  #errorMessageUserAction = 'User canceled request!';
 
-  #videoStateButtons;
-  #speakerWrapper;
-  #speakers;
-  #speakerProgressWrapper;
-  #speakerProgressBar;
+  #videoStateButtons = $$(`${classPlaySuccess('control')} svg`);
+  #speakerWrapper = $(classPlaySuccess('speakers'));
+  #speakers = $$_(this.#speakerWrapper, 'svg');
+  #speakerProgressWrapper = $(classPlaySuccess('bar'));
+  #speakerProgressBar = $(classPlaySuccess('bar-active'));
 
-  #loginButton;
-  #purchaseSkinsButton;
+  #loginButton = $('.sub-header__content-login');
+  #purchaseSkinsButton = $('.trailer__content-button-border');
 
   #animateTrailerContent;
 
   constructor() {
-    const classPlayVideo = state => `.trailer__play-video-${state}`;
-    const classBg = item => `.trailer__bg-small-${item}`;
-    const classPlaySuccess = item => `.trailer__play-video-success-${item}`;
-
-    this.#fetchButton = $(classPlayVideo('play'));
-    this.#fetchLoading = $(classPlayVideo('loading'));
-    this.#fetchSuccess = $(classPlayVideo('success'));
-    this.#fetchMessage = $(classPlayVideo('message'));
-
-    this.#trailerVideo = $(classBg('video'));
-    this.#trailerImage = $(classBg('image'));
-    this.#trailerContent = $('.trailer__content');
-
-    this.#errorMessageCommon = 'Something went wrong!';
-    this.#errorMessageTimeout = 'Request timout error!';
-    this.#errorMessageUserAction = 'User canceled request!';
-
-    this.#videoStateButtons = $$(`${classPlaySuccess('control')} svg`);
-    this.#speakerWrapper = $(classPlaySuccess('speakers'));
-    this.#speakers = $$_(this.#speakerWrapper, 'svg');
-    this.#speakerProgressWrapper = $(classPlaySuccess('bar'));
-    this.#speakerProgressBar = $(classPlaySuccess('bar-active'));
-
-    this.#loginButton = $('.sub-header__content-login');
-    this.#purchaseSkinsButton = $('.trailer__content-button-border');
-
     this.#animateTrailerContent = animateFactory(this.#trailerContent, {
       start: FADE_IN,
       end: FADE_OUT,
@@ -191,55 +176,21 @@ class SubwebView {
     this.#displayTrailerContent(ADD);
   }
 
-  #displaySpeaker = percent => {
-    // Speaker'state --> Muted | Slow | Medium | High
-    const speakerIndex = Math.ceil((percent / 100) * SPEAKER_STATE);
-
-    this.#speakers.forEach((speaker, index) =>
-      classRemove(speakerIndex === index ? REMOVE : ADD, speaker)
-    );
-  };
-
-  #calculateSpeakerVolume = (progressBar, progressWrapper) =>
-    (progressBar / progressWrapper) * 100;
-
-  checkSpeakerVolume() {
-    return this.#calculateSpeakerVolume(
-      this.#speakerProgressBar.getBoundingClientRect().width,
-      this.#speakerProgressWrapper.getBoundingClientRect().width
-    );
-  }
-
-  calculateNewSpeakerVolume(event, action) {
-    let { clientX } = event;
-
-    const {
-      left,
-      right,
-      width: progressWrapper,
-    } = this.#speakerProgressWrapper.getBoundingClientRect();
-
-    if (action === DRAG_VOLUME) {
-      if (clientX < left) clientX = left;
-      if (clientX > right) clientX = right;
-    }
-
-    const progressBar = clientX - left;
-    return this.#calculateSpeakerVolume(progressBar, progressWrapper);
-  }
-
-  renderSpeakerAndProgress(speakerVolume) {
-    this.#speakerProgressBar.style.width = `${speakerVolume}%`;
-    this.#displaySpeaker(speakerVolume);
-  }
-
-  adjustSpeakerVolume(speakerVolume) {
-    this.#trailerVideo.volume = speakerVolume / 100;
-  }
+  checkSpeakerVolume = checkVolumeFactory(
+    this.#speakerProgressBar,
+    this.#speakerProgressWrapper
+  );
+  renderSpeakerAndProgress = renderVolumeFactory(
+    this.#speakerProgressBar,
+    this.#speakers
+  );
+  adjustSpeakerVolume = adjustVolumeFactory(this.#trailerVideo);
+  calculateNewSpeakerVolume = calculateNewVolumeFactory(
+    this.#speakerProgressWrapper
+  );
 
   //
   // Events listening //////////
-  //
 
   addFetchVideoHandler(handler) {
     const buttons = [this.#fetchButton, $_(this.#fetchMessage, 'span')];
@@ -268,12 +219,14 @@ class SubwebView {
   }
 
   addSpeakerProgressHandler(mousedownHandler, dragHandler, mouseupHandler) {
-    this.#speakerProgressWrapper.addEventListener(
-      'mousedown',
-      mousedownHandler
-    );
-    document.addEventListener('mousemove', dragHandler);
-    document.addEventListener('mouseup', mouseupHandler);
+    dragAndDropEvent(this.#speakerProgressWrapper, {
+      mousedown: mousedownHandler,
+      mousemove: dragHandler,
+      mouseup: mouseupHandler,
+      // touchstart: mousedownHandler,
+      // touchmove: dragHandler,
+      // touchend: mouseupHandler,
+    });
   }
 }
 

@@ -1,5 +1,5 @@
 // export { default as ModalView } from './modalView';
-export { default as SubwebView } from './subwebView';
+export { default as SubwebView } from './subWebView';
 // export { default as MenuMobileView } from './menuMobileView';
 // export { default as AbilitiesView } from './abilitiesView';
 // export { default as SkinsView } from './skinsView';
