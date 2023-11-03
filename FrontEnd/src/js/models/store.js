@@ -13,14 +13,12 @@ class Store {
     );
   }
 
-  // Get all state
-  get state() {
-    return this.#store.getState();
+  dispatch(action) {
+    this.#store.dispatch(action);
   }
 
-  // Get a specific state
-  useState(callback) {
-    return callback(this.#store.getState());
+  get state() {
+    return this.#store.getState();
   }
 }
 

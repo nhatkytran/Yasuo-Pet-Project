@@ -1,5 +1,4 @@
 import {
-  BACKEND_URL,
   START,
   ERROR,
   VIDEO_STATE_PLAY,
@@ -17,7 +16,9 @@ import {
   checkAbortError,
   sendErrorToAdmin,
 } from '../utils';
-import state, { fetchTrailerVideo, fetchTrailerVideoAbort } from '../model';
+
+import store from '../models/store';
+import subwebService from '../services/subwebService';
 
 class SubwebController {
   #SubwebView;
@@ -39,10 +40,10 @@ class SubwebController {
   fetchVideo = catchAsync({
     onProcess: async () => {
       this.#SubwebView.renderUI(START);
-      await fetchTrailerVideo();
+      await subwebService.getVideo('/api/v1/subweb/video');
 
       // SubwebView.renderUI(END); --> When video is ready --> SubwebView.playVideo()
-      this.#SubwebView.renderVideo(state.videoTrailerLinks);
+      this.#SubwebView.renderVideo(store.state.subweb);
     },
     onError: error => {
       if (checkTimeoutError(error))
@@ -54,7 +55,7 @@ class SubwebController {
   });
 
   playVideoFirstTime = () => this.#SubwebView.playVideoFirstTime();
-  fetchVideoAbort = () => fetchTrailerVideoAbort();
+  fetchVideoAbort = () => subwebService.getVideoAbort();
 
   // Play | Pause | Replay
   handleVideoState = (_, button) => {

@@ -7,6 +7,7 @@ export { default as checkEmptyObject } from './checkEmptyObject';
 export { default as classRemove } from './classRemove';
 export { default as debounce } from './debounce';
 export { default as intersectOneTime } from './intersectOneTime';
+export { default as isDevEnv } from './isDevEnv';
 export { default as mapMarkup } from './mapMarkup';
 export { default as promisifyLoadingImage } from './promisifyLoadingImage';
 export { default as promisifyLoadingVideo } from './promisifyLoadingVideo';
