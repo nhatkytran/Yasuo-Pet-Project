@@ -11,7 +11,6 @@ import {
   VIDEO_STATE_REPLAY,
   FADE_IN,
   FADE_OUT,
-  DRAG_VOLUME,
 } from '../config';
 
 import {
@@ -30,6 +29,7 @@ import {
   addEvent,
   animateFactory,
   classRemove,
+  promisifyLoadingImage,
 } from '../utils';
 
 const classBg = item => `.trailer__bg-small-${item}`;
@@ -43,7 +43,9 @@ class SubwebView {
   #fetchMessage = $(classPlayVideo('message'));
 
   #trailerVideo = $(classBg('video'));
+  #trailerImageWrapper = $(classBg('image-wrapper'));
   #trailerImage = $(classBg('image'));
+  #trailerImageLazy = $(classBg('image-lazy'));
   #trailerContent = $('.trailer__content');
 
   #errorMessageCommon = 'Something went wrong!';
@@ -66,6 +68,19 @@ class SubwebView {
       start: FADE_IN,
       end: FADE_OUT,
     });
+  }
+
+  loadMainImage() {
+    this.#trailerImageWrapper.classList.remove('blur');
+    classRemove(REMOVE, this.#trailerImage);
+    classRemove(ADD, this.#trailerImageLazy);
+  }
+
+  async lazyLoadImage() {
+    await promisifyLoadingImage(
+      this.#trailerImage,
+      `${BACKEND_URL}/img/subHeader/video-background.png`
+    );
   }
 
   #displayTrailerContent = this.#displayTrailerContentFactory();
@@ -123,7 +138,7 @@ class SubwebView {
 
   playVideoFirstTime() {
     this.renderUI(END);
-    this.#trailerImage.classList.add('hide');
+    this.#trailerImageWrapper.classList.add('hide');
     this.#displayTrailerContent(REMOVE);
     this.#trailerVideo.play();
   }
@@ -172,7 +187,7 @@ class SubwebView {
 
   replayVideoUI() {
     this.#displayControlVideoState(VIDEO_STATE_REPLAY);
-    this.#trailerImage.classList.remove('hide');
+    this.#trailerImageWrapper.classList.remove('hide');
     this.#displayTrailerContent(ADD);
   }
 
@@ -191,6 +206,10 @@ class SubwebView {
 
   //
   // Events listening //////////
+
+  addLazyLoadingImage(handler) {
+    document.addEventListener('DOMContentLoaded', handler);
+  }
 
   addFetchVideoHandler(handler) {
     const buttons = [this.#fetchButton, $_(this.#fetchMessage, 'span')];

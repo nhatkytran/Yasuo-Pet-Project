@@ -1,4 +1,5 @@
 import {
+  BACKEND_URL,
   START,
   ERROR,
   VIDEO_STATE_PLAY,
@@ -10,7 +11,12 @@ import {
   DRAG_VOLUME,
 } from '../config';
 
-import { catchAsync, checkTimeoutError, checkAbortError } from '../utils';
+import {
+  catchAsync,
+  checkTimeoutError,
+  checkAbortError,
+  sendErrorToAdmin,
+} from '../utils';
 import state, { fetchTrailerVideo, fetchTrailerVideoAbort } from '../model';
 
 class SubwebController {
@@ -20,6 +26,15 @@ class SubwebController {
   constructor(SubwebView) {
     this.#SubwebView = SubwebView;
   }
+
+  handleLazyLoadingImage = async () => {
+    try {
+      await this.#SubwebView.lazyLoadImage();
+      this.#SubwebView.loadMainImage();
+    } catch (error) {
+      sendErrorToAdmin(error, 'subwebController.js');
+    }
+  };
 
   fetchVideo = catchAsync({
     onProcess: async () => {

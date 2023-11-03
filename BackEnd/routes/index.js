@@ -1,5 +1,6 @@
 exports.abilitiesRouter = require('./abilitiesRoutes');
 exports.allGamesRouter = require('./allGamesRoutes');
+exports.errorToAdminRouter = require('./errorToAdminRoutes');
 exports.exploreGamesRouter = require('./exploreGamesRoutes');
 exports.galleryRouter = require('./galleryRoutes');
 exports.ruinedRouter = require('./ruinedRoutes');
