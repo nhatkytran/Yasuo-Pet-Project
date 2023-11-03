@@ -35,7 +35,6 @@ import { SubwebView } from '../views';
 import SubwebController from './subwebController';
 
 console.log(store.state);
-console.log(store.useState(state => state.subweb));
 
 function modalInit() {
   modalView.addCloseModalHandler(modalController.close);
