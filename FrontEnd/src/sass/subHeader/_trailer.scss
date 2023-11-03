@@ -66,10 +66,13 @@
       @extend %image-position;
     }
 
+    &-image-wrapper {
+      @extend %background-position;
+    }
+
     &-image {
       @extend %image-position;
-      @extend %background-position;
-
+      @include full-dimension;
       @include bg-small-image-position($px840, 46%);
       @include bg-small-image-position($px740, 41%);
       @include bg-small-image-position($px640, 36%);

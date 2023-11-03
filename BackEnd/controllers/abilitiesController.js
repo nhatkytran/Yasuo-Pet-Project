@@ -1,4 +1,3 @@
-// import Abilities from '../models/abilitiesModel';
 const { Abilities } = require('../models');
 const { catchAsync, AppError } = require('../utils');
 

@@ -50,5 +50,6 @@ export const ERROR_TIMEOUT_CODE = 'ECONNABORTED';
 export const ERROR_ABORT_CODE = 'ERR_CANCELED';
 export const ERROR_TIMEOUT_MESSAGE = 'timeout';
 export const ERROR_ABORT_MESSAGE = 'canceled';
+export const ERROR_LOAD_IMAGE = 'Something went wrong loading image!';
 
 export const INVALID_ACTION_MESSAGE = 'Invalid action!';

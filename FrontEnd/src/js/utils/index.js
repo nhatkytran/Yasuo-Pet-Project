@@ -10,4 +10,5 @@ export { default as intersectOneTime } from './intersectOneTime';
 export { default as mapMarkup } from './mapMarkup';
 export { default as promisifyLoadingImage } from './promisifyLoadingImage';
 export { default as promisifyLoadingVideo } from './promisifyLoadingVideo';
+export { default as sendErrorToAdmin } from './sendErrorToAdmin';
 export { default as sideIndices } from './sideIndices';

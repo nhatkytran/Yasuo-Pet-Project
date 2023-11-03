@@ -29,8 +29,13 @@
 
 // import './errorController';
 
+import store from '../models/store';
+
 import { SubwebView } from '../views';
 import SubwebController from './subwebController';
+
+console.log(store.state);
+console.log(store.useState(state => state.subweb));
 
 function modalInit() {
   modalView.addCloseModalHandler(modalController.close);
@@ -38,6 +43,7 @@ function modalInit() {
 
 function subwebInit() {
   const {
+    handleLazyLoadingImage,
     fetchVideo,
     playVideoFirstTime,
     fetchVideoAbort,
@@ -47,6 +53,7 @@ function subwebInit() {
     handleSpeakerProgress,
   } = new SubwebController(SubwebView);
 
+  SubwebView.addLazyLoadingImage(handleLazyLoadingImage);
   SubwebView.addFetchVideoHandler(fetchVideo);
   SubwebView.addPlayVideoHandler(playVideoFirstTime);
   SubwebView.addFetchVideoHandlerAbort(fetchVideoAbort);
