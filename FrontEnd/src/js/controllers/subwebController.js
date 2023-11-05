@@ -54,7 +54,7 @@ class SubwebController {
     },
   });
 
-  playVideoFirstTime = () => this.#SubwebView.playVideoFirstTime();
+  playVideoFirstTime = () => this.#SubwebView.renderVideoFirstTime();
   fetchVideoAbort = () => subwebService.getVideoAbort();
 
   // Play | Pause | Replay
@@ -67,7 +67,7 @@ class SubwebController {
   };
 
   // Video ends, display trailer image and replay button
-  replayVideo = () => this.#SubwebView.replayVideoUI();
+  handleReplayVideo = () => this.#SubwebView.replayVideoUI();
 
   #adjustSpeakerVolumeAndProgress = volume => {
     this.#SubwebView.renderSpeakerAndProgress(volume);

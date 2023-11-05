@@ -5,11 +5,12 @@ import { classRemove } from '../utils';
 // With controller we need to implement structure to call functions in View
 
 export const dragAndDropEvent = (node, mouseActions) =>
-  Object.entries(mouseActions).forEach(([key, mouseAction]) =>
-    key === 'mousedown' || key === 'touchstart'
-      ? node.addEventListener(key, mouseAction)
-      : document.addEventListener(key, mouseAction)
-  );
+  Object.entries(mouseActions).forEach(([key, mouseAction]) => {
+    if (key === 'mousedown') return node.addEventListener(key, mouseAction);
+    if (key === 'touchstart')
+      return node.addEventListener(key, mouseAction, { passive: true });
+    document.addEventListener(key, mouseAction);
+  });
 
 const calculateVolume = (progressBar, progressWrapper) =>
   (progressBar / progressWrapper) * 100;
@@ -38,7 +39,7 @@ export const adjustVolumeFactory = videoNode => volume =>
 
 export const calculateNewVolumeFactory =
   progressWrapperNode => (event, action) => {
-    let { clientX } = event;
+    let clientX = event.clientX || event.touches[0].clientX;
 
     const {
       left,

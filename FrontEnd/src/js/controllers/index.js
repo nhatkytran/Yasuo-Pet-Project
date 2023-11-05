@@ -29,12 +29,8 @@
 
 // import './errorController';
 
-import store from '../models/store';
-
 import { SubwebView } from '../views';
 import SubwebController from './subwebController';
-
-console.log(store.state);
 
 function modalInit() {
   modalView.addCloseModalHandler(modalController.close);
@@ -47,7 +43,7 @@ function subwebInit() {
     playVideoFirstTime,
     fetchVideoAbort,
     handleVideoState,
-    replayVideo,
+    handleReplayVideo,
     handleSpeakerPower,
     handleSpeakerProgress,
   } = new SubwebController(SubwebView);
@@ -57,7 +53,7 @@ function subwebInit() {
   SubwebView.addPlayVideoHandler(playVideoFirstTime);
   SubwebView.addFetchVideoHandlerAbort(fetchVideoAbort);
   SubwebView.addControlVideoStateHandler(handleVideoState);
-  SubwebView.addReplayVideoHandler(replayVideo);
+  SubwebView.addReplayVideoHandler(handleReplayVideo);
   SubwebView.addSpeakerPowerHandler(handleSpeakerPower);
   SubwebView.addSpeakerProgressHandler(...handleSpeakerProgress());
 }

@@ -62,11 +62,16 @@
     }
 
     &-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
       @include full-dimension;
       @extend %image-position;
     }
 
     &-image-wrapper {
+      z-index: 1; // 3 (video zIndex is 2 and border zIndex is 4)
       @extend %background-position;
     }
 
@@ -80,6 +85,7 @@
     }
 
     &-border {
+      z-index: 4;
       width: calc(100% - 2rem);
       height: calc(100% + 2rem);
       border: 1px solid $main-border;
@@ -93,6 +99,7 @@
     top: 1.8rem;
     right: 1rem;
     position: absolute;
+    box-shadow: 0 2px 4px $header-bg-color;
     cursor: default;
     @include use-font(FF-Mark);
 
@@ -166,7 +173,7 @@
 
       &-bar {
         width: 8.6rem;
-        height: 0.46rem;
+        height: 0.56rem;
         background-color: #838383;
         border-radius: 0.6rem;
         margin-left: 0.8rem;
