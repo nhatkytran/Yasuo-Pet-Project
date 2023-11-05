@@ -246,3 +246,73 @@ devtool: 'source-map'
 
 +++ Optimization for JS +++
 Section 5, 7, 8, 10
+
+*** Increasing Browser support with Babel ***
+
+npm install babel-loader @babel/core @babel/preset-env --save-dev
+npm install core-js --save-dev
+
+"dev": "BABEL_ENV=development webpack serve --config webpack/webpack.dev.config.js",
+"devb": "BABEL_ENV=developmentbroad webpack serve --config webpack/webpack.dev.config.js",
+"prod": "BABEL_ENV=production webpack --config webpack/webpack.prod.config.js"
+
+.babelrc
+---
+{
+  "env": {
+    "development": {
+      "presets": ["@babel/preset-env"]
+    },
+    "developmentbroad": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "useBuiltIns": "usage",
+            "corejs": {
+              "version": 3,
+              "proposals": true
+            },
+            "debug": true
+          }
+        ]
+      ]
+    },
+    "production": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "useBuiltIns": "usage",
+            "corejs": {
+              "version": 3,
+              "proposals": true
+            },
+            "debug": true
+          }
+        ]
+      ]
+    }
+  }
+}
+
+
+Babel makes use of file .browserslist
+---
+last 10 versions
+---
+> 1%
+
+webpack.common.config.js
+---
+module: {
+  rules: [
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader'
+      }
+    }
+  ]
+}

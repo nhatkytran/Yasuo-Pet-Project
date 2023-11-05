@@ -4,14 +4,19 @@
   "description": "big project",
   "default": "index.html",
   "scripts": {
-    "dev": "webpack serve --config webpack/webpack.dev.config.js",
-    "prod": "webpack --config webpack/webpack.prod.config.js"
+    "dev": "BABEL_ENV=development webpack serve --config webpack/webpack.dev.config.js",
+    "devb": "BABEL_ENV=developmentbroad webpack serve --config webpack/webpack.dev.config.js",
+    "prod": "BABEL_ENV=production webpack --config webpack/webpack.prod.config.js"
   },
   "author": "Nhat Ky Tran",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
     "autoprefixer": "^10.4.16",
+    "babel-loader": "^9.1.3",
     "clean-webpack-plugin": "^4.0.0",
+    "core-js": "^3.33.2",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "html-loader": "^4.2.0",

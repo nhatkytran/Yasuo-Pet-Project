@@ -8,7 +8,7 @@
   @include show;
 }
 .blur {
-  filter: blur(0.4rem);
+  filter: blur(0.2rem);
 }
 
 @mixin ease-24-forwards($animation) {

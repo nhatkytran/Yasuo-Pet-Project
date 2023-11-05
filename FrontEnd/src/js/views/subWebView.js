@@ -136,11 +136,13 @@ class SubwebView {
     });
   }
 
-  playVideoFirstTime() {
+  renderVideoFirstTime() {
     this.renderUI(END);
-    this.#trailerImageWrapper.classList.add('hide');
-    this.#displayTrailerContent(REMOVE);
-    this.#trailerVideo.play();
+    // 'webkitendfullscreen'
+    // On device like IPhone, there is a video layer automatically opened when playing video
+    this.#trailerVideo.addEventListener('webkitendfullscreen', () =>
+      this.pauseVideo()
+    );
   }
 
   #handleErrorMessage = message =>
@@ -177,18 +179,25 @@ class SubwebView {
     this.#displayControlVideoState(VIDEO_STATE_PAUSE);
     this.#trailerVideo.play();
     this.#displayTrailerContent(REMOVE);
+    this.#trailerImageWrapper.style.zIndex = '1';
   }
 
   pauseVideo() {
+    // Iphone listens to 'webkitendfullscreen' event, this event call pauseVideo()
+    // Check to see if the video is already finished to display replayUI
+    if (this.#trailerVideo.currentTime / this.#trailerVideo.duration == 1)
+      return this.replayVideoUI();
+
     this.#displayControlVideoState(VIDEO_STATE_PLAY);
     this.#trailerVideo.pause();
     this.#displayTrailerContent(ADD);
   }
 
   replayVideoUI() {
+    console.log(this.#trailerVideo.currentTime / this.#trailerVideo.duration);
     this.#displayControlVideoState(VIDEO_STATE_REPLAY);
-    this.#trailerImageWrapper.classList.remove('hide');
     this.#displayTrailerContent(ADD);
+    this.#trailerImageWrapper.style.zIndex = '3';
   }
 
   checkSpeakerVolume = checkVolumeFactory(
@@ -217,7 +226,7 @@ class SubwebView {
   }
 
   addPlayVideoHandler(handler) {
-    this.#trailerVideo.addEventListener('canplay', handler);
+    this.#trailerVideo.addEventListener('loadedmetadata', handler);
   }
 
   addFetchVideoHandlerAbort(handler) {
@@ -242,9 +251,9 @@ class SubwebView {
       mousedown: mousedownHandler,
       mousemove: dragHandler,
       mouseup: mouseupHandler,
-      // touchstart: mousedownHandler,
-      // touchmove: dragHandler,
-      // touchend: mouseupHandler,
+      touchstart: mousedownHandler,
+      touchmove: dragHandler,
+      touchend: mouseupHandler,
     });
   }
 }
