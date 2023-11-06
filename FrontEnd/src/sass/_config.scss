@@ -11,6 +11,9 @@ $fonts: (
   FF-Mark-Medium: "FontFont_FF.Mark.Pro.Medium.otf",
   FF-Mark: "FontFont_FF.Mark.Pro.otf",
   FF-Mark-Hair: "FontFont_FF.Mark.Pro.Hairline.otf",
+  SF-Pro-Medium: "SF-Pro-Text-Medium.otf",
+  SF-Pro-Regular: "SF-Pro-Text-Regular.otf",
+  SF-Pro-Light: "SF-Pro-Text-Light.otf"
 );
 
 @each $font-family, $endpoint in $fonts {
