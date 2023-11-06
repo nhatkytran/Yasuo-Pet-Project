@@ -1,0 +1,121 @@
+.volume-ins-wrapper {
+  width: 100vw;
+  height: 100vh;
+  z-index: 1001;
+  position: absolute;
+}
+
+.volume-ins {
+  width: calc(100% - 8rem);
+  max-width: 80rem;
+  background-color: #000;
+  color: #ccc;
+  padding: 3rem 3.6rem 2.8rem;
+  border: 1px solid #083d48;
+  @include absolute-position(-50%, -50%);
+
+  @media only screen and (max-width: $px640) {
+    width: calc(100% - 2rem);
+    padding: 2.8rem 3rem 2.6rem;
+  }
+  @media only screen and (max-width: $px440) {
+    padding: 2.6rem 2.6rem 2.4rem;
+  }
+
+  svg {
+    width: 2.2rem;
+    fill: #595959;
+    transition: all ease 0.2s;
+    top: 1.3rem;
+    right: 1.3rem;
+    cursor: pointer;
+    position: absolute;
+
+    &:hover {
+      filter: brightness(120%);
+    }
+  }
+
+  h1 {
+    font-size: 3.2rem;
+    line-height: 1.05;
+    letter-spacing: 0.1rem;
+    margin-bottom: 1.2rem;
+    @include use-font(SF-Pro-Light);
+
+    @media only screen and (max-width: $px640) {
+      font-size: 2.8rem;
+    }
+
+    @media only screen and (max-width: $px440) {
+      font-size: 2.2rem;
+      letter-spacing: 0;
+    }
+
+    @media only screen and (max-width: $px340) {
+      font-size: 2rem;
+    }
+  }
+
+  p {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    @include use-font(SF-Pro-Regular);
+
+    @media only screen and (max-width: $px440) {
+      font-size: 1.2rem;
+    }
+
+    &:first-of-type {
+      margin: 0.2rem;
+    }
+
+    strong {
+      color: $button-color-blue;
+      background-image: url("../assets/img/volumeInstructions/adjust.png");
+      background-repeat: no-repeat;
+      background-size: 10rem auto;
+      background-position: 0 -0.3rem;
+      padding-left: 10.8rem;
+    }
+  }
+
+  figure {
+    margin-top: 3.2rem;
+
+    @media only screen and (max-width: $px440) {
+      margin-top: 2.8rem;
+    }
+
+    div {
+      display: inline-block;
+      position: relative;
+    }
+
+    img {
+      width: 27.1rem;
+      height: 21.3rem;
+      filter: invert(1);
+
+      @media only screen and (max-width: $px440) {
+        width: 24.1rem;
+        height: 18.9rem;
+      }
+    }
+
+    button {
+      color: $color-button-blue;
+      font-size: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid #595959;
+      border-radius: 0.4rem;
+      transition: all ease 0.2s;
+      @include use-font(SF-Pro-Medium);
+      @include absolute-position(-28%, 80%);
+
+      &:hover {
+        color: $button-color-blue;
+      }
+    }
+  }
+}
