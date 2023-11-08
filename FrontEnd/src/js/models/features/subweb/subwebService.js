@@ -1,6 +1,6 @@
-import axiosInstance from './axios';
-import store from '../models/store';
-import { ACTIONS } from '../models/features/subweb/reducer';
+import axiosInstance from '../../axios';
+import store from '../../store';
+import { ACTIONS } from './reducer';
 
 let abortController;
 

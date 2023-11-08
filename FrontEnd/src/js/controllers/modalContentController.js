@@ -1,13 +1,8 @@
-import { ANIMATION_TIMEOUT, NONE, LOADING, ERROR, CONTENT } from '../config';
-import { checkAbortError } from '../utils';
+import { ANIMATION_TIMEOUT } from '../config';
 
 class ModalContentController {
   #isOpening;
   #isClosing;
-
-  // open | close
-  // return true | false the Child Classes can handle another actions
-  // For example: emit signal,...
 
   // Why getter?
   // Help Child Class access to method via `super`
@@ -25,8 +20,6 @@ class ModalContentController {
       setTimeout(() => {
         this.#isOpening = false;
       }, ANIMATION_TIMEOUT);
-
-      return true;
     };
   }
 
@@ -42,8 +35,6 @@ class ModalContentController {
       setTimeout(() => {
         this.#isClosing = false;
       }, ANIMATION_TIMEOUT);
-
-      return true;
     };
   }
 }

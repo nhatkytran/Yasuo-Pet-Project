@@ -1,36 +1,48 @@
 import { ENV } from '../config';
+import axiosInstance from '../models/axios';
+
+const catchAsync = ({
+  filename,
+  onProcess,
+  onError = () => {},
+  onFinnally = () => {},
+}) => {
+  if (!filename) throw new Error('Please provideo `filename` parameter!');
+
+  return async (...args) => {
+    try {
+      await onProcess(...args);
+    } catch (error) {
+      if (ENV === 'development') handleErrorDev(error);
+      if (ENV === 'production') handleErrorProd(error, filename);
+      onError(error);
+    } finally {
+      onFinnally(...args);
+    }
+  };
+};
 
 const handleErrorDev = error => {
   console.error('Something went wrong!');
   console.error(error);
 };
 
-const handleErrorProd = error => {
-  console.log(
-    'We have noticed this error. If error caused by the server. We are gonna fix it soon.'
-  );
-  console.log(
-    'Now you can try again the action or just refresh the page few times!'
-  );
-  console.log(
-    'For more information. Please contact us via email: nhockkutean2@gmail.com'
-  );
-  // Display toast
-  // Send error to the server
+const handleErrorProd = async (error, filename) => {
+  try {
+    await axiosInstance.post('/api/v1/errorToAdmin', {
+      when: new Date(),
+      where: filename,
+      error: {
+        message: error.message,
+        stackJSONFormat: JSON.stringify(error.stack),
+      },
+    });
+  } catch (error) {
+    console.error('Something went wrong sending error message to admin!');
+    console.log(
+      'If you see this message. Please contact us via < nhockkutean2@gmail.com > to help make Yasuo | The King of All Kings better. Thank you for you help!'
+    );
+  }
 };
-
-const catchAsync =
-  ({ onProcess, onError, onFinnally = () => {} }) =>
-  async (...args) => {
-    try {
-      await onProcess(...args);
-    } catch (error) {
-      if (ENV === 'development') handleErrorDev(error);
-      if (ENV === 'production') handleErrorProd(error);
-      onError(error);
-    } finally {
-      onFinnally(...args);
-    }
-  };
 
 export default catchAsync;

@@ -43,6 +43,6 @@ const schema = new mongoose.Schema({
 });
 
 const cltName = 'allgames';
-const AllGames = mongoose.model('AllGames', schema, cltName);
+const Allgames = mongoose.model('Allgames', schema, cltName);
 
-module.exports = AllGames;
+module.exports = Allgames;
