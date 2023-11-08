@@ -6,7 +6,7 @@ const session = require('express-session');
 
 const {
   abilitiesRouter,
-  allGamesRouter,
+  allgamesRouter,
   errorToAdminRouter,
   exploreGamesRouter,
   galleryRouter,
@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/abilities', abilitiesRouter);
-app.use('/api/v1/allGames', allGamesRouter);
+app.use('/api/v1/allgames', allgamesRouter);
 app.use('/api/v1/errorToAdmin', errorToAdminRouter);
 app.use('/api/v1/exploreGames', exploreGamesRouter);
 app.use('/api/v1/gallery', galleryRouter);

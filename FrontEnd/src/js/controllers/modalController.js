@@ -2,7 +2,6 @@ import { ANIMATION_TIMEOUT } from '../config';
 
 class ModalController {
   #modalView;
-
   #modalIsOpening;
   #modalIsClosing;
   #scrollVertical;
@@ -23,7 +22,10 @@ class ModalController {
   };
 
   close = () => {
+    console.log(this);
+    console.log(this.#modalIsOpening, this.#modalIsClosing);
     if (this.#modalIsOpening || this.#modalIsClosing) return;
+    console.log('Close ');
 
     this.#modalIsClosing = true;
 

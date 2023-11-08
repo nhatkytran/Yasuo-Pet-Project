@@ -8,77 +8,64 @@ import {
   SUB,
 } from '../config';
 
-import { checkAbortError } from '../utils';
+import { catchAsync, checkAbortError } from '../utils';
 
-import state, {
-  fetchExploreAllgamesData,
-  fetchExploreAllgamesDataAbort,
-} from '../model';
+import store from '../models/store';
+import allgamesService from '../models/features/allgames/allgamesService';
+import { ACTIONS } from '../models/features/allgames/reducer';
 
 import ModalContentController from './modalContentController';
 
-class ExploreAllgamesController extends ModalContentController {
-  #exploreAllgamesView;
+const filename = 'exploreAllgamesController';
 
-  constructor(exploreAllgamesView) {
+class ExploreAllgamesController extends ModalContentController {
+  #AllgamesView;
+
+  constructor(AllgamesView) {
     super();
-    this.#exploreAllgamesView = exploreAllgamesView;
+    this.#AllgamesView = AllgamesView;
   }
 
   open = handleOpenModal => {
-    if (super.open(handleOpenModal, this.#exploreAllgamesView.open))
-      setTimeout(
-        this.#exploreAllgamesView.openSidebarSignal,
-        ANIMATION_TIMEOUT
-      );
+    super.open(handleOpenModal, this.#AllgamesView.open);
+    setTimeout(this.#AllgamesView.openSidebarSignal, ANIMATION_TIMEOUT);
   };
 
   close = handleCloseModal => {
-    if (super.close(handleCloseModal, this.#exploreAllgamesView.close)) {
-      fetchExploreAllgamesDataAbort();
-    }
+    allgamesService.getDataAbort();
+    super.close(handleCloseModal, this.#AllgamesView.close);
   };
 
-  #fetchData = async () => {
-    try {
-      this.#exploreAllgamesView.displayContent(LOADING);
+  handleData = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (!store.state.allgames.ok) {
+        this.#AllgamesView.displayContent(LOADING);
 
-      const { images, ...posterOptions } = await fetchExploreAllgamesData();
-      await Promise.all([
-        this.#exploreAllgamesView.createMainImages(images.main),
-        this.#exploreAllgamesView.createPosters(images.side, posterOptions),
-      ]);
+        await allgamesService.getData('/api/v1/allgames/data'); // Fixname
+        const { images, ...posterOptions } = store.state.allgames;
 
-      // Only need to know we fetched data or not
-      // createMainImages and createPosters do all the things like inject data into HTML
-      state.isExploreAllgamesFetchData = true;
-    } catch (error) {
-      // test
-      console.error('Something went wrong!');
-      console.error(error);
+        await Promise.all([
+          this.#AllgamesView.createMainImages(images.main),
+          this.#AllgamesView.createPosters(images.side, posterOptions),
+        ]);
 
-      this.#exploreAllgamesView.displayContent(ERROR);
+        store.dispatch(ACTIONS.setDataOk());
+      }
 
+      console.log(store.state);
+      this.#AllgamesView.displayContent(CONTENT);
+    },
+    onError: error => {
       // Abort error happens when close modal
       // Display content to none to hide Error message because modal closes anyway
-      if (checkAbortError(error))
-        this.#exploreAllgamesView.displayContent(NONE);
-    }
-  };
+      if (checkAbortError(error)) this.#AllgamesView.displayContent(NONE);
+      else this.#AllgamesView.displayContent(ERROR);
+    },
+  });
 
-  handleData = async () => {
-    // If error happends, #fetchData will take care of desplaying error
-    if (!state.isExploreAllgamesFetchData) await this.#fetchData();
-    if (state.isExploreAllgamesFetchData)
-      this.#exploreAllgamesView.displayContent(CONTENT);
-  };
-
-  selectPosters = state => {
-    if (state === MAIN) this.#exploreAllgamesView.displayMainImages();
-    if (state === SUB) this.#exploreAllgamesView.displayPosters();
-  };
-
-  toggleLinks = linkTitle => this.#exploreAllgamesView.toggleLinks(linkTitle);
+  selectPosters = state => this.#AllgamesView.selectPosters(state);
+  toggleLinks = linkTitle => this.#AllgamesView.toggleLinks(linkTitle);
 }
 
 export default ExploreAllgamesController;

@@ -1,9 +1,9 @@
 const express = require('express');
 
-const { getData } = require('../controllers/allGamesController');
+const { getData } = require('../controllers/allgamesController');
 
-const allGamesRouter = express.Router();
+const allgamesRouter = express.Router();
 
-allGamesRouter.route('/data').get(getData);
+allgamesRouter.route('/data').get(getData);
 
-module.exports = allGamesRouter;
+module.exports = allgamesRouter;

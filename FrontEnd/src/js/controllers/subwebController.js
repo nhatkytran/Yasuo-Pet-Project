@@ -10,15 +10,12 @@ import {
   DRAG_VOLUME,
 } from '../config';
 
-import {
-  catchAsync,
-  checkTimeoutError,
-  checkAbortError,
-  sendErrorToAdmin,
-} from '../utils';
+import { catchAsync, checkTimeoutError, checkAbortError } from '../utils';
 
 import store from '../models/store';
-import subwebService from '../services/subwebService';
+import subwebService from '../models/features/subweb/subwebService';
+
+const filename = 'subwebController.js';
 
 class SubwebController {
   #SubwebView;
@@ -28,16 +25,16 @@ class SubwebController {
     this.#SubwebView = SubwebView;
   }
 
-  handleLazyLoadingImage = async () => {
-    try {
+  handleLazyLoadingImage = catchAsync({
+    filename,
+    onProcess: async () => {
       await this.#SubwebView.lazyLoadImage();
       this.#SubwebView.loadMainImage();
-    } catch (error) {
-      sendErrorToAdmin(error, 'subwebController.js');
-    }
-  };
+    },
+  });
 
   fetchVideo = catchAsync({
+    filename,
     onProcess: async () => {
       this.#SubwebView.renderUI(START);
       await subwebService.getVideo('/api/v1/subweb/video');

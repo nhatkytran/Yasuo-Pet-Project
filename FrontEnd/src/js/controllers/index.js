@@ -12,7 +12,6 @@
 //   warningView,
 // } from '../Views';
 
-// import ModalController from './modalController';
 // import WarningController from './warningController';
 // import subwebController from './subwebController';
 // import ExploreAllgamesController from './exploreAllgamesController';
@@ -24,17 +23,19 @@
 // import RuinedController from './ruinedController';
 // import GalleryController from './galleryController';
 
-// const modalController = new ModalController(modalView);
 // const warningController = new WarningController(warningView);
 
-// import './errorController';
+import {
+  ModalView,
+  SubwebView,
+  ExploreAllgamesView as AllgamesView,
+} from '../views';
 
-import { SubwebView } from '../views';
+import ModalController from './modalController';
 import SubwebController from './subwebController';
+import ExploreAllgamesController from './exploreAllgamesController';
 
-function modalInit() {
-  modalView.addCloseModalHandler(modalController.close);
-}
+const modalController = new ModalController(ModalView);
 
 function subwebInit() {
   const {
@@ -59,17 +60,17 @@ function subwebInit() {
 }
 
 function exploreAllgamesInit() {
-  const controller = new ExploreAllgamesController(exploreAllgamesView);
+  const controller = new ExploreAllgamesController(AllgamesView);
 
-  exploreAllgamesView.addOpenSidebarHandler(
+  AllgamesView.addOpenSidebarHandler(
     controller.open.bind(controller, modalController.open)
   );
-  exploreAllgamesView.addCloseSidebarHandler(
+  AllgamesView.addCloseSidebarHandler(
     controller.close.bind(controller, modalController.close)
   );
-  exploreAllgamesView.addFetchAndDisplayDataHandler(controller.handleData);
-  exploreAllgamesView.addHoverSelectPostersHandler(controller.selectPosters);
-  exploreAllgamesView.addOpenLinksHandler(controller.toggleLinks);
+  AllgamesView.addFetchAndDisplayDataHandler(controller.handleData);
+  AllgamesView.addHoverSelectPostersHandler(controller.selectPosters);
+  AllgamesView.addOpenLinksHandler(controller.toggleLinks);
 }
 
 function exploreGamesInit() {
@@ -166,6 +167,7 @@ function galleryInit() {
 
 const inits = {
   subwebInit,
+  exploreAllgamesInit,
 };
 Object.values(inits).forEach(init => init.call(null));
 

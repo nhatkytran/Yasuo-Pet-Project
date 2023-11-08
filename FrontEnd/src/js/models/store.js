@@ -1,6 +1,7 @@
 import { legacy_createStore as createStore, combineReducers } from 'redux';
 
 import subwebReducer from './features/subweb/reducer';
+import allgamesReducer from './features/allgames/reducer';
 
 class Store {
   #store;
@@ -9,6 +10,7 @@ class Store {
     this.#store = createStore(
       combineReducers({
         subweb: subwebReducer,
+        allgames: allgamesReducer,
       })
     );
   }
