@@ -2,26 +2,33 @@ const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const { createDB } = require('../utils');
 
 const {
   Subweb,
-  AllGames,
+  Allgames,
   ExploreGames,
   Abilities,
   Skins,
   Ruined,
   Gallery,
+  User,
 } = require('../models');
 
 dotenv.config({ path: path.join(__dirname, '..', 'config.env') });
 
-const { DATABASE, DATABASE_NAME, DATABASE_PASSWORD } = process.env;
+const {
+  DATABASE,
+  DATABASE_NAME,
+  DATABASE_PASSWORD,
+  DATABASE_COLLECTION_YASUO,
+} = process.env;
 
 const getData = fileName =>
   JSON.parse(fs.readFileSync(path.join(__dirname, fileName), 'utf-8'));
 
 const subwebVideosData = getData('subwebVideos.json');
-const allGamesData = getData('allGames.json');
+const allGamesData = getData('allgames.json');
 const exploreGamesData = getData('exploreGames.json');
 const abilitiesData = getData('abilities.json');
 const skinsData = getData('skins.json');
@@ -32,7 +39,7 @@ async function importData() {
   try {
     await Promise.all([
       Subweb.create(subwebVideosData),
-      AllGames.create(allGamesData),
+      Allgames.create(allGamesData),
       ExploreGames.create(exploreGamesData),
       Abilities.create(abilitiesData),
       Skins.create(skinsData),
@@ -52,12 +59,13 @@ async function deleteData() {
   try {
     await Promise.all([
       Subweb.deleteMany(),
-      AllGames.deleteMany(),
+      Allgames.deleteMany(),
       ExploreGames.deleteMany(),
       Abilities.deleteMany(),
       Skins.deleteMany(),
       Ruined.deleteMany(),
       Gallery.deleteMany(),
+      User.deleteMany(),
     ]);
     console.log('Data delete - Successful!');
   } catch (error) {
@@ -68,10 +76,11 @@ async function deleteData() {
   }
 }
 
-const DB = DATABASE.replace('<DATABASE_NAME>', DATABASE_NAME).replace(
-  '<DATABASE_PASSWORD>',
-  DATABASE_PASSWORD
-);
+const DB = createDB(DATABASE, {
+  '<DATABASE_NAME>': DATABASE_NAME,
+  '<DATABASE_PASSWORD>': DATABASE_PASSWORD,
+  '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_YASUO,
+});
 
 mongoose
   .set('strictQuery', true)
