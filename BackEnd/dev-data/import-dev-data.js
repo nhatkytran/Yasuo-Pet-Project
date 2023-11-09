@@ -6,7 +6,7 @@ const { createDB } = require('../utils');
 
 const {
   Subweb,
-  Allgames,
+  AllGames,
   ExploreGames,
   Abilities,
   Skins,
@@ -39,7 +39,7 @@ async function importData() {
   try {
     await Promise.all([
       Subweb.create(subwebVideosData),
-      Allgames.create(allGamesData),
+      AllGames.create(allGamesData),
       ExploreGames.create(exploreGamesData),
       Abilities.create(abilitiesData),
       Skins.create(skinsData),
@@ -59,7 +59,7 @@ async function deleteData() {
   try {
     await Promise.all([
       Subweb.deleteMany(),
-      Allgames.deleteMany(),
+      AllGames.deleteMany(),
       ExploreGames.deleteMany(),
       Abilities.deleteMany(),
       Skins.deleteMany(),

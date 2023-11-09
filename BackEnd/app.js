@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const {
   abilitiesRouter,
-  allgamesRouter,
+  allGamesRouter,
   errorToAdminRouter,
   exploreGamesRouter,
   galleryRouter,
@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/abilities', abilitiesRouter);
-app.use('/api/v1/allGames', allgamesRouter);
+app.use('/api/v1/allGames', allGamesRouter);
 app.use('/api/v1/errorToAdmin', errorToAdminRouter);
 app.use('/api/v1/exploreGames', exploreGamesRouter);
 app.use('/api/v1/gallery', galleryRouter);

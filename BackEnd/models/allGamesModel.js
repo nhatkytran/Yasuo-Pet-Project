@@ -42,7 +42,7 @@ const schema = new mongoose.Schema({
   platforms: [[String]],
 });
 
-const cltName = 'allgames';
-const Allgames = mongoose.model('Allgames', schema, cltName);
+const cltName = 'allGames';
+const AllGames = mongoose.model('AllGames', schema, cltName);
 
-module.exports = Allgames;
+module.exports = AllGames;
