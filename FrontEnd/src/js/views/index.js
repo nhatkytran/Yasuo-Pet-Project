@@ -1,7 +1,7 @@
 export { default as ModalView } from './modalView';
 export { default as SubwebView } from './subwebView';
 export { default as ExploreAllgamesView } from './exploreAllgamesView';
-// export { default as ExploreGamesView } from './exploreGamesView';
+export { default as ExploreGamesView } from './exploreGamesView';
 // export { default as MenuMobileView } from './menuMobileView';
 // export { default as AbilitiesView } from './abilitiesView';
 // export { default as SkinsView } from './skinsView';
