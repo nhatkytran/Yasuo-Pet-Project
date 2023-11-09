@@ -33,7 +33,7 @@ class ExploreAllgamesController extends ModalContentController {
       if (!store.state.allgames.ok) {
         this.#AllgamesView.displayContent(LOADING);
 
-        await allgamesService.getData('/api/v1/allgames/data'); // Fixname
+        await allgamesService.getData('/api/v1/allGames/data'); // Fixname
         const { images, ...posterOptions } = store.state.allgames;
 
         await Promise.all([
