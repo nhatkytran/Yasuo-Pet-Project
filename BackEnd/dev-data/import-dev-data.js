@@ -28,7 +28,7 @@ const getData = fileName =>
   JSON.parse(fs.readFileSync(path.join(__dirname, fileName), 'utf-8'));
 
 const subwebVideosData = getData('subwebVideos.json');
-const allGamesData = getData('allgames.json');
+const allGamesData = getData('allGames.json');
 const exploreGamesData = getData('exploreGames.json');
 const abilitiesData = getData('abilities.json');
 const skinsData = getData('skins.json');
@@ -81,8 +81,6 @@ const DB = createDB(DATABASE, {
   '<DATABASE_PASSWORD>': DATABASE_PASSWORD,
   '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_YASUO,
 });
-
-console.log(DB);
 
 mongoose
   .set('strictQuery', true)

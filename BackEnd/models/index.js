@@ -1,5 +1,5 @@
 exports.Abilities = require('./abilitiesModel');
-exports.Allgames = require('./allgamesModel');
+exports.Allgames = require('./allGamesModel');
 exports.ErrorToAdmin = require('./errorModel');
 exports.ExploreGames = require('./exploreGamesModel');
 exports.Gallery = require('./galleryModel');
