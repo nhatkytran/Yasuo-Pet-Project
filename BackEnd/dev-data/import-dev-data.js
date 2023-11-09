@@ -82,6 +82,8 @@ const DB = createDB(DATABASE, {
   '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_YASUO,
 });
 
+console.log(DB);
+
 mongoose
   .set('strictQuery', true)
   .connect(DB, { useNewUrlParser: true, useUnifiedTopology: true })

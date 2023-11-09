@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const session = require('express-session');
+// const session = require('express-session');
 
 const {
   abilitiesRouter,
@@ -35,7 +35,7 @@ app.use(cors());
 app.options('*', cors());
 
 // Sessions
-app.use(session(sessionOptions));
+// app.use(session(sessionOptions));
 
 app.get('/', (req, res) => {
   res.status(200).json({
