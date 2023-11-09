@@ -28,45 +28,29 @@ import {
   promisifyLoadingImage,
 } from '../utils';
 
+const classBody = state => `.explore-games__body-${state}`;
+
 class ExploreGamesView {
-  #modal;
-  #mainButton;
+  #modal = $('#modal');
+  #mainButton = $('.main-header__games');
 
-  #sidebar;
-  #sidebarHeader;
-  #sidebarCloseButton;
+  #sidebar = $('.explore-games');
+  #sidebarHeader = $_(this.#sidebar, `.explore-games__header`);
+  #sidebarCloseButton = $_(
+    this.#sidebarHeader,
+    `.explore-games__header-more-close`
+  );
 
-  #posters;
-  #bodyState;
-  #bodyStateLoading;
-  #bodyStateError;
-  #loadingErrorButton;
+  #posters = $$(classBody('poster'));
+  #bodyState = $(classBody('state'));
+  #bodyStateLoading = $_(this.#bodyState, classBody('state-loading'));
+  #bodyStateError = $_(this.#bodyState, classBody('state-error'));
+  #loadingErrorButton = $_(this.#bodyStateError, 'button');
 
   #animateSidebar;
   #animateSidebarHeader;
 
   constructor() {
-    const classSidebar = '.explore-games';
-    const classBody = state => `${classSidebar}__body-${state}`;
-
-    this.#modal = $('#modal');
-    this.#mainButton = $('.main-header__games');
-
-    this.#sidebar = $(classSidebar);
-    this.#sidebarHeader = $_(this.#sidebar, `${classSidebar}__header`);
-    this.#sidebarCloseButton = $_(
-      this.#sidebarHeader,
-      `${classSidebar}__header-more-close`
-    );
-
-    this.#posters = $$(classBody('poster'));
-    this.#bodyState = $(classBody('state'));
-    this.#bodyStateLoading = $_(this.#bodyState, classBody('state-loading'));
-    this.#bodyStateError = $_(this.#bodyState, classBody('state-error'));
-    this.#loadingErrorButton = $_(this.#bodyStateError, 'button');
-
-    this.displayContent(NONE);
-
     this.#animateSidebar = animateFactory(this.#sidebar, {
       start: SIDEBAR_ARROW_OPEN,
       end: SIDEBAR_ARROW_CLOSE,
@@ -75,6 +59,8 @@ class ExploreGamesView {
       start: FADE_IN,
       end: FADE_OUT,
     });
+
+    this.displayContent(NONE);
   }
 
   displayContent(state) {
@@ -146,6 +132,9 @@ class ExploreGamesView {
 
     await Promise.all(promises);
   }
+
+  //
+  // Events listening //////////
 
   addOpenSidebarHandler(handler) {
     this.#mainButton.addEventListener('click', handler);

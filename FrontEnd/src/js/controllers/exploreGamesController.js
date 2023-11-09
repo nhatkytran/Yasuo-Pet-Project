@@ -9,30 +9,29 @@ import state, {
 import ModalContentController from './modalContentController';
 
 class ExploreGamesController extends ModalContentController {
-  #exploreGamesView;
+  #GamesView;
 
-  constructor(exploreGamesView) {
+  constructor(GamesView) {
     super();
-    this.#exploreGamesView = exploreGamesView;
+    this.#GamesView = GamesView;
   }
 
   open = handleOpenModal => {
-    if (super.open(handleOpenModal, this.#exploreGamesView.open))
-      setTimeout(this.#exploreGamesView.openSidebarSignal, ANIMATION_TIMEOUT);
+    super.open(handleOpenModal, this.#GamesView.open);
+    setTimeout(this.#GamesView.openSidebarSignal, ANIMATION_TIMEOUT);
   };
 
   close = handleCloseModal => {
-    if (super.close(handleCloseModal, this.#exploreGamesView.close)) {
-      fetchExploreGamesDataAbort();
-    }
+    super.close(handleCloseModal, this.#GamesView.close);
+    fetchExploreGamesDataAbort();
   };
 
   #fetchData = async () => {
     try {
-      this.#exploreGamesView.displayContent(LOADING);
+      this.#GamesView.displayContent(LOADING);
 
       const { images } = await fetchExploreGamesData();
-      await this.#exploreGamesView.createPosters(images);
+      await this.#GamesView.createPosters(images);
 
       // Only need to know we fetched data or not
       // createMainImages and createPosters do all the things like inject data into HTML
@@ -42,18 +41,17 @@ class ExploreGamesController extends ModalContentController {
       console.error('Something went wrong!');
       console.error(error);
 
-      this.#exploreGamesView.displayContent(ERROR);
+      this.#GamesView.displayContent(ERROR);
 
       // Abort error happens when close modal
       // Display content to none to hide Error message because modal closes anyway
-      if (checkAbortError(error)) this.#exploreGamesView.displayContent(NONE);
+      if (checkAbortError(error)) this.#GamesView.displayContent(NONE);
     }
   };
 
   handleData = async () => {
     if (!state.isExploreGamesFetchData) await this.#fetchData();
-    if (state.isExploreGamesFetchData)
-      this.#exploreGamesView.displayContent(CONTENT);
+    if (state.isExploreGamesFetchData) this.#GamesView.displayContent(CONTENT);
   };
 }
 

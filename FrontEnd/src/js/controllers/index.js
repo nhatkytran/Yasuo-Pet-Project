@@ -29,11 +29,13 @@ import {
   ModalView,
   SubwebView,
   ExploreAllgamesView as AllgamesView,
+  ExploreGamesView as GamesView,
 } from '../views';
 
 import ModalController from './modalController';
 import SubwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
+import ExploreGamesController from './exploreGamesController';
 
 const modalController = new ModalController(ModalView);
 
@@ -74,15 +76,15 @@ function exploreAllgamesInit() {
 }
 
 function exploreGamesInit() {
-  const controller = new ExploreGamesController(exploreGamesView);
+  const controller = new ExploreGamesController(GamesView);
 
-  exploreGamesView.addOpenSidebarHandler(
+  GamesView.addOpenSidebarHandler(
     controller.open.bind(controller, modalController.open)
   );
-  exploreGamesView.addCloseSidebarHandler(
+  GamesView.addCloseSidebarHandler(
     controller.close.bind(controller, modalController.close)
   );
-  exploreGamesView.addFetchAndDisplayDataHandler(controller.handleData);
+  GamesView.addFetchAndDisplayDataHandler(controller.handleData);
 }
 
 function menuMobileInit() {
@@ -168,13 +170,10 @@ function galleryInit() {
 const inits = {
   subwebInit,
   exploreAllgamesInit,
+  exploreGamesInit,
 };
 Object.values(inits).forEach(init => init.call(null));
 
-// modalInit();
-// subwebInit();
-// exploreAllgamesInit();
-// exploreGamesInit();
 // menuMobileInit();
 // abilitiesInit();
 // skinsInit();
