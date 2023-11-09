@@ -28,7 +28,7 @@ const schema = new mongoose.Schema({
           },
         ],
         validate: [
-          smalls => smalls.every(item => !(item.link && item.content)),
+          smalls => smalls.every(item => item.link || item.content),
           'Item can only have either `link` or `content`',
         ],
       },
