@@ -5,7 +5,7 @@ export const ENV = 'development';
 // export const ENV = 'production';
 
 // export const BACKEND_URL = 'http://127.0.0.1:3000';
-export const BACKEND_URL = 'https://yasuo-the-king.onrender.coma';
+export const BACKEND_URL = 'https://yasuo-the-king.onrender.com';
 
 export const REM = 10;
 export const FETCH_API_TIMEOUT = 60;
@@ -17,8 +17,6 @@ export const START = '_start';
 export const END = '_end';
 export const ADD = 'add';
 export const REMOVE = 'remove';
-export const SHOW = 'show';
-export const HIDE = 'hide';
 export const FADE_IN = 'fade-in';
 export const FADE_OUT = 'fade-out';
 export const LEFT = 'left';

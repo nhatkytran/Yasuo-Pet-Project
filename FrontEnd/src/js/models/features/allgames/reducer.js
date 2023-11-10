@@ -32,16 +32,12 @@ const allgamesReducer = (state = initialState, action) => {
   }
 };
 
-const getData = data => {
-  return {
-    type: GET_DATA,
-    payload: data,
-  };
-};
+const getData = data => ({
+  type: GET_DATA,
+  payload: data,
+});
 
-const setDataOk = () => {
-  return { type: SET_DATA_OK };
-};
+const setDataOk = () => ({ type: SET_DATA_OK });
 
 export const ACTIONS = { getData, setDataOk };
 export default allgamesReducer;

@@ -4,9 +4,6 @@ import {
   END,
   ADD,
   REMOVE,
-  SHOW,
-  HIDE,
-  INVALID_ACTION_MESSAGE,
   SIDEBAR_ARROW_OPEN,
   SIDEBAR_ARROW_CLOSE,
   FADE_IN,
@@ -64,6 +61,7 @@ class ExploreGamesView {
   }
 
   displayContent(state) {
+    this.#sidebar.classList.remove('stop-overflow');
     classRemove(
       ADD,
       this.#bodyState,
@@ -71,26 +69,18 @@ class ExploreGamesView {
       this.#bodyStateError
     );
 
-    const displayPoster = (poster, state) => {
-      if (state !== SHOW && state !== HIDE)
-        throw new Error(INVALID_ACTION_MESSAGE);
+    // Use class `hide` for keeping images to remain thesize of the sidebar
+    this.#posters.forEach(poster => {
+      // `transition: 'all ease 0.2s';` is set in CSS for better animation
+      // when display content. Use `unset` when close model to get animation
+      poster.style.transition = 'unset';
+      poster.classList.add('hide');
+      // back to first CSS set in CSS file
+      poster.style.transition = 'all ease 0.2s';
+    });
 
-      poster.classList[state === SHOW ? 'remove' : 'add'](HIDE);
-    };
-
-    if (state === NONE || state === LOADING || state === ERROR) {
-      // Use class `hide` for keeping images to remain thesize of the sidebar
-      this.#posters.forEach(poster => {
-        // `transition: 'all ease 0.2s';` is set in CSS for better animation \
-        // when display content. Use `unset` when close model to get animation
-        poster.style.transition = 'unset';
-        displayPoster(poster, HIDE);
-        // back to first CSS set in CSS file
-        poster.style.transition = 'all ease 0.2s';
-      });
-
-      if (state === NONE) return;
-
+    if (state === LOADING || state === ERROR) {
+      this.#sidebar.classList.add('stop-overflow');
       classRemove(
         REMOVE,
         this.#bodyState,
@@ -99,11 +89,13 @@ class ExploreGamesView {
     }
 
     if (state === CONTENT)
-      this.#posters.forEach((poster, index) => {
-        setTimeout(() => {
-          displayPoster(poster, SHOW);
-        }, index * ANIMATION_TIMEOUT_100 - 20); // -20 so it is a little bit faster
-      });
+      this.#posters.forEach(
+        (poster, index) =>
+          setTimeout(
+            () => poster.classList.remove('hide'),
+            index * ANIMATION_TIMEOUT_100 - 20
+          ) // -20 so it is a little bit faster
+      );
   }
 
   open = () => {
@@ -117,10 +109,8 @@ class ExploreGamesView {
 
   close = timeToClose => {
     this.displayContent(NONE);
-
     this.#animateSidebar(END);
     this.#animateSidebarHeader(END);
-
     setTimeout(classRemove.bind(null, ADD, this.#sidebar), timeToClose);
   };
 

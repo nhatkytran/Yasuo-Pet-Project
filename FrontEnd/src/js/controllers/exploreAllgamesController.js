@@ -1,4 +1,4 @@
-import { ANIMATION_TIMEOUT, NONE, LOADING, ERROR, CONTENT } from '../config';
+import { NONE, LOADING, ERROR, CONTENT } from '../config';
 import { catchAsync, checkAbortError } from '../utils';
 
 import store from '../models/store';
@@ -33,9 +33,9 @@ class ExploreAllgamesController extends ModalContentController {
       if (!store.state.allgames.ok) {
         this.#AllgamesView.displayContent(LOADING);
 
-        await allgamesService.getData('/api/v1/allGames/data'); // Fixname
-        const { images, ...posterOptions } = store.state.allgames;
+        await allgamesService.getData('/api/v1/allGames/data');
 
+        const { images, ...posterOptions } = store.state.allgames;
         await Promise.all([
           this.#AllgamesView.createMainImages(images.main),
           this.#AllgamesView.createPosters(images.side, posterOptions),

@@ -18,12 +18,10 @@ const subwebReducer = (state = initialState, action) => {
   }
 };
 
-const getVideo = ({ linkMp4, linkWebm }) => {
-  return {
-    type: GET_VIDEO,
-    payload: { linkMp4, linkWebm },
-  };
-};
+const getVideo = ({ linkMp4, linkWebm }) => ({
+  type: GET_VIDEO,
+  payload: { linkMp4, linkWebm },
+});
 
 export const ACTIONS = { getVideo };
 export default subwebReducer;

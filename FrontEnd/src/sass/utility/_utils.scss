@@ -2,6 +2,8 @@
   display: none !important;
 }
 .hide {
+  // opacity: 0;
+  // pointer-events: none;
   @include hide;
 }
 .show {
@@ -9,6 +11,9 @@
 }
 .blur {
   filter: blur(0.2rem);
+}
+.stop-overflow {
+  overflow: hidden !important;
 }
 
 @mixin ease-24-forwards($animation) {
@@ -189,8 +194,8 @@
 .button-error {
   color: $text-color;
   background-color: $color-error-primary;
-  font-size: 1.6rem;
-  padding: 0.4rem 0.8rem;
+  font-size: 1.5rem;
+  padding: 0.5rem 0.9rem;
   margin-top: 1rem;
   border-radius: 0.4rem;
   transition: all ease 0.2s;

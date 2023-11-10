@@ -1,12 +1,13 @@
-import { ANIMATION_TIMEOUT, NONE, LOADING, ERROR, CONTENT } from '../config';
-import { checkAbortError } from '../utils';
+import { NONE, LOADING, ERROR, CONTENT } from '../config';
+import { catchAsync, checkAbortError } from '../utils';
 
-import state, {
-  fetchExploreGamesData,
-  fetchExploreGamesDataAbort,
-} from '../model';
+import store from '../models/store';
+import gamesService from '../models/features/games/gamesService';
+import { ACTIONS } from '../models/features/games/reducer';
 
 import ModalContentController from './modalContentController';
+
+const filename = 'exploreGamesController';
 
 class ExploreGamesController extends ModalContentController {
   #GamesView;
@@ -22,37 +23,33 @@ class ExploreGamesController extends ModalContentController {
   };
 
   close = handleCloseModal => {
+    gamesService.getDataAbort();
     super.close(handleCloseModal, this.#GamesView.close);
-    fetchExploreGamesDataAbort();
   };
 
-  #fetchData = async () => {
-    try {
-      this.#GamesView.displayContent(LOADING);
+  handleData = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (!store.state.games.ok) {
+        this.#GamesView.displayContent(LOADING);
 
-      const { images } = await fetchExploreGamesData();
-      await this.#GamesView.createPosters(images);
+        await gamesService.getData('/api/v1/exploreGames/data');
 
-      // Only need to know we fetched data or not
-      // createMainImages and createPosters do all the things like inject data into HTML
-      state.isExploreGamesFetchData = true;
-    } catch (error) {
-      // test
-      console.error('Something went wrong!');
-      console.error(error);
+        const { images } = await store.state.games;
+        await this.#GamesView.createPosters(images);
 
-      this.#GamesView.displayContent(ERROR);
+        store.dispatch(ACTIONS.setDataOk());
+      }
 
+      this.#GamesView.displayContent(CONTENT);
+    },
+    onError: error => {
       // Abort error happens when close modal
       // Display content to none to hide Error message because modal closes anyway
       if (checkAbortError(error)) this.#GamesView.displayContent(NONE);
-    }
-  };
-
-  handleData = async () => {
-    if (!state.isExploreGamesFetchData) await this.#fetchData();
-    if (state.isExploreGamesFetchData) this.#GamesView.displayContent(CONTENT);
-  };
+      else this.#GamesView.displayContent(ERROR);
+    },
+  });
 }
 
 export default ExploreGamesController;

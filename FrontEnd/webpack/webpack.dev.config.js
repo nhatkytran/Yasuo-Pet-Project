@@ -33,6 +33,6 @@ module.exports = merge(common, {
   // https://github.com/webpack/webpack/issues/2983
   watchOptions: {
     aggregateTimeout: 500,
-    poll: 250,
+    poll: false,
   },
 });

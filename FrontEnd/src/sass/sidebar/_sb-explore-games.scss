@@ -119,29 +119,14 @@
     @include flex-align-center;
     @include full-dimension;
 
-    @mixin error-dimension($width, $h) {
-      @media only screen and (max-width: $width) {
-        height: $h !important;
-      }
+    @media only screen and (max-width: $px1040) {
+      height: 36.5rem !important;
     }
-    @include error-dimension($px1040, calc(100vh - 7.2rem));
-    @include error-dimension($px640, calc(100vh - 5.6rem));
-
-    // &-loading {
-    // }
 
     &-error {
       flex-direction: column;
       justify-content: center;
       @include flex-align-center;
-
-      img {
-        @include square-dimension(6.2rem);
-      }
-
-      button {
-        font-size: 1.4rem;
-      }
     }
   }
 
