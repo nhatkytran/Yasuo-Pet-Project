@@ -174,11 +174,24 @@
   }
 }
 
+.error-container {
+  width: 100%;
+  text-align: center;
+  @include absolute-position(-50%, -50%);
+}
+
+.text-error {
+  color: $color-error-primary;
+  font-size: 2.2rem;
+  @include use-font(FF-Mark);
+}
+
 .button-error {
+  color: $text-color;
   background-color: $color-error-primary;
   font-size: 1.6rem;
   padding: 0.4rem 0.8rem;
-  margin-top: 0.6rem;
+  margin-top: 1rem;
   border-radius: 0.4rem;
   transition: all ease 0.2s;
   @include use-font(FF-Mark-Medium);

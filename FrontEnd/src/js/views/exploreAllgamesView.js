@@ -151,9 +151,11 @@ class ExploreAllgamesView {
     }
   }
 
-  #windowResizeSelectPosters = () => {
-    if (window.innerWidth <= 1040) this.selectPosters(MAIN);
-  };
+  #windowResizeSelectPosters = () =>
+    window.innerWidth <= 1040 &&
+    this.#leftLoading.classList.contains('remove') &&
+    !this.#posterContainer.classList.contains('remove') &&
+    this.selectPosters(MAIN);
 
   open = () => {
     classRemove(REMOVE, this.#sidebar);

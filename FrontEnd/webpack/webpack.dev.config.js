@@ -29,4 +29,10 @@ module.exports = merge(common, {
     liveReload: true,
     hot: true,
   },
+  // Browser keeps reloading so many times
+  // https://github.com/webpack/webpack/issues/2983
+  watchOptions: {
+    aggregateTimeout: 500,
+    poll: 250,
+  },
 });

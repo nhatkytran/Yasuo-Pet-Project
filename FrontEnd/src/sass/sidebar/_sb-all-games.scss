@@ -99,26 +99,13 @@
       border-radius: 0.6rem;
       transition: all ease 1s;
     }
-
-    &-error {
-      width: 100%;
-      color: $color-error-primary;
-      font-size: 2.2rem;
-      text-align: center;
-      @include use-font(FF-Mark);
-      @include absolute-position(-50%, -50%);
-    }
   }
 
   &__right-loading {
     width: 50%;
     min-height: $min-height;
     position: relative;
-
-    @media only screen and (max-width: $px1040) {
-      width: 100%;
-      min-height: 28.5rem;
-    }
+    @include display-responsive($px1040, none);
 
     &-error {
       @include absolute-position(-50%, -50%);

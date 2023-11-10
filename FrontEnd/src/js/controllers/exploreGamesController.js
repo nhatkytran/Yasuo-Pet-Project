@@ -17,8 +17,8 @@ class ExploreGamesController extends ModalContentController {
   }
 
   open = handleOpenModal => {
-    super.open(handleOpenModal, this.#GamesView.open);
-    setTimeout(this.#GamesView.openSidebarSignal, ANIMATION_TIMEOUT);
+    const timeToOpen = super.open(handleOpenModal, this.#GamesView.open);
+    setTimeout(this.#GamesView.openSidebarSignal, timeToOpen);
   };
 
   close = handleCloseModal => {

@@ -18,8 +18,8 @@ class ExploreAllgamesController extends ModalContentController {
   }
 
   open = handleOpenModal => {
-    super.open(handleOpenModal, this.#AllgamesView.open);
-    setTimeout(this.#AllgamesView.openSidebarSignal, ANIMATION_TIMEOUT);
+    const timeToOpen = super.open(handleOpenModal, this.#AllgamesView.open);
+    setTimeout(this.#AllgamesView.openSidebarSignal, timeToOpen);
   };
 
   close = handleCloseModal => {
@@ -44,7 +44,6 @@ class ExploreAllgamesController extends ModalContentController {
         store.dispatch(ACTIONS.setDataOk());
       }
 
-      console.log(store.state);
       this.#AllgamesView.displayContent(CONTENT);
     },
     onError: error => {

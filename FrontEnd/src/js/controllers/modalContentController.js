@@ -12,14 +12,13 @@ class ModalContentController {
     return (handleOpenModal, openContent) => {
       if (this.#isOpening || this.#isClosing) return false;
 
-      handleOpenModal();
-
       this.#isOpening = true;
+      handleOpenModal();
       openContent();
 
-      setTimeout(() => {
-        this.#isOpening = false;
-      }, ANIMATION_TIMEOUT);
+      const timeToOpen = ANIMATION_TIMEOUT;
+      setTimeout(() => (this.#isOpening = false), timeToOpen);
+      return timeToOpen;
     };
   }
 
@@ -27,14 +26,12 @@ class ModalContentController {
     return (handleCloseModal, closeContent) => {
       if (this.#isOpening || this.#isClosing) return false;
 
+      this.#isClosing = true;
       handleCloseModal();
 
-      this.#isClosing = true;
-      closeContent(ANIMATION_TIMEOUT); // Sidebar Arrow needs ANIMATION_TIMEOUT
-
-      setTimeout(() => {
-        this.#isClosing = false;
-      }, ANIMATION_TIMEOUT);
+      const timeToClose = ANIMATION_TIMEOUT;
+      closeContent(timeToClose);
+      setTimeout(() => (this.#isClosing = false), timeToClose);
     };
   }
 }
