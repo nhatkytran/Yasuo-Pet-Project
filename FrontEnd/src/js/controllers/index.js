@@ -40,20 +40,27 @@ import ExploreGamesController from './exploreGamesController';
 const modalController = new ModalController(ModalView);
 
 function subwebInit() {
+  const controller = new SubwebController(SubwebView);
   const {
     handleLazyLoadingImage,
     fetchVideo,
-    playVideoFirstTime,
+    renderVideoFirstTime,
+    closeInstruction,
     fetchVideoAbort,
     handleVideoState,
     handleReplayVideo,
     handleSpeakerPower,
     handleSpeakerProgress,
-  } = new SubwebController(SubwebView);
+  } = controller;
 
   SubwebView.addLazyLoadingImage(handleLazyLoadingImage);
   SubwebView.addFetchVideoHandler(fetchVideo);
-  SubwebView.addPlayVideoHandler(playVideoFirstTime);
+  SubwebView.addPlayVideoHandler(
+    renderVideoFirstTime.bind(controller, modalController.open)
+  );
+  SubwebView.addCloseInstructionHandler(
+    closeInstruction.bind(controller, modalController.close)
+  );
   SubwebView.addFetchVideoHandlerAbort(fetchVideoAbort);
   SubwebView.addControlVideoStateHandler(handleVideoState);
   SubwebView.addReplayVideoHandler(handleReplayVideo);
@@ -63,28 +70,28 @@ function subwebInit() {
 
 function exploreAllgamesInit() {
   const controller = new ExploreAllgamesController(AllgamesView);
+  const { open, close, handleData, selectPosters, toggleLinks } = controller;
 
   AllgamesView.addOpenSidebarHandler(
-    controller.open.bind(controller, modalController.open)
+    open.bind(controller, modalController.open)
   );
   AllgamesView.addCloseSidebarHandler(
-    controller.close.bind(controller, modalController.close)
+    close.bind(controller, modalController.close)
   );
-  AllgamesView.addFetchAndDisplayDataHandler(controller.handleData);
-  AllgamesView.addHoverSelectPostersHandler(controller.selectPosters);
-  AllgamesView.addOpenLinksHandler(controller.toggleLinks);
+  AllgamesView.addFetchAndDisplayDataHandler(handleData);
+  AllgamesView.addHoverSelectPostersHandler(selectPosters);
+  AllgamesView.addOpenLinksHandler(toggleLinks);
 }
 
 function exploreGamesInit() {
   const controller = new ExploreGamesController(GamesView);
+  const { open, close, handleData } = controller;
 
-  GamesView.addOpenSidebarHandler(
-    controller.open.bind(controller, modalController.open)
-  );
+  GamesView.addOpenSidebarHandler(open.bind(controller, modalController.open));
   GamesView.addCloseSidebarHandler(
-    controller.close.bind(controller, modalController.close)
+    close.bind(controller, modalController.close)
   );
-  GamesView.addFetchAndDisplayDataHandler(controller.handleData);
+  GamesView.addFetchAndDisplayDataHandler(handleData);
 }
 
 function menuMobileInit() {

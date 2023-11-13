@@ -1,4 +1,4 @@
-import { START, END, FADE_IN, FADE_OUT } from '../config';
+import { REM, START, END, FADE_IN, FADE_OUT } from '../config';
 import { $, animateFactory } from '../utils';
 
 class ModalView {
@@ -18,7 +18,7 @@ class ModalView {
     document.body.classList.add('modal-open');
     document.body.style.cssText = `
       position: fixed;
-      top: -${scrollVertical / 10}rem;
+      top: -${scrollVertical / REM}rem;
     `;
 
     this.#animateModal(START);

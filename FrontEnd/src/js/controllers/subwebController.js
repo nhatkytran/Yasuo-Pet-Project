@@ -15,13 +15,16 @@ import { catchAsync, checkTimeoutError, checkAbortError } from '../utils';
 import store from '../models/store';
 import subwebService from '../models/features/subweb/subwebService';
 
+import ModalContentController from './modalContentController';
+
 const filename = 'subwebController.js';
 
-class SubwebController {
+class SubwebController extends ModalContentController {
   #SubwebView;
   #previousSpeakerVolume = SPEAKER_VOLUME_MAX_PERCENT; // First time loading video with max volume
 
   constructor(SubwebView) {
+    super();
     this.#SubwebView = SubwebView;
   }
 
@@ -51,7 +54,14 @@ class SubwebController {
     },
   });
 
-  playVideoFirstTime = () => this.#SubwebView.renderVideoFirstTime();
+  renderVideoFirstTime = handleOpenModal => {
+    this.#SubwebView.renderVideoFirstTime();
+    super.open(handleOpenModal, this.#SubwebView.open);
+  };
+
+  closeInstruction = handleCloseModal =>
+    super.close(handleCloseModal, this.#SubwebView.close);
+
   fetchVideoAbort = () => subwebService.getVideoAbort();
 
   // Play | Pause | Replay

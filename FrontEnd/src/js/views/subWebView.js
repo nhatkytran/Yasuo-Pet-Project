@@ -1,5 +1,6 @@
 import {
   BACKEND_URL,
+  REM,
   ANIMATION_TIMEOUT,
   START,
   END,
@@ -61,10 +62,20 @@ class SubwebView {
   #loginButton = $('.sub-header__content-login');
   #purchaseSkinsButton = $('.trailer__content-button-border');
 
+  #instructionWrapper = $('.volume-ins-wrapper');
+  #instruction = $('.volume-ins');
+  #instructionCloseButton = $_(this.#instruction, 'svg');
+  #instructionOkayButton = $_(this.#instruction, 'button');
+
   #animateTrailerContent;
+  #animateInstruction;
 
   constructor() {
     this.#animateTrailerContent = animateFactory(this.#trailerContent, {
+      start: FADE_IN,
+      end: FADE_OUT,
+    });
+    this.#animateInstruction = animateFactory(this.#instructionWrapper, {
       start: FADE_IN,
       end: FADE_OUT,
     });
@@ -136,8 +147,24 @@ class SubwebView {
     });
   }
 
+  open = scrollY => {
+    this.#instructionWrapper.style.top = `${scrollY / REM}rem`;
+    classRemove(REMOVE, this.#instructionWrapper);
+    this.#animateInstruction(START);
+  };
+
+  close = timeToClose => {
+    this.#instructionWrapper.style.top = `0rem`;
+    this.#animateInstruction(END);
+    setTimeout(
+      classRemove.bind(null, ADD, this.#instructionWrapper),
+      timeToClose
+    );
+  };
+
   renderVideoFirstTime() {
     this.renderUI(END);
+
     // 'webkitendfullscreen'
     // On device like IPhone, there is a video layer automatically opened when playing video
     this.#trailerVideo.addEventListener('webkitendfullscreen', () =>
@@ -255,6 +282,20 @@ class SubwebView {
       touchmove: dragHandler,
       touchend: mouseupHandler,
     });
+  }
+
+  addCloseInstructionHandler(handler) {
+    [
+      this.#instructionWrapper,
+      this.#instructionCloseButton,
+      this.#instructionOkayButton,
+    ].forEach(element =>
+      element.addEventListener('click', handler, { once: true })
+    );
+
+    this.#instruction.addEventListener('click', event =>
+      event.stopPropagation()
+    );
   }
 }
 

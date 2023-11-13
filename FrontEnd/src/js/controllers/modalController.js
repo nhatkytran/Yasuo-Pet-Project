@@ -19,6 +19,8 @@ class ModalController {
     setTimeout(() => {
       this.#modalIsOpening = false;
     }, ANIMATION_TIMEOUT);
+
+    return this.#scrollVertical;
   };
 
   close = () => {

@@ -13,8 +13,7 @@ class ModalContentController {
       if (this.#isOpening || this.#isClosing) return false;
 
       this.#isOpening = true;
-      handleOpenModal();
-      openContent();
+      openContent(handleOpenModal());
 
       const timeToOpen = ANIMATION_TIMEOUT;
       setTimeout(() => (this.#isOpening = false), timeToOpen);

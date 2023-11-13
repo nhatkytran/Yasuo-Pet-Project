@@ -17,6 +17,7 @@
   @media only screen and (max-width: $px640) {
     width: calc(100% - 2rem);
     padding: 2.8rem 3rem 2.6rem;
+    @include absolute-position(-50%, -60%);
   }
   @media only screen and (max-width: $px440) {
     padding: 2.6rem 2.6rem 2.4rem;
