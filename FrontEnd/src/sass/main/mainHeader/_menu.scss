@@ -42,7 +42,7 @@
   max-width: 48rem;
   height: 100vh;
   background-color: $color-layer;
-  padding: 0 1.6rem 1.6rem;
+  padding: 0 1.6rem 2rem;
   border-left: 1px groove $color-button-blue-dark;
   transition: all ease 0.24s;
   overflow-y: scroll;
@@ -150,7 +150,9 @@
   &-more {
     height: 0;
     padding: 0 1.6rem;
-    transition: height ease 0.2s, opacity ease 0.4s;
+    transition:
+      height ease 0.2s,
+      opacity ease 0.4s;
     overflow: hidden;
     @include hide;
 

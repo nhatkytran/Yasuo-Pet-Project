@@ -3,11 +3,11 @@ const initialState = {
   linkWebm: '',
 };
 
-const GET_VIDEO = 'subweb/getVideo';
+const GET_DATA = 'subweb/getData';
 
 const subwebReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_VIDEO:
+    case GET_DATA:
       return {
         ...state,
         linkMp4: action.payload.linkMp4,
@@ -18,10 +18,10 @@ const subwebReducer = (state = initialState, action) => {
   }
 };
 
-const getVideo = ({ linkMp4, linkWebm }) => ({
-  type: GET_VIDEO,
-  payload: { linkMp4, linkWebm },
+const getData = data => ({
+  type: GET_DATA,
+  payload: { linkMp4: data.linkMp4, linkWebm: data.linkWebm },
 });
 
-export const ACTIONS = { getVideo };
+export const ACTIONS = { getData };
 export default subwebReducer;

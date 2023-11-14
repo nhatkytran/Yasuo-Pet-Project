@@ -351,10 +351,20 @@
     }
   }
 
+  &-loading {
+    @media only screen and (max-width: $px640) {
+      @include absolute-position(-50%, -70%);
+    }
+  }
+
   &-error {
     flex-direction: column;
     @include flex-align-center;
     @include absolute-position(-50%, -50%);
+
+    @media only screen and (max-width: $px640) {
+      @include absolute-position(-50%, -70%);
+    }
 
     img {
       margin-top: 2rem;

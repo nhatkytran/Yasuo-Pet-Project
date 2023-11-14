@@ -40,7 +40,7 @@ class SubwebController extends ModalContentController {
     filename,
     onProcess: async () => {
       this.#SubwebView.renderUI(START);
-      await subwebService.getVideo('/api/v1/subweb/video');
+      await subwebService.getData('/api/v1/subweb/video');
 
       // SubwebView.renderUI(END); --> When video is ready --> SubwebView.playVideo()
       this.#SubwebView.renderVideo(store.state.subweb);
@@ -62,7 +62,7 @@ class SubwebController extends ModalContentController {
   closeInstruction = handleCloseModal =>
     super.close(handleCloseModal, this.#SubwebView.close);
 
-  fetchVideoAbort = () => subwebService.getVideoAbort();
+  fetchVideoAbort = () => subwebService.getDataAbort();
 
   // Play | Pause | Replay
   handleVideoState = (_, button) => {

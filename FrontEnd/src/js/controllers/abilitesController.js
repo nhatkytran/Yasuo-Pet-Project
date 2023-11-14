@@ -1,69 +1,56 @@
 import { CONTENT, LOADING, ERROR } from '../config';
-import { checkAbortError } from '../utils';
-import state, { fetchAbilitiesData, fetchAbilitiesDataAbort } from '../model';
+import { catchAsync, checkAbortError } from '../utils';
+
+import store from '../models/store';
+import abilitiesService from '../models/features/abilities/abilitiesService';
+import { ACTIONS } from '../models/features/abilities/reducer';
+
+const filename = 'abilitiesController.js';
 
 class AbilitiesController {
-  #abilitiesView;
+  #AbilitiesView;
   #lastSkillIndex;
 
-  constructor(abilitiesView) {
-    this.#abilitiesView = abilitiesView;
+  constructor(AbilitiesView) {
+    this.#AbilitiesView = AbilitiesView;
   }
 
   chooseSkill = index => {
-    this.#abilitiesView.markSkillChosen(index, this.#lastSkillIndex);
+    this.#AbilitiesView.markSkillChosen(index, this.#lastSkillIndex);
 
-    if (!state.isAbilitiesFetchData) {
-      fetchAbilitiesDataAbort();
-      this.handleData();
+    if (!store.state.abilities.ok) {
+      abilitiesService.getDataAbort();
+      this.handleData(index);
     } else {
-      this.#abilitiesView.markDescriptionChosen(index, this.#lastSkillIndex);
-
-      this.#abilitiesView.markVideoChosen(index, this.#lastSkillIndex);
-      this.#abilitiesView.controlVideoChosen(index, this.#lastSkillIndex);
+      this.#AbilitiesView.markDescriptionChosen(index, this.#lastSkillIndex);
+      this.#AbilitiesView.markVideoChosen(index, this.#lastSkillIndex);
+      this.#AbilitiesView.controlVideoChosen(index, this.#lastSkillIndex);
     }
 
     this.#lastSkillIndex = index;
   };
 
-  #fetchData = async () => {
-    try {
-      this.#abilitiesView.displayContent(LOADING);
+  handleData = catchAsync({
+    filename,
+    onProcess: async index => {
+      this.#AbilitiesView.displayContent(LOADING);
 
-      const { videos, descriptions } = await fetchAbilitiesData();
+      await abilitiesService.getData('/api/v1/abilities/data');
 
-      await this.#abilitiesView.createVideos(videos, this.#lastSkillIndex);
-      this.#abilitiesView.createDescriptions(
-        descriptions,
-        this.#lastSkillIndex
-      );
+      const { videos, descriptions } = store.state.abilities;
+      await this.#AbilitiesView.createVideos(videos, index);
 
-      // Only need to know we fetched data or not
-      // createDescriptions and createVideos do all the things like inject data into HTML
-      state.isAbilitiesFetchData = true;
-    } catch (error) {
-      // test
-      console.error('Something went wrong!');
-      console.error(error);
+      this.#AbilitiesView.createDescriptions(descriptions, index);
 
-      // No need to have abort --> Check lastSkillIndex
-      if (!checkAbortError(error)) this.#abilitiesView.displayContent(ERROR);
-    }
-  };
+      store.dispatch(ACTIONS.setDataOk());
 
-  handleData = async () => {
-    if (!state.isAbilitiesFetchData) await this.#fetchData();
-    if (state.isAbilitiesFetchData) {
-      this.#abilitiesView.displayContent(CONTENT);
-
-      // Play video the first time
-      // At first time, current video is also last video
-      this.#abilitiesView.controlVideoChosen(
-        this.#lastSkillIndex,
-        this.#lastSkillIndex
-      );
-    }
-  };
+      this.#AbilitiesView.displayContent(CONTENT);
+      this.#AbilitiesView.controlVideoChosen(index);
+    },
+    onError: error => {
+      if (!checkAbortError(error)) this.#AbilitiesView.displayContent(ERROR);
+    },
+  });
 }
 
 export default AbilitiesController;

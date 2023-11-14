@@ -30,12 +30,16 @@ import {
   SubwebView,
   ExploreAllgamesView as AllgamesView,
   ExploreGamesView as GamesView,
+  MenuMobileView,
+  AbilitiesView,
 } from '../views';
 
 import ModalController from './modalController';
 import SubwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
+import MenuMobileController from './menuMobileController';
+import AbilitiesController from './abilitesController';
 
 const modalController = new ModalController(ModalView);
 
@@ -95,22 +99,23 @@ function exploreGamesInit() {
 }
 
 function menuMobileInit() {
-  const controller = new MenuMobileController(menuMobileView);
+  const controller = new MenuMobileController(MenuMobileView);
+  const { open, close, toggle } = controller;
 
-  menuMobileView.addOpenMenuHandler(
-    controller.open.bind(controller, modalController.open)
+  MenuMobileView.addOpenMenuHandler(
+    open.bind(controller, modalController.open)
   );
-  menuMobileView.addCloseMenuHandler(
-    controller.close.bind(controller, modalController.close)
+  MenuMobileView.addCloseMenuHandler(
+    close.bind(controller, modalController.close)
   );
-  menuMobileView.addToggleUniverseMobile(controller.toggle);
+  MenuMobileView.addToggleUniverseMobile(toggle);
 }
 
 function abilitiesInit() {
-  const controller = new AbilitiesController(abilitiesView);
+  const { chooseSkill, handleData } = new AbilitiesController(AbilitiesView);
 
-  abilitiesView.addChooseSkillHander(controller.chooseSkill);
-  abilitiesView.addReFetchHandler(controller.handleData);
+  AbilitiesView.addChooseSkillHander(chooseSkill);
+  AbilitiesView.addReFetchHandler(handleData);
 }
 
 function skinsInit() {
@@ -178,11 +183,11 @@ const inits = {
   subwebInit,
   exploreAllgamesInit,
   exploreGamesInit,
+  menuMobileInit,
+  abilitiesInit,
 };
 Object.values(inits).forEach(init => init.call(null));
 
-// menuMobileInit();
-// abilitiesInit();
 // skinsInit();
 // skins2Init();
 // ruinedInit();

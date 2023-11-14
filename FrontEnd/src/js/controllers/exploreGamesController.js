@@ -7,7 +7,7 @@ import { ACTIONS } from '../models/features/games/reducer';
 
 import ModalContentController from './modalContentController';
 
-const filename = 'exploreGamesController';
+const filename = 'exploreGamesController.js';
 
 class ExploreGamesController extends ModalContentController {
   #GamesView;

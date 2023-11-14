@@ -1,8 +1,5 @@
 import { BACKEND_URL } from '../config';
 
-// rrorController.abort()
-// resolve()
-// resolve(errorController.abort()) --> Only for write less code purpose, don't use data in resolve
 const promisifyLoadingVideo = (video, { mp4, webm }) =>
   new Promise((resolve, reject) => {
     const sources = [

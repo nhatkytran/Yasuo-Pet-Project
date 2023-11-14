@@ -2,31 +2,15 @@ import { ADD, REMOVE } from '../config';
 import { $ } from '../utils';
 
 class MenuMobileView {
-  #modal;
-  #mainButton;
+  #modal = $('#modal');
+  #mainButton = $('.mh-menu__btn');
 
-  #menu;
-  #menuCloseButton;
+  #menu = $('.mh-menu');
+  #menuCloseButton = $('.mh-menu__header-close');
 
-  #universeMobile;
-  #universeMobileMore;
-  #universeX;
-
-  #menuAnimationClass;
-
-  constructor() {
-    this.#modal = $('#modal');
-    this.#mainButton = $('.mh-menu__btn');
-
-    this.#menu = $('.mh-menu');
-    this.#menuCloseButton = $('.mh-menu__header-close');
-
-    this.#universeMobile = $('.universe-mobile');
-    this.#universeMobileMore = $('.universe-mobile__more');
-    this.#universeX = $('.mh-menu__universe-x');
-
-    this.#menuAnimationClass = 'slide-to-origin';
-  }
+  #universeMobile = $('.universe-mobile');
+  #universeMobileMore = $('.universe-mobile__more');
+  #universeX = $('.mh-menu__universe-x');
 
   #closeHandler; // addCloseMenuHandler
   #windowResizeClose = () => {
@@ -35,12 +19,12 @@ class MenuMobileView {
   };
 
   open = () => {
-    this.#menu.classList.add(this.#menuAnimationClass);
+    this.#menu.classList.add('slide-to-origin');
     window.addEventListener('resize', this.#windowResizeClose);
   };
 
   close = () => {
-    this.#menu.classList.remove(this.#menuAnimationClass);
+    this.#menu.classList.remove('slide-to-origin');
     window.removeEventListener('resize', this.#windowResizeClose);
   };
 
@@ -56,6 +40,9 @@ class MenuMobileView {
   closeUniverseMobile() {
     this.#universeMobileAnimate(REMOVE, 'unset');
   }
+
+  //
+  // Events listening //////////
 
   addOpenMenuHandler(handler) {
     this.#mainButton.addEventListener('click', handler);

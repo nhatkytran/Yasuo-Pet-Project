@@ -1,4 +1,4 @@
-import { ADD, REMOVE, LOADING, ERROR, CONTENT } from '../config';
+import { REM, ADD, REMOVE, LOADING, ERROR, CONTENT } from '../config';
 
 import {
   $,
@@ -11,43 +11,26 @@ import {
 } from '../utils';
 
 class AbilitiesView {
-  #skillsContainer;
-  #skills;
-  #skillCircle;
+  #skillsContainer = $('.ab__skills');
+  #skills = $$('.ab__skills-skill');
+  #skillCircle = $('.ab__skills-progress-circle');
 
-  #skillWidth = 9.6; // (rem) 96px for each skill (only displayed on PC)
-  #skillWidthAdder = 4.1;
+  #skillWidth = 96;
+  #skillWidthAdder = 41;
 
-  #descriptionContentContainer;
+  #descriptionContentContainer = $('.ab__skills-desc-s');
   #descriptionContents;
-  #descriptionLoading;
-  #descriptionError;
-  #descriptionErrorButton;
+  #descriptionLoading = $('.ab__skills-desc-loading');
+  #descriptionError = $('.ab__skills-desc-error');
+  #descriptionErrorButton = $_(this.#descriptionError, 'button');
 
-  #videoContainer;
+  #videoContainer = $('.abilities__content-body-video');
   #videos;
 
   constructor() {
-    this.#skillsContainer = $('.ab__skills');
-    this.#skills = $$('.ab__skills-skill');
-    this.#skillCircle = $('.ab__skills-progress-circle');
-
-    this.#descriptionContentContainer = $('.ab__skills-desc-s');
-    // this.#descriptionContents; // No contents created at this time except for the default one
-    this.#descriptionLoading = $('.ab__skills-desc-loading');
-    this.#descriptionError = $('.ab__skills-desc-error');
-    console.log(123);
-    this.#descriptionErrorButton = $_(this.#descriptionError, 'button');
-    console.log(456);
-
-    this.#videoContainer = $('.abilities__content-body-video');
-    // this.#videos; // No videos created at this time
-
     this.#skills.forEach((skill, index) =>
       skill.setAttribute('data-ab-skill', index)
     );
-
-    this.displayContent(CONTENT);
   }
 
   displayContent(state) {
@@ -66,26 +49,9 @@ class AbilitiesView {
 
   markSkillChosen(index, lastIndex) {
     const left = this.#skillWidth * index + this.#skillWidthAdder;
-    this.#skillCircle.style.left = `${left}rem`;
-
-    if (lastIndex !== undefined)
-      this.#skills[lastIndex].classList.remove('active');
-
+    this.#skillCircle.style.left = `${left / REM}rem`;
+    this.#skills[lastIndex]?.classList.remove('active');
     this.#skills[index].classList.add('active');
-  }
-
-  #generateDescriptionMarkup(descriptions, shownIndex) {
-    const markupCallback = (description, index) => `
-      <div class="ab__skills-desc-s-content fade-in ${
-        shownIndex === index ? '' : 'remove'
-      }">
-        <p class="ab__skills-desc-s-small">${description.small}</p>
-        <h1 class="ab__skills-desc-s-big">${description.big}</h1>
-        <p class="ab__skills-desc-s-medium">${description.medium}</p>
-      </div>
-    `;
-
-    return mapMarkup(descriptions, markupCallback);
   }
 
   markDescriptionChosen(index, lastIndex) {
@@ -93,16 +59,15 @@ class AbilitiesView {
     classRemove(REMOVE, this.#descriptionContents[index]);
   }
 
-  createDescriptions(descriptions, shownIndex) {
-    const markup = this.#generateDescriptionMarkup(descriptions, shownIndex);
+  markVideoChosen(index, lastIndex) {
+    classRemove(ADD, this.#videos[lastIndex]);
+    classRemove(REMOVE, this.#videos[index]);
+  }
 
-    this.#descriptionContentContainer.innerHTML = '';
-    this.#descriptionContentContainer.insertAdjacentHTML('afterbegin', markup);
-
-    this.#descriptionContents = $$_(
-      this.#descriptionContentContainer,
-      '.ab__skills-desc-s-content'
-    );
+  controlVideoChosen(index, lastIndex) {
+    this.#videos[lastIndex]?.pause();
+    this.#videos[index].currentTime = 0;
+    this.#videos[index].play();
   }
 
   #generateVideoMarkup(videos, shownIndex) {
@@ -115,17 +80,6 @@ class AbilitiesView {
     `;
 
     return mapMarkup(videos, markupCallback);
-  }
-
-  markVideoChosen(index, lastIndex) {
-    classRemove(ADD, this.#videos[lastIndex]);
-    classRemove(REMOVE, this.#videos[index]);
-  }
-
-  controlVideoChosen(index, lastIndex) {
-    this.#videos[lastIndex].pause();
-    this.#videos[lastIndex].currentTime = 0;
-    this.#videos[index].play();
   }
 
   async createVideos(videos, shownIndex) {
@@ -148,13 +102,39 @@ class AbilitiesView {
     await Promise.all(promises);
   }
 
+  #generateDescriptionMarkup(descriptions, shownIndex) {
+    const markupCallback = (description, index) => `
+      <div class="ab__skills-desc-s-content fade-in ${
+        shownIndex === index ? '' : 'remove'
+      }">
+        <p class="ab__skills-desc-s-small">${description.small}</p>
+        <h1 class="ab__skills-desc-s-big">${description.big}</h1>
+        <p class="ab__skills-desc-s-medium">${description.medium}</p>
+      </div>
+    `;
+
+    return mapMarkup(descriptions, markupCallback);
+  }
+
+  createDescriptions(descriptions, shownIndex) {
+    const markup = this.#generateDescriptionMarkup(descriptions, shownIndex);
+
+    this.#descriptionContentContainer.innerHTML = '';
+    this.#descriptionContentContainer.insertAdjacentHTML('afterbegin', markup);
+
+    this.#descriptionContents = $$_(
+      this.#descriptionContentContainer,
+      '.ab__skills-desc-s-content'
+    );
+  }
+
+  //
+  // Events listening //////////
+
   addChooseSkillHander(handler) {
     this.#skillsContainer.addEventListener('click', event => {
       const target = event.target.closest('.ab__skills-skill');
-
-      if (!target) return;
-
-      handler(Number(target.dataset.abSkill));
+      if (target) handler(Number(target.dataset.abSkill));
     });
   }
 
