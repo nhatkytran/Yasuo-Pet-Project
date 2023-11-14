@@ -112,10 +112,12 @@ function menuMobileInit() {
 }
 
 function abilitiesInit() {
-  const { chooseSkill, handleData } = new AbilitiesController(AbilitiesView);
+  const { chooseSkill, handleData, playVideoFirstTime } =
+    new AbilitiesController(AbilitiesView);
 
   AbilitiesView.addChooseSkillHander(chooseSkill);
   AbilitiesView.addReFetchHandler(handleData);
+  AbilitiesView.addPlayVideoFirstTimeHandler(playVideoFirstTime);
 }
 
 function skinsInit() {

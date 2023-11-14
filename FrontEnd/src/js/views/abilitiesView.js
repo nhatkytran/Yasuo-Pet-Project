@@ -1,4 +1,4 @@
-import { REM, ADD, REMOVE, LOADING, ERROR, CONTENT } from '../config';
+import { REM, ADD, REMOVE, LOADING, ERROR, CONTENT, SHOW } from '../config';
 
 import {
   $,
@@ -26,6 +26,8 @@ class AbilitiesView {
 
   #videoContainer = $('.abilities__content-body-video');
   #videos;
+
+  #playVideoButton = $('.abilities__play-video-button');
 
   constructor() {
     this.#skills.forEach((skill, index) =>
@@ -128,6 +130,9 @@ class AbilitiesView {
     );
   }
 
+  displayPlayVideoButton = state =>
+    classRemove(state === SHOW ? REMOVE : ADD, this.#playVideoButton);
+
   //
   // Events listening //////////
 
@@ -140,6 +145,10 @@ class AbilitiesView {
 
   addReFetchHandler(handler) {
     this.#descriptionErrorButton.addEventListener('click', handler);
+  }
+
+  addPlayVideoFirstTimeHandler(handler) {
+    this.#playVideoButton.addEventListener('click', handler, { once: true });
   }
 }
 

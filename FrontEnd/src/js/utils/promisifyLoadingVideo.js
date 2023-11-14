@@ -20,10 +20,14 @@ const promisifyLoadingVideo = (video, { mp4, webm }) =>
     const loadController = new AbortController();
     const errorController = new AbortController();
 
-    video.addEventListener('canplay', () => resolve(errorController.abort()), {
-      once: true,
-      signal: loadController.signal,
-    });
+    video.addEventListener(
+      'loadedmetadata',
+      () => resolve(errorController.abort()),
+      {
+        once: true,
+        signal: loadController.signal,
+      }
+    );
     video.addEventListener('error', () => reject(loadController.abort()), {
       once: true,
       signal: errorController.signal,

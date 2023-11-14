@@ -29,6 +29,8 @@ export const NONE = '_none';
 export const LOADING = '_loading';
 export const ERROR = '_error';
 export const CONTENT = '_content';
+export const SHOW = 'show';
+export const HIDE = 'hide';
 
 export const VIDEO_STATE_PLAY = 'play';
 export const VIDEO_STATE_PAUSE = 'pause';

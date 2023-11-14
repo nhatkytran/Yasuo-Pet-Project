@@ -1,4 +1,4 @@
-import { CONTENT, LOADING, ERROR } from '../config';
+import { LOADING, ERROR, CONTENT, SHOW, HIDE } from '../config';
 import { catchAsync, checkAbortError } from '../utils';
 
 import store from '../models/store';
@@ -16,6 +16,7 @@ class AbilitiesController {
   }
 
   chooseSkill = index => {
+    this.#AbilitiesView.displayPlayVideoButton(HIDE);
     this.#AbilitiesView.markSkillChosen(index, this.#lastSkillIndex);
 
     if (!store.state.abilities.ok) {
@@ -39,18 +40,22 @@ class AbilitiesController {
 
       const { videos, descriptions } = store.state.abilities;
       await this.#AbilitiesView.createVideos(videos, index);
-
       this.#AbilitiesView.createDescriptions(descriptions, index);
 
       store.dispatch(ACTIONS.setDataOk());
 
       this.#AbilitiesView.displayContent(CONTENT);
-      this.#AbilitiesView.controlVideoChosen(index);
+      this.#AbilitiesView.displayPlayVideoButton(SHOW);
     },
     onError: error => {
       if (!checkAbortError(error)) this.#AbilitiesView.displayContent(ERROR);
     },
   });
+
+  playVideoFirstTime = () => {
+    this.#AbilitiesView.displayPlayVideoButton(HIDE);
+    this.#AbilitiesView.controlVideoChosen(this.#lastSkillIndex);
+  };
 }
 
 export default AbilitiesController;

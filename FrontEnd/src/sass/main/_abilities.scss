@@ -164,6 +164,22 @@
             width: calc(100% - 2rem);
             height: calc(100% + 2rem);
           }
+
+          button {
+            color: $header-text-color;
+            font-size: 1rem;
+            padding: 0.6rem 1rem;
+            top: 1.8rem;
+            right: 1rem;
+            position: absolute;
+            box-shadow: 0 2px 4px $header-bg-color;
+            @include flex-align-center;
+            @include use-font(FF-Mark);
+
+            svg {
+              fill: $header-text-color;
+            }
+          }
         }
       }
     }
@@ -353,7 +369,7 @@
 
   &-loading {
     @media only screen and (max-width: $px640) {
-      @include absolute-position(-50%, -70%);
+      @include absolute-position(-50%, -75%);
     }
   }
 
@@ -363,7 +379,7 @@
     @include absolute-position(-50%, -50%);
 
     @media only screen and (max-width: $px640) {
-      @include absolute-position(-50%, -70%);
+      @include absolute-position(-50%, -75%);
     }
 
     img {
