@@ -1,54 +1,50 @@
 import { CONTENT, LOADING, ERROR, LEFT, RIGHT } from '../config';
-import { checkEmptyObject, sideIndices } from '../utils';
-import state, { fetchSkinsData } from '../model';
+import { catchAsync, sideIndices } from '../utils';
+
+import store from '../models/store';
+import skinsService from '../models/features/skins/skinsService';
+import { ACTIONS } from '../models/features/skins/reducer';
+
+const filename = 'skinsController.js';
 
 class SkinsController {
-  #skinsView;
-  #totalSkins; // Counted after fetching data
-  #totalSkinsCeil; // Number of slides on the right side (include current slide)
-  #totalSkinsFloor; // On the left side
-  #currentIndex; // Initialized by handleSlideFactory;
+  #SkinsView;
+  #totalSkins;
+  #totalSkinsCeil; // Right side (include current slide)
+  #totalSkinsFloor; // Left side
+  #currentIndex = 0;
 
-  constructor(skinsView) {
-    this.#skinsView = skinsView;
+  constructor(SkinsView) {
+    this.#SkinsView = SkinsView;
   }
 
-  #fetchData = async () => {
-    try {
-      this.#skinsView.displayContent(LOADING);
-
-      const data = await fetchSkinsData();
-
-      await this.#skinsView.createImages(data.skins);
-
-      state.skinsData = data;
-    } catch (error) {
-      // test
-      console.error('Something went wrong!');
-      console.error(error);
-
-      this.#skinsView.displayContent(ERROR);
-    }
-  };
-
-  handleData = async () => {
-    // Skins and Skins2 use the same data, so only one of them needs to fetch data
-    if (checkEmptyObject(state.skinsData)) await this.#fetchData();
-    if (!checkEmptyObject(state.skinsData))
-      this.#skinsView.displayContent(CONTENT);
-
-    // After render images to view, prepare date to slide
-    this.#totalSkins = this.#skinsView.countImages();
+  #prepareSlideData = () => {
+    this.#totalSkins = this.#SkinsView.countImages();
     this.#totalSkinsCeil = Math.ceil(this.#totalSkins / 2);
     this.#totalSkinsFloor = Math.floor(this.#totalSkins / 2);
-
     this.handleSlide(null);
   };
 
+  handleData = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (!store.state.skins.ok) {
+        this.#SkinsView.displayContent(LOADING);
+
+        await skinsService.getData('/api/v1/skins/data');
+        await this.#SkinsView.createImages(store.state.skins.skins);
+
+        store.dispatch(ACTIONS.setDataOk());
+        this.#prepareSlideData();
+      }
+
+      this.#SkinsView.displayContent(CONTENT);
+    },
+    onError: () => this.#SkinsView.displayContent(ERROR),
+  });
+
   handleSlide = this.handleSlideFactory();
   handleSlideFactory() {
-    this.#currentIndex = 0;
-
     let rightIndices = [];
     let leftIndices = [];
     let prevRightIndex = null;
@@ -64,65 +60,63 @@ class SkinsController {
       const options = { prevLeftIndex, prevRightIndex };
       let optionsAdition = {};
 
-      // Logic
-      // 3 4 0 1 2 --> Click `right` --> // 3 0 1 2 4
-      // So `leftIndex` if affected
+      // The first time run with `side` is null --> fill `leftIndices` and `rightIndices`
+      // 3 4 [0] 1 2 --> Right --> // 4 0 [1] 2 3
 
-      if (side === LEFT) {
-        // The first time run with `side` is null --> fill `leftIndices` and `rightIndices`
-        const rightIndex = rightIndices.at(-1);
-        optionsAdition = { side: LEFT, rightIndex };
-        prevRightIndex = rightIndex;
-      }
       if (side === RIGHT) {
         const leftIndex = leftIndices[0];
-        optionsAdition = { side: RIGHT, leftIndex };
+        optionsAdition = { leftIndex };
         prevLeftIndex = leftIndex;
       }
+      if (side === LEFT) {
+        const rightIndex = rightIndices.at(-1);
+        optionsAdition = { rightIndex };
+        prevRightIndex = rightIndex;
+      }
 
-      this.#skinsView.animateImageZIndex({ ...options, ...optionsAdition });
+      this.#SkinsView.animateImageZIndex({ ...options, ...optionsAdition });
     };
 
     const handleImagesIndices = () => {
-      // Find indices on the left side
-      leftIndices = Array.from(
-        { length: this.#totalSkinsFloor },
-        sideIndices(this.#currentIndex, this.#totalSkins, this.#totalSkinsFloor)
-      );
-
-      // Find indices on the right side
+      // [0, 1, 2, 3, 4, 5, 6, 7]
       rightIndices = Array.from(
         { length: this.#totalSkinsCeil },
         sideIndices(this.#currentIndex, this.#totalSkins)
       );
+
+      // [8, 9, 10, 11, 12, 13, 14]
+      leftIndices = Array.from(
+        { length: this.#totalSkinsFloor },
+        sideIndices(this.#currentIndex, this.#totalSkins, this.#totalSkinsFloor)
+      );
     };
 
     const handleImagesTransformX = () => {
-      // Control translateX - Left
+      rightIndices.forEach((rightIndex, index) =>
+        this.#SkinsView.imageTranslateX(rightIndex, index * 100)
+      );
+
       // Reverse to calculate translateX easier
       [...leftIndices].reverse().forEach((leftIndex, index) =>
-        // index -->  0  1  2
-        // index --> -3 -2 -1
-        this.#skinsView.imageTranslateX(leftIndex, (-index - 1) * 100)
-      );
-
-      // Control translateX - Right
-      rightIndices.forEach((rightIndex, index) =>
-        this.#skinsView.imageTranslateX(rightIndex, index * 100)
+        // index -->  0  1  2 --> reverse() --> 2 1 0 --> -3 -2 -1
+        this.#SkinsView.imageTranslateX(leftIndex, (-index - 1) * 100)
       );
     };
 
-    const handleTitleBoard = index => {
-      const skins = state.skinsData.skins[index];
-
-      this.#skinsView.titleBoardName(skins.name);
-      this.#skinsView.titleBoardPrice(skins.price, '$');
-      this.#skinsView.titleBoardOrder(index + 1, this.#totalSkins);
+    const handleTitleBoard = () => {
+      const skins = store.state.skins.skins[this.#currentIndex];
+      this.#SkinsView.titleBoard({
+        name: skins.name,
+        price: skins.price,
+        monetaryUnit: '$',
+        order: this.#currentIndex + 1,
+        total: this.#totalSkins,
+      });
     };
 
-    const handleLogoDingdong = () => {
-      this.#skinsView.headerLogoDingdong();
-    };
+    const handleLogoDingdong = () => this.#SkinsView.headerLogoDingdong();
+    const handleExploreMobileDingdong = () =>
+      this.#SkinsView.exploreMobileDingdong();
 
     return side => {
       // `side` is `null` --> Adjust position of images for default
@@ -141,14 +135,11 @@ class SkinsController {
       handleImagesZIndex(side); // if `side` is `null` --> return
       handleImagesIndices();
       handleImagesTransformX();
-      handleTitleBoard(this.#currentIndex);
+      handleTitleBoard();
       handleLogoDingdong();
+      handleExploreMobileDingdong();
     };
   }
-
-  buySkinsQuestion = () => {
-    alert('Click `EXPLORE button` to view details and buy skin');
-  };
 
   exploreSkins = () => {
     alert(`Buy skin --> ${this.#currentIndex}`);

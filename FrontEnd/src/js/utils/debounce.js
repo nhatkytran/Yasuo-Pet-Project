@@ -1,12 +1,9 @@
-const debounce = (fn, timeout = 0, this_ = null) => {
+const debounce = (fn, timeout = 0, this_) => {
   let timeoutID;
 
   return (...args) => {
     clearTimeout(timeoutID);
-
-    timeoutID = setTimeout(() => {
-      fn.apply(this_, args);
-    }, timeout);
+    timeoutID = setTimeout(fn.bind(this_, ...args), timeout);
   };
 };
 

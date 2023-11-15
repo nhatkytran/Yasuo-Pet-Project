@@ -22,63 +22,28 @@ import {
 } from '../utils';
 
 class SkinsView {
-  #section;
+  #section = $('.skins.section');
 
-  #headerLogo;
-  #imagesContainer;
+  #headerLogo = $('.skins-container__header-logo');
+  #imagesContainer = $('.skins-images');
   #images;
 
-  #skinsOverlayLoading;
-  #skinsOverlayError;
-  #skinsOVerlayErrorButton;
+  #skinsOverlayLoading = $('.skins-overlay__loading');
+  #skinsOverlayError = $('.skins-overlay__error');
+  #skinsOverlayErrorButton = $_(this.#skinsOverlayError, 'button');
 
-  #buttonQuestion;
+  #buttonLeftContainer = $('.skins-btn__left');
+  #buttonLeft = $_(this.#buttonLeftContainer, '.btn__circle-small');
+  #buttonRightContainer = $('.skins-btn__right');
+  #buttonRight = $_(this.#buttonRightContainer, '.btn__circle-small');
 
-  #buttonLeftContainer;
-  #buttonLeft;
-  #buttonRightContainer;
-  #buttonRight;
+  #exploreDesktop = $('.skins-overlay__about-explore-btn');
+  #exploreMobile = $('.skins-overlay__mobile-explore');
 
-  #buySkinsQuestionButton;
-  #exploreDesktop;
-  #exploreMobile;
-
-  #titleBoard;
-  #titleBoardNameContainer;
-  #titleBoardPriceContainer;
-  #titleBoardOrderContainer;
-
-  constructor() {
-    this.#section = $('.skins.section');
-
-    this.#headerLogo = $('.skins-container__header-logo');
-    this.#imagesContainer = $('.skins-images');
-
-    const skinsOverlay = '.skins-overlay';
-
-    this.#skinsOverlayLoading = $(`${skinsOverlay}__loading`);
-    this.#skinsOverlayError = $(`${skinsOverlay}__error`);
-    this.#skinsOVerlayErrorButton = $_(this.#skinsOverlayError, 'button');
-
-    this.#buttonQuestion = $(`${skinsOverlay}__question`);
-
-    this.#buttonLeftContainer = $('.skins-btn__left');
-    this.#buttonLeft = $_(this.#buttonLeftContainer, '.btn__circle-small');
-    this.#buttonRightContainer = $('.skins-btn__right');
-    this.#buttonRight = $_(this.#buttonRightContainer, '.btn__circle-small');
-
-    this.#buySkinsQuestionButton = $(`${skinsOverlay}__question`);
-    this.#exploreDesktop = $(`${skinsOverlay}__about-explore-btn`);
-    this.#exploreMobile = $(`${skinsOverlay}__explore`);
-
-    this.#titleBoard = $(`${skinsOverlay}__container-big`);
-    this.#titleBoardNameContainer = $(`${skinsOverlay}__about-who`);
-    this.#titleBoardPriceContainer = $(`${skinsOverlay}__about-more-price`);
-    this.#titleBoardOrderContainer = $(`${skinsOverlay}__about-more-order`);
-
-    // Buy default --> Hide images, buttons, titleBoard
-    this.displayContent();
-  }
+  #titleBoard = $('.skins-overlay__container-big');
+  #titleBoardNameContainer = $('.skins-overlay__about-who');
+  #titleBoardPriceContainer = $('.skins-overlay__about-more-price');
+  #titleBoardOrderContainer = $('.skins-overlay__about-more-order');
 
   displayContent(state) {
     classRemove(
@@ -86,12 +51,11 @@ class SkinsView {
       this.#imagesContainer,
       this.#skinsOverlayLoading,
       this.#skinsOverlayError,
-      this.#buttonQuestion,
       this.#buttonLeftContainer,
       this.#buttonRightContainer,
-      this.#titleBoard
+      this.#titleBoard,
+      this.#exploreMobile
     );
-    this.#exploreMobile.classList.add('hide');
 
     if (state === LOADING) classRemove(REMOVE, this.#skinsOverlayLoading);
     if (state === ERROR) classRemove(REMOVE, this.#skinsOverlayError);
@@ -99,25 +63,12 @@ class SkinsView {
       classRemove(
         REMOVE,
         this.#imagesContainer,
-        this.#buttonQuestion,
         this.#buttonLeftContainer,
         this.#buttonRightContainer,
-        this.#titleBoard
+        this.#titleBoard,
+        this.#exploreMobile
       );
-      this.#exploreMobile.classList.remove('hide');
     }
-  }
-
-  animateImageZIndex(options) {
-    const { side, prevRightIndex, prevLeftIndex } = options;
-
-    this.#images[prevRightIndex]?.classList.remove('z-index-1-neg');
-    this.#images[prevLeftIndex]?.classList.remove('z-index-1-neg');
-
-    if (side === 'left')
-      this.#images[options.rightIndex].classList.add('z-index-1-neg');
-    if (side === 'right')
-      this.#images[options.leftIndex].classList.add('z-index-1-neg');
   }
 
   #generateImageMarkup = skins => {
@@ -142,8 +93,28 @@ class SkinsView {
 
   countImages = () => this.#images.length;
 
+  animateImageZIndex(options) {
+    const { prevRightIndex, prevLeftIndex, rightIndex, leftIndex } = options;
+    this.#images[prevRightIndex]?.classList.remove('z-index-1-neg');
+    this.#images[prevLeftIndex]?.classList.remove('z-index-1-neg');
+    this.#images[rightIndex]?.classList.add('z-index-1-neg');
+    this.#images[leftIndex]?.classList.add('z-index-1-neg');
+  }
+
   imageTranslateX = (sideIndex, translate) =>
     (this.#images[sideIndex].style.transform = `translateX(${translate}%)`);
+
+  titleBoard = ({ name, price, monetaryUnit, order, total }) => {
+    this.#titleBoardNameContainer.innerHTML = `<h1 class="skins-overlay__about-who-name">${name}</h1>`;
+    this.#titleBoardOrderContainer.innerHTML = `<span>${order} / ${total}</span>`;
+    this.#titleBoardPriceContainer.innerHTML = `
+      <span>PRICE</span>
+      <span class="skins-overlay__about-more-price-separate">:</span>
+      <span class="skins-overlay__about-more-price-number">${
+        price === 0 ? 'No Sale' : `${price}${monetaryUnit}`
+      }</span>
+    `;
+  };
 
   #headerLogoDingdongRemove = debounce(
     () => this.#headerLogo.classList.remove('dingdong'),
@@ -156,41 +127,23 @@ class SkinsView {
     this.#headerLogoDingdongRemove();
   }
 
-  #titleBoardItem = (container, markup) => (container.innerHTML = markup);
+  #exploreMobileDingdongRemove = debounce(
+    () => this.#exploreMobile.classList.remove('dingdong'),
+    ANIMATION_TIMEOUT_400,
+    this
+  );
 
-  titleBoardName = name =>
-    this.#titleBoardItem(
-      this.#titleBoardNameContainer,
-      `<h1 class="skins-overlay__about-who-name">${name}</h1>`
-    );
+  exploreMobileDingdong() {
+    this.#exploreMobile.classList.add('dingdong');
+    this.#exploreMobileDingdongRemove();
+  }
 
-  titleBoardPrice = (price, unit) => {
-    const priceMarkup = price === 0 ? 'NO SALE' : `${price}${unit}`;
-
-    this.#titleBoardItem(
-      this.#titleBoardPriceContainer,
-      `
-        <span>PRICE</span>
-        <span class="skins-overlay__about-more-price-separate">:</span>
-        <span class="skins-overlay__about-more-price-number">${priceMarkup}</span>
-      `
-    );
-  };
-
-  titleBoardOrder = (order, total) =>
-    this.#titleBoardItem(
-      this.#titleBoardOrderContainer,
-      `<span>${order} / ${total}</span>`
-    );
+  //
+  // Events listening //////////
 
   addIntersectionObserver(handler) {
-    const options = {
-      root: null,
-      threshold: 0.3,
-    };
-
-    intersectOneTime(this.#section, options, handler);
-    this.#skinsOVerlayErrorButton.addEventListener('click', handler);
+    intersectOneTime(this.#section, { threshold: 0.3 }, handler);
+    this.#skinsOverlayErrorButton.addEventListener('click', handler);
   }
 
   addSlideHandler(handler) {
@@ -198,13 +151,8 @@ class SkinsView {
     this.#buttonRight.addEventListener('click', handler.bind(null, RIGHT));
   }
 
-  addBuySkinsQuestionHandler(handler) {
-    this.#buySkinsQuestionButton.addEventListener('click', handler);
-  }
-
   addExploreSkinsHandler(handler) {
     this.#exploreDesktop.addEventListener('click', handler);
-    this.#exploreMobile.addEventListener('click', handler);
   }
 }
 

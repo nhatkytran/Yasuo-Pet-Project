@@ -4,6 +4,7 @@ import subwebReducer from './features/subweb/reducer';
 import allgamesReducer from './features/allgames/reducer';
 import gamesReducer from './features/games/reducer';
 import abilitiesReducer from './features/abilities/reducer';
+import skinsReducer from './features/skins/reducer';
 
 class Store {
   #store;
@@ -15,6 +16,7 @@ class Store {
         allgames: allgamesReducer,
         games: gamesReducer,
         abilities: abilitiesReducer,
+        skins: skinsReducer,
       })
     );
   }

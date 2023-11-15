@@ -139,7 +139,6 @@
     height: 90%;
     overflow: hidden;
     @include absolute-position(-50%, -50%);
-
     @include skins-width($px1040, calc(100% - 6rem));
     @include skins-width($px640, 100%);
 
@@ -313,6 +312,7 @@
           &-separate,
           &-number {
             margin-right: 0.4rem;
+            word-spacing: -0.2rem;
           }
         }
       }
@@ -396,63 +396,6 @@
     fill: $background-icon-color;
     z-index: 1;
     @include absolute-position-x-axis;
-  }
-}
-
-// This is the button used for "explore" on mobile device
-.skins-overlay__explore {
-  $color: #c4b998;
-  $folder-width-top: 1.2rem;
-  $folder-width-bottom: calc(100% - 1.2rem);
-
-  width: 11rem;
-  height: 3.6rem;
-  background-color: #0c0c0c;
-  color: $color;
-  text-transform: uppercase;
-  letter-spacing: 0.3rem;
-  border: 1px solid $color;
-  clip-path: polygon(
-    $folder-width-top 0,
-    100% 0,
-    100% $folder-width-bottom,
-    $folder-width-bottom 100%,
-    0 100%,
-    0 $folder-width-top
-  );
-  transition: all ease 0.2s;
-  justify-content: center;
-  cursor: pointer;
-  @include flex-align-center;
-  @include absolute-position(-50%, -50%);
-  @include use-font(Spiegel-Bold);
-  @include display-responsive($px640, flex);
-
-  @media only screen and (max-width: $px440) {
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-
-  &:hover {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%, 0 0);
-    $position: -1.2rem;
-
-    &::after {
-      right: $position;
-    }
-    &::before {
-      left: $position;
-    }
-  }
-
-  &::before {
-    top: 0;
-    left: 0;
-    @include button-border(2rem, $color);
-  }
-  &::after {
-    bottom: 0;
-    right: 0;
-    @include button-border(2rem, $color);
   }
 }
 
@@ -626,73 +569,43 @@
   }
 }
 
-// Loading, Error, Question buy skins
-.skins-overlay {
-  &__loading {
-    @include square-dimension(7.2rem);
+.skins-overlay__loading {
+  @include square-dimension(7.2rem);
+
+  svg:nth-child(2) {
+    animation: diagonal-wipe-7d2 1.5s ease infinite;
+  }
+
+  @media only screen and (max-width: $px1040) {
+    @include square-dimension(5.2rem);
 
     svg:nth-child(2) {
-      animation: diagonal-wipe-7d2 1.5s ease infinite;
-    }
-
-    @media only screen and (max-width: $px840) {
-      @include square-dimension(5.2rem);
-
-      svg:nth-child(2) {
-        animation: diagonal-wipe-5d2 1.5s ease infinite;
-      }
+      animation: diagonal-wipe-5d2 1.5s ease infinite;
     }
   }
+}
 
-  &__error {
-    flex-direction: column;
-    @include flex-align-center;
-    @include absolute-position(-50%, -50%);
+.skins-overlay__mobile-explore {
+  display: none;
+  color: #90733e;
+  font-size: 1.2rem;
+  padding: 0.6rem 0.8rem;
+  transition: all ease 0.2s;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  @include use-font(FF-Mark-Medium);
+
+  &:hover {
+    color: $color-story;
   }
 
-  &__question {
-    text-transform: capitalize;
-    padding: 0.6rem 0.8rem;
-    top: 0;
-    right: 0;
-    position: absolute;
-    @include flex-align-center;
+  &.dingdong {
+    color: $color-story;
+  }
 
-    &:hover {
-      p {
-        color: $color-story;
-      }
-      svg {
-        fill: $color-story;
-      }
-    }
-
-    @media only screen and (max-width: $px1240) {
-      transform: translateY(-100%);
-    }
-    @media only screen and (max-width: $px640) {
-      transform: translateY(-50%);
-    }
-    @media only screen and (max-width: $px540) {
-      transform: unset;
-      top: unset;
-      right: unset;
-      bottom: -11rem;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    p {
-      color: #90733e;
-      font-size: 1.2rem;
-      transition: all ease 0.2s;
-      @include use-font(FF-Mark-Medium);
-    }
-
-    svg {
-      fill: #90733e;
-      transition: all ease 0.2s;
-      @include square-dimension(1.1rem);
-    }
+  @media only screen and (max-width: $px640) {
+    display: block;
+    bottom: -11rem;
   }
 }

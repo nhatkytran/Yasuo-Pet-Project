@@ -32,6 +32,7 @@ import {
   ExploreGamesView as GamesView,
   MenuMobileView,
   AbilitiesView,
+  SkinsView,
 } from '../views';
 
 import ModalController from './modalController';
@@ -40,6 +41,7 @@ import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
 import MenuMobileController from './menuMobileController';
 import AbilitiesController from './abilitesController';
+import SkinsController from './skinsController';
 
 const modalController = new ModalController(ModalView);
 
@@ -121,12 +123,13 @@ function abilitiesInit() {
 }
 
 function skinsInit() {
-  const controller = new SkinsController(skinsView);
+  const { handleData, handleSlide, exploreSkins } = new SkinsController(
+    SkinsView
+  );
 
-  skinsView.addIntersectionObserver(controller.handleData);
-  skinsView.addSlideHandler(controller.handleSlide);
-  skinsView.addBuySkinsQuestionHandler(controller.buySkinsQuestion);
-  skinsView.addExploreSkinsHandler(controller.exploreSkins);
+  SkinsView.addIntersectionObserver(handleData);
+  SkinsView.addSlideHandler(handleSlide);
+  SkinsView.addExploreSkinsHandler(exploreSkins);
 }
 
 function skins2Init() {
@@ -187,10 +190,10 @@ const inits = {
   exploreGamesInit,
   menuMobileInit,
   abilitiesInit,
+  skinsInit,
 };
 Object.values(inits).forEach(init => init.call(null));
 
-// skinsInit();
 // skins2Init();
 // ruinedInit();
 // galleryInit();

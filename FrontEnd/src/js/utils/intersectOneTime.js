@@ -6,7 +6,12 @@ const intersectOneTime = (section, options, handler) => {
     }
   };
 
-  const observer = new IntersectionObserver(callback, options);
+  const observer = new IntersectionObserver(callback, {
+    root: null,
+    threshold: 0,
+    ...options,
+  });
+
   observer.observe(section);
 };
 
