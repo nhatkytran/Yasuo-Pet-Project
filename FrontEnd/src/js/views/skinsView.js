@@ -80,6 +80,8 @@ class SkinsView {
 
   async createImages(skins) {
     const markup = this.#generateImageMarkup(skins);
+
+    this.#imagesContainer.innerHTML = '';
     this.#imagesContainer.insertAdjacentHTML('afterbegin', markup);
 
     this.#images = $$('.skins-images__slider');

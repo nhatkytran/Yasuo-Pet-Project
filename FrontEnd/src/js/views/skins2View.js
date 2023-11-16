@@ -21,51 +21,33 @@ import {
 } from '../utils';
 
 class Skins2View {
-  #section;
+  #section = $('.skins2.section');
 
-  #imagesWrapper;
-  #images; // After fetching
+  #imagesWrapper = $('.skins2-img-wrapper');
+  #images;
 
-  #skinsLoading;
-  #skinsError;
-  #skinsErrorButton;
+  #skinsLoading = $('.skins2-img-loading');
+  #skinsError = $('.skins2-img-error');
+  #skinsErrorButton = $_(this.#skinsError, 'button');
 
-  #slider;
-  #sliderDivImagesWrapper;
-  #sliderDivImages; // After fetching
+  #slider = $('.skins2-slider');
+  #sliderDivImagesWrapper = $('.skins2-slider-list');
+  #sliderDivImages;
 
-  #mbSlider;
-  #mbSliderDivImagesWrapper;
-  #mbSliderDivImages; // After fetching
+  #mbSlider = $('.skins2-mobile-slider');
+  #mbSliderDivImagesWrapper = $('.skins2-mobile-slider__list');
+  #mbSliderDivImages;
 
   // Value from `getBoundingClientRect` can be 0 if initialized with elements disply none
-  // So we hard code some value and comnent `class` as reference
+  // So we hard code some value and comment `class` as reference
   // Value is added at `prepareDataForSliders`
-
   #slideItemHeight; // class: skins2-slider-item
   #slideButtons;
-
   #mbSliderWidth;
   #mbSlideItemWidth; // class: skins2-mobile-slider__item
   #mbSlideButtons;
 
   constructor() {
-    this.#section = $('.skins2.section');
-
-    const skinsImg = '.skins2-img';
-
-    this.#imagesWrapper = $(`${skinsImg}-wrapper`);
-
-    this.#skinsLoading = $(`${skinsImg}-loading`);
-    this.#skinsError = $(`${skinsImg}-error`);
-    this.#skinsErrorButton = $_(this.#skinsError, 'button');
-
-    this.#slider = $('.skins2-slider');
-    this.#sliderDivImagesWrapper = $('.skins2-slider-list');
-
-    this.#mbSlider = $('.skins2-mobile-slider');
-    this.#mbSliderDivImagesWrapper = $('.skins2-mobile-slider__list');
-
     this.displayContent();
   }
 
@@ -250,13 +232,12 @@ class Skins2View {
     this.#images[index].classList.add('active');
   };
 
-  addIntersectionObserver(handler) {
-    const options = {
-      root: null,
-      threshold: 0.3,
-    };
+  //
+  // Events listening //////////
 
-    intersectOneTime(this.#section, options, handler);
+  addIntersectionObserver(handler) {
+    return;
+    intersectOneTime(this.#section, { threshold: 0.3 }, handler);
     this.#skinsErrorButton.addEventListener('click', handler);
   }
 

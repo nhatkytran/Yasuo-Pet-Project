@@ -76,8 +76,8 @@ class SubwebView {
       end: FADE_OUT,
     });
     this.#animateInstruction = animateFactory(this.#instructionWrapper, {
-      start: FADE_IN,
-      end: FADE_OUT,
+      start: 'fade-in-500',
+      end: 'fade-out-480',
     });
   }
 
@@ -154,7 +154,6 @@ class SubwebView {
   };
 
   close = timeToClose => {
-    this.#instructionWrapper.style.top = `0rem`;
     this.#animateInstruction(END);
     setTimeout(
       classRemove.bind(null, ADD, this.#instructionWrapper),

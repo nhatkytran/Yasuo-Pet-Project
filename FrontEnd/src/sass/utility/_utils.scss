@@ -29,8 +29,12 @@
 .fade-in-500 {
   animation: fade-in ease 0.5s forwards;
 }
+
 .fade-out {
   @include ease-24-forwards(fade-out);
+}
+.fade-out-480 {
+  animation: fade-out ease 0.48s forwards;
 }
 
 .sidebar-arrow-open {

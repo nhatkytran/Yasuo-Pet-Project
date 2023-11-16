@@ -1,5 +1,7 @@
+// GraphQL implementation - Coming Soon
 const initialState = {
-  skins: [
+  ok: false,
+  skins2: [
     {
       name: '',
       releaseYear: 0,
@@ -13,10 +15,10 @@ const initialState = {
   ],
 };
 
-const GET_DATA = 'skins/getData';
-const SET_DATA_OK = 'skins/setDataOk';
+const GET_DATA = 'skins2/getData';
+const SET_DATA_OK = 'skins2/setDataOk';
 
-const skinsReducer = (state = initialState, action) => {
+const skins2Reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_DATA:
       return { ...state, ...action.payload };
@@ -35,4 +37,4 @@ const getData = data => ({
 const setDataOk = () => ({ type: SET_DATA_OK });
 
 export const ACTIONS = { getData, setDataOk };
-export default skinsReducer;
+export default skins2Reducer;

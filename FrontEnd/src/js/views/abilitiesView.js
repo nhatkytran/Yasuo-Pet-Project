@@ -143,8 +143,14 @@ class AbilitiesView {
     });
   }
 
-  addReFetchHandler(handler) {
-    this.#descriptionErrorButton.addEventListener('click', handler);
+  addRefetchHandler(handler) {
+    this.#descriptionErrorButton.addEventListener('click', () =>
+      this.#skills.forEach(
+        skill =>
+          skill.classList.contains('active') &&
+          handler(Number(skill.dataset.abSkill))
+      )
+    );
   }
 
   addPlayVideoFirstTimeHandler(handler) {

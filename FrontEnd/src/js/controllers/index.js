@@ -1,28 +1,3 @@
-// import {
-//   modalView,
-//   subwebView,
-//   exploreAllgamesView,
-//   exploreGamesView,
-//   menuMobileView,
-//   abilitiesView,
-//   skinsView,
-//   skins2View,
-//   ruinedView,
-//   galleryView,
-//   warningView,
-// } from '../Views';
-
-// import WarningController from './warningController';
-// import subwebController from './subwebController';
-// import ExploreAllgamesController from './exploreAllgamesController';
-// import ExploreGamesController from './exploreGamesController';
-// import MenuMobileController from './menuMobileController';
-// import AbilitiesController from './abilitesController';
-// import SkinsController from './skinsController';
-// import Skins2Controller from './skins2Controller';
-// import RuinedController from './ruinedController';
-// import GalleryController from './galleryController';
-
 // const warningController = new WarningController(warningView);
 
 import {
@@ -33,6 +8,7 @@ import {
   MenuMobileView,
   AbilitiesView,
   SkinsView,
+  Skins2View,
 } from '../views';
 
 import ModalController from './modalController';
@@ -42,6 +18,7 @@ import ExploreGamesController from './exploreGamesController';
 import MenuMobileController from './menuMobileController';
 import AbilitiesController from './abilitesController';
 import SkinsController from './skinsController';
+import Skins2Controller from './skins2Controller';
 
 const modalController = new ModalController(ModalView);
 
@@ -114,11 +91,12 @@ function menuMobileInit() {
 }
 
 function abilitiesInit() {
-  const { chooseSkill, handleData, playVideoFirstTime } =
-    new AbilitiesController(AbilitiesView);
+  const { chooseSkill, playVideoFirstTime } = new AbilitiesController(
+    AbilitiesView
+  );
 
   AbilitiesView.addChooseSkillHander(chooseSkill);
-  AbilitiesView.addReFetchHandler(handleData);
+  AbilitiesView.addRefetchHandler(chooseSkill);
   AbilitiesView.addPlayVideoFirstTimeHandler(playVideoFirstTime);
 }
 
@@ -133,25 +111,25 @@ function skinsInit() {
 }
 
 function skins2Init() {
-  const controller = new Skins2Controller(skins2View);
+  const { handleData } = new Skins2Controller(Skins2View);
 
-  skins2View.addIntersectionObserver(controller.handleData);
+  Skins2View.addIntersectionObserver(handleData);
 
-  skins2View.addChooseSlideHandler(controller.slideActions.chooseSlide);
-  skins2View.addDragSlideHandler(
-    controller.slideActions.dragStart,
-    controller.slideActions.dragProgress,
-    controller.slideActions.dragStop
-  );
+  // Skins2View.addChooseSlideHandler(controller.slideActions.chooseSlide);
+  // Skins2View.addDragSlideHandler(
+  //   controller.slideActions.dragStart,
+  //   controller.slideActions.dragProgress,
+  //   controller.slideActions.dragStop
+  // );
 
-  skins2View.addChooseMbSlideHandler(controller.mbSlideActions.chooseMbSlide);
-  skins2View.addDragMbSlideHandler(
-    controller.mbSlideActions.dragStart,
-    controller.mbSlideActions.dragProgress,
-    controller.mbSlideActions.dragStop
-  );
+  // Skins2View.addChooseMbSlideHandler(controller.mbSlideActions.chooseMbSlide);
+  // Skins2View.addDragMbSlideHandler(
+  //   controller.mbSlideActions.dragStart,
+  //   controller.mbSlideActions.dragProgress,
+  //   controller.mbSlideActions.dragStop
+  // );
 
-  skins2View.addMbSliderResizeHandler(controller.mbSlideActions.resize);
+  // Skins2View.addMbSliderResizeHandler(controller.mbSlideActions.resize);
 }
 
 function ruinedInit() {
@@ -191,9 +169,9 @@ const inits = {
   menuMobileInit,
   abilitiesInit,
   skinsInit,
+  skins2Init,
 };
 Object.values(inits).forEach(init => init.call(null));
 
-// skins2Init();
 // ruinedInit();
 // galleryInit();

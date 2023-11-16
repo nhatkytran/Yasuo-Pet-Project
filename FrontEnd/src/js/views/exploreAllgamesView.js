@@ -288,12 +288,9 @@ class ExploreAllgamesView {
     const posterContainer = $('.ag-poster-container');
     const markup = this.#generatePosterMarkup(images.smalls, posterOptions);
 
-    // Create poster's structure
+    posterContainer.innerHTML = '';
     posterContainer.insertAdjacentHTML('afterbegin', markup);
 
-    // Add poster's image
-    // Each poster has its large image
-    // Not every poster has samll image, some of the have title (title is added along with structure)
     await Promise.all([
       this.#createPosterLargeImages(images.larges),
       this.#createPosterSmallImages(images.smalls),
