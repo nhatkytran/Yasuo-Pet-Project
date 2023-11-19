@@ -10,12 +10,15 @@
       min-height: $min-height;
     }
   }
-  @include abilities-min-height($px1140, 100rem);
-  @include abilities-min-height($px940, 93.6rem);
-  @include abilities-min-height($px840, 87.6rem);
-  @include abilities-min-height($px740, 82.6rem);
-  @include abilities-min-height(40.5em, 84.6rem); // 648px
-  @include abilities-min-height($px640, 76.6rem);
+  @include abilities-min-height($px1140, 106rem);
+  @include abilities-min-height($px1040, 102rem);
+  @include abilities-min-height($px940, 96rem);
+  @include abilities-min-height($px840, 91rem);
+  @include abilities-min-height($px740, 87rem);
+  @include abilities-min-height($px640, 79rem);
+  @include abilities-min-height($px540, 77rem);
+  @include abilities-min-height($px440, 75rem);
+  @include abilities-min-height($px340, 71rem);
 
   &-icon,
   &__overlay,
@@ -38,11 +41,12 @@
     &-text {
       transform: rotate(-90deg) translate(246%, -30%);
       @include text-rotate;
+      @include display-responsive($px640, none);
 
       @media only screen and (max-width: $px640) {
         top: 60%;
         left: -2.2rem;
-        transform: rotate(-90deg) translate(286%, -30%);
+        transform: rotate(-90deg) translate(286%, -45%);
       }
 
       &::after {
@@ -57,7 +61,10 @@
     height: 100%;
 
     @media only screen and (max-width: $px640) {
-      width: calc(100% - 6rem);
+      width: calc(100% - 4rem);
+    }
+    @media only screen and (max-width: $px540) {
+      width: calc(100% - 2rem);
     }
 
     &-header {
@@ -127,11 +134,15 @@
             }
           }
           @include video-dimension($px1240, 74%);
-          @include video-dimension($px1140, 43rem);
-          @include video-dimension($px940, 37rem);
-          @include video-dimension($px840, 32rem);
-          @include video-dimension($px740, 27rem);
-          @include video-dimension($px440, 23rem);
+          @include video-dimension($px1140, 52rem);
+          @include video-dimension($px1040, 48rem);
+          @include video-dimension($px940, 42rem);
+          @include video-dimension($px840, 38rem);
+          @include video-dimension($px740, 34rem);
+          @include video-dimension($px640, 32rem);
+          @include video-dimension($px540, 28rem);
+          @include video-dimension($px440, 24rem);
+          @include video-dimension($px340, 18rem);
         }
 
         &-img {
@@ -183,32 +194,10 @@
         }
       }
     }
+  }
 
-    &-footer {
-      top: 49.5rem;
-      @include use-font(Gloria Hallelujah);
-
-      @mixin footer-top($width, $top) {
-        @media only screen and (max-width: $width) {
-          top: $top;
-        }
-      }
-      @include footer-top($px1140, 85.5rem);
-      @include footer-top($px940, 79rem);
-      @include footer-top($px840, 74rem);
-      @include footer-top($px740, 69rem);
-      @include footer-top(40.5em, 71rem); // 648px
-      @include footer-top($px640, 64rem);
-
-      &::before {
-        width: calc(100% - 10rem);
-        height: 1px;
-        background-color: $main-border;
-        bottom: -5rem;
-        @include absolute-position-x-axis;
-        @include pseudo-element-features;
-      }
-    }
+  &__footer {
+    bottom: 5rem;
   }
 }
 
@@ -314,38 +303,31 @@
 }
 
 .ab__skills-desc {
-  height: 14rem;
   position: relative;
-
-  @mixin desc-height($width, $height) {
-    @media only screen and (max-width: $width) {
-      height: $height;
-    }
-  }
-  @include desc-height($px640, 16rem);
-  @include desc-height($px440, 20rem);
+  min-height: 14rem;
 
   &-s {
-    padding: 4rem 12rem 4rem 4rem;
+    padding: 4rem 6rem 4rem 4rem;
+    margin: 0 auto;
     transition: all ease 0.3s;
-    top: 0;
-    left: 0;
-    position: absolute;
     @include use-font(Spiegel-Regular);
 
     @media only screen and (max-width: $px1140) {
-      text-align: center;
+      text-align: justify;
+      text-align-last: center;
+      padding: 0;
+      width: 54rem;
+    }
+    @media only screen and (max-width: $px640) {
+      width: calc(100% - 4rem);
+    }
+    @media only screen and (max-width: $px540) {
+      width: calc(100% - 2rem);
     }
 
-    @mixin desc-padding($width, $padding) {
-      @media only screen and (max-width: $width) {
-        padding: $padding;
-      }
+    * {
+      width: 100%;
     }
-    @include desc-padding($px1240, 4rem 8rem 4rem 4rem);
-    @include desc-padding($px1140, 0 0 4rem);
-    @include desc-padding($px940, 0 3rem 4rem);
-    @include desc-padding($px840, 0 1rem 4rem);
 
     &-small {
       color: rgba(255, 255, 255, 0.5);
@@ -357,13 +339,14 @@
       color: $header-text-color;
       font-size: 1.8rem;
       letter-spacing: 0.2rem;
-      margin: 0.6rem 0;
+      margin-bottom: 0.6rem;
       @include use-font(Spiegel-Bold);
     }
 
     &-medium {
-      font-size: 1.4rem;
       color: $header-navbar-color;
+      font-size: 1.4rem;
+      hyphens: auto;
     }
   }
 

@@ -3,7 +3,6 @@ import { catchAsync, sideIndices } from '../utils';
 
 import store from '../models/store';
 import skinsService from '../models/features/skins/skinsService';
-import { ACTIONS } from '../models/features/skins/reducer';
 
 const filename = 'skinsController.js';
 

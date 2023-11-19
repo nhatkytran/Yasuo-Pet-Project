@@ -1,4 +1,13 @@
-import { REM, ADD, REMOVE, LOADING, ERROR, CONTENT, SHOW } from '../config';
+import {
+  ANIMATION_TIMEOUT,
+  REM,
+  ADD,
+  REMOVE,
+  LOADING,
+  ERROR,
+  CONTENT,
+  SHOW,
+} from '../config';
 
 import {
   $,
@@ -66,10 +75,17 @@ class AbilitiesView {
     classRemove(REMOVE, this.#videos[index]);
   }
 
-  controlVideoChosen(index, lastIndex) {
-    this.#videos[lastIndex]?.pause();
-    this.#videos[index].currentTime = 0;
-    this.#videos[index].play();
+  controlVideoChosen = this.#controlVideoChosenFactory();
+  #controlVideoChosenFactory() {
+    let timeout;
+    return (index, lastIndex) => {
+      clearTimeout(timeout);
+      this.#videos[lastIndex]?.pause();
+      this.#videos[index].currentTime = 0;
+      // setTimeout to fix error 'The play() request was interrupted by a call to pause().'
+      // Sometimes this error can happen but the chance is really rare and don't affect the performance or break the website
+      timeout = setTimeout(() => this.#videos[index].play(), ANIMATION_TIMEOUT);
+    };
   }
 
   #generateVideoMarkup(videos, shownIndex) {
