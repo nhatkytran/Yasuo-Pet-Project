@@ -18,6 +18,8 @@ class Skins2Controller {
     this.mbSlideActions = this.#handleMbSlider();
   }
 
+  a = 0;
+
   handleData = catchAsync({
     filename,
     onProcess: async () => {
@@ -32,8 +34,12 @@ class Skins2Controller {
         this.#Skins2View.createMbSlider(skins),
       ]);
 
-      store.dispatch(ACTIONS.setDataOk());
+      if (this.a === 0) {
+        this.a += 1;
+        throw new Error();
+      }
 
+      store.dispatch(ACTIONS.setDataOk());
       this.#Skins2View.displayContent(CONTENT);
       this.#Skins2View.prepareSlidersData();
       this.mbSlideActions.init();

@@ -56,7 +56,8 @@ class Skins2View {
 
     if (state === LOADING) classRemove(REMOVE, this.#skinsLoading);
     if (state === ERROR) classRemove(REMOVE, this.#skinsError);
-    if (state === CONTENT) classRemove(REMOVE, this.#slider, this.#mbSlider);
+    if (state === CONTENT)
+      classRemove(REMOVE, ...this.#images, this.#slider, this.#mbSlider);
   }
 
   #generateItemMarkup = (skins, stringCallback) => {
@@ -78,10 +79,10 @@ class Skins2View {
 
   async createImages(skins) {
     const stringCallback = (active, _, imageAlt) =>
-      `<img class="skins2-img ${active}" src="" alt="${imageAlt}">`;
+      `<img class="skins2-img ${active} remove" src="" alt="${imageAlt}">`;
     const markup = this.#generateItemMarkup(skins, stringCallback);
 
-    this.#imagesWrapper.innerHTML = '';
+    $$('.skins2-img').forEach(element => element.remove());
     this.#imagesWrapper.insertAdjacentHTML('afterbegin', markup);
     this.#images = $$('.skins2-img');
 
