@@ -1,6 +1,5 @@
 // GraphQL implementation - Coming Soon
 const initialState = {
-  ok: false,
   skins2: [
     {
       name: '',

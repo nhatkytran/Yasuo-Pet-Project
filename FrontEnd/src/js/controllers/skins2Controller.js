@@ -1,5 +1,5 @@
 import { CONTENT, LOADING, ERROR, REM, X, Y } from '../config';
-import { catchAsync, checkEmptyObject } from '../utils';
+import { catchAsync } from '../utils';
 
 import store from '../models/store';
 import skins2Service from '../models/features/skins2/skins2Service';
@@ -14,120 +14,86 @@ class Skins2Controller {
 
   constructor(Skins2View) {
     this.#Skins2View = Skins2View;
+    this.slideActions = this.#handleSlider();
+    this.mbSlideActions = this.#handleMbSlider();
   }
 
   handleData = catchAsync({
     filename,
     onProcess: async () => {
-      if (!store.state.skins2.ok) {
-        this.#Skins2View.displayContent(LOADING);
+      this.#Skins2View.displayContent(LOADING);
 
-        await skins2Service.getData('/api/v1/skins/data');
+      await skins2Service.getData('/api/v1/skins/data');
 
-        const { skins } = store.state.skins2;
-        await Promise.all([
-          this.#Skins2View.createImages(skins),
-          this.#Skins2View.createSlider(skins),
-          this.#Skins2View.createMbSlider(skins),
-        ]);
+      const { skins } = store.state.skins2;
+      await Promise.all([
+        this.#Skins2View.createImages(skins),
+        this.#Skins2View.createSlider(skins),
+        this.#Skins2View.createMbSlider(skins),
+      ]);
 
-        store.dispatch(ACTIONS.setDataOk());
-        this.#Skins2View.prepareSlidersData();
-      }
+      store.dispatch(ACTIONS.setDataOk());
+
+      this.#Skins2View.displayContent(CONTENT);
+      this.#Skins2View.prepareSlidersData();
+      this.mbSlideActions.init();
     },
     onError: () => this.#Skins2View.displayContent(ERROR),
   });
 
-  #fetchData = async () => {
-    try {
-      if (!store) this.#Skins2View.displayContent(LOADING);
-
-      const data = await fetchSkinsData();
-
-      await Promise.all([
-        this.#Skins2View.createImages(data.skins),
-        this.#Skins2View.createSlider(data.skins),
-        this.#Skins2View.createMbSlider(data.skins),
-      ]);
-
-      state.skinsData = data;
-
-      this.#Skins2View.prepareDataForSliders();
-    } catch (error) {
-      // test
-      console.error('Something went wrong!');
-      console.error(error);
-
-      this.#Skins2View.displayContent(ERROR);
-    }
-  };
-
-  handleData2 = async () => {
-    // Skins and Skins2 use the same data, so only one of them needs to fetch data
-    if (checkEmptyObject(state.skinsData)) await this.#fetchData();
-    if (!checkEmptyObject(state.skinsData))
-      this.#Skins2View.displayContent(CONTENT);
-
-    this.mbSlideActions.init();
+  #chooseMainImage = (index, prevIndex, side) => {
+    this.#Skins2View.chooseMainImage(index, prevIndex);
+    if (side === X) this.slideActions.chooseSlide(index, true);
+    if (side === Y) this.mbSlideActions.chooseMbSlide(index, true);
   };
 
   #handleSlider = () => {
     let prevIndex = 1; // By default, index of 1 is active
-    let currentTranslateY = 0; // `rem` unit
-    let isDragged = false;
+    let currentTranslateY = 0; // 'rem' unit
     let isReadyToDrag = false;
     let startClientY;
     let newClientY;
 
     const chooseSlide = (index, auto = false) => {
-      if (isDragged) return;
-
+      // 'click' event happens after both 'mousedown' and 'mouseup' event
       currentTranslateY = this.#Skins2View.countTranslateY(index);
-
       this.#Skins2View.slide(currentTranslateY);
       this.#Skins2View.slideAnimate(index, prevIndex);
 
+      // When choose image using Slider, it automatically choose image using msSlider and vice versa
+      // 'auto' parameter is used to prevent infinite loop choosing main image
+      // We only want sliders's animation
       if (!auto) this.#chooseMainImage(index, prevIndex, Y);
-
       prevIndex = index;
     };
 
     const dragStart = event => {
       isReadyToDrag = true;
-      startClientY = event.clientY;
+      startClientY = event.clientY ?? event.touches[0].clientY;
     };
 
     const dragProgress = event => {
       if (!isReadyToDrag) return;
-
-      isDragged = true;
-      newClientY = event.clientY;
-
+      newClientY = event.clientY ?? event.touches[0].clientY;
       const diff = newClientY - startClientY;
-      if (diff !== 0) this.#Skins2View.slide(currentTranslateY + diff / REM);
+      this.#Skins2View.slide(currentTranslateY + diff / REM);
     };
 
-    const adjustCurrentTranslateX = () => {
+    const adjustCurrentTranslateY = () => {
       const slideItemHeight = this.#Skins2View.getSlideItemHeight() / REM;
-      const totalItems = state.skinsData.skins.length;
+      const totalItems = store.state.skins2.skins.length;
 
-      if (currentTranslateY > slideItemHeight)
-        currentTranslateY = slideItemHeight;
-      if (currentTranslateY < -(totalItems - 2) * slideItemHeight)
-        currentTranslateY = -(totalItems - 2) * slideItemHeight;
-
-      currentTranslateY = Math.round(currentTranslateY / 10) * 10;
+      if (currentTranslateY > slideItemHeight) return slideItemHeight;
+      if (currentTranslateY < -((totalItems - 2) * slideItemHeight))
+        return -((totalItems - 2) * slideItemHeight);
+      return Math.round(currentTranslateY / 10) * 10;
     };
 
     const dragStop = () => {
+      if (!isReadyToDrag) return;
       isReadyToDrag = false;
-
-      if (!isDragged) return;
-      isDragged = false; // `click` event before `mouseup` event
-
       currentTranslateY += (newClientY - startClientY) / REM;
-      adjustCurrentTranslateX();
-
+      currentTranslateY = adjustCurrentTranslateY();
       this.#Skins2View.slide(currentTranslateY);
     };
 
@@ -139,13 +105,10 @@ class Skins2Controller {
     };
   };
 
-  slideActions = this.#handleSlider();
-
   #handleMbSlider = () => {
     let prevIndex = 1;
-    let currentTranslateXDefault;
-    let currentTranslateX;
-    let isDragged = false;
+    let currentTranslateXDefault; // 'rem' unit
+    let currentTranslateX; // 'rem' unit
     let isReadyToDrag = false;
     let startClientX;
     let newClientX;
@@ -157,80 +120,59 @@ class Skins2Controller {
     };
 
     const chooseMbSlide = (index, auto = false) => {
-      if (isDragged) return;
-
       currentTranslateX = this.#Skins2View.countMbTranslateX(index);
-
       this.#Skins2View.mbSlide(currentTranslateX);
       this.#Skins2View.mbSlideAnimate(index, prevIndex);
 
       if (!auto) this.#chooseMainImage(index, prevIndex, X);
-
       prevIndex = index;
     };
 
     const dragStart = event => {
       isReadyToDrag = true;
-      startClientX = event.clientX || event.touches[0].clientX;
+      startClientX = event.clientX ?? event.touches[0].clientX;
     };
 
     const dragProgress = event => {
       if (!isReadyToDrag) return;
-
-      isDragged = true;
-      newClientX = event.clientX || event.touches[0].clientX;
-
+      newClientX = event.clientX ?? event.touches[0].clientX;
       const diff = newClientX - startClientX;
-      if (diff !== 0) this.#Skins2View.mbSlide(currentTranslateX + diff / REM);
+      this.#Skins2View.mbSlide(currentTranslateX + diff / REM);
     };
 
     const adjustCurrentTranslateX = () => {
-      const totalItems = state.skinsData.skins.length;
       const itemWidth = this.#Skins2View.getMbSlideItemWidth() / REM;
-
-      const pointDefault = currentTranslateXDefault + itemWidth; // Remember default index is 1
+      const totalItems = store.state.skins2.skins.length;
+      const pointDefault = currentTranslateXDefault + itemWidth; // Default index is 1
       const limitAfter = -(itemWidth * (totalItems - 1) - pointDefault);
 
-      if (currentTranslateX > pointDefault) currentTranslateX = pointDefault;
-      if (currentTranslateX < limitAfter) currentTranslateX = limitAfter;
+      if (currentTranslateX > pointDefault) return pointDefault;
+      if (currentTranslateX < limitAfter) return limitAfter;
 
-      const middle = itemWidth / 2;
-
-      // translateX for left indices (index 0)
-      if (Math.abs(pointDefault - currentTranslateX) < middle)
-        return (currentTranslateX = pointDefault);
-
-      // translateX for left indices (index 1, 2, 3,...)
-      for (let i = 0; i < totalItems - 1; i++) {
-        const translateX = currentTranslateXDefault - i * itemWidth;
-
-        if (Math.abs(translateX - currentTranslateX) < middle) {
-          currentTranslateX = translateX;
-          break;
-        }
+      const range = currentTranslateX - currentTranslateXDefault;
+      const mod = Math.abs(range) % itemWidth;
+      if (range < 0) {
+        if (mod < itemWidth / 2) return currentTranslateX + mod;
+        return currentTranslateX + mod - itemWidth;
+      } else {
+        if (mod < itemWidth / 2) return currentTranslateX - mod;
+        return currentTranslateX - mod + itemWidth;
       }
     };
 
     const dragStop = () => {
+      if (!isReadyToDrag) return;
       isReadyToDrag = false;
-
-      if (!isDragged) return;
-      isDragged = false;
-
-      const diff = newClientX - startClientX;
-      if (diff === 0) return;
-
-      currentTranslateX += diff / REM;
-      adjustCurrentTranslateX();
-
+      currentTranslateX += (newClientX - startClientX) / REM;
+      currentTranslateX = adjustCurrentTranslateX();
       this.#Skins2View.mbSlide(currentTranslateX);
     };
 
     const resize = () => {
+      if (!store.state.skins2.ok) return;
       this.#Skins2View.setMbSliderWidth(); // Keep data in sync in both `controller` and `view`
       currentTranslateXDefault = this.#Skins2View.countMbTranslateX(1);
-
-      adjustCurrentTranslateX();
+      currentTranslateX = adjustCurrentTranslateX();
       this.#Skins2View.mbSlide(currentTranslateX);
     };
 
@@ -242,15 +184,6 @@ class Skins2Controller {
       dragStop,
       resize,
     };
-  };
-
-  mbSlideActions = this.#handleMbSlider();
-
-  #chooseMainImage = (index, prevIndex, side) => {
-    this.#Skins2View.chooseMainImage(index, prevIndex);
-
-    if (side === X) this.slideActions.chooseSlide(index, true);
-    if (side === Y) this.mbSlideActions.chooseMbSlide(index, true);
   };
 }
 

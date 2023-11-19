@@ -111,25 +111,24 @@ function skinsInit() {
 }
 
 function skins2Init() {
-  const { handleData } = new Skins2Controller(Skins2View);
+  const { handleData, slideActions, mbSlideActions } = new Skins2Controller(
+    Skins2View
+  );
 
   Skins2View.addIntersectionObserver(handleData);
-
-  // Skins2View.addChooseSlideHandler(controller.slideActions.chooseSlide);
-  // Skins2View.addDragSlideHandler(
-  //   controller.slideActions.dragStart,
-  //   controller.slideActions.dragProgress,
-  //   controller.slideActions.dragStop
-  // );
-
-  // Skins2View.addChooseMbSlideHandler(controller.mbSlideActions.chooseMbSlide);
-  // Skins2View.addDragMbSlideHandler(
-  //   controller.mbSlideActions.dragStart,
-  //   controller.mbSlideActions.dragProgress,
-  //   controller.mbSlideActions.dragStop
-  // );
-
-  // Skins2View.addMbSliderResizeHandler(controller.mbSlideActions.resize);
+  Skins2View.addChooseSlideHandler(slideActions.chooseSlide);
+  Skins2View.addDragSlideHandler(
+    slideActions.dragStart,
+    slideActions.dragProgress,
+    slideActions.dragStop
+  );
+  Skins2View.addChooseMbSlideHandler(mbSlideActions.chooseMbSlide);
+  Skins2View.addDragMbSlideHandler(
+    mbSlideActions.dragStart,
+    mbSlideActions.dragProgress,
+    mbSlideActions.dragStop
+  );
+  Skins2View.addMbSliderResizeHandler(mbSlideActions.resize);
 }
 
 function ruinedInit() {

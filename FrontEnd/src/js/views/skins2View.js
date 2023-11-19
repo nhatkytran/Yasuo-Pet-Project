@@ -38,18 +38,12 @@ class Skins2View {
   #mbSliderDivImagesWrapper = $('.skins2-mobile-slider__list');
   #mbSliderDivImages;
 
-  // Value from `getBoundingClientRect` can be 0 if initialized with elements disply none
-  // So we hard code some value and comment `class` as reference
-  // Value is added at `prepareDataForSliders`
-  #slideItemHeight; // class: skins2-slider-item
+  #slideItemHeight;
   #slideButtons;
-  #mbSliderWidth;
-  #mbSlideItemWidth; // class: skins2-mobile-slider__item
-  #mbSlideButtons;
 
-  constructor() {
-    this.displayContent();
-  }
+  #mbSliderWidth;
+  #mbSlideItemWidth;
+  #mbSlideButtons;
 
   displayContent(state) {
     classRemove(
@@ -70,14 +64,31 @@ class Skins2View {
       const active = index === 1 ? 'active' : '';
       const { releaseYear, inCollection, name } = skin;
       const imageAlt = `${releaseYear} - ${inCollection} - ${name}`;
-
       return stringCallback(active, name, imageAlt);
     };
-
     return mapMarkup(skins, markupCallback);
   };
 
-  #generateSliderDivImageMarkup = skins => {
+  async #createItem(skins, ...images) {
+    const promises = images.map((image, index) =>
+      promisifyLoadingImage(image, `${BACKEND_URL}${skins[index].image}`)
+    );
+    await Promise.all(promises);
+  }
+
+  async createImages(skins) {
+    const stringCallback = (active, _, imageAlt) =>
+      `<img class="skins2-img ${active}" src="" alt="${imageAlt}">`;
+    const markup = this.#generateItemMarkup(skins, stringCallback);
+
+    this.#imagesWrapper.innerHTML = '';
+    this.#imagesWrapper.insertAdjacentHTML('afterbegin', markup);
+    this.#images = $$('.skins2-img');
+
+    await this.#createItem(skins, ...this.#images);
+  }
+
+  async createSlider(skins) {
     const stringCallback = (active, name, imageAlt) => `
       <li class="skins2-slider-item">
         <button class="button skins2-button ${active}">
@@ -88,11 +99,16 @@ class Skins2View {
         </button>
       </li>
     `;
+    const markup = this.#generateItemMarkup(skins, stringCallback);
 
-    return this.#generateItemMarkup(skins, stringCallback);
-  };
+    this.#sliderDivImagesWrapper.innerHTML = '';
+    this.#sliderDivImagesWrapper.insertAdjacentHTML('afterbegin', markup);
+    this.#sliderDivImages = $$('.skins2-button__image');
 
-  #generateMbSliderDivImageMarkup = skins => {
+    await this.#createItem(skins, ...this.#sliderDivImages);
+  }
+
+  async createMbSlider(skins) {
     const stringCallback = (active, name, imageAlt) => `
       <li class="skins2-mobile-slider__item ${active}">
         <button class="button skins2-mobile-slider__button">
@@ -104,73 +120,20 @@ class Skins2View {
         </button>
       </li>
     `;
+    const markup = this.#generateItemMarkup(skins, stringCallback);
 
-    return this.#generateItemMarkup(skins, stringCallback);
-  };
-
-  #generateImageMarkup = skins => {
-    const stringCallback = (active, _, imageAlt) => `
-      <img class="skins2-img ${active}" src="" alt="${imageAlt}">
-    `;
-
-    return this.#generateItemMarkup(skins, stringCallback);
-  };
-
-  #createitemStructure(skins, generateMarkup, wrapper) {
-    const markup = generateMarkup(skins);
-
-    wrapper.innerHTML = '';
-    wrapper.insertAdjacentHTML('afterbegin', markup);
-  }
-
-  async #createItem(skins, ...images) {
-    const promises = images.map((image, index) =>
-      promisifyLoadingImage(image, `${BACKEND_URL}${skins[index].image}`)
-    );
-
-    await Promise.all(promises);
-  }
-
-  async createSlider(skins) {
-    this.#createitemStructure(
-      skins,
-      this.#generateSliderDivImageMarkup,
-      this.#sliderDivImagesWrapper
-    );
-
-    this.#sliderDivImages = $$('.skins2-button__image');
-    await this.#createItem(skins, ...this.#sliderDivImages);
-  }
-
-  async createMbSlider(skins) {
-    this.#createitemStructure(
-      skins,
-      this.#generateMbSliderDivImageMarkup,
-      this.#mbSliderDivImagesWrapper
-    );
-
+    this.#mbSliderDivImagesWrapper.innerHTML = '';
+    this.#mbSliderDivImagesWrapper.insertAdjacentHTML('afterbegin', markup);
     this.#mbSliderDivImages = $$('.skins2-mobile-slider__image img');
+
     await this.#createItem(skins, ...this.#mbSliderDivImages);
   }
 
-  async createImages(skins) {
-    this.#createitemStructure(
-      skins,
-      this.#generateImageMarkup,
-      this.#imagesWrapper
-    );
-
-    this.#images = $$('.skins2-img');
-    await this.#createItem(skins, ...this.#images);
-  }
-
-  prepareDataForSliders() {
+  prepareSlidersData() {
     const addButtonDataHTML = buttons =>
       buttons.forEach((button, index) => {
         button.setAttribute('data-slide-button-index', index);
       });
-
-    this.#images = $$('.skins2-img');
 
     // Desktop //////////
     this.#slideItemHeight = 100;
@@ -181,18 +144,24 @@ class Skins2View {
     this.#mbSlideItemWidth = 110;
     this.#mbSlideButtons = $$('.skins2-mobile-slider__item');
     addButtonDataHTML(this.#mbSlideButtons);
+
     this.setMbSliderWidth();
   }
 
-  setMbSliderWidth = () => {
-    // width of `this.#mbSlider` is equal to width of `this.#imagesWrapper`
-    // but `this.#mbSlider` can be display none sometimes (responsive --> none)
-    // so we use width of `this.#imagesWrapper`
-    this.#mbSliderWidth = this.#imagesWrapper.getBoundingClientRect().width;
-  };
+  // width of `this.#mbSlider` is equal to width of `this.#imagesWrapper`
+  // but `this.#mbSlider` can be display none sometimes (responsive --> none)
+  // so we use width of `this.#imagesWrapper`
+  setMbSliderWidth = () =>
+    (this.#mbSliderWidth = this.#imagesWrapper.getBoundingClientRect().width);
 
   getSlideItemHeight = () => this.#slideItemHeight;
   getMbSlideItemWidth = () => this.#mbSlideItemWidth;
+
+  getMbSlideItemMiddlePoint = (itemWidth, index) => {
+    const overflow = this.#mbSlider.getBoundingClientRect().x;
+    const storeOverflow = this.#mbSlideButtons[index].getBoundingClientRect().x;
+    return (storeOverflow - overflow) / REM + itemWidth / 2;
+  };
 
   slide = this.#slideFactory(Y);
   mbSlide = this.#slideFactory(X);
@@ -202,7 +171,6 @@ class Skins2View {
         side === X
           ? this.#mbSliderDivImagesWrapper
           : this.#sliderDivImagesWrapper;
-
       wrapper.style.transform = `translate${side}(${translate}rem)`;
     };
   }
@@ -212,7 +180,6 @@ class Skins2View {
   #slideAnimateFactory(side) {
     return (index, prevIndex) => {
       const buttons = side === X ? this.#mbSlideButtons : this.#slideButtons;
-
       buttons[prevIndex].classList.remove('active');
       buttons[index].classList.add('active');
     };
@@ -220,11 +187,10 @@ class Skins2View {
 
   countTranslateY = index => ((index - 1) * -this.#slideItemHeight) / REM;
   countMbTranslateX = index => {
-    // Why 1 / 2 ? We need a point is the middle of `this.#mbSlideItemWidth`
+    // Why 1 / 2 ? We need a point is the middle of 'this.#mbSlideItemWidth'
     const distance = this.#mbSlideItemWidth * (index + 1 / 2);
-    const translatePX = this.#mbSliderWidth / 2 - distance;
-
-    return translatePX / REM;
+    const translateX = this.#mbSliderWidth / 2 - distance;
+    return translateX / REM;
   };
 
   chooseMainImage = (index, prevIndex) => {
@@ -236,7 +202,6 @@ class Skins2View {
   // Events listening //////////
 
   addIntersectionObserver(handler) {
-    return;
     intersectOneTime(this.#section, { threshold: 0.3 }, handler);
     this.#skinsErrorButton.addEventListener('click', handler);
   }
@@ -250,9 +215,12 @@ class Skins2View {
 
   addDragSlideHandler(startHandler, progressHandler, stopHandler) {
     this.#slider.addEventListener('mousedown', startHandler);
-    this.#slider.addEventListener('mousemove', progressHandler);
-    this.#slider.addEventListener('mouseup', stopHandler);
-    this.#slider.addEventListener('mouseleave', stopHandler);
+    document.addEventListener('mousemove', progressHandler);
+    document.addEventListener('mouseup', stopHandler);
+    const options = { passive: true };
+    this.#slider.addEventListener('touchstart', startHandler, options);
+    document.addEventListener('touchmove', progressHandler, options);
+    document.addEventListener('touchend', stopHandler);
   }
 
   addChooseMbSlideHandler(handler) {
@@ -264,14 +232,12 @@ class Skins2View {
 
   addDragMbSlideHandler(startHandler, progressHandler, stopHandler) {
     this.#mbSlider.addEventListener('mousedown', startHandler);
-    this.#mbSlider.addEventListener('mousemove', progressHandler);
-    this.#mbSlider.addEventListener('mouseup', stopHandler);
-    this.#mbSlider.addEventListener('mouseleave', stopHandler);
-
-    const touchOptions = { passive: true }; // Make touch events smooth - recommended by Browser
-    this.#mbSlider.addEventListener('touchstart', startHandler, touchOptions);
-    this.#mbSlider.addEventListener('touchmove', progressHandler, touchOptions);
-    this.#mbSlider.addEventListener('touchend', stopHandler);
+    document.addEventListener('mousemove', progressHandler);
+    document.addEventListener('mouseup', stopHandler);
+    const options = { passive: true };
+    this.#mbSlider.addEventListener('touchstart', startHandler, options);
+    document.addEventListener('touchmove', progressHandler, options);
+    document.addEventListener('touchend', stopHandler);
   }
 
   addMbSliderResizeHandler(handler) {

@@ -236,13 +236,9 @@
     position: relative;
     margin-top: 5rem;
 
-    @mixin quote-margin-top($width, $margin-top) {
-      @media only screen and (max-width: $width) {
-        margin-top: $margin-top;
-      }
+    @media only screen and (max-width: $px1040) {
+      margin-top: 2rem;
     }
-    @include quote-margin-top($px1040, 4rem);
-    @include quote-margin-top($px640, 3rem);
   }
 }
 
@@ -270,6 +266,7 @@
   &__item {
     flex-shrink: 0;
     width: 11rem;
+    min-height: 15.6rem;
     padding: 2.5rem 0.5rem;
     cursor: pointer;
 

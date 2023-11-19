@@ -6,10 +6,12 @@ import { classRemove } from '../utils';
 
 export const dragAndDropEvent = (node, mouseActions) =>
   Object.entries(mouseActions).forEach(([key, mouseAction]) => {
-    if (key === 'mousedown') return node.addEventListener(key, mouseAction);
-    if (key === 'touchstart')
-      return node.addEventListener(key, mouseAction, { passive: true });
-    document.addEventListener(key, mouseAction);
+    const options =
+      key === 'touchstart' || key === 'touchmove' ? { passive: true } : {};
+
+    if (key === 'mousedown' || key === 'touchstart')
+      node.addEventListener(key, mouseAction, options);
+    else document.addEventListener(key, mouseAction, options);
   });
 
 const calculateVolume = (progressBar, progressWrapper) =>
@@ -39,7 +41,7 @@ export const adjustVolumeFactory = videoNode => volume =>
 
 export const calculateNewVolumeFactory =
   progressWrapperNode => (event, action) => {
-    let clientX = event.clientX || event.touches[0].clientX;
+    let clientX = event.clientX ?? event.touches[0].clientX;
 
     const {
       left,
