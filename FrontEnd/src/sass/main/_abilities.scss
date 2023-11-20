@@ -307,11 +307,14 @@
   min-height: 14rem;
 
   &-s {
-    padding: 4rem 6rem 4rem 4rem;
+    padding: 4rem 8rem 4rem 4rem;
     margin: 0 auto;
     transition: all ease 0.3s;
     @include use-font(Spiegel-Regular);
 
+    @media only screen and (max-width: $px1240) {
+      padding: 4rem;
+    }
     @media only screen and (max-width: $px1140) {
       text-align: justify;
       text-align-last: center;
@@ -350,19 +353,16 @@
     }
   }
 
-  &-loading {
-    @media only screen and (max-width: $px640) {
-      @include absolute-position(-50%, -75%);
-    }
-  }
-
   &-error {
     flex-direction: column;
     @include flex-align-center;
     @include absolute-position(-50%, -50%);
 
-    @media only screen and (max-width: $px640) {
-      @include absolute-position(-50%, -75%);
+    @media only screen and (max-width: $px1140) {
+      @include absolute-position(-50%, -70%);
+    }
+    @media only screen and (max-width: $px540) {
+      @include absolute-position(-50%, -50%);
     }
 
     img {

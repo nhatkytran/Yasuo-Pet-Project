@@ -53,7 +53,10 @@ class AbilitiesView {
     );
 
     if (state === LOADING) classRemove(REMOVE, this.#descriptionLoading);
-    if (state === ERROR) classRemove(REMOVE, this.#descriptionError);
+    if (state === ERROR) {
+      classRemove(ADD, ...this.#videos);
+      classRemove(REMOVE, this.#descriptionError);
+    }
     if (state === CONTENT)
       classRemove(REMOVE, this.#descriptionContentContainer);
   }
@@ -103,6 +106,9 @@ class AbilitiesView {
   async createVideos(videos, shownIndex) {
     const markup = this.#generateVideoMarkup(videos, shownIndex);
 
+    $$_(this.#videoContainer, '.abilities__content-body-video-s').forEach(
+      element => element.remove()
+    );
     this.#videoContainer.insertAdjacentHTML('afterbegin', markup);
 
     this.#videos = $$_(

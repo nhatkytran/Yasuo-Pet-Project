@@ -31,6 +31,8 @@ class AbilitiesController {
     this.#lastSkillIndex = index;
   };
 
+  a = 0;
+
   handleData = catchAsync({
     filename,
     onProcess: async index => {
@@ -41,6 +43,11 @@ class AbilitiesController {
       const { videos, descriptions } = store.state.abilities;
       await this.#AbilitiesView.createVideos(videos, index);
       this.#AbilitiesView.createDescriptions(descriptions, index);
+
+      if (this.a === 0) {
+        this.a += 1;
+        throw new Error();
+      }
 
       store.dispatch(ACTIONS.setDataOk());
 
