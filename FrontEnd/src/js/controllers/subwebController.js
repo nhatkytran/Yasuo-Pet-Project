@@ -22,10 +22,14 @@ const filename = 'subwebController.js';
 class SubwebController extends ModalContentController {
   #SubwebView;
   #previousSpeakerVolume = SPEAKER_VOLUME_MAX_PERCENT; // First time loading video with max volume
+  #handleOpenModal;
+  #handleCloseModal;
 
-  constructor(SubwebView) {
+  constructor(SubwebView, handleOpenModal, handleCloseModal) {
     super();
     this.#SubwebView = SubwebView;
+    this.#handleOpenModal = handleOpenModal;
+    this.#handleCloseModal = handleCloseModal;
   }
 
   handleLazyLoadingImage = catchAsync({
@@ -40,10 +44,12 @@ class SubwebController extends ModalContentController {
     filename,
     onProcess: async () => {
       this.#SubwebView.renderUI(START);
-      await subwebService.getData('/api/v1/subweb/video');
 
-      // SubwebView.renderUI(END); --> When video is ready --> SubwebView.playVideo()
-      this.#SubwebView.renderVideo(store.state.subweb);
+      await subwebService.getData('/api/v1/subweb/video');
+      await this.#SubwebView.renderVideo(store.state.subweb);
+
+      this.#SubwebView.renderVideoFirstTime();
+      super.open(this.#handleOpenModal, this.#SubwebView.open);
     },
     onError: error => {
       if (checkTimeoutError(error))
@@ -54,13 +60,8 @@ class SubwebController extends ModalContentController {
     },
   });
 
-  renderVideoFirstTime = handleOpenModal => {
-    this.#SubwebView.renderVideoFirstTime();
-    super.open(handleOpenModal, this.#SubwebView.open);
-  };
-
-  closeInstruction = handleCloseModal =>
-    super.close(handleCloseModal, this.#SubwebView.close);
+  closeInstruction = () =>
+    super.close(this.#handleCloseModal, this.#SubwebView.close);
 
   fetchVideoAbort = () => subwebService.getDataAbort();
 
@@ -68,13 +69,11 @@ class SubwebController extends ModalContentController {
   handleVideoState = (_, button) => {
     const state = this.#SubwebView.checkVideoStateRequired(button);
 
+    // Replay video handle by View --> renderVideo --> addEventListener
     if (state === VIDEO_STATE_PLAY || state === VIDEO_STATE_REPLAY)
       this.#SubwebView.playVideo();
     if (state === VIDEO_STATE_PAUSE) this.#SubwebView.pauseVideo();
   };
-
-  // Video ends, display trailer image and replay button
-  handleReplayVideo = () => this.#SubwebView.replayVideoUI();
 
   #adjustSpeakerVolumeAndProgress = volume => {
     this.#SubwebView.renderSpeakerAndProgress(volume);

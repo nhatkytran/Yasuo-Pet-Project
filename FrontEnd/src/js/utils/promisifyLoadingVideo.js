@@ -1,7 +1,10 @@
+import { $$_ } from './selectors';
 import { BACKEND_URL } from '../config';
 
 const promisifyLoadingVideo = (video, { mp4, webm }) =>
   new Promise((resolve, reject) => {
+    $$_(video, 'source').forEach(element => element.remove());
+
     const sources = [
       [mp4, 'video/mp4'],
       [webm, 'video/webm'],

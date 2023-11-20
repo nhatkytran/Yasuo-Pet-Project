@@ -24,11 +24,7 @@ class ModalController {
   };
 
   close = () => {
-    console.log(this);
-    console.log(this.#modalIsOpening, this.#modalIsClosing);
     if (this.#modalIsOpening || this.#modalIsClosing) return;
-    console.log('Close ');
-
     this.#modalIsClosing = true;
 
     // Delay with timeout to wait for sidebar's closing

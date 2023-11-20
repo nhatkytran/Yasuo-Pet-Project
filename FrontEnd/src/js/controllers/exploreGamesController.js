@@ -11,20 +11,24 @@ const filename = 'exploreGamesController.js';
 
 class ExploreGamesController extends ModalContentController {
   #GamesView;
+  #handleOpenModal;
+  #handleCloseModal;
 
-  constructor(GamesView) {
+  constructor(GamesView, handleOpenModal, handleCloseModal) {
     super();
     this.#GamesView = GamesView;
+    this.#handleOpenModal = handleOpenModal;
+    this.#handleCloseModal = handleCloseModal;
   }
 
-  open = handleOpenModal => {
-    const timeToOpen = super.open(handleOpenModal, this.#GamesView.open);
+  open = () => {
+    const timeToOpen = super.open(this.#handleOpenModal, this.#GamesView.open);
     setTimeout(this.#GamesView.openSidebarSignal, timeToOpen);
   };
 
-  close = handleCloseModal => {
+  close = () => {
     gamesService.getDataAbort();
-    super.close(handleCloseModal, this.#GamesView.close);
+    super.close(this.#handleCloseModal, this.#GamesView.close);
   };
 
   handleData = catchAsync({

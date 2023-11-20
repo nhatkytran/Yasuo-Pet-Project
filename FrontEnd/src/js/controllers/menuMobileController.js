@@ -3,17 +3,20 @@ import ModalContentController from './modalContentController';
 class MenuMobileController extends ModalContentController {
   #menuMobileView;
   #universeMobileOpening;
+  #handleOpenModal;
+  #handleCloseModal;
 
-  constructor(menuMobileView) {
+  constructor(menuMobileView, handleOpenModal, handleCloseModal) {
     super();
     this.#menuMobileView = menuMobileView;
+    this.#handleOpenModal = handleOpenModal;
+    this.#handleCloseModal = handleCloseModal;
   }
 
-  open = handleOpenModal =>
-    super.open(handleOpenModal, this.#menuMobileView.open);
+  open = () => super.open(this.#handleOpenModal, this.#menuMobileView.open);
 
-  close = handleCloseModal => {
-    if (super.close(handleCloseModal, this.#menuMobileView.close)) {
+  close = () => {
+    if (super.close(this.#handleCloseModal, this.#menuMobileView.close)) {
       this.#universeMobileOpening = false;
       this.#menuMobileView.closeUniverseMobile();
     }

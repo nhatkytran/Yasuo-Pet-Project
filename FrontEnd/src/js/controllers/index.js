@@ -1,5 +1,3 @@
-// const warningController = new WarningController(warningView);
-
 import {
   ModalView,
   SubwebView,
@@ -21,72 +19,68 @@ import SkinsController from './skinsController';
 import Skins2Controller from './skins2Controller';
 
 const modalController = new ModalController(ModalView);
+// const warningController = new WarningController(warningView);
 
 function subwebInit() {
-  const controller = new SubwebController(SubwebView);
   const {
     handleLazyLoadingImage,
     fetchVideo,
-    renderVideoFirstTime,
     closeInstruction,
     fetchVideoAbort,
     handleVideoState,
-    handleReplayVideo,
     handleSpeakerPower,
     handleSpeakerProgress,
-  } = controller;
+  } = new SubwebController(
+    SubwebView,
+    modalController.open,
+    modalController.close
+  );
 
   SubwebView.addLazyLoadingImage(handleLazyLoadingImage);
   SubwebView.addFetchVideoHandler(fetchVideo);
-  SubwebView.addPlayVideoHandler(
-    renderVideoFirstTime.bind(controller, modalController.open)
-  );
-  SubwebView.addCloseInstructionHandler(
-    closeInstruction.bind(controller, modalController.close)
-  );
+  SubwebView.addCloseInstructionHandler(closeInstruction);
   SubwebView.addFetchVideoHandlerAbort(fetchVideoAbort);
   SubwebView.addControlVideoStateHandler(handleVideoState);
-  SubwebView.addReplayVideoHandler(handleReplayVideo);
   SubwebView.addSpeakerPowerHandler(handleSpeakerPower);
   SubwebView.addSpeakerProgressHandler(...handleSpeakerProgress());
 }
 
 function exploreAllgamesInit() {
-  const controller = new ExploreAllgamesController(AllgamesView);
-  const { open, close, handleData, selectPosters, toggleLinks } = controller;
+  const { open, close, handleData, selectPosters, toggleLinks } =
+    new ExploreAllgamesController(
+      AllgamesView,
+      modalController.open,
+      modalController.close
+    );
 
-  AllgamesView.addOpenSidebarHandler(
-    open.bind(controller, modalController.open)
-  );
-  AllgamesView.addCloseSidebarHandler(
-    close.bind(controller, modalController.close)
-  );
+  AllgamesView.addOpenSidebarHandler(open);
+  AllgamesView.addCloseSidebarHandler(close);
   AllgamesView.addFetchAndDisplayDataHandler(handleData);
   AllgamesView.addHoverSelectPostersHandler(selectPosters);
   AllgamesView.addOpenLinksHandler(toggleLinks);
 }
 
 function exploreGamesInit() {
-  const controller = new ExploreGamesController(GamesView);
-  const { open, close, handleData } = controller;
-
-  GamesView.addOpenSidebarHandler(open.bind(controller, modalController.open));
-  GamesView.addCloseSidebarHandler(
-    close.bind(controller, modalController.close)
+  const { open, close, handleData } = new ExploreGamesController(
+    GamesView,
+    modalController.open,
+    modalController.close
   );
+
+  GamesView.addOpenSidebarHandler(open);
+  GamesView.addCloseSidebarHandler(close);
   GamesView.addFetchAndDisplayDataHandler(handleData);
 }
 
 function menuMobileInit() {
-  const controller = new MenuMobileController(MenuMobileView);
-  const { open, close, toggle } = controller;
+  const { open, close, toggle } = new MenuMobileController(
+    MenuMobileView,
+    modalController.open,
+    modalController.close
+  );
 
-  MenuMobileView.addOpenMenuHandler(
-    open.bind(controller, modalController.open)
-  );
-  MenuMobileView.addCloseMenuHandler(
-    close.bind(controller, modalController.close)
-  );
+  MenuMobileView.addOpenMenuHandler(open);
+  MenuMobileView.addCloseMenuHandler(close);
   MenuMobileView.addToggleUniverseMobile(toggle);
 }
 

@@ -31,6 +31,7 @@ import {
   animateFactory,
   classRemove,
   promisifyLoadingImage,
+  promisifyLoadingVideo,
 } from '../utils';
 
 const classBg = item => `.trailer__bg-small-${item}`;
@@ -43,7 +44,8 @@ class SubwebView {
   #fetchSuccess = $(classPlayVideo('success'));
   #fetchMessage = $(classPlayVideo('message'));
 
-  #trailerVideo = $(classBg('video'));
+  #trailerWrapper = $('.trailer__bg-small');
+  #trailerVideo;
   #trailerImageWrapper = $(classBg('image-wrapper'));
   #trailerImage = $(classBg('image'));
   #trailerImageLazy = $(classBg('image-lazy'));
@@ -130,21 +132,34 @@ class SubwebView {
     classRemove(REMOVE, currentPanel);
   }
 
-  renderVideo({ linkMp4, linkWebm }) {
-    const sources = [
-      [linkMp4, 'video/mp4'],
-      [linkWebm, 'video/webm'],
-    ];
+  async renderVideo({ linkMp4, linkWebm }) {
+    $_(this.#trailerWrapper, classBg('video'))?.remove();
 
-    sources.forEach(([link, type]) => {
-      const videoLink = `${BACKEND_URL}${link}`;
-      const source = document.createElement('source');
+    const markup = `
+      <video class="trailer__bg-small-video remove">
+        Your browser does not support video!
+      </video>
+    `;
+    this.#trailerWrapper.insertAdjacentHTML('afterbegin', markup);
+    this.#trailerVideo = $(classBg('video'));
 
-      source.type = type;
-      source.src = videoLink;
-
-      this.#trailerVideo.appendChild(source);
+    await promisifyLoadingVideo(this.#trailerVideo, {
+      mp4: linkMp4,
+      webm: linkWebm,
     });
+  }
+
+  renderVideoFirstTime() {
+    this.renderUI(END);
+    classRemove(REMOVE, this.#trailerVideo);
+
+    // 'webkitendfullscreen'
+    // On device like IPhone, there is a video layer automatically opened when playing video
+    this.#trailerVideo.addEventListener(
+      'webkitendfullscreen',
+      this.pauseVideo.bind(this)
+    );
+    this.#trailerVideo.addEventListener('ended', this.replayVideoUI.bind(this));
   }
 
   open = scrollY => {
@@ -160,16 +175,6 @@ class SubwebView {
       timeToClose
     );
   };
-
-  renderVideoFirstTime() {
-    this.renderUI(END);
-
-    // 'webkitendfullscreen'
-    // On device like IPhone, there is a video layer automatically opened when playing video
-    this.#trailerVideo.addEventListener('webkitendfullscreen', () =>
-      this.pauseVideo()
-    );
-  }
 
   #handleErrorMessage = message =>
     ($_(this.#fetchMessage, 'p').textContent = message);
@@ -251,10 +256,6 @@ class SubwebView {
     addEvent(buttons, 'click', handler);
   }
 
-  addPlayVideoHandler(handler) {
-    this.#trailerVideo.addEventListener('loadedmetadata', handler);
-  }
-
   addFetchVideoHandlerAbort(handler) {
     const buttons = [this.#loginButton, this.#purchaseSkinsButton];
     addEvent(buttons, 'click', handler);
@@ -262,10 +263,6 @@ class SubwebView {
 
   addControlVideoStateHandler(handler) {
     addEvent(this.#videoStateButtons, 'click', handler);
-  }
-
-  addReplayVideoHandler(handler) {
-    this.#trailerVideo.addEventListener('ended', handler);
   }
 
   addSpeakerPowerHandler(handler) {
