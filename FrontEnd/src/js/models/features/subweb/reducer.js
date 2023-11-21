@@ -1,9 +1,11 @@
 const initialState = {
+  ok: false,
   linkMp4: '',
   linkWebm: '',
 };
 
 const GET_DATA = 'subweb/getData';
+const SET_DATA_OK = 'subweb/setDataOk';
 
 const subwebReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -23,5 +25,7 @@ const getData = data => ({
   payload: { linkMp4: data.linkMp4, linkWebm: data.linkWebm },
 });
 
-export const ACTIONS = { getData };
+const setDataOk = () => ({ type: SET_DATA_OK });
+
+export const ACTIONS = { getData, setDataOk };
 export default subwebReducer;

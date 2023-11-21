@@ -1,23 +1,22 @@
 const initialState = {
   ok: false,
-  skins: [
-    {
-      name: '',
-      releaseYear: 0,
-      inCollection: '',
-      price: 0,
-      tags: [''],
-      details: [''],
-      image: '',
-      youtubeLink: '',
+  images: {
+    main: {
+      link: '',
+      alt: '',
     },
-  ],
+    sub: {
+      link: '',
+      alt: '',
+      linkHelper: '',
+    },
+  },
 };
 
-const GET_DATA = 'skins/getData';
-const SET_DATA_OK = 'skins/setDataOk';
+const GET_DATA = 'ruined/getData';
+const SET_DATA_OK = 'ruined/setDataOk';
 
-const skinsReducer = (state = initialState, action) => {
+const ruinedReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_DATA:
       return { ...state, ...action.payload };
@@ -36,4 +35,4 @@ const getData = data => ({
 const setDataOk = () => ({ type: SET_DATA_OK });
 
 export const ACTIONS = { getData, setDataOk };
-export default skinsReducer;
+export default ruinedReducer;

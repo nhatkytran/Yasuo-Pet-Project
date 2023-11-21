@@ -7,6 +7,7 @@ import {
   AbilitiesView,
   SkinsView,
   Skins2View,
+  RuinedView,
 } from '../views';
 
 import ModalController from './modalController';
@@ -17,6 +18,7 @@ import MenuMobileController from './menuMobileController';
 import AbilitiesController from './abilitesController';
 import SkinsController from './skinsController';
 import Skins2Controller from './skins2Controller';
+import RuinedController from './ruinedController';
 
 const modalController = new ModalController(ModalView);
 // const warningController = new WarningController(warningView);
@@ -126,9 +128,8 @@ function skins2Init() {
 }
 
 function ruinedInit() {
-  const controller = new RuinedController(ruinedView);
-
-  ruinedView.addIntersectionObserver(controller.handleData);
+  const { handleData } = new RuinedController(RuinedView);
+  RuinedView.addIntersectionObserver(handleData);
 }
 
 function galleryInit() {
@@ -155,16 +156,15 @@ function galleryInit() {
   galleryView.addChoosenCloseHandler(controller.galleryChoosenActions.close);
 }
 
-const inits = {
-  subwebInit,
-  exploreAllgamesInit,
-  exploreGamesInit,
-  menuMobileInit,
-  abilitiesInit,
-  skinsInit,
-  skins2Init,
-};
-Object.values(inits).forEach(init => init.call(null));
+[
+  // subwebInit,
+  // exploreAllgamesInit,
+  // exploreGamesInit,
+  // menuMobileInit,
+  // abilitiesInit,
+  // skinsInit,
+  // skins2Init,
+  ruinedInit,
+].forEach(init => init.call(null));
 
-// ruinedInit();
 // galleryInit();

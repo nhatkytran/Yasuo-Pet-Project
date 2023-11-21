@@ -14,6 +14,7 @@ import { catchAsync, checkTimeoutError, checkAbortError } from '../utils';
 
 import store from '../models/store';
 import subwebService from '../models/features/subweb/subwebService';
+import { ACTIONS } from '../models/features/subweb/reducer';
 
 import ModalContentController from './modalContentController';
 
@@ -48,6 +49,7 @@ class SubwebController extends ModalContentController {
       await subwebService.getData('/api/v1/subweb/video');
       await this.#SubwebView.renderVideo(store.state.subweb);
 
+      store.dispatch(ACTIONS.setDataOk());
       this.#SubwebView.renderVideoFirstTime();
       super.open(this.#handleOpenModal, this.#SubwebView.open);
     },

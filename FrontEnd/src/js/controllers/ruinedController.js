@@ -1,37 +1,34 @@
 import { CONTENT, LOADING, ERROR } from '../config';
-import { checkEmptyObject } from '../utils';
-import state, { fetchRuinedData } from '../model';
+import { catchAsync } from '../utils';
+
+import store from '../models/store';
+import ruinedService from '../models/features/ruined/ruinedService';
+import { ACTIONS } from '../models/features/ruined/reducer';
+
+const filename = 'ruinedController.js';
 
 class RuinedController {
-  #ruinedView;
+  #RuinedView;
 
-  constructor(ruinedView) {
-    this.#ruinedView = ruinedView;
+  constructor(RuinedView) {
+    this.#RuinedView = RuinedView;
   }
 
-  #fetchData = async () => {
-    try {
-      this.#ruinedView.displayContent(LOADING);
+  handleData = catchAsync({
+    filename,
+    onProcess: async () => {
+      this.#RuinedView.displayContent(LOADING);
 
-      const data = await fetchRuinedData();
+      await ruinedService.getData('/api/v1/ruined/data');
+      await this.#RuinedView.createImages(store.state.ruined.images);
 
-      await this.#ruinedView.createImages(data.images);
-
-      state.ruinedData = data;
-    } catch (error) {
-      // test
-      console.error('Something went wrong!');
-      console.error(error);
-
-      this.#ruinedView.displayContent(ERROR);
-    }
-  };
-
-  handleData = async () => {
-    if (checkEmptyObject(state.ruinedData)) await this.#fetchData();
-    if (!checkEmptyObject(state.ruinedData))
-      this.#ruinedView.displayContent(CONTENT);
-  };
+      store.dispatch(ACTIONS.setDataOk());
+      this.#RuinedView.displayContent(CONTENT);
+    },
+    onError: () => {
+      this.#RuinedView.displayContent(ERROR);
+    },
+  });
 }
 
 export default RuinedController;

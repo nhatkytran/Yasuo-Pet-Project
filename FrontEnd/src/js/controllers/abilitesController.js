@@ -43,7 +43,6 @@ class AbilitiesController {
       this.#AbilitiesView.createDescriptions(descriptions, index);
 
       store.dispatch(ACTIONS.setDataOk());
-
       this.#AbilitiesView.displayContent(CONTENT);
       this.#AbilitiesView.displayPlayVideoButton(SHOW);
     },

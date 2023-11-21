@@ -6,6 +6,7 @@ import gamesReducer from './features/games/reducer';
 import abilitiesReducer from './features/abilities/reducer';
 import skinsReducer from './features/skins/reducer';
 import skins2Reducer from './features/skins2/reducer';
+import ruinedReducer from './features/ruined/reducer';
 
 class Store {
   #store;
@@ -19,6 +20,7 @@ class Store {
         abilities: abilitiesReducer,
         skins: skinsReducer,
         skins2: skins2Reducer,
+        ruined: ruinedReducer,
       })
     );
   }

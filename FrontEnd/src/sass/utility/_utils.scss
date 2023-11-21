@@ -171,15 +171,79 @@
   outline: none;
   background-color: transparent;
   text-transform: uppercase;
+  transition: all linear 0.2s;
   cursor: pointer;
 }
 
-.button-blue {
-  background-color: $button-color-blue;
-  transition: all linear 0.2s;
+.button-main {
+  padding: 2rem 4rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  position: relative;
 
-  &:hover {
-    background-color: $button-color-blue-hover;
+  @mixin button-padding($width, $tb, $rl) {
+    @media only screen and (max-width: $width) {
+      padding: $tb $rl !important;
+    }
+  }
+  @include button-padding($px1040, 1.9rem, 3.8rem);
+  @include button-padding($px840, 1.8rem, 3.6rem);
+  @include button-padding($px640, 1.7rem, 3.4rem);
+  @include button-padding($px440, 1.6rem, 3.2rem);
+
+  &:hover &__border {
+    background-size:
+      100% 1px,
+      1px 100%;
+
+    &::before {
+      left: -1.2rem;
+    }
+    &::after {
+      right: -1.2rem;
+    }
+  }
+
+  &__border {
+    $border: #c7c7c7;
+    $lg: linear-gradient($border, $border);
+    background: $lg, $lg, $lg, $lg;
+    background-repeat: no-repeat;
+    background-size:
+      calc(100% - 1.8rem) 1px,
+      1px calc(100% - 1.8rem);
+    background-position:
+      right 0 top 0,
+      left 0 bottom 0,
+      left 0 bottom 0,
+      right 0 top 0;
+    transition: all ease 0.2s;
+    overflow: hidden;
+    pointer-events: none;
+    @include square-dimension(calc(100% + 0.8rem));
+    @include absolute-position(-50%, -50%);
+
+    &::before {
+      top: 0;
+      left: 0.6rem;
+      @include button-border(2.4rem, $border);
+    }
+    &::after {
+      bottom: 0;
+      right: 0.6rem;
+      @include button-border(2.4rem, $border);
+    }
+  }
+
+  span {
+    color: $text-color;
+    font-size: 1.4rem;
+    letter-spacing: 0.1rem;
+    white-space: nowrap;
+    @include use-font(Spiegel-Bold);
+
+    @media only screen and (max-width: $px640) {
+      font-size: 1.3rem;
+    }
   }
 }
 

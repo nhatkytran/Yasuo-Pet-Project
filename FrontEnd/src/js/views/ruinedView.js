@@ -8,77 +8,72 @@ import {
   promisifyLoadingImage,
 } from '../utils';
 
+const ruinedBg = '.ruined__bg';
+
 class RuinedView {
-  #section;
+  #section = $('.ruined.section');
 
-  #mainImageWrapper;
-  #subImageWrapper;
+  #mainImageWrapper = $(`${ruinedBg}-image-wrapper`);
+  #mainImage;
+  #subImageWrapper = $('.ruined__king');
+  #subImage;
+  #subImageHelper;
 
-  #ruinedLoading;
-  #ruinedError;
-  #ruinedErrorButton;
+  #ruinedLoading = $(`${ruinedBg}-loading`);
+  #ruinedError = $(`${ruinedBg}-error`);
+  #ruinedErrorButton = $_(this.#ruinedError, 'button');
 
-  constructor() {
-    this.#section = $('.ruined.section');
-
-    const ruinedBg = '.ruined__bg';
-
-    this.#mainImageWrapper = $(`${ruinedBg}-image-wrapper`);
-    this.#subImageWrapper = $('.ruined__king');
-
-    this.#ruinedLoading = $(`${ruinedBg}-loading`);
-    this.#ruinedError = $(`${ruinedBg}-error`);
-    this.#ruinedErrorButton = $_(this.#ruinedError, 'button');
-
-    this.displayContent();
-  }
+  #ruinedButton = $('.ruined__button');
 
   displayContent(state) {
     classRemove(
       ADD,
-      this.#subImageWrapper,
       this.#mainImageWrapper,
+      this.#subImageWrapper,
       this.#ruinedLoading,
-      this.#ruinedError
+      this.#ruinedError,
+      this.#ruinedButton
     );
 
     if (state === LOADING) classRemove(REMOVE, this.#ruinedLoading);
     if (state === ERROR) classRemove(REMOVE, this.#ruinedError);
     if (state === CONTENT)
-      classRemove(REMOVE, this.#subImageWrapper, this.#mainImageWrapper);
+      classRemove(
+        REMOVE,
+        this.#mainImageWrapper,
+        this.#mainImage,
+        this.#subImageWrapper,
+        this.#subImage,
+        this.#subImageHelper,
+        this.#ruinedButton
+      );
   }
 
-  #generateMainImageMarkup = image =>
-    `
-      <img class="ruined__bg-image" src="" alt="${image.alt}">
-    `;
-
-  #generateSubImageMarkup = image =>
-    `
-      <img class="ruined__king-veigo" src="" alt="${image.alt}" />
-      <img class="ruined__king-helper" src="" alt="${image.alt} - Helper">
-    `;
-
   async #createMainImage(image) {
-    const markup = this.#generateMainImageMarkup(image);
+    const markup = `<img class="ruined__bg-image fade-in-500 remove" draggable="false" src="" alt="${image.alt}">`;
+
+    this.#mainImageWrapper.innerHTML = '';
     this.#mainImageWrapper.insertAdjacentHTML('afterbegin', markup);
+    this.#mainImage = $('.ruined__bg-image');
 
-    const mainImage = $('.ruined__bg-image');
-
-    await promisifyLoadingImage(mainImage, `${BACKEND_URL}${image.link}`);
+    await promisifyLoadingImage(this.#mainImage, `${BACKEND_URL}${image.link}`);
   }
 
   async #createSubImage(image) {
-    const markup = this.#generateSubImageMarkup(image);
-    this.#subImageWrapper.insertAdjacentHTML('afterbegin', markup);
+    const markup = `
+      <img class="ruined__king-veigo fade-in-500 remove" draggable="false" src="" alt="${image.alt}" />
+      <img class="ruined__king-helper fade-in-500 remove" draggable="false" src="" alt="${image.alt} - Helper">
+    `;
 
-    const subImage = $('.ruined__king-veigo');
-    const subImageHelper = $('.ruined__king-helper');
+    this.#subImageWrapper.innerHTML = '';
+    this.#subImageWrapper.insertAdjacentHTML('afterbegin', markup);
+    this.#subImage = $('.ruined__king-veigo');
+    this.#subImageHelper = $('.ruined__king-helper');
 
     const promises = [
-      promisifyLoadingImage(subImage, `${BACKEND_URL}${image.link}`),
+      promisifyLoadingImage(this.#subImage, `${BACKEND_URL}${image.link}`),
       promisifyLoadingImage(
-        subImageHelper,
+        this.#subImageHelper,
         `${BACKEND_URL}${image.linkHelper}`
       ),
     ];
@@ -94,12 +89,7 @@ class RuinedView {
   }
 
   addIntersectionObserver(handler) {
-    const options = {
-      root: null,
-      threshold: 0.3,
-    };
-
-    intersectOneTime(this.#section, options, handler);
+    intersectOneTime(this.#section, { threshold: 0.3 }, handler);
     this.#ruinedErrorButton.addEventListener('click', handler);
   }
 }

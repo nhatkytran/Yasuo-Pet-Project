@@ -23,17 +23,22 @@
   &__king {
     height: 100%;
     transform: translate(-6rem, -2rem) scale(1.2);
+    @include display-responsive($px640, none);
 
     @mixin king-transform($width, $x-translate, $y-translate, $scale) {
       @media only screen and (max-width: $width) {
         transform: translate($x-translate, $y-translate) scale($scale);
       }
     }
-    @include king-transform($px1040, -8rem, -2rem, 1.2);
-    @include king-transform($px840, -12rem, -2rem, 1.2);
-    @include king-transform($px640, -13rem, -2rem, 1.2);
-    @include king-transform($px540, -14rem, -2rem, 1.2);
-    @include king-transform($px340, -16rem, -2rem, 1.2);
+    @include king-transform($px1440, -7rem, -2rem, 1.2);
+    @include king-transform($px1340, -8rem, -2rem, 1.2);
+    @include king-transform($px1240, -9rem, -2rem, 1.2);
+    @include king-transform($px1140, -10rem, -2rem, 1.2);
+    @include king-transform($px1040, -11rem, -2rem, 1.2);
+    @include king-transform($px940, -12rem, -2rem, 1.2);
+    @include king-transform($px840, -13rem, -2rem, 1.2);
+    @include king-transform($px740, -14rem, -2rem, 1.2);
+    @include king-transform($px640, -15rem, -2rem, 1.2);
 
     &-veigo {
       height: 100%;
@@ -43,51 +48,59 @@
       transform: translate(-33.5rem, 2.6rem) scale(0.35);
       @include king-transform(43.3125em, 19.8rem, -3.7rem, 0.35); // 693px
       @include king-transform($px640, -33.5rem, 2.6rem, 0.35);
-      @include king-transform(38.375em, 19.8rem, -3.7rem, 0.35); // 614px
+      @include king-transform(38.3125em, 19.8rem, -3.7rem, 0.35); // 613px
     }
   }
 
   &__banner {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
     width: 36%;
     height: 20%;
     background-color: rgb(12, 47, 63);
     color: $header-text-color;
-    padding: 2.4rem 6rem 2rem 4rem;
+    padding-left: 3rem;
+    padding-right: 7rem;
     left: 0;
     bottom: 0;
     position: absolute;
     @include use-font(Spiegel-Regular);
-    @include display-responsive($px740, none);
+    @include display-responsive($px840, none);
 
-    @mixin banner-look($width, $height, $padding) {
+    @mixin banner-look($width, $height, $padding-left, $padding-right) {
       @media only screen and (max-width: $width) {
         height: $height;
-        padding: $padding;
+        padding-left: $padding-left;
+        padding-right: $padding-right;
       }
     }
-    @include banner-look($px1240, 20%, 2.4rem 6rem 3rem 4rem);
-    @include banner-look($px1140, 16%, 2rem 6rem 3rem 4rem);
-    @include banner-look($px940, 16%, 1.6rem 4rem 3rem 3rem);
-    @include banner-look($px840, 17%, 1.6rem 1.6rem 3rem 2rem);
+    @include banner-look($px1140, 18%, 3rem, 5rem);
+    @include banner-look($px1040, 18%, 2.6rem, 4rem);
+    @include banner-look($px940, 16%, 2.6rem, 3rem);
 
     &-title {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       margin-bottom: 0.6rem;
 
-      @mixin title-font-size($width, $font-size) {
-        @media only screen and (max-width: $width) {
-          font-size: $font-size;
-        }
+      @media only screen and (max-width: $px1140) {
+        font-size: 2rem;
       }
-      @include title-font-size($px1140, 2rem);
-      @include title-font-size($px640, 1.6rem);
+      @media only screen and (max-width: $px940) {
+        font-size: 1.8rem;
+      }
     }
 
     &-desc {
       font-size: 1.4rem;
 
       @media only screen and (max-width: $px1140) {
+        font-size: 1.2rem;
+      }
+      @media only screen and (max-width: $px940) {
         font-size: 1rem;
+        @include use-font(Spiegel-Bold);
       }
     }
   }
@@ -97,8 +110,17 @@
     @include full-dimension;
     @include absolute-position(-50%, -50%);
 
+    @mixin bg-clip-path($width, $left) {
+      @media only screen and (max-width: $width) {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, $left 100%);
+      }
+    }
+    @include bg-clip-path($px840, 26%);
+    @include bg-clip-path($px740, 30%);
+    @include bg-clip-path($px640, 0);
+
     &-loading {
-      @include diagonal-wipe-loading($px1140);
+      @include diagonal-wipe-loading($px1040);
     }
 
     &-error {
@@ -108,6 +130,7 @@
 
     &-image-wrapper {
       @include full-dimension;
+      position: relative;
     }
 
     &-image {
@@ -123,6 +146,16 @@
     border: 1px solid $main-border;
     pointer-events: none;
     @include absolute-position(-50%, -50%);
+
+    button {
+      background-color: #49d8b4;
+      pointer-events: all;
+      @include absolute-position(-50%, 160%);
+
+      &:hover {
+        background-color: #4de5bf;
+      }
+    }
   }
 
   .ruined-sub {

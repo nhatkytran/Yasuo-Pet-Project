@@ -570,19 +570,7 @@
 }
 
 .skins-overlay__loading {
-  @include square-dimension(7.2rem);
-
-  svg:nth-child(2) {
-    animation: diagonal-wipe-7d2 1.5s ease infinite;
-  }
-
-  @media only screen and (max-width: $px1040) {
-    @include square-dimension(5.2rem);
-
-    svg:nth-child(2) {
-      animation: diagonal-wipe-5d2 1.5s ease infinite;
-    }
-  }
+  @include diagonal-wipe-loading($px1040);
 }
 
 .skins-overlay__mobile-explore {
