@@ -56,8 +56,12 @@ class Skins2View {
 
     if (state === LOADING) classRemove(REMOVE, this.#skinsLoading);
     if (state === ERROR) classRemove(REMOVE, this.#skinsError);
-    if (state === CONTENT)
+    if (state === CONTENT) {
       classRemove(REMOVE, ...this.#images, this.#slider, this.#mbSlider);
+      [this.#imagesWrapper, this.#sliderDivImagesWrapper].forEach(element =>
+        element.classList.add('fade-in-500')
+      );
+    }
   }
 
   #generateItemMarkup = (skins, stringCallback) => {

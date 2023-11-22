@@ -2,6 +2,7 @@ import {
   BACKEND_URL,
   REM,
   ANIMATION_TIMEOUT,
+  ANIMATION_TIMEOUT_500,
   START,
   END,
   ERROR,
@@ -15,14 +16,6 @@ import {
 } from '../config';
 
 import {
-  dragAndDropEvent,
-  checkVolumeFactory,
-  renderVolumeFactory,
-  adjustVolumeFactory,
-  calculateNewVolumeFactory,
-} from '../libraries/speakerEvents';
-
-import {
   $,
   $$,
   $_,
@@ -32,7 +25,16 @@ import {
   classRemove,
   promisifyLoadingImage,
   promisifyLoadingVideo,
+  startAnimationObserveFactory,
 } from '../utils';
+
+import {
+  dragAndDropEvent,
+  checkVolumeFactory,
+  renderVolumeFactory,
+  adjustVolumeFactory,
+  calculateNewVolumeFactory,
+} from '../libraries/speakerEvents';
 
 const classBg = item => `.trailer__bg-small-${item}`;
 const classPlayVideo = state => `.trailer__play-video-${state}`;
@@ -62,7 +64,7 @@ class SubwebView {
   #speakerProgressBar = $(classPlaySuccess('bar-active'));
 
   #loginButton = $('.sub-header__content-login');
-  #purchaseSkinsButton = $('.trailer__content-button-border');
+  #purchaseSkinsButton = $_(this.#trailerContent, 'button');
 
   #instructionWrapper = $('.volume-ins-wrapper');
   #instruction = $('.volume-ins');
@@ -82,6 +84,16 @@ class SubwebView {
       end: 'fade-out-480',
     });
   }
+
+  startAnimationObserve = startAnimationObserveFactory(
+    [
+      $('.yasuo-heading'),
+      this.#trailerContent,
+      $('.sh-footer__text-left'),
+      $('.sh-footer__text-right'),
+    ],
+    ANIMATION_TIMEOUT_500
+  );
 
   loadMainImage() {
     this.#trailerImageWrapper.classList.remove('blur');
@@ -248,7 +260,10 @@ class SubwebView {
   // Events listening //////////
 
   addLazyLoadingImage(handler) {
-    document.addEventListener('DOMContentLoaded', handler);
+    document.addEventListener('DOMContentLoaded', () => {
+      this.startAnimationObserve();
+      handler();
+    });
   }
 
   addFetchVideoHandler(handler) {

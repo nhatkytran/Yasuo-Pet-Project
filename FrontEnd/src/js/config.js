@@ -12,6 +12,7 @@ export const FETCH_API_TIMEOUT = 60;
 export const ANIMATION_TIMEOUT = 240;
 export const ANIMATION_TIMEOUT_100 = 100;
 export const ANIMATION_TIMEOUT_400 = 400;
+export const ANIMATION_TIMEOUT_500 = 500;
 
 export const START = '_start';
 export const END = '_end';

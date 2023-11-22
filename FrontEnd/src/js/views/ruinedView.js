@@ -88,6 +88,9 @@ class RuinedView {
     ]);
   }
 
+  //
+  // Events listening //////////
+
   addIntersectionObserver(handler) {
     intersectOneTime(this.#section, { threshold: 0.3 }, handler);
     this.#ruinedErrorButton.addEventListener('click', handler);

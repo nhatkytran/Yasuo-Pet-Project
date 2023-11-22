@@ -4,6 +4,7 @@ import {
   ExploreAllgamesView as AllgamesView,
   ExploreGamesView as GamesView,
   MenuMobileView,
+  InformationView,
   AbilitiesView,
   SkinsView,
   Skins2View,
@@ -15,6 +16,7 @@ import SubwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
 import MenuMobileController from './menuMobileController';
+import InformationController from './informationController';
 import AbilitiesController from './abilitesController';
 import SkinsController from './skinsController';
 import Skins2Controller from './skins2Controller';
@@ -84,6 +86,11 @@ function menuMobileInit() {
   MenuMobileView.addOpenMenuHandler(open);
   MenuMobileView.addCloseMenuHandler(close);
   MenuMobileView.addToggleUniverseMobile(toggle);
+}
+
+function informationInit() {
+  const { handleStartAnimation } = new InformationController(InformationView);
+  InformationView.addIntersectionObserver(handleStartAnimation);
 }
 
 function abilitiesInit() {
@@ -161,10 +168,11 @@ function galleryInit() {
   // exploreAllgamesInit,
   // exploreGamesInit,
   // menuMobileInit,
+  // informationInit,
   // abilitiesInit,
   // skinsInit,
   // skins2Init,
-  ruinedInit,
+  // ruinedInit,
 ].forEach(init => init.call(null));
 
 // galleryInit();

@@ -12,3 +12,4 @@ export { default as mapMarkup } from './mapMarkup';
 export { default as promisifyLoadingImage } from './promisifyLoadingImage';
 export { default as promisifyLoadingVideo } from './promisifyLoadingVideo';
 export { default as sideIndices } from './sideIndices';
+export { default as startAnimationObserveFactory } from './startAnimationObserveFactory';

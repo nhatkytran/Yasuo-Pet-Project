@@ -8,18 +8,6 @@
     padding: 4rem 0 5rem;
   }
 
-  &__banner-cover {
-    width: calc(100% - 12rem);
-    max-width: 146rem;
-    height: 64rem;
-    margin: 0 auto 0;
-    position: relative;
-
-    @media only screen and (max-width: $px640) {
-      width: calc(100% - 4rem);
-    }
-  }
-
   &__king {
     height: 100%;
     transform: translate(-6rem, -2rem) scale(1.2);
@@ -52,18 +40,30 @@
     }
   }
 
+  &__banner-cover {
+    width: calc(100% - 12rem);
+    max-width: 146rem;
+    height: 64rem;
+    margin: 0 auto 0;
+    position: relative;
+
+    @media only screen and (max-width: $px640) {
+      width: calc(100% - 4rem);
+    }
+  }
+
   &__banner {
     display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: center;
-    width: 36%;
+    width: 39%;
     height: 20%;
     background-color: rgb(12, 47, 63);
     color: $header-text-color;
     padding-left: 3rem;
     padding-right: 7rem;
-    left: 0;
+    left: -2rem;
     bottom: 0;
     position: absolute;
     @include use-font(Spiegel-Regular);

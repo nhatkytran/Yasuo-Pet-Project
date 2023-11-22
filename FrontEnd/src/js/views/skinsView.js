@@ -68,6 +68,9 @@ class SkinsView {
         this.#titleBoard,
         this.#exploreMobile
       );
+      [this.#imagesContainer, $('.skins-overlay')].forEach(element =>
+        element.classList.add('fade-in-500')
+      );
     }
   }
 
