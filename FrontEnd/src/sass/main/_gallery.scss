@@ -1,72 +1,96 @@
 .gallery__container {
-  width: 100%;
-  height: 56vw;
-  max-height: 90rem;
   background-color: #0c0c0c;
+  padding: 7rem 0;
   position: relative;
-  justify-content: center;
-  @include flex-align-center;
 
-  @mixin container-height($width, $height) {
-    @media only screen and (max-width: $width) {
-      height: $height;
-    }
+  @media only screen and (max-width: $px640) {
+    padding: 4rem 0 5rem;
   }
-  @include container-height($px740, 70vw);
-  @include container-height($px540, 80vw);
-  @include container-height($px440, 85vw);
 
   &-sub {
-    height: 2vh;
-    background-color: #0c0c0c;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    @include display-responsive($px1240, block);
+    width: 100%;
+    height: 2rem;
+    background-color: #c08389;
+    margin: 3.4rem 0 1rem;
+    opacity: 0.6;
+    position: relative;
+
+    &::after {
+      width: 100%;
+      height: 1px;
+      background-color: #c08389;
+      bottom: -1rem;
+      opacity: 0.6;
+      @include pseudo-element-features;
+    }
+
+    @media only screen and (max-width: $px640) {
+      margin: 3rem 0 1rem;
+    }
   }
 }
 
-.gallery__loading {
-  @include diagonal-wipe-loading($px1140);
+.gallery__wrapper {
+  width: calc(100% - 12rem);
+  max-width: 148rem;
+  margin: 0 auto;
+
+  @media only screen and (max-width: $px640) {
+    width: calc(100% - 2rem);
+  }
 }
 
-.gallery__error {
-  @include img-error-column;
-  @include img-error-responsive($px1140, 5.4rem, 1.2rem);
+.gallery__title {
+  color: $header-text-color;
+  font-size: 1.3rem;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  @include use-font(Spiegel-Bold);
+
+  &::after {
+    @include line-after;
+  }
+
+  @media only screen and (max-width: $px1040) {
+    font-size: 1.2rem;
+  }
+  @media only screen and (max-width: $px640) {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+  @media only screen and (max-width: $px440) {
+    font-size: 1rem;
+  }
 }
 
 .gallery {
-  display: grid;
-  width: calc(100% - 12rem);
-  max-width: 146rem;
-  height: 77.78%;
-  grid-template-rows: repeat(8, 1fr);
-  grid-template-columns: repeat(8, 1fr);
-  grid-gap: 1rem;
+  width: 100%;
+  padding-top: 44%;
   position: relative;
 
-  @mixin gallery-width($width, $width_d, $grid-gap) {
-    @media only screen and (max-width: $width) {
-      width: $width_d;
-      grid-gap: $grid-gap;
-    }
+  &__loading {
+    @include diagonal-wipe-loading($px1040);
   }
-  @include gallery-width($px840, calc(100% - 6rem), 0.7rem);
-  @include gallery-width($px640, calc(100% - 2rem), 0.4rem);
 
-  &__quote {
-    @include text-rotate;
-    transform: rotate(-90deg) translate(0, -11rem);
+  &__error {
+    @include img-error-column;
+    @include img-error-responsive($px1140, 5.4rem, 1.2rem);
+  }
 
-    &::after {
-      @include line-after;
-    }
+  &__images {
+    display: grid;
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 1rem;
+    @include full-dimension;
+    @include absolute-position(-50%, -50%);
 
-    @media only screen and (max-width: $px840) {
-      transform: rotate(-90deg) translate(0, -10rem);
+    @media only screen and (max-width: $px1040) {
+      grid-gap: 0.7rem;
     }
     @media only screen and (max-width: $px640) {
-      top: unset;
-      bottom: -2.2rem;
-      transform: unset;
+      grid-gap: 0.4rem;
     }
   }
 
@@ -147,25 +171,13 @@
       @include image-position(3 / span 6, 7 / span 2);
     }
   }
-}
 
-.gallery-chosen {
-  top: 0;
-  left: 0;
-  position: fixed;
-  pointer-events: none;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  @include full-dimension;
+  &__quote {
+    position: unset;
+    margin-top: 6rem;
 
-  &-image {
-    margin-top: 10rem;
-    @include square-dimension(20rem);
-    display: none;
-
-    &.active {
-      display: block;
+    @media only screen and (max-width: $px640) {
+      margin-top: 4rem;
     }
   }
 }

@@ -421,12 +421,13 @@
     flex: 1;
     max-width: 55rem;
     font-size: 1.4rem;
+    text-align: justify;
+    hyphens: auto;
     padding: 6rem;
     position: relative;
     @include use-font(Spiegel-Regular);
 
     @media only screen and (max-width: $px1040) {
-      text-align: center;
       max-width: 100%;
     }
 
@@ -461,7 +462,7 @@
     &-more {
       color: $color-story;
       font-size: 1.2rem;
-      margin-top: 0.4rem;
+      margin-top: 0.6rem;
     }
   }
 }

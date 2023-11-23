@@ -123,6 +123,7 @@ class GalleryView {
   galleryLogo = this.#galleryLogo();
 
   addIntersectionObserver(handler) {
+    return;
     const options = {
       root: null,
       threshold: 0.3,

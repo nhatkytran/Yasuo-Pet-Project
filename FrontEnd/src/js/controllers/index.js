@@ -1,5 +1,6 @@
 import {
   ModalView,
+  WarningView,
   SubwebView,
   ExploreAllgamesView as AllgamesView,
   ExploreGamesView as GamesView,
@@ -9,9 +10,11 @@ import {
   SkinsView,
   Skins2View,
   RuinedView,
+  GalleryView,
 } from '../views';
 
 import ModalController from './modalController';
+import WarningController from './warningController';
 import SubwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
@@ -21,9 +24,10 @@ import AbilitiesController from './abilitesController';
 import SkinsController from './skinsController';
 import Skins2Controller from './skins2Controller';
 import RuinedController from './ruinedController';
+import GalleryController from './galleryController';
 
 const modalController = new ModalController(ModalView);
-// const warningController = new WarningController(warningView);
+const warningController = new WarningController(WarningView);
 
 function subwebInit() {
   const {
@@ -153,14 +157,14 @@ function galleryInit() {
   };
 
   const controller = new GalleryController(
-    galleryView,
+    GalleryView,
     modalActions,
     warningActions
   );
 
-  galleryView.addIntersectionObserver(controller.handleData);
-  galleryView.addChoosenOpenHandler(controller.galleryChoosenActions.open);
-  galleryView.addChoosenCloseHandler(controller.galleryChoosenActions.close);
+  GalleryView.addIntersectionObserver(controller.handleData);
+  GalleryView.addChoosenOpenHandler(controller.galleryChoosenActions.open);
+  GalleryView.addChoosenCloseHandler(controller.galleryChoosenActions.close);
 }
 
 [
@@ -173,6 +177,5 @@ function galleryInit() {
   // skinsInit,
   // skins2Init,
   // ruinedInit,
+  galleryInit,
 ].forEach(init => init.call(null));
-
-// galleryInit();
