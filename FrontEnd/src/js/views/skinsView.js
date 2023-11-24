@@ -86,14 +86,13 @@ class SkinsView {
 
     this.#imagesContainer.innerHTML = '';
     this.#imagesContainer.insertAdjacentHTML('afterbegin', markup);
-
     this.#images = $$('.skins-images__slider');
 
-    const promises = [...this.#images].map((image, index) =>
-      promisifyLoadingImage(image, `${BACKEND_URL}${skins[index].image}`)
+    await Promise.all(
+      [...this.#images].map((image, index) =>
+        promisifyLoadingImage(image, `${BACKEND_URL}${skins[index].image}`)
+      )
     );
-
-    await Promise.all(promises);
   }
 
   countImages = () => this.#images.length;

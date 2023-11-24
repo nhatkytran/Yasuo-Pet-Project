@@ -1,48 +1,29 @@
 import { $ } from '../utils';
 
 class WarningView {
-  #warning;
+  #modal = $('#modal');
+  #warning = $('.warning');
+  #title = $('.warning-header');
+  #description = $('.warning-description');
+  #buttonAccept = $('.warning-create');
+  #buttonDecline = $('.warning-close');
 
-  #title;
-  #description;
-  #buttonAccept;
-  #buttonReject;
+  open = () => this.#warning.classList.add('slide');
+  close = () => this.#warning.classList.remove('slide');
 
-  constructor() {
-    this.#warning = $('.warning');
+  changeMessages = ({ title, description, acceptMessage }) => {
+    this.#title.innerHTML = title || 'Attention League of Legends Players';
+    this.#description.innerHTML = description || '';
+    this.#buttonAccept.innerHTML = acceptMessage || 'Accept';
+  };
 
-    this.#title = $('.warning-header');
-    this.#description = $('.warning-description');
-    this.#buttonAccept = $('.warning-create');
-    this.#buttonReject = $('.warning-close');
-  }
-
-  open() {
-    this.#warning.classList.add('slide');
-  }
-
-  close() {
-    this.#warning.classList.remove('slide');
-  }
-
-  changeMessages({ title, description, buttonMessage }) {
-    this.#title.innerHTML = title;
-    this.#description.innerHTML = description;
-    this.#buttonAccept.innerHTML = buttonMessage;
-  }
-
-  addAcceptHandler(abortController, handler) {
-    this.#buttonAccept.addEventListener('click', handler, {
-      once: true,
-      signal: abortController.signal,
-    });
-  }
-
-  addDeclineHandler(abortController, handler) {
-    this.#buttonReject.addEventListener('click', handler, {
-      once: true,
-      signal: abortController.signal,
-    });
+  registerEvents(aborts, handlers) {
+    [this.#buttonAccept, this.#buttonDecline, this.#modal].forEach(
+      (element, index) =>
+        element.addEventListener('click', handlers[index], {
+          signal: aborts[index].signal,
+        })
+    );
   }
 }
 

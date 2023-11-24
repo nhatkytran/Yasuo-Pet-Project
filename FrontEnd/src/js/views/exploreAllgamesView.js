@@ -180,11 +180,11 @@ class ExploreAllgamesView {
 
   async createMainImages(images) {
     const imageEls = $$_(this.#rightBody, '.sb-ag-body__right-img');
-    const promises = [...imageEls].map((image, index) =>
-      promisifyLoadingImage(image, `${BACKEND_URL}${images[index].link}`)
+    await Promise.all(
+      [...imageEls].map((image, index) =>
+        promisifyLoadingImage(image, `${BACKEND_URL}${images[index].link}`)
+      )
     );
-
-    await Promise.all(promises);
   }
 
   #generateImageText = (isImage, content) =>
@@ -268,11 +268,11 @@ class ExploreAllgamesView {
   };
 
   #createPosterImages = async (images, ...imageEls) => {
-    const promises = imageEls.map((image, index) =>
-      promisifyLoadingImage(image, `${BACKEND_URL}${images[index].link}`)
+    await Promise.all(
+      imageEls.map((image, index) =>
+        promisifyLoadingImage(image, `${BACKEND_URL}${images[index].link}`)
+      )
     );
-
-    await Promise.all(promises);
   };
 
   #createPosterLargeImages = async largeImages =>

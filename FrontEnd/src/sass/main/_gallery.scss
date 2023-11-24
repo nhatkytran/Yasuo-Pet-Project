@@ -66,7 +66,7 @@
 
 .gallery {
   width: 100%;
-  padding-top: 44%;
+  padding-top: 46%;
   position: relative;
 
   &__loading {
@@ -136,6 +136,7 @@
         }
         @include font-size($px1040, 1rem);
         @include font-size($px640, 0.8rem);
+        @include font-size($px440, 0.6rem);
       }
     }
 
@@ -178,6 +179,10 @@
 
     @media only screen and (max-width: $px640) {
       margin-top: 4rem;
+    }
+
+    .quote-part-who {
+      color: #c08389;
     }
   }
 }

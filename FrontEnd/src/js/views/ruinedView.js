@@ -70,15 +70,13 @@ class RuinedView {
     this.#subImage = $('.ruined__king-veigo');
     this.#subImageHelper = $('.ruined__king-helper');
 
-    const promises = [
+    await Promise.all([
       promisifyLoadingImage(this.#subImage, `${BACKEND_URL}${image.link}`),
       promisifyLoadingImage(
         this.#subImageHelper,
         `${BACKEND_URL}${image.linkHelper}`
       ),
-    ];
-
-    await Promise.all(promises);
+    ]);
   }
 
   async createImages(images) {
@@ -94,6 +92,10 @@ class RuinedView {
   addIntersectionObserver(handler) {
     intersectOneTime(this.#section, { threshold: 0.3 }, handler);
     this.#ruinedErrorButton.addEventListener('click', handler);
+  }
+
+  addExploreHandler(handler) {
+    this.#ruinedButton.addEventListener('click', handler);
   }
 }
 

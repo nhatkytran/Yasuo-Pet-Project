@@ -9,9 +9,19 @@ const filename = 'ruinedController.js';
 
 class RuinedController {
   #RuinedView;
+  explore;
 
-  constructor(RuinedView) {
+  constructor(RuinedView, warningFramework) {
     this.#RuinedView = RuinedView;
+
+    const URL = 'https://www.ruinedking.com/en-us/';
+    this.explore = warningFramework({
+      open: () => window.open(URL, '_blank'),
+      accept: () => ({
+        description: `You are being redirected to [<span style="user-select: all">${URL}</span>]. This is a trusted URL, but not a part of 'Yasuo | The King of All Kings'`,
+        buttonMessage: "I know, let's go",
+      }),
+    });
   }
 
   handleData = catchAsync({

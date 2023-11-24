@@ -110,20 +110,19 @@ class AbilitiesView {
       element => element.remove()
     );
     this.#videoContainer.insertAdjacentHTML('afterbegin', markup);
-
     this.#videos = $$_(
       this.#videoContainer,
       '.abilities__content-body-video-s'
     );
 
-    const promises = videos.map((video, index) =>
-      promisifyLoadingVideo(this.#videos[index], {
-        mp4: video.mp4,
-        webm: video.webm,
-      })
+    await Promise.all(
+      videos.map((video, index) =>
+        promisifyLoadingVideo(this.#videos[index], {
+          mp4: video.mp4,
+          webm: video.webm,
+        })
+      )
     );
-
-    await Promise.all(promises);
   }
 
   #generateDescriptionMarkup(descriptions, shownIndex) {

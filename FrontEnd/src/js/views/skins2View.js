@@ -75,10 +75,11 @@ class Skins2View {
   };
 
   async #createItem(skins, ...images) {
-    const promises = images.map((image, index) =>
-      promisifyLoadingImage(image, `${BACKEND_URL}${skins[index].image}`)
+    await Promise.all(
+      images.map((image, index) =>
+        promisifyLoadingImage(image, `${BACKEND_URL}${skins[index].image}`)
+      )
     );
-    await Promise.all(promises);
   }
 
   async createImages(skins) {

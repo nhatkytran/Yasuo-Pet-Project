@@ -1,83 +1,47 @@
 {
   "gallery": [
     {
-      "image": "/img/gallery/main/main--0.jpeg",
-      "logo": {
-        "link": "/img/gallery/logo/logo--0.webp",
-        "color": false
-      },
+      "image": "/img/gallery/main--0.jpeg",
       "link": "https://www.youtube.com/watch?v=sVZpHFXcFJw",
       "title": "SOUL"
     },
     {
-      "image": "/img/gallery/main/main--1.jpeg",
-      "logo": {
-        "link": "/img/gallery/logo/logo--1.avif",
-        "color": true
-      },
+      "image": "/img/gallery/main--1.jpeg",
       "link": "https://www.youtube.com/watch?v=2dGtbBZgDDA",
       "title": "FALL IN LOVE"
     },
     {
-      "image": "/img/gallery/main/main--2.jpeg",
-      "logo": {
-        "link": "/img/gallery/logo/logo--2.png",
-        "color": false
-      },
+      "image": "/img/gallery/main--2.jpeg",
       "link": "https://www.youtube.com/watch?v=pBAktITyLik",
       "title": "FIGHT NINJA"
     },
     {
-      "image": "/img/gallery/main/main--3.jpeg",
-      "logo": {
-        "link": "/img/gallery/logo/logo--3.svg",
-        "color": false
-      },
+      "image": "/img/gallery/main--3.jpeg",
       "link": "https://universe.leagueoflegends.com/vn_VN/champion/yasuo/?mv=image-gallery-2",
       "title": "WHO?"
     },
     {
-      "image": "/img/gallery/main/main--4.jpeg",
-      "logo": {
-        "link": "/img/gallery/logo/logo--4.webp",
-        "color": false
-      },
+      "image": "/img/gallery/main--4.jpeg",
       "link": "https://www.youtube.com/watch?v=D4L0OkSrsI8",
       "title": "BROTHERS"
     },
     {
-      "image": "/img/gallery/main/main--5.jpeg",
-      "logo": {
-        "link": "/img/gallery/logo/logo--5.png",
-        "color": true
-      },
+      "image": "/img/gallery/main--5.jpeg",
       "link": "https://www.youtube.com/watch?v=f79L4ptk2nU",
       "title": "MOON LIGHT"
     },
     {
-      "image": "/img/gallery/main/main--6.jpeg",
-      "logo": {
-        "link": "/img/gallery/logo/logo--6.webp",
-        "color": false
-      },
+      "image": "/img/gallery/main--6.jpeg",
       "link": "https://www.youtube.com/watch?v=3Eu7NzzHC84",
       "title": "HONOR"
     },
     {
-      "image": "/img/gallery/main/main--7.jpeg",
-      "logo": {
-        "link": "/img/gallery/logo/logo--7.png",
-        "color": false
-      },
+      "image": "/img/gallery/main--7.jpeg",
       "link": "https://universe.leagueoflegends.com/vn_VN/story/a-sword-without-a-sheath-story/",
       "title": "FEEL THE WIND"
     },
     {
-      "image": "/img/gallery/main/main--8.jpeg",
-      "logo": {
-        "link": "/img/gallery/logo/logo--8.png",
-        "color": true
-      },
+      "image": "/img/gallery/main--8.jpeg",
       "link": "https://www.youtube.com/watch?v=u9fFG4ZLp9Y",
       "title": "BLOSSOM SPIRIT"
     }

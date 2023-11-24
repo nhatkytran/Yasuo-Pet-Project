@@ -1,33 +1,81 @@
-class WarningController {
-  #warningView;
+import { ANIMATION_TIMEOUT } from '../config';
 
-  constructor(warningView) {
-    this.#warningView = warningView;
+class WarningController {
+  #WarningView;
+  #handleOpenModal;
+  #handleCloseModal;
+
+  constructor(WarningView, handleOpenModal, handleCloseModal) {
+    this.#WarningView = WarningView;
+    this.#handleOpenModal = handleOpenModal;
+    this.#handleCloseModal = handleCloseModal;
   }
 
-  open = () => {
-    this.#warningView.open();
+  open = options => {
+    const { title, description, acceptMessage } = options;
+    this.#WarningView.changeMessages({ title, description, acceptMessage });
+    this.#WarningView.open();
+    this.#handleOpenModal();
   };
 
   close = () => {
-    this.#warningView.close();
+    this.#WarningView.close();
+    this.#handleCloseModal();
   };
 
-  handleMessages = (options = {}) => {
-    const { title, description, buttonMessage } = options;
+  registerEvents = (aborts, handlers) =>
+    this.#WarningView.registerEvents(aborts, handlers);
 
-    this.#warningView.changeMessages({
-      title: title || 'Attention League of Legends Players',
-      description: description || '',
-      buttonMessage: buttonMessage || 'Accept',
-    });
+  framework = ({ open, accept }) => {
+    let isOpening;
+    let isClosing;
+    let acceptAbort;
+    let declineAbort;
+    let declineModalAbort;
+
+    return index => {
+      acceptAbort = new AbortController();
+      declineAbort = new AbortController();
+      declineModalAbort = new AbortController();
+
+      if (isOpening || isClosing) return;
+      isOpening = true;
+
+      const aborts = () => {
+        if (acceptAbort) acceptAbort.abort();
+        if (declineAbort) declineAbort.abort();
+        if (declineModalAbort) declineModalAbort.abort();
+      };
+
+      const acceptHandler = () => {
+        if (isOpening || isClosing) return;
+        isClosing = true;
+
+        aborts();
+        this.close();
+        setTimeout(() => {
+          isClosing = false;
+          open(index);
+        }, ANIMATION_TIMEOUT);
+      };
+
+      const closeHandler = () => {
+        if (isOpening || isClosing) return;
+        isClosing = true;
+
+        aborts();
+        this.close();
+        setTimeout(() => (isClosing = false), ANIMATION_TIMEOUT);
+      };
+
+      this.registerEvents(
+        [acceptAbort, declineAbort, declineModalAbort],
+        [acceptHandler, closeHandler, closeHandler]
+      );
+      this.open(accept(index));
+      setTimeout(() => (isOpening = false), ANIMATION_TIMEOUT);
+    };
   };
-
-  registerAccept = (abortController, callback) =>
-    this.#warningView.addAcceptHandler(abortController, callback);
-
-  registerDecline = (abortController, callback) =>
-    this.#warningView.addDeclineHandler(abortController, callback);
 }
 
 export default WarningController;

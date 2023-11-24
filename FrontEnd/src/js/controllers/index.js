@@ -27,7 +27,11 @@ import RuinedController from './ruinedController';
 import GalleryController from './galleryController';
 
 const modalController = new ModalController(ModalView);
-const warningController = new WarningController(WarningView);
+const warningController = new WarningController(
+  WarningView,
+  modalController.open,
+  modalController.close
+);
 
 function subwebInit() {
   const {
@@ -139,32 +143,23 @@ function skins2Init() {
 }
 
 function ruinedInit() {
-  const { handleData } = new RuinedController(RuinedView);
+  const { handleData, explore } = new RuinedController(
+    RuinedView,
+    warningController.framework
+  );
+
   RuinedView.addIntersectionObserver(handleData);
+  RuinedView.addExploreHandler(explore);
 }
 
 function galleryInit() {
-  const { open, close } = modalController;
-  const { handleMessages, registerAccept, registerDecline } = warningController;
-
-  const modalActions = { open, close };
-  const warningActions = {
-    open: warningController.open,
-    close: warningController.close,
-    handleMessages,
-    registerAccept,
-    registerDecline,
-  };
-
-  const controller = new GalleryController(
+  const { handleData, chooseGallery } = new GalleryController(
     GalleryView,
-    modalActions,
-    warningActions
+    warningController.framework
   );
 
-  GalleryView.addIntersectionObserver(controller.handleData);
-  GalleryView.addChoosenOpenHandler(controller.galleryChoosenActions.open);
-  GalleryView.addChoosenCloseHandler(controller.galleryChoosenActions.close);
+  GalleryView.addIntersectionObserver(handleData);
+  GalleryView.addChooseGalleryHandler(chooseGallery);
 }
 
 [
@@ -177,5 +172,5 @@ function galleryInit() {
   // skinsInit,
   // skins2Init,
   // ruinedInit,
-  galleryInit,
+  // galleryInit,
 ].forEach(init => init.call(null));

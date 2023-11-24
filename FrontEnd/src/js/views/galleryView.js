@@ -4,6 +4,7 @@ import {
   $,
   $_,
   $$,
+  $$_,
   classRemove,
   intersectOneTime,
   mapMarkup,
@@ -11,40 +12,31 @@ import {
 } from '../utils';
 
 class GalleryView {
-  #modal;
-  #section;
+  #modal = $('#modal');
+  #section = $('.gallery__container.section');
 
-  #gallery;
-  #galleryItems; // After fetching
-  #images; // After fetching
-  #galleryChosen;
-  #logos; // After fetching
+  #galleryImagesContainer = $('.gallery__images');
+  #imageWrappers;
+  #images;
 
-  #galleryLoading;
-  #galleryError;
-  #galleryErrorButton;
-
-  constructor() {
-    this.#modal = $('#modal');
-    this.#section = $('.gallery__container.section');
-
-    this.#gallery = $('.gallery');
-    this.#galleryChosen = $('.gallery-chosen');
-
-    this.#galleryLoading = $('.gallery__loading');
-    this.#galleryError = $('.gallery__error');
-    this.#galleryErrorButton = $_(this.#galleryError, 'button');
-  }
+  #galleryLoading = $('.gallery__loading');
+  #galleryError = $('.gallery__error');
+  #galleryErrorButton = $_(this.#galleryError, 'button');
 
   displayContent(state) {
-    classRemove(ADD, this.#galleryLoading, this.#galleryError, this.#gallery);
+    classRemove(
+      ADD,
+      this.#galleryLoading,
+      this.#galleryError,
+      this.#galleryImagesContainer
+    );
 
     if (state === LOADING) classRemove(REMOVE, this.#galleryLoading);
     if (state === ERROR) classRemove(REMOVE, this.#galleryError);
-    if (state === CONTENT) classRemove(REMOVE, this.#gallery);
+    if (state === CONTENT) classRemove(REMOVE, this.#galleryImagesContainer);
   }
 
-  #generateImageMarkup = gallery => {
+  #generateGalleryMarkup = gallery => {
     const markupCallback = (item, index) => `
       <div class="gallery__image gallery__image--${index}">
         <img src="" alt="${item.title}">
@@ -57,91 +49,54 @@ class GalleryView {
     return mapMarkup(gallery, markupCallback);
   };
 
-  #generateLogoMarkup = gallery => {
-    const markupCallback = item => {
-      const turnWhite = !item.logo.color ? 'turn-white' : '';
-      return `<img class="gallery-chosen-image ${turnWhite}" src="" alt="${item.title}">`;
-    };
-
-    return mapMarkup(gallery, markupCallback);
-  };
-
-  async #createLogos(gallery) {
-    const markup = this.#generateLogoMarkup(gallery);
-    this.#galleryChosen.insertAdjacentHTML('afterbegin', markup);
-
-    this.#logos = $$('.gallery-chosen-image');
-
-    const promises = [...this.#logos].map((logo, index) =>
-      promisifyLoadingImage(logo, `${BACKEND_URL}${gallery[index].logo.link}`)
-    );
-
-    await Promise.all(promises);
-  }
-
-  async #createImages(gallery) {
-    const markup = this.#generateImageMarkup(gallery);
-    this.#gallery.insertAdjacentHTML('beforeend', markup);
-
-    this.#galleryItems = $$('.gallery__image');
-    this.#images = $$('.gallery__image img');
-
-    const promises = [...this.#images].map((image, index) =>
-      promisifyLoadingImage(image, `${BACKEND_URL}${gallery[index].image}`)
-    );
-
-    await Promise.all(promises);
-  }
-
   async createGallery(gallery) {
-    await Promise.all([
-      this.#createImages(gallery),
-      this.#createLogos(gallery),
-    ]);
-  }
+    const markup = this.#generateGalleryMarkup(gallery);
 
-  prepareData() {
-    this.#galleryItems.forEach((item, index) =>
+    this.#galleryImagesContainer.innerHTML = '';
+    this.#galleryImagesContainer.insertAdjacentHTML('afterbegin', markup);
+    this.#imageWrappers = $$_(this.#galleryImagesContainer, '.gallery__image');
+    this.#images = $$_(this.#galleryImagesContainer, 'img');
+
+    this.#imageWrappers.forEach((item, index) =>
       item.setAttribute('data-index', index)
     );
+
+    await Promise.all(
+      [...this.#images].map((image, index) =>
+        promisifyLoadingImage(image, `${BACKEND_URL}${gallery[index].image}`)
+      )
+    );
   }
 
-  #galleryLogo = () => {
-    const actions = removeClassAction => index => {
-      const activeClassAction = removeClassAction === REMOVE ? ADD : REMOVE;
+  // #galleryLogo = () => {
+  //   const actions = removeClassAction => index => {
+  //     const activeClassAction = removeClassAction === REMOVE ? ADD : REMOVE;
 
-      classRemove(removeClassAction, this.#galleryChosen);
-      this.#logos[index].classList[activeClassAction]('active');
-    };
+  //     classRemove(removeClassAction, this.#galleryChosen);
+  //     this.#logos[index].classList[activeClassAction]('active');
+  //   };
 
-    return {
-      open: actions(REMOVE),
-      close: actions(ADD),
-    };
-  };
+  //   return {
+  //     open: actions(REMOVE),
+  //     close: actions(ADD),
+  //   };
+  // };
 
-  galleryLogo = this.#galleryLogo();
+  // galleryLogo = this.#galleryLogo();
+
+  //
+  // Events listening //////////
 
   addIntersectionObserver(handler) {
-    return;
-    const options = {
-      root: null,
-      threshold: 0.3,
-    };
-
-    intersectOneTime(this.#section, options, handler);
+    intersectOneTime(this.#section, { threshold: 0.3 }, handler);
     this.#galleryErrorButton.addEventListener('click', handler);
   }
 
-  addChoosenOpenHandler(handler) {
-    this.#gallery.addEventListener('click', event => {
+  addChooseGalleryHandler(handler) {
+    this.#galleryImagesContainer.addEventListener('click', event => {
       const target = event.target.closest('.gallery__image');
       if (target) handler(Number(target.dataset.index));
     });
-  }
-
-  addChoosenCloseHandler(handler) {
-    this.#modal.addEventListener('click', handler);
   }
 }
 
