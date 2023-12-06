@@ -1,3 +1,15 @@
 type Query {
-  greeting: String
+  skins: [Skins]
+}
+
+type Skins {
+  id: ID
+  name: String
+  releaseYear: Int
+  inCollection: String
+  price: Int
+  tags: [String]
+  details: [String]
+  image: String
+  youtubeLink: String
 }

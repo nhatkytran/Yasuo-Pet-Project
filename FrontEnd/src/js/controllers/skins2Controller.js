@@ -23,7 +23,7 @@ class Skins2Controller {
     onProcess: async () => {
       this.#Skins2View.displayContent(LOADING);
 
-      await skins2Service.getData('/api/v1/skins/data');
+      await skins2Service.getData('/graphql');
 
       const { skins } = store.state.skins2;
       await Promise.all([

@@ -170,7 +170,7 @@ function galleryInit() {
   // informationInit,
   // abilitiesInit,
   // skinsInit,
-  // skins2Init,
+  skins2Init,
   // ruinedInit,
   // galleryInit,
 ].forEach(init => init.call(null));
