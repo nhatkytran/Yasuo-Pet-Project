@@ -14,9 +14,13 @@
   position: fixed;
   z-index: 2000;
 
+  @media only screen and (max-width: $px440) {
+    height: 6rem;
+  }
+
   &__content {
     width: 100%;
-    max-width: 108rem;
+    max-width: 112rem;
     height: 100%;
     margin: 0 auto;
     justify-content: space-between;
@@ -25,6 +29,7 @@
 
   &__back {
     padding: 0.4rem;
+    margin-left: 2rem;
     cursor: pointer;
 
     &:hover svg {
@@ -38,21 +43,12 @@
     }
   }
 
-  &__signin {
-    background-color: $color-button-grey;
-    color: $header-text-color;
-    font-size: 1.4rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1rem;
-    margin-right: 1.4rem;
-    padding: 0.8rem 1.6rem;
-    border-radius: 0.6rem;
-    transition: all ease 0.2s;
-    cursor: pointer;
-    @include use-font(FF-Mark-Bold);
+  &__logo {
+    height: 2.8rem;
+    margin-right: 3rem;
 
-    &:hover {
-      color: $color-button-blue;
+    @media only screen and (max-width: $px440) {
+      height: 2.6rem;
     }
   }
 }
@@ -62,12 +58,27 @@
   margin-top: 8rem;
   position: relative;
 
+  @media only screen and (max-width: $px740) {
+    padding: 0;
+  }
+  @media only screen and (max-width: $px440) {
+    margin-top: 6rem;
+  }
+
   &__background {
     width: 100%;
     height: 66%;
     top: 0;
     left: 0;
     position: absolute;
+    @include display-responsive($px740, none);
+
+    @media only screen and (max-width: $px940) {
+      height: 64%;
+    }
+    @media only screen and (max-width: $px840) {
+      height: 62%;
+    }
 
     img {
       width: calc(100% + 6rem);
@@ -94,6 +105,10 @@
     padding-top: 1rem;
     position: relative;
 
+    @media only screen and (max-width: $px740) {
+      padding-top: 0;
+    }
+
     &-overlay {
       border: 1px solid #444;
       z-index: 1;
@@ -101,6 +116,12 @@
       pointer-events: none;
       @include full-dimension;
       @include absolute-position(-50%, -50%);
+
+      @media only screen and (max-width: $px740) {
+        border: none;
+        border-bottom: 1px solid #444;
+        clip-path: none;
+      }
 
       &::before {
         width: 0.2rem;
@@ -110,6 +131,7 @@
         top: 0;
         right: 0;
         @include pseudo-element-features;
+        @include display-responsive($px740, none);
       }
     }
 
@@ -117,6 +139,13 @@
       width: 100%;
       padding-top: 55.45%;
       position: relative;
+
+      @media only screen and (max-width: $px740) {
+        padding-top: 80%;
+      }
+      @media only screen and (max-width: $px540) {
+        padding-top: 100%;
+      }
 
       img {
         width: calc(100% + 2rem);
@@ -128,7 +157,29 @@
 
     &-text {
       text-align: center;
-      padding: 4.3rem;
+      padding: 4%;
+
+      @media only screen and (max-width: $px740) {
+        text-align: start;
+        padding: 0;
+        margin: 3rem 2rem;
+      }
+
+      a {
+        min-width: 20%;
+        color: $color-story;
+        font-size: 1rem;
+        text-decoration: none;
+        letter-spacing: 0.1rem;
+        margin-bottom: 1rem;
+        transition: all ease 0.2s;
+        @include use-font(Spiegel-Bold);
+        @include display-responsive($px740, block);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
 
       h2 {
         color: #e8e8e8;
@@ -136,6 +187,10 @@
         font-style: italic;
         text-transform: uppercase;
         @include use-font(Beaufort-Bold);
+
+        @media only screen and (max-width: $px740) {
+          font-size: 2rem;
+        }
       }
 
       p {
@@ -143,6 +198,31 @@
         font-size: 1.4rem;
         margin-top: 0.5rem;
         @include use-font(Spiegel-Regular);
+
+        @media only screen and (max-width: $px740) {
+          margin-top: 1rem;
+          margin-bottom: 3rem;
+        }
+      }
+
+      div {
+        color: #e6e6e6;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        @include use-font(Spiegel-Bold);
+        @include display-responsive($px740, block);
+
+        span {
+          display: block;
+
+          &:first-child {
+            margin-bottom: 0.4rem;
+          }
+          &:last-child {
+            color: #8c8c8c;
+          }
+        }
       }
     }
 
@@ -157,7 +237,13 @@
       @include use-font(Spiegel-Bold);
 
       &-time {
-        padding: 0 3rem 0 4rem;
+        padding: 1.5rem 3rem 1.5rem 4rem;
+
+        @media only screen and (max-width: $px740) {
+          flex: 1;
+          padding: 1.5rem 3rem 1.5rem 2rem;
+          border-right: 1px solid #444;
+        }
       }
 
       &-info {
@@ -166,6 +252,7 @@
         border-left: 1px solid #444;
         border-right: 1px solid #444;
         @include flex-align-center;
+        @include display-responsive($px740, none);
 
         &-more {
           padding: 0 1rem;
@@ -176,6 +263,7 @@
           color: $color-story;
           text-align: right;
           text-decoration: none;
+          margin-left: 1rem;
           border-right: 1px solid #444;
           transition: all ease 0.2s;
 
@@ -197,6 +285,10 @@
       &-socials {
         height: 3rem;
         padding: 0 4rem 0 3rem;
+
+        @media only screen and (max-width: $px740) {
+          padding: 0 2rem;
+        }
 
         ul {
           height: 100%;
@@ -233,7 +325,7 @@
 
 .pur-article {
   width: 100%;
-  max-width: 86rem;
+  max-width: 90rem;
   color: $header-navbar-color;
   font-size: 1.7rem;
   line-height: 1.66667;
@@ -242,9 +334,23 @@
   padding: 7rem 0;
   @include use-font(Spiegel-Regular);
 
+  @media only screen and (max-width: $px740) {
+    padding: 5rem 0;
+  }
+  @media only screen and (max-width: $px540) {
+    font-size: 1.5rem;
+    padding: 4rem 0;
+  }
+
   &__text {
+    padding: 0 2rem;
+
     p:not(:last-child) {
       margin-bottom: 1.4rem;
+
+      @media only screen and (max-width: $px540) {
+        margin-bottom: 0.8rem;
+      }
     }
 
     a:link,
@@ -257,10 +363,18 @@
   }
 
   &__tag {
-    margin: 6.4rem 0 7rem;
     color: $header-navbar-color;
     letter-spacing: 0.1rem;
+    padding: 0 2rem;
+    margin: 6.4rem 0 7rem;
     @include use-font(Beaufort-Regular);
+
+    @media only screen and (max-width: $px740) {
+      margin: 5.4rem 0 7rem;
+    }
+    @media only screen and (max-width: $px540) {
+      margin: 4.4rem 0 6rem;
+    }
 
     &-header {
       justify-content: start;
@@ -281,14 +395,14 @@
     }
 
     &-wrapper {
-      padding-bottom: 3.5rem;
+      padding: 0 0 2.5rem 2.5rem;
       border-bottom: 1px solid #444;
       justify-content: start;
       flex-wrap: wrap;
       @include flex-align-center;
 
       & > * {
-        margin: 2.5rem 2.5rem 0;
+        margin: 1.5rem 2.5rem 0 0;
       }
 
       button {
@@ -333,9 +447,16 @@
 
   &__video {
     width: 100%;
-    max-width: 86rem;
+    max-width: 90rem;
     margin: 0 auto;
-    padding-bottom: 6.4rem;
+    padding: 0 2rem 6.4rem;
+
+    @media only screen and (max-width: $px740) {
+      padding: 0 0 6.4rem;
+    }
+    @media only screen and (max-width: $px540) {
+      padding: 0 0 5.4rem;
+    }
 
     &-wrapper {
       width: 100%;
@@ -351,10 +472,11 @@
 
   &__buy {
     width: 100%;
-    max-width: 40rem;
+    max-width: 44rem;
     color: $header-navbar-color;
     letter-spacing: 0.1rem;
     margin: 0 auto;
+    padding: 0 2rem;
     @include use-font(Beaufort-Bold);
 
     &-header {
@@ -416,36 +538,59 @@
 
 .pur-relate {
   width: 100%;
-  padding: 5rem 0;
-  position: relative;
-
-  &__overlay-text {
-    @include text-rotate;
-    top: 3.6rem;
-    left: -9.2rem;
-    transform: rotate(-90deg);
-    transform-origin: right bottom;
-
-    &::after {
-      @include line-after;
-    }
-  }
 
   &__skins {
     width: 100%;
-    max-width: 1200px;
+    max-width: 128rem;
     margin: 0px auto;
+    padding: 2rem 4rem;
+    position: relative;
+
+    @media only screen and (max-width: $px740) {
+      padding: 4rem 1.2rem 0;
+    }
+
+    &-overlay-text {
+      @include text-rotate;
+      top: 1rem;
+      left: -10rem;
+      transform: rotate(-90deg);
+      transform-origin: right bottom;
+
+      @media only screen and (max-width: $px740) {
+        top: 3rem;
+        left: 2rem;
+        transform: none;
+      }
+
+      &::after {
+        @include line-after;
+      }
+    }
 
     ul {
       width: 100%;
       margin: 1.6rem 0;
       list-style: none;
-      justify-content: center;
+      flex-wrap: wrap;
+      justify-content: start;
       @include flex-align-center;
+
+      @media only screen and (max-width: $px740) {
+        justify-content: center;
+      }
     }
 
     &-item {
-      width: 33.33%;
+      width: calc(100% / 3);
+      max-width: 40rem;
+
+      @media only screen and (max-width: $px1040) {
+        width: calc(100% / 2);
+      }
+      @media only screen and (max-width: $px740) {
+        width: 100%;
+      }
 
       a:link,
       a:visited {
@@ -457,13 +602,13 @@
 
         img {
           width: 100%;
+          display: block;
         }
       }
     }
 
     &-text {
-      margin-top: 1rem;
-      padding: 0 1.2rem;
+      padding: 1rem 1.2rem;
       letter-spacing: 0.1rem;
 
       span {
@@ -475,12 +620,20 @@
       h3 {
         font-size: 2.1rem;
         margin-top: 0.5rem;
+
+        @media only screen and (max-width: $px440) {
+          font-size: 1.5rem;
+        }
       }
 
       p {
         font-size: 1.2rem;
         margin: 1rem 0;
         @include use-font(Spiegel-Regular);
+
+        @media only screen and (max-width: $px440) {
+          margin: 0.8rem 0;
+        }
       }
 
       label {
@@ -507,6 +660,11 @@
       flex-wrap: wrap;
       justify-content: center;
       @include flex-align-center;
+
+      @media only screen and (max-width: $px740) {
+        gap: 2rem;
+        flex-direction: column;
+      }
     }
 
     a:link,
@@ -527,7 +685,7 @@
   &__more {
     width: 100%;
     max-width: 86rem;
-    margin: 2.4rem auto;
+    margin: 3rem auto;
     text-align: center;
 
     svg {
@@ -537,10 +695,11 @@
     }
 
     p {
-      max-width: 64rem;
+      max-width: 68rem;
       color: #7e7e7e;
       font-size: 1.3rem;
-      margin: 1rem auto 0;
+      margin: 2rem auto 0;
+      padding: 0 2rem;
       @include use-font(FF-Mark-Medium);
     }
   }
