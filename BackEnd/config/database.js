@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo');
 const { createDB } = require('../utils');
 
 const {
@@ -7,8 +7,8 @@ const {
   DATABASE_NAME,
   DATABASE_PASSWORD,
   DATABASE_COLLECTION_YASUO,
-  // DATABASE_COLLECTION_SESSION,
-  // DATABASE_COLLECTION_SESSION_SECRET,
+  DATABASE_COLLECTION_SESSION,
+  DATABASE_COLLECTION_SESSION_SECRET,
 } = process.env;
 
 const commonAlters = {
@@ -16,25 +16,28 @@ const commonAlters = {
   '<DATABASE_PASSWORD>': DATABASE_PASSWORD,
 };
 
-// const MS = createDB(DATABASE, {
-//   ...commonAlters,
-//   '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_SESSION,
-// });
+const SESSION_DB = createDB(DATABASE, {
+  ...commonAlters,
+  '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_SESSION,
+});
 
-// exports.sessionOptions = {
-//   secret: DATABASE_COLLECTION_SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: true,
-//   store: MongoStore.create({ mongoUrl: MS }),
-//   cookie: { maxAge: 24 * 60 * 60 * 1000 },
-// };
+// Session -> SessionID stored in Cookie
+// Cookie -> Cookie header and Set-cookie header
 
-const DB = createDB(DATABASE, {
+exports.sessionOptions = {
+  secret: DATABASE_COLLECTION_SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({ mongoUrl: SESSION_DB }),
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
+};
+
+const DATABASE_DB = createDB(DATABASE, {
   ...commonAlters,
   '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_YASUO,
 });
 
 mongoose
   .set('strictQuery', true)
-  .connect(DB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(DATABASE_DB, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Database connection - Successful'));
