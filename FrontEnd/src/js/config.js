@@ -13,6 +13,7 @@ export const ANIMATION_TIMEOUT = 240;
 export const ANIMATION_TIMEOUT_100 = 100;
 export const ANIMATION_TIMEOUT_400 = 400;
 export const ANIMATION_TIMEOUT_500 = 500;
+export const CLEAR_TOAST_TIMEOUT = 5000;
 
 export const START = '_start';
 export const END = '_end';

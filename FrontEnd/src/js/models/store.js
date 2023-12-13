@@ -8,6 +8,7 @@ import skinsReducer from './features/skins/reducer';
 import skins2Reducer from './features/skins2/reducer';
 import ruinedReducer from './features/ruined/reducer';
 import galleryReducer from './features/gallery/reducer';
+import toastReducer from './features/toast/reducer';
 
 class Store {
   #store;
@@ -23,6 +24,7 @@ class Store {
         skins2: skins2Reducer,
         ruined: ruinedReducer,
         gallery: galleryReducer,
+        toast: toastReducer,
       })
     );
   }

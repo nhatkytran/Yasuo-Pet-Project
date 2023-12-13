@@ -3,7 +3,6 @@ import { BACKEND_URL, ADD, REMOVE, CONTENT, LOADING, ERROR } from '../config';
 import {
   $,
   $_,
-  $$,
   $$_,
   classRemove,
   intersectOneTime,
@@ -12,7 +11,6 @@ import {
 } from '../utils';
 
 class GalleryView {
-  #modal = $('#modal');
   #section = $('.gallery__container.section');
 
   #galleryImagesContainer = $('.gallery__images');
@@ -67,22 +65,6 @@ class GalleryView {
       )
     );
   }
-
-  // #galleryLogo = () => {
-  //   const actions = removeClassAction => index => {
-  //     const activeClassAction = removeClassAction === REMOVE ? ADD : REMOVE;
-
-  //     classRemove(removeClassAction, this.#galleryChosen);
-  //     this.#logos[index].classList[activeClassAction]('active');
-  //   };
-
-  //   return {
-  //     open: actions(REMOVE),
-  //     close: actions(ADD),
-  //   };
-  // };
-
-  // galleryLogo = this.#galleryLogo();
 
   //
   // Events listening //////////

@@ -1,3 +1,17 @@
+@keyframes purchase-loading {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.8) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1) rotate(360deg);
+    opacity: 0;
+  }
+}
 @keyframes login-loading {
   0% {
     transform: rotate(0);
@@ -15,13 +29,23 @@
     opacity: 1;
   }
 }
-
 @keyframes fade-out {
   0% {
     opacity: 1;
   }
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes toast-fade-in {
+  0% {
+    opacity: 0;
+    right: -40rem;
+  }
+  100% {
+    opacity: 1;
+    right: 0;
   }
 }
 
@@ -65,7 +89,6 @@
     clip-path: polygon(0 0, 100% 0%, 100% 100%, 25% 100%, 0 100%);
   }
 }
-
 @keyframes sidebar-arrow-close {
   0% {
     clip-path: polygon(0 0, 100% 0%, 100% 100%, 25% 100%, 0 100%);
@@ -88,27 +111,5 @@
   }
   100% {
     transform: scale(1);
-  }
-}
-
-///////////////////////
-
-@keyframes fadeInFromRight {
-  0% {
-    opacity: 0;
-    right: -40rem;
-  }
-  100% {
-    opacity: 1;
-    right: 0;
-  }
-}
-
-@keyframes goUp {
-  0% {
-    transform: translateY(-9rem);
-  }
-  100% {
-    transform: translateY(0);
   }
 }
