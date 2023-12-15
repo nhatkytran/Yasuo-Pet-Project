@@ -16,6 +16,8 @@ const commonAlters = {
   '<DATABASE_PASSWORD>': DATABASE_PASSWORD,
 };
 
+// DATABASE=mongodb+srv://<DATABASE_NAME>:<DATABASE_PASSWORD>@yasuo.ivod4dz.mongodb.net/<DATABASE_COLLECTION_NAME>?retryWrites=true&w=majority
+
 const SESSION_DB = createDB(DATABASE, {
   ...commonAlters,
   '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_SESSION,

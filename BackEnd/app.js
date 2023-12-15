@@ -2,9 +2,12 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const session = require('express-session');
-const { sessionOptions } = require('./config/database');
 const globalErrorHandler = require('./controllers/errorController');
+
+const session = require('express-session');
+const passport = require('passport');
+const { sessionOptions } = require('./config/database');
+require('./config/passport');
 
 const {
   abilitiesRouter,
@@ -32,9 +35,14 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(session(sessionOptions));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res) => {
-  if (NODE_ENV === 'development') console.log(req.session);
+  if (NODE_ENV === 'development') {
+    console.log(req.session);
+    console.log('isAuthenticated:', req.isAuthenticated());
+  }
 
   res.status(200).json({
     message:

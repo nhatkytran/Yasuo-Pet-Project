@@ -24,10 +24,10 @@ const globalErrorHandler = (error, _, res, __) => {
     if (newError.name === 'ValidationError')
       newError = handleValidationErrorDB(newError);
 
-    // CastError --> Invalid id
+    // CastError --> InvalidID
     if (newError.name === 'CastError') newError = handleCastErrorDB(newError);
 
-    // Duplicate Erro
+    // DuplicateError
     if (newError.code === 11000) newError = handleDuplicateError(newError);
   }
 
