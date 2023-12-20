@@ -1,10 +1,36 @@
 const crypto = require('crypto');
 const validator = require('validator');
-const { AppError, catchAsync, sendEmail } = require('../utils');
+const { AppError, catchAsync, logoutPromise, sendEmail } = require('../utils');
 const { User } = require('../models');
 
 exports.signup = catchAsync(async (req, res) => {
   const { username, email, password, passwordConfirm } = req.body;
+
+  if (!username || !username.trim())
+    throw new AppError('Please provide a username!', 400);
+  if (!email || !email.trim())
+    throw new AppError('Please provide an email!', 400);
+  if (!password || !password.trim())
+    throw new AppError('Please provide a password!', 400);
+  if (!passwordConfirm || !passwordConfirm.trim())
+    throw new AppError('Please confirm your password!', 400);
+
+  if (
+    !validator.isStrongPassword(password, {
+      minLength: 8,
+      minUppercase: 1,
+      minLowercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    })
+  )
+    throw new AppError(
+      'Password must contain at least 8 characters (1 uppercase, 1 lowercase, 1 number, 1 symbol)',
+      400
+    );
+
+  if (!password === passwordConfirm)
+    throw new AppError('Password confirm - Failed!', 400);
 
   const user = await User.create({
     username,
@@ -18,13 +44,30 @@ exports.signup = catchAsync(async (req, res) => {
 });
 
 // passport.authenticate('local') verifyCallback function calls next(error)
-exports.login = (req, res, next) => res.status(200).json({ status: 'success' });
+exports.login = catchAsync(async (req, res, next) => {
+  const { user } = req; // passport assigned user to req automatically
 
-exports.logout = catchAsync((req, res, next) => {
-  req.logout(error => {
-    if (error) throw error;
-    res.status(200).json({ status: 'success' });
-  });
+  user.lastLogin = Date.now();
+  await user.save({ validateModifiedOnly: true });
+
+  res.status(200).json({ status: 'success' });
+});
+
+exports.loginGoogleSuccess = catchAsync(async (req, res, next) => {
+  const { user } = req;
+
+  user.lastLogin = Date.now();
+  await user.save({ validateModifiedOnly: true });
+
+  // UI later
+  res.status(200).json({ status: 'success' });
+});
+
+exports.loginGoogleFail = () => {};
+
+exports.logout = catchAsync(async (req, res, next) => {
+  await logoutPromise(req.logout);
+  res.status(200).json({ status: 'success' });
 });
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {

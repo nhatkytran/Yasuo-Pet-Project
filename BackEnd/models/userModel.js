@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const schema = new mongoose.Schema({
   username: {
     type: String,
-    required: [true, 'Please provide a name!'],
+    required: [true, 'Please provide a username!'],
     trim: true,
   },
   email: {
@@ -16,51 +16,16 @@ const schema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email!'],
   },
-  active: {
-    type: Boolean,
-    default: false,
-  },
-  ban: {
-    type: Boolean,
-    default: false,
-  },
+  googleID: { type: String },
+  active: { type: Boolean, default: false },
+  ban: { type: Boolean, default: false },
   lastLogin: { type: Date },
-  photo: {
-    type: String,
-    default: '/img/default.jpg',
-  },
-  password: {
-    type: String,
-    required: [true, 'Please provide a password!'],
-    validate: function (value) {
-      return validator.isStrongPassword(value, {
-        minLength: 8,
-        minUppercase: 1,
-        minLowercase: 1,
-        minNumbers: 1,
-        minSymbols: 1,
-      });
-    },
-    select: false,
-  },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password!'],
-    validate: {
-      validator: function (value) {
-        return this.password === value;
-      },
-      message: 'Password confirm - Failed!',
-    },
-  },
-  passwordResetToken: {
-    type: String,
-    select: false,
-  },
-  passwordResetExpires: {
-    type: Date,
-    select: false,
-  },
+  photo: { type: String, default: '/img/default.jpg' },
+  // Don't validate password here (login using Google doesn't need password)
+  password: { type: String, select: false },
+  passwordConfirm: { type: String },
+  passwordResetToken: { type: String, select: false },
+  passwordResetExpires: { type: Date, select: false },
   passwordChangedAt: { type: Date },
 });
 
