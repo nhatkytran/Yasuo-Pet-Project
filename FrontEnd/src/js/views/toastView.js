@@ -26,7 +26,7 @@ class ToastView {
       (item, index) => (item.style.transform = `translateY(${index * 9.4}rem)`)
     );
 
-  ceateToast = data => {
+  createToast = data => {
     const markup = this.#generateToastMarkup(data);
     this.#toastWrapper.insertAdjacentHTML('beforeend', markup);
     this.#arrageToasts();
@@ -41,30 +41,6 @@ class ToastView {
     }
   };
 
-  // _autoClear() {
-  //   setTimeout(() => {
-  //     if (this._parentElement.firstElementChild) {
-  //       this._parentElement.removeChild(this._parentElement.firstElementChild);
-  //       this._reRender();
-  //     }
-  //   }, this._timeClearToast);
-  // }
-
-  // _clear(element) {
-  //   this._parentElement.removeChild(element);
-  // }
-
-  // handleToast(data, type) {
-  //   this._render(data, type);
-  //   this._reRender();
-  //   this._autoClear();
-  // }
-
-  // handleClearToast(target) {
-  //   this._clear(target);
-  //   this._reRender();
-  // }
-
   //
   // Events listening //////////
 
@@ -75,47 +51,9 @@ class ToastView {
     });
   }
 
-  addTest() {
-    $('.trailer__content-img').addEventListener('click', () => {
-      this.ceateToast({
-        type: 'welcome',
-        title: 'Welcome!',
-        content: 'My first project. Have fun exploring things.',
-      });
-    });
+  addWelcomeToastHandler(handler) {
+    document.addEventListener('DOMContentLoaded', handler);
   }
-
-  // Apply //
-  // Initial load
-  // addToastHandler(handler) {
-  //   window.addEventListener('load', function () {
-  //     handler('welcome');
-  //   });
-  // }
-
-  // class 'section' is observed
-  // _sectionToastsCallback = function (handler, entries, observer) {
-  //   const [entry] = entries;
-
-  //   if (entry.isIntersecting) {
-  //     handler(entry.target.dataset.section);
-  //     observer.unobserve(entry.target);
-  //   }
-  // };
-
-  // addObserverToastHandler(handler) {
-  //   const observer = new IntersectionObserver(
-  //     this._sectionToastsCallback.bind(null, handler),
-  //     {
-  //       root: null,
-  //       threshold: 0.5,
-  //     }
-  //   );
-
-  //   this._sectionToasts.forEach(item => {
-  //     observer.observe(item);
-  //   });
-  // }
 }
 
 export default new ToastView();

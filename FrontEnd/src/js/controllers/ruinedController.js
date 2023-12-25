@@ -12,9 +12,9 @@ class RuinedController {
   explore;
 
   constructor(RuinedView, warningFramework) {
-    this.#RuinedView = RuinedView;
-
     const URL = 'https://www.ruinedking.com/en-us/';
+
+    this.#RuinedView = RuinedView;
     this.explore = warningFramework({
       open: () => window.open(URL, '_blank'),
       accept: () => ({

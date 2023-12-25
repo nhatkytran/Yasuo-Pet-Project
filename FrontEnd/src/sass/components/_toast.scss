@@ -72,6 +72,14 @@
     @include toast-feature("blossom_optimized.jpeg", #fb9ec5, #cf7fa0);
   }
 
+  &.toast-fail {
+    @include toast-feature("oops_optimized.png", #f94646, #c63737);
+
+    .toast-content__main-title {
+      color: #f94646;
+    }
+  }
+
   &.toast-oopsie {
     @include toast-feature("oops_optimized.png", #269aae, #1d7888);
   }

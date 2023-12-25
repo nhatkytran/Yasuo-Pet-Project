@@ -27,52 +27,50 @@ class WarningController {
     this.#WarningView.registerEvents(aborts, handlers);
 
   framework = ({ open, accept }) => {
-    let isOpening;
-    let isClosing;
-    let acceptAbort;
-    let declineAbort;
-    let declineModalAbort;
+    let isOpening, isClosing;
+    let acceptAbort, declineAbort, declineModalAbort;
+
+    const aborts = () => {
+      if (acceptAbort) acceptAbort.abort();
+      if (declineAbort) declineAbort.abort();
+      if (declineModalAbort) declineModalAbort.abort();
+    };
+
+    const acceptHandler = () => {
+      if (isOpening || isClosing) return;
+      isClosing = true;
+
+      aborts();
+      this.close();
+      setTimeout(() => {
+        isClosing = false;
+        open(index);
+      }, ANIMATION_TIMEOUT);
+    };
+
+    const closeHandler = () => {
+      if (isOpening || isClosing) return;
+      isClosing = true;
+
+      aborts();
+      this.close();
+      setTimeout(() => (isClosing = false), ANIMATION_TIMEOUT);
+    };
 
     return index => {
-      acceptAbort = new AbortController();
-      declineAbort = new AbortController();
-      declineModalAbort = new AbortController();
-
       if (isOpening || isClosing) return;
       isOpening = true;
 
-      const aborts = () => {
-        if (acceptAbort) acceptAbort.abort();
-        if (declineAbort) declineAbort.abort();
-        if (declineModalAbort) declineModalAbort.abort();
-      };
-
-      const acceptHandler = () => {
-        if (isOpening || isClosing) return;
-        isClosing = true;
-
-        aborts();
-        this.close();
-        setTimeout(() => {
-          isClosing = false;
-          open(index);
-        }, ANIMATION_TIMEOUT);
-      };
-
-      const closeHandler = () => {
-        if (isOpening || isClosing) return;
-        isClosing = true;
-
-        aborts();
-        this.close();
-        setTimeout(() => (isClosing = false), ANIMATION_TIMEOUT);
-      };
+      acceptAbort = new AbortController();
+      declineAbort = new AbortController();
+      declineModalAbort = new AbortController();
 
       this.registerEvents(
         [acceptAbort, declineAbort, declineModalAbort],
         [acceptHandler, closeHandler, closeHandler]
       );
       this.open(accept(index));
+
       setTimeout(() => (isOpening = false), ANIMATION_TIMEOUT);
     };
   };

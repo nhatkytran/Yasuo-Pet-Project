@@ -28,12 +28,15 @@ class SkinsController {
   handleData = catchAsync({
     filename,
     onProcess: async () => {
-      this.#SkinsView.displayContent(LOADING);
+      if (!store.state.skins.ok) {
+        this.#SkinsView.displayContent(LOADING);
 
-      await skinsService.getData('/api/v1/skins/data');
-      await this.#SkinsView.createImages(store.state.skins.skins);
+        await skinsService.getData('/api/v1/skins/data');
+        await this.#SkinsView.createImages(store.state.skins.skins);
 
-      store.dispatch(ACTIONS.setDataOk());
+        store.dispatch(ACTIONS.setDataOk());
+      }
+
       this.#prepareSlideData();
       this.#SkinsView.displayContent(CONTENT);
     },

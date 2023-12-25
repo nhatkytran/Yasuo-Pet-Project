@@ -2,6 +2,7 @@ import {
   ModalView,
   WarningView,
   ToastView,
+  PurchaseView,
   SubwebView,
   ExploreAllgamesView as AllgamesView,
   ExploreGamesView as GamesView,
@@ -17,6 +18,7 @@ import {
 import ModalController from './modalController';
 import WarningController from './warningController';
 import ToastController from './toastController';
+import PurchaseController from './purchaseController';
 import SubwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
@@ -36,10 +38,21 @@ const warningController = new WarningController(
 );
 
 function toastInit() {
-  const { handleClearToast } = new ToastController(ToastView);
+  const { handleClearToast, handleWelcomeToast } = new ToastController(
+    ToastView
+  );
 
   ToastView.addClearToastHandler(handleClearToast);
-  ToastView.addTest();
+  ToastView.addWelcomeToastHandler(handleWelcomeToast);
+}
+
+function PurchaseInit() {
+  const { handleData, handleOpenPurchaseView, handleClosePurchaseView } =
+    new PurchaseController(PurchaseView, ToastView);
+
+  PurchaseView.addFetchDataHandler(handleData);
+  PurchaseView.addOpenPurchaseViewHandler(handleOpenPurchaseView);
+  PurchaseView.addClosePurchaseViewHandler(handleClosePurchaseView);
 }
 
 function subwebInit() {
@@ -173,6 +186,7 @@ function galleryInit() {
 
 [
   toastInit,
+  PurchaseInit,
   subwebInit,
   // exploreAllgamesInit,
   // exploreGamesInit,

@@ -1,8 +1,8 @@
 .pur {
+  width: 100%;
   background-color: $header-bg-color;
   position: absolute;
   z-index: 1001;
-  @include full-dimension;
 }
 
 .pur-header {
@@ -645,6 +645,7 @@
 
 .pur-footer {
   margin-top: 7.5rem;
+  padding-bottom: 3rem;
 
   &__links {
     background-color: $color-layer;
@@ -685,7 +686,7 @@
   &__more {
     width: 100%;
     max-width: 86rem;
-    margin: 3rem auto;
+    margin: 3rem auto 0;
     text-align: center;
 
     svg {

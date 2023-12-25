@@ -147,13 +147,16 @@ class SubwebView {
   async renderVideo({ linkMp4, linkWebm }) {
     $_(this.#trailerWrapper, classBg('video'))?.remove();
 
-    const markup = `
-      <video class="trailer__bg-small-video remove">
-        Your browser does not support video!
-      </video>
-    `;
-    this.#trailerWrapper.insertAdjacentHTML('afterbegin', markup);
+    this.#trailerWrapper.insertAdjacentHTML(
+      'afterbegin',
+      `
+        <video class="trailer__bg-small-video remove">
+          Your browser does not support video!
+        </video>
+      `
+    );
     this.#trailerVideo = $(classBg('video'));
+    this.adjustSpeakerVolume = adjustVolumeFactory(this.#trailerVideo);
 
     await promisifyLoadingVideo(this.#trailerVideo, {
       mp4: linkMp4,
@@ -251,7 +254,7 @@ class SubwebView {
     this.#speakerProgressBar,
     this.#speakers
   );
-  adjustSpeakerVolume = adjustVolumeFactory(this.#trailerVideo);
+  // adjustSpeakerVolume = adjustVolumeFactory(this.#trailerVideo);
   calculateNewSpeakerVolume = calculateNewVolumeFactory(
     this.#speakerProgressWrapper
   );

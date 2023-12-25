@@ -29,6 +29,11 @@ const initialState = {
     title: 'Moments',
     content: 'Do things that make you happy.',
   },
+  fail: {
+    type: 'fail',
+    title: 'Failed!',
+    content: 'Something went wrong! Please try again later.',
+  },
   oopsie: {
     type: 'oopsie',
     title: 'Oopsie!!!',

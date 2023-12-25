@@ -62,6 +62,7 @@ const googleStrategy = new GoogleStrategy(
       } = profile._json;
 
       const user = await User.findOne({ googleID });
+
       if (user) return done(null, user);
 
       const newUser = await User.create({
