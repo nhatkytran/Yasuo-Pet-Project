@@ -22,9 +22,12 @@ class PurchaseController extends ModalContentController {
   handleOpenPurchaseView = index => {
     const skins = store.state.skins.skins;
     const skinData = skins[index];
-    const skinRelatesData = [index - 1, index + 1, index + 2].map(
-      idx => skins[(idx + skins.length) % skins.length]
-    );
+
+    const skinRelatesData = [index - 1, index + 1, index + 2].map(idx => {
+      const trueIndex = (idx + skins.length) % skins.length;
+      return { ...skins[trueIndex], trueIndex };
+    });
+
     this.#PurchaseView.open(skinData, skinRelatesData);
   };
 
@@ -48,6 +51,8 @@ class PurchaseController extends ModalContentController {
       this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
   });
+
+  handleSkinRelates = index => this.#PurchaseView.openPurchaseViewSignal(index);
 }
 
 export default PurchaseController;

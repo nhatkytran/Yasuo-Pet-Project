@@ -19,7 +19,7 @@ body {
   // we need to set position is fixed. At that time, we need body is set to 100% \
   // to remain the layout
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   line-height: 1.4;

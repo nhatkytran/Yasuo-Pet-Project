@@ -47,12 +47,17 @@ function toastInit() {
 }
 
 function PurchaseInit() {
-  const { handleData, handleOpenPurchaseView, handleClosePurchaseView } =
-    new PurchaseController(PurchaseView, ToastView);
+  const {
+    handleData,
+    handleOpenPurchaseView,
+    handleClosePurchaseView,
+    handleSkinRelates,
+  } = new PurchaseController(PurchaseView, ToastView);
 
   PurchaseView.addFetchDataHandler(handleData);
   PurchaseView.addOpenPurchaseViewHandler(handleOpenPurchaseView);
   PurchaseView.addClosePurchaseViewHandler(handleClosePurchaseView);
+  PurchaseView.addSkinRealatesHandler(handleSkinRelates);
 }
 
 function subwebInit() {
@@ -188,7 +193,7 @@ function galleryInit() {
   toastInit,
   PurchaseInit,
   subwebInit,
-  // exploreAllgamesInit,
+  exploreAllgamesInit,
   // exploreGamesInit,
   // menuMobileInit,
   // informationInit,

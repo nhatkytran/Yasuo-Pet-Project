@@ -1,12 +1,25 @@
 import {
   BACKEND_URL,
+  ANIMATION_TIMEOUT,
+  ANIMATION_TIMEOUT_500,
+  START,
+  END,
   ADD,
   REMOVE,
   LOADING,
   OPEN_PURCHASE_EVENT,
 } from '../config';
 
-import { $, $$, $$_, $_, classRemove, countYear, mapMarkup } from '../utils';
+import {
+  $,
+  $_,
+  $$,
+  $$_,
+  animateFactory,
+  classRemove,
+  countYear,
+  mapMarkup,
+} from '../utils';
 
 class PurchaseView {
   #mainButton = $_($('.trailer__content'), 'button');
@@ -28,6 +41,15 @@ class PurchaseView {
   #skinVideoWrapper = $('.pur-article__video-wrapper');
   #skinPrice = $_($('.pur-article__buy-header'), 'label');
   #skinRelatesWrapper = $_($('.pur-relate__skins'), 'ul');
+
+  #animatePur;
+
+  constructor() {
+    this.#animatePur = animateFactory(this.#pur, {
+      start: 'fade-in-500',
+      end: 'fade-out-480',
+    });
+  }
 
   #handleContent = (skinData, skinRelatesData) => {
     const {
@@ -68,7 +90,9 @@ class PurchaseView {
       }`;
       return `
         <li class="pur-relate__skins-item">
-          <a href="">
+          <a class="pur-relate__skins-link" data-true-index="${
+            skin.trueIndex
+          }" href="">
             <img src="${BACKEND_URL}${skin.image}" alt="${alt}">
             <div class="pur-relate__skins-text">
               <span>Related Skin</span>
@@ -83,20 +107,24 @@ class PurchaseView {
   };
 
   open = (skinData, skinRelatesData) => {
-    // Scroll back to top
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     classRemove(REMOVE, this.#pur);
-    classRemove(ADD, ...$$('.section')); // Help stop pur scroll at footer
     this.#handleContent(skinData, skinRelatesData);
+    this.#animatePur(START);
+    setTimeout(() => {
+      classRemove(ADD, ...$$('.section')); // Help stop pur scroll at footer
+    }, ANIMATION_TIMEOUT_500);
   };
 
   close = () => {
     classRemove(REMOVE, ...$$('.section'));
-    classRemove(ADD, this.#pur);
+    this.#animatePur(END);
+    setTimeout(classRemove.bind(null, ADD, this.#pur), ANIMATION_TIMEOUT * 2);
   };
 
-  openPurchaseViewSignal = skinData =>
+  openPurchaseViewSignal = index =>
     this.#pur.dispatchEvent(
-      new CustomEvent(OPEN_PURCHASE_EVENT, { detail: skinData })
+      new CustomEvent(OPEN_PURCHASE_EVENT, { detail: index })
     );
 
   displayContent(state) {
@@ -123,6 +151,19 @@ class PurchaseView {
 
   addClosePurchaseViewHandler(handler) {
     this.#purButtonBack.addEventListener('click', handler);
+  }
+
+  addSkinRealatesHandler(handler) {
+    this.#skinRelatesWrapper.addEventListener('click', event => {
+      event.preventDefault();
+      const target = event.target.closest('.pur-relate__skins-link');
+      if (!target) return;
+      this.close();
+      setTimeout(
+        () => handler(Number.parseInt(target.dataset.trueIndex)),
+        ANIMATION_TIMEOUT * 2
+      );
+    });
   }
 }
 
