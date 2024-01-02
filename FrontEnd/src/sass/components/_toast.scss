@@ -37,6 +37,10 @@
 
     .toast-content__main {
       border-left: 0.24rem solid $bright-color;
+
+      &-title {
+        color: $bright-color;
+      }
     }
 
     .toast-close {
@@ -72,16 +76,16 @@
     @include toast-feature("blossom_optimized.jpeg", #fb9ec5, #cf7fa0);
   }
 
-  &.toast-fail {
-    @include toast-feature("oops_optimized.png", #f94646, #c63737);
-
-    .toast-content__main-title {
-      color: #f94646;
-    }
+  &.toast-success {
+    @include toast-feature("blossom_optimized.jpeg", #47d764, #52d26c);
   }
 
-  &.toast-oopsie {
-    @include toast-feature("oops_optimized.png", #269aae, #1d7888);
+  &.toast-fail {
+    @include toast-feature("oops_optimized.png", #f94646, #c63737);
+  }
+
+  &.toast-warning {
+    @include toast-feature("the-soul_optimized.jpeg", #be29cc, #bb35c7);
   }
 
   &-overlay {

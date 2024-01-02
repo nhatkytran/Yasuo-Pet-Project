@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const validator = require('validator');
-const { AppError, catchAsync, logoutPromise, sendEmail } = require('../utils');
+const { AppError, catchAsync, sendEmail } = require('../utils');
 const { User } = require('../models');
 
 exports.signup = catchAsync(async (req, res) => {
@@ -59,16 +59,23 @@ exports.loginGoogleSuccess = catchAsync(async (req, res, next) => {
   user.lastLogin = Date.now();
   await user.save({ validateModifiedOnly: true });
 
-  // UI later
+  // Test
+  res.redirect('http://127.0.0.1:8080');
+});
+
+exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
+  if (!req.isAuthenticated())
+    throw new AppError('You are not logged in yet!', 401);
   res.status(200).json({ status: 'success' });
 });
 
-exports.loginGoogleFail = () => {};
-
-exports.logout = catchAsync(async (req, res, next) => {
-  await logoutPromise(req.logout);
-  res.status(200).json({ status: 'success' });
-});
+exports.logout = catchAsync(async (req, res, next) =>
+  req.logout(error => {
+    if (error)
+      next(new AppError("Couldn't log out! Please try again later.", 500));
+    else res.status(200).json({ status: 'success' });
+  })
+);
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   const { email } = req.body;

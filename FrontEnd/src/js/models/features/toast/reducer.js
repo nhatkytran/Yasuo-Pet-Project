@@ -21,7 +21,7 @@ const initialState = {
   },
   ruined: {
     type: 'ruined',
-    title: 'Ruined-King',
+    title: 'Ruined King',
     content: 'Save the world? Who am I?',
   },
   gallery: {
@@ -34,10 +34,15 @@ const initialState = {
     title: 'Failed!',
     content: 'Something went wrong! Please try again later.',
   },
-  oopsie: {
-    type: 'oopsie',
-    title: 'Oopsie!!!',
-    content: "Sorry! I haven't added any function yet.",
+  success: {
+    type: 'success',
+    title: 'Success!',
+    content: '',
+  },
+  warning: {
+    type: 'warning',
+    title: 'Attention!',
+    content: 'Sign in with a Riot Account, not a Garena account.',
   },
 };
 

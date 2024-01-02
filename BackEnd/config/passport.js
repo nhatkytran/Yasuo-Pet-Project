@@ -12,32 +12,41 @@ const LocalStrategy = passportLocal.Strategy;
 const GoogleStrategy = passportGoogle.Strategy;
 
 const localStrategy = new LocalStrategy(
-  {
-    usernameField: 'email',
-    passwordField: 'password',
-  },
-  async (emailParam, passwordParam, done) => {
+  { usernameField: 'username', passwordField: 'password' },
+  async (usernameParam, passwordParam, done) => {
     try {
-      const email = String(emailParam);
+      const username = String(usernameParam);
       const password = String(passwordParam);
 
-      if (!email || !password)
-        throw new AppError('Please provide email and password!', 400);
+      if (!username || !password)
+        throw new AppError('Please provide username and password!', 400);
 
-      const user = await User.findOne({ email }).select('+password');
+      // Test
+      const start = Date.now();
+      while (Date.now() - start < 1500) {}
 
-      if (user.googleID)
-        throw new AppError(
-          `< ${user.email} > is only for authentication with Google!`,
-          400
-        );
+      const user = await User.findOne({ username }).select('+password');
 
       if (!user || !(await bcrypt.compare(password, user.password)))
-        throw new AppError('Incorrect email or password!', 401);
+        throw new AppError(
+          'Incorrect username or password!',
+          401,
+          'LOGIN_AUTHENTICATION_ERROR'
+        );
 
-      if (user.ban) throw new AppError('Your account has been banned!', 403);
+      if (user.ban)
+        throw new AppError(
+          'Your account has been banned!',
+          403,
+          'LOGIN_BAN_ERROR'
+        );
+
       if (!user.active)
-        throw new AppError('You need to activate you account first!', 401);
+        throw new AppError(
+          'You need to activate you account first!',
+          401,
+          'LOGIN_ACTIVE_ERROR'
+        );
 
       done(null, user);
     } catch (error) {
@@ -46,6 +55,8 @@ const localStrategy = new LocalStrategy(
   }
 );
 
+// Test
+// Change google link
 const googleStrategy = new GoogleStrategy(
   {
     clientID: GOOGLE_CLIENT_ID,
@@ -66,7 +77,7 @@ const googleStrategy = new GoogleStrategy(
       if (user) return done(null, user);
 
       const newUser = await User.create({
-        username,
+        username: `${username}.google`,
         email,
         googleID,
         active: true,

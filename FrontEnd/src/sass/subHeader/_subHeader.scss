@@ -148,6 +148,7 @@
       }
       &-title {
         color: $color-primary-light;
+        word-spacing: -0.1rem;
         @extend %text-style;
         @include use-font(FF-Mark);
       }

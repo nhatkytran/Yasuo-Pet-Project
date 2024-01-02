@@ -18,6 +18,7 @@ export const SPEAKER_STATE = 3;
 export const SPEAKER_VOLUME_MIN_PERCENT = 0;
 export const SPEAKER_VOLUME_MAX_PERCENT = 100;
 export const SKELETON_LOADING_INTERVAL = 1500;
+export const LOGIN_USERNAME_LENGTH = 5;
 
 export const START = '_start';
 export const END = '_end';
@@ -58,4 +59,6 @@ export const ERROR_LOAD_IMAGE = 'Something went wrong loading image!';
 export const INVALID_ACTION_MESSAGE = 'Invalid action!';
 
 export const TOAST_WELCOME = 'welcome';
+export const TOAST_SUCCESS = 'success';
 export const TOAST_FAIL = 'fail';
+export const TOAST_WARNING = 'warning';

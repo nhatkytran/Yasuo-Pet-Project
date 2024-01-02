@@ -5,7 +5,7 @@ const {
   signup,
   login,
   loginGoogleSuccess,
-  loginGoogleFail,
+  checkIsLoggedIn,
   logout,
   forgotPassword,
   resetPassword,
@@ -31,14 +31,14 @@ userRouter.get(
   '/auth/google/callback',
   passport.authenticate('google', {
     successRedirect: '/api/v1/users/loginGoogleSuccess',
-    failureRedirect: '/api/v1/users/loginGoogleFail',
   })
 );
 
 userRouter.get('/loginGoogleSuccess', loginGoogleSuccess);
-userRouter.get('/loginGoogleFail', loginGoogleFail);
 
-userRouter.post('/logout', logout);
+userRouter.get('/checkIsLoggedIn', checkIsLoggedIn);
+
+userRouter.get('/logout', logout);
 
 userRouter.post('/forgotPassword', forgotPassword);
 userRouter.post('/resetPassword/:email/:token', resetPassword);

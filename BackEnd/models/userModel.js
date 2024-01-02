@@ -7,7 +7,9 @@ const schema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, 'Please provide a username!'],
+    unique: true,
     trim: true,
+    minLength: 5,
   },
   email: {
     type: String,

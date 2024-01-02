@@ -40,20 +40,21 @@ const globalErrorHandler = (error, _, res, __) => {
 };
 
 const sendErrorDevAPI = (error, res) => {
-  const { statusCode, status, message, stack } = error;
-  res.status(statusCode).json({ status, message, stack, error });
+  const { statusCode, status, message, code, stack } = error;
+  res.status(statusCode).json({ status, message, code, stack, error });
 };
 
 const sendErrorProdAPI = (error, res) => {
-  let { statusCode, status, message } = error;
+  let { statusCode, status, message, code } = error;
 
   if (!error.isOperational) {
     statusCode = 500;
     status = 'error';
     message = 'Something went wrong!';
+    code = 'INTERNAL_SERVER_ERROR';
   }
 
-  res.status(statusCode).json({ status, message });
+  res.status(statusCode).json({ status, message, code });
 };
 
 module.exports = globalErrorHandler;

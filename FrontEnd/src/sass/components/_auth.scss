@@ -12,15 +12,15 @@
   max-width: 50rem;
   background-color: $header-text-color;
   padding: 3.2rem;
-  margin: 0 2rem;
+  margin: 0 0.8rem;
   border-radius: 0.2rem;
   @include use-font(FF-Mark);
 
   @media only screen and (max-width: $px440) {
-    margin: 0;
+    padding: 2rem;
   }
   @media only screen and (max-width: $px340) {
-    padding: 2.4rem;
+    padding: 1.6rem;
   }
 }
 
@@ -41,32 +41,22 @@
 
     &-close {
       width: 2.8rem;
-      transition: all ease 0.2s;
       cursor: pointer;
-
-      &:hover {
-        transform: rotate(90deg);
-      }
     }
   }
 
   &-title {
     color: $color-layer;
-    font-size: 4rem;
-    margin: 3.6rem 0;
+    font-size: 3.6rem;
+    margin: 2rem 0;
     @include use-font(FF-Mark-Medium);
-
-    @media only screen and (max-width: $px340) {
-      margin: 3rem 0;
-    }
   }
 
-  &-warning {
+  &-warning-button {
     color: #be29cc;
     font-size: 1.2rem;
+    margin: 0 auto;
     justify-content: center;
-    transition: all ease 0.2s;
-    cursor: pointer;
     @include flex-align-center;
     @include use-font(FF-Mark-Bold);
 
@@ -82,21 +72,38 @@
       margin-right: 0.4rem;
     }
   }
+
+  &-warning-message {
+    color: #be29cc;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    padding: 0 2.4rem;
+    @include use-font(FF-Mark-Bold);
+
+    @media only screen and (max-width: $px540) {
+      padding: 0;
+    }
+    @media only screen and (max-width: $px440) {
+      font-size: 1rem;
+    }
+  }
 }
 
 .login-form__body {
   padding: 0 2.4rem;
-  margin-top: 4.6rem;
+  margin-top: 2.6rem;
 
   @media only screen and (max-width: $px540) {
     padding: 0;
   }
-  @media only screen and (max-width: $px340) {
-    margin-top: 4rem;
-  }
 
   &-group {
-    margin-bottom: 2rem;
+    margin-bottom: 1.6rem;
+    position: relative;
+
+    &:nth-child(2) {
+      margin-bottom: 2rem;
+    }
 
     input {
       display: block;
@@ -109,13 +116,16 @@
       border: none;
       outline: none;
       border-radius: 0.2rem;
+      @include use-font(Spiegel-Bold);
 
       &::placeholder {
         color: #565656;
+        font-size: 1.2rem;
+        text-transform: uppercase;
       }
 
       &:not(:placeholder-shown) + label {
-        transform: translateY(0);
+        transform: translateY(0.4rem);
         @include show;
       }
     }
@@ -123,18 +133,42 @@
     label {
       display: block;
       width: 100%;
-      font-size: 1.4rem;
+      font-size: 1rem;
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
       padding-left: 2rem;
       margin-right: 0.7rem;
-      letter-spacing: 0.1rem;
       transform: translateY(-3.8rem);
       transition: all ease 0.2s;
       @include hide;
-      @include use-font(Spiegel-Regular);
+      @include use-font(Spiegel-Bold);
+    }
+
+    #login-form-password {
+      padding: 1.5rem 5.4rem 1.5rem 2rem;
+
+      &:not(:placeholder-shown) + label + .login-form-password__type-button {
+        @include show;
+      }
+    }
+
+    .login-form-password__type-button {
+      width: 5rem;
+      height: 4.4rem;
+      top: 0;
+      right: 0;
+      position: absolute;
+      justify-content: center;
+      @include flex-align-center;
+
+      svg {
+        fill: $header-bg-color;
+        @include square-dimension(2rem);
+      }
     }
   }
 
-  button {
+  &-button {
     width: 100%;
     background: linear-gradient(215deg, #dd4346, #d43639);
     padding: 1.35rem 0;
@@ -142,6 +176,8 @@
     border-radius: 0.2rem;
     transition: all ease 0.2s;
     justify-content: center;
+    opacity: 0.6;
+    cursor: not-allowed;
     @include flex-align-center;
 
     &:hover {
@@ -154,6 +190,10 @@
 
     svg {
       fill: $header-text-color;
+
+      &:nth-child(2) {
+        animation: login-loading 1.5s ease infinite;
+      }
     }
   }
 }
@@ -170,7 +210,7 @@
 .login-form__actions {
   justify-content: space-between;
   @include flex-align-center;
-  @include use-font(FF-Mark);
+  @include use-font(FF-Mark-Medium);
 
   a {
     color: $color-layer;
@@ -180,11 +220,11 @@
 }
 
 .login-form__options {
-  margin-top: 3.2rem;
+  margin-top: 3rem;
   justify-content: space-between;
   @include flex-align-center;
 
-  @media only screen and (max-width: $px540) {
+  @media only screen and (max-width: $px440) {
     justify-content: center;
     gap: 0.4rem;
   }
@@ -201,22 +241,34 @@
       }
     }
     @include button-dimension($px440, 1rem 2.2rem);
-    @include button-dimension($px340, 1rem 1.8rem);
+    @include button-dimension($px340, 1rem 2rem);
 
     svg {
       @include square-dimension(2rem);
     }
   }
 
+  &-google {
+    background-color: $header-text-color;
+    border: 1px groove #ccc;
+  }
+
+  &-facebook,
+  &-github,
+  &-apple {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
   &-facebook {
     background-color: #0966de;
+    border: 1px groove #0966de;
 
     svg {
       fill: $header-text-color;
     }
   }
 
-  &-google,
   &-github {
     background-color: $header-text-color;
     border: 1px groove #ccc;
@@ -224,6 +276,7 @@
 
   &-apple {
     background-color: $color-layer;
+    border: 1px groove $color-layer;
 
     svg {
       fill: $header-text-color;
@@ -232,12 +285,31 @@
 }
 
 .login-form__privacy {
-  color: #565656;
-  font-size: 1.4rem;
-  text-align: center;
-  margin: 2.4rem 0;
+  margin: 2.4rem 0 1.2rem;
+  justify-content: space-between;
+  @include flex-align-center;
+
+  &-activate-button {
+    font-size: 1.4rem;
+    text-decoration: underline;
+    @include use-font(FF-Mark);
+
+    @media only screen and (max-width: $px440) {
+      font-size: 1.2rem;
+    }
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
 
   a {
     color: $color-layer;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+
+    @media only screen and (max-width: $px440) {
+      font-size: 1.2rem;
+    }
   }
 }
