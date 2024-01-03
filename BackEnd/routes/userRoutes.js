@@ -11,13 +11,9 @@ const {
   resetPassword,
 } = require('../controllers/authController');
 
-const userRouter = express.Router();
+const { getMe } = require('../controllers/userController');
 
-userRouter.get('/test', (req, res) => {
-  res.send(
-    '<a href="http://127.0.0.1:3000/api/v1/users/auth/google">Login</a>'
-  );
-});
+const userRouter = express.Router();
 
 userRouter.post('/signup', signup);
 userRouter.post('/login', passport.authenticate('local'), login);
@@ -42,5 +38,7 @@ userRouter.get('/logout', logout);
 
 userRouter.post('/forgotPassword', forgotPassword);
 userRouter.post('/resetPassword/:email/:token', resetPassword);
+
+userRouter.get('/me', getMe);
 
 module.exports = userRouter;

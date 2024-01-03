@@ -2,6 +2,7 @@ export { default as ModalView } from './modalView';
 export { default as WarningView } from './warningView';
 export { default as ToastView } from './toastView';
 export { default as AuthView } from './authView';
+export { default as UserView } from './userView';
 export { default as PurchaseView } from './purchaseView';
 export { default as SubwebView } from './subwebView';
 export { default as ExploreAllgamesView } from './exploreAllgamesView';

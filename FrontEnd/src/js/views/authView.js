@@ -7,6 +7,7 @@ import {
   START,
   END,
   FADE_IN,
+  LOGIN_SUCCESS_SIGNAL,
 } from '../config';
 
 import { $, $$_, animateFactory, classRemove } from '../utils';
@@ -70,6 +71,9 @@ class AuthView {
     );
     classRemove(REMOVE, this.#loginUserName, this.#logoutButtonSubHeader);
   };
+
+  loginSuccessSignal = () =>
+    this.#loginUserName.dispatchEvent(new CustomEvent(LOGIN_SUCCESS_SIGNAL));
 
   loginWarningMessage = ({ isError, field }) => {
     classRemove(ADD, this.#loginWarningMessageFail);
@@ -149,8 +153,6 @@ class AuthView {
     }
   };
 
-  loginSuccessDisplay = () => {};
-
   //
 
   logoutActionDisplay = state => {
@@ -183,6 +185,10 @@ class AuthView {
 
   //
   // Events listening //////////
+
+  addLoginCheckFirst(handler) {
+    document.addEventListener('DOMContentLoaded', handler);
+  }
 
   addLoginOpenHandler(handler) {
     [this.#loginOpenButtonSubHeader, this.#loginOpenButtonMainHeader].forEach(

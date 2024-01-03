@@ -69,6 +69,12 @@ exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 'success' });
 });
 
+exports.protect = (req, res, next) => {
+  if (!req.isAuthenticated())
+    throw new AppError('Please login to get access!', 401);
+  next();
+};
+
 exports.logout = catchAsync(async (req, res, next) =>
   req.logout(error => {
     if (error)

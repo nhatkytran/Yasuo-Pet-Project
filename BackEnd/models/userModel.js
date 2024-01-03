@@ -22,7 +22,7 @@ const schema = new mongoose.Schema({
   active: { type: Boolean, default: false },
   ban: { type: Boolean, default: false },
   lastLogin: { type: Date },
-  photo: { type: String, default: '/img/default.jpg' },
+  photo: { type: String, default: '/img/defaul.png' },
   // Don't validate password here (login using Google doesn't need password)
   password: { type: String, select: false },
   passwordConfirm: { type: String },

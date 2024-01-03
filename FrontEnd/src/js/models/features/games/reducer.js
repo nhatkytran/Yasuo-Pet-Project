@@ -17,11 +17,7 @@ const gamesReducer = (state = initialState, action) => {
   }
 };
 
-const getData = data => ({
-  type: GET_DATA,
-  payload: data,
-});
-
+const getData = data => ({ type: GET_DATA, payload: data });
 const setDataOk = () => ({ type: SET_DATA_OK });
 
 export const ACTIONS = { getData, setDataOk };

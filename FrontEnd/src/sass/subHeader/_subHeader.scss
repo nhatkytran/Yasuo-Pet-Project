@@ -16,40 +16,35 @@
       }
     }
   }
-  @mixin yasuo-round-position($width, $x-translate, $y-translate) {
-    @media only screen and (max-width: $width) {
-      transform: translate($x-translate, $y-translate);
-    }
-  }
-  @mixin yasuo-heading-font-size($width, $size) {
-    @media only screen and (max-width: $width) {
-      font-size: $size;
-    }
-  }
-  @mixin yasuo-heading-position($width, $left) {
-    @media only screen and (max-width: $width) {
-      left: $left;
-    }
-  }
 
   .yasuo-heading {
     font-size: 6rem;
-    @include absolute-position(-50%, -50%);
+    z-index: -1;
+    justify-content: center;
+    @include full-dimension;
+    @include flex-align-center;
+    @include absolute-position(-50%, -54%);
 
-    @include yasuo-heading-font-size($px1040, 5.6rem);
-    @include yasuo-heading-font-size($px840, 5.2rem);
-    @include yasuo-heading-font-size($px640, 4.8rem);
-    @include yasuo-heading-font-size($px440, 4.4rem);
-
-    @include yasuo-heading-position($px840, 16rem);
-    @include yasuo-heading-position($px640, 12rem);
-    @include yasuo-heading-position($px540, 7rem);
+    @media only screen and (max-width: $px1040) {
+      font-size: 5.6rem;
+    }
+    @media only screen and (max-width: $px840) {
+      font-size: 5.2rem;
+      justify-content: start;
+      padding-left: 7.4rem;
+    }
+    @media only screen and (max-width: $px640) {
+      font-size: 4.8rem;
+      padding-left: 3rem;
+    }
+    @media only screen and (max-width: $px640) {
+      font-size: 4.4rem;
+    }
 
     .yasuo {
       letter-spacing: 1rem;
       @include primary-background(1);
       @include background-clip-text;
-      @include absolute-position(-65%, -55%);
 
       @media only screen and (max-width: $px840) {
         letter-spacing: 0.4rem;
@@ -57,9 +52,14 @@
 
       &--1 {
         @include display-responsive($px540, none);
+
+        @media only screen and (max-width: $px840) {
+          margin-right: 0.2rem;
+        }
       }
       &--2 {
         display: none;
+        margin-right: 0.2rem;
         @include display-responsive($px540, block);
         @include display-responsive($px440, none);
       }
@@ -67,37 +67,21 @@
 
     .yasuo-round {
       border-radius: 50%;
-      background-image: url("/src/assets/img/subHeader/sub-header-yasuo-logo.jpeg");
-      background-position: 60% 32%;
-      background-size: 350%;
+      border: 0.2rem solid #b28428;
+      top: 2px;
+      position: relative;
+      overflow: hidden;
+      filter: brightness(0.8);
+      justify-content: center;
+      @include flex-align-center;
       @include square-dimension(5.1rem);
-      @include absolute-position(130%, -55%);
-
       @include yasuo-round-dimension($px1040, 4.7rem);
       @include yasuo-round-dimension($px840, 4.3rem);
       @include yasuo-round-dimension($px640, 3.9rem);
       @include yasuo-round-dimension($px440, 3.5rem);
 
-      @include yasuo-round-position($px540, 65%, -55%);
-      @include yasuo-round-position($px440, -110%, -55%);
-
-      &::before {
-        border-radius: 50%;
-        @include pseudo-element-features;
+      img {
         @include full-dimension;
-        @include primary-background(0.6);
-      }
-
-      &__frame {
-        position: absolute;
-        top: -0.26rem;
-        left: -0.26rem;
-        @include square-dimension(5.6rem);
-
-        @include yasuo-round-dimension($px1040, 5.2rem);
-        @include yasuo-round-dimension($px840, 4.8rem);
-        @include yasuo-round-dimension($px640, 4.4rem);
-        @include yasuo-round-dimension($px440, 4rem);
       }
     }
   }

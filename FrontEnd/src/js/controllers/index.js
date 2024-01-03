@@ -3,6 +3,7 @@ import {
   WarningView,
   ToastView,
   AuthView,
+  UserView,
   PurchaseView,
   SubwebView,
   ExploreAllgamesView as AllgamesView,
@@ -20,6 +21,7 @@ import ModalController from './modalController';
 import WarningController from './warningController';
 import ToastController from './toastController';
 import AuthController from './authController';
+import UserController from './userController';
 import PurchaseController from './purchaseController';
 import SubwebController from './subwebController';
 import ExploreAllgamesController from './exploreAllgamesController';
@@ -50,6 +52,7 @@ function toastInit() {
 
 function authInit() {
   const {
+    handleLoginCheckFirst,
     handleLoginOpen,
     handleLoginClose,
     handleLoginWarning,
@@ -68,6 +71,7 @@ function authInit() {
     modalController.close
   );
 
+  AuthView.addLoginCheckFirst(handleLoginCheckFirst);
   AuthView.addLoginOpenHandler(handleLoginOpen);
   AuthView.addLoginCloseHandler(handleLoginClose);
   AuthView.addLoginWarningHanler(handleLoginWarning);
@@ -79,6 +83,16 @@ function authInit() {
   AuthView.addLoginHandler(handleLogin);
   AuthView.addLoginSocialHandler(handleLoginSocial);
   AuthView.addLogoutHandler(handleLogout);
+}
+
+function userInit() {
+  const { handleData, handleOpenProfile } = new UserController(
+    UserView,
+    ToastView
+  );
+
+  UserView.addDataHandler(handleData);
+  UserView.addOpenProfileHandler(handleOpenProfile);
 }
 
 function purchaseInit() {
@@ -227,6 +241,7 @@ function galleryInit() {
 [
   toastInit,
   authInit,
+  userInit,
   purchaseInit,
   subwebInit,
   // exploreAllgamesInit,

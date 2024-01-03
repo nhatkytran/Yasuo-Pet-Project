@@ -36,6 +36,15 @@ class AuthController extends ModalContentController {
     this.#handleCloseModal = handleCloseModal;
   }
 
+  handleLoginCheckFirst = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (!(await this.handleCheckIsLoggedIn())) return;
+      this.#AuthView.loginSuccess();
+      this.#AuthView.loginSuccessSignal();
+    },
+  });
+
   handleLoginOpen = () =>
     super.open(this.#handleOpenModal, this.#AuthView.loginOpen);
 
@@ -48,7 +57,7 @@ class AuthController extends ModalContentController {
 
   handleCheckIsLoggedIn = async () => {
     try {
-      await userService.authService('/api/v1/users/checkIsLoggedIn');
+      await authService.checkIsLoggedIn('/api/v1/users/checkIsLoggedIn');
       return true;
     } catch (error) {
       return false;
@@ -109,6 +118,7 @@ class AuthController extends ModalContentController {
         ...store.state.toast[TOAST_SUCCESS],
         content: 'Welcome! Great to see you.',
       });
+      this.#AuthView.loginSuccessSignal();
     },
     onError: error => {
       if (error.code === ERROR_ABORT_CODE)

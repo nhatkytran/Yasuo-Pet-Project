@@ -62,3 +62,5 @@ export const TOAST_WELCOME = 'welcome';
 export const TOAST_SUCCESS = 'success';
 export const TOAST_FAIL = 'fail';
 export const TOAST_WARNING = 'warning';
+
+export const LOGIN_SUCCESS_SIGNAL = 'LOGIN_SUCCESS_SIGNAL';
