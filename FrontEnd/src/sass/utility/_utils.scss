@@ -282,3 +282,58 @@
     background-color: $color-error-light;
   }
 }
+
+// Profile and Pur Component
+.pro-pur {
+  width: 100%;
+  background-color: $header-bg-color;
+  position: absolute;
+  z-index: 1001;
+}
+
+.pro-pur-header {
+  width: 100%;
+  height: 8rem;
+  background-color: #111;
+  border-bottom: 2px solid rgba(51, 51, 51, 0.25);
+  position: fixed;
+  z-index: 2000;
+
+  @media only screen and (max-width: $px440) {
+    height: 6rem;
+  }
+
+  &__content {
+    width: 100%;
+    max-width: 112rem;
+    height: 100%;
+    margin: 0 auto;
+    justify-content: space-between;
+    @include flex-align-center;
+  }
+
+  &__back {
+    padding: 0.4rem;
+    margin-left: 2rem;
+    cursor: pointer;
+
+    &:hover svg {
+      filter: brightness(1.2);
+    }
+
+    svg {
+      fill: $color-story;
+      transition: all ease 0.2s;
+      @include square-dimension(3rem);
+    }
+  }
+
+  &__logo {
+    height: 2.8rem;
+    margin-right: 3rem;
+
+    @media only screen and (max-width: $px440) {
+      height: 2.6rem;
+    }
+  }
+}

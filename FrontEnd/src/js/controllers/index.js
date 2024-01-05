@@ -239,11 +239,11 @@ function galleryInit() {
 }
 
 [
-  toastInit,
-  authInit,
-  userInit,
-  purchaseInit,
-  subwebInit,
+  // toastInit,
+  // authInit,
+  // userInit,
+  // purchaseInit,
+  // subwebInit,
   // exploreAllgamesInit,
   // exploreGamesInit,
   // menuMobileInit,

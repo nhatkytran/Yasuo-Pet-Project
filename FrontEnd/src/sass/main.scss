@@ -11,6 +11,7 @@
 @import "./components/warning";
 @import "./components/toast";
 @import "./components/volumeInstruction";
+@import "./components/profile";
 @import "./components/pur";
 
 @import "./subHeader/container";
@@ -24,6 +25,9 @@
 @import "./main/mainHeader/right";
 @import "./main/mainHeader/menu";
 
+@import "./sidebar/sb-all-games";
+@import "./sidebar/sb-explore-games";
+
 @import "./main/information";
 @import "./main/abilities";
 @import "./main/skins";
@@ -32,6 +36,3 @@
 @import "./main/gallery";
 @import "./main/solo";
 @import "./main/footer";
-
-@import "./sidebar/sb-all-games";
-@import "./sidebar/sb-explore-games";
