@@ -53,8 +53,6 @@ class AuthController extends ModalContentController {
     super.close(this.#handleCloseModal, this.#AuthView.loginClose);
   };
 
-  handleLoginSuccess = () => this.#AuthView.loginSuccess();
-
   handleCheckIsLoggedIn = async () => {
     try {
       await authService.checkIsLoggedIn('/api/v1/users/checkIsLoggedIn');
@@ -113,12 +111,14 @@ class AuthController extends ModalContentController {
       this.#loginPassword = '';
       this.#loginValid = false;
       this.handleLoginClose();
-      this.handleLoginSuccess();
+
+      this.#AuthView.loginSuccess();
+      this.#AuthView.loginSuccessSignal();
+
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
         content: 'Welcome! Great to see you.',
       });
-      this.#AuthView.loginSuccessSignal();
     },
     onError: error => {
       if (error.code === ERROR_ABORT_CODE)

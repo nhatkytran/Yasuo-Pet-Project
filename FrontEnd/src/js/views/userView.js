@@ -1,5 +1,5 @@
 import { BACKEND_URL, LOGIN_SUCCESS_SIGNAL } from '../config';
-import { $, $_ } from '../utils';
+import { $ } from '../utils';
 
 class UserView {
   #username = $('.user__info-name');
