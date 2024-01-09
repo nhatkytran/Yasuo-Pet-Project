@@ -593,6 +593,18 @@
     border-radius: 0.3rem;
     @include use-font(FF-Mark-Medium);
 
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &:disabled::-webkit-file-upload-button {
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: $color-button-blue-dark;
+      }
+    }
+
     &::-webkit-file-upload-button {
       background-color: $color-button-blue-dark;
       color: white;
@@ -670,6 +682,7 @@
         display: block;
         background-color: #f9f9f9;
         border-radius: 50%;
+        position: relative;
         justify-content: center;
         cursor: pointer;
         @include flex-align-center;

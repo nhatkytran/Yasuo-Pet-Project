@@ -86,13 +86,18 @@ function authInit() {
 }
 
 function userInit() {
-  const { handleData, handleOpenProfile } = new UserController(
-    UserView,
-    ToastView
-  );
+  const { handleData, handleOpenProfile, handleCloseProfile } =
+    new UserController(
+      UserView,
+      ToastView,
+      modalController.open,
+      modalController.close
+    );
 
   UserView.addDataHandler(handleData);
   UserView.addOpenProfileHandler(handleOpenProfile);
+  UserView.addCloseProfileHandler(handleCloseProfile);
+  UserView.addSidebarHandler(() => {});
 }
 
 function purchaseInit() {
@@ -240,10 +245,10 @@ function galleryInit() {
 
 [
   // toastInit,
-  // authInit,
-  // userInit,
+  authInit,
+  userInit,
   // purchaseInit,
-  // subwebInit,
+  subwebInit,
   // exploreAllgamesInit,
   // exploreGamesInit,
   // menuMobileInit,

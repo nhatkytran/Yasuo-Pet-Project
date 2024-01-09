@@ -10,7 +10,7 @@ import {
   LOGIN_SUCCESS_SIGNAL,
 } from '../config';
 
-import { $, $$_, animateFactory, classRemove } from '../utils';
+import { $, $_, $$_, animateFactory, classRemove } from '../utils';
 
 const warningMessageClass = '.login-form__header-warning-message';
 const disabledCssText = `opacity: 0.6; cursor: not-allowed;`;
@@ -38,15 +38,15 @@ class AuthView {
   #loginButton = $('.login-form__body-button');
   #loginButtonSocialWrapper = $('.login-form__options');
 
-  //
-
   #logoutButtonSubHeader = $('.sub-header__content-logout');
-
-  //
+  #userAvatarWrapper = $('.yasuo-round');
+  #userAvatarSrc;
 
   #animateLoginSection;
 
   constructor() {
+    this.#userAvatarSrc = $_(this.#userAvatarWrapper, 'img').src;
+
     this.#animateLoginSection = animateFactory(this.#loginSection, {
       start: FADE_IN,
       end: 'fade-out-480',
@@ -181,6 +181,14 @@ class AuthView {
       this.#loginOpenButtonMainHeader
     );
     classRemove(ADD, this.#loginUserName, this.#logoutButtonSubHeader);
+
+    const image = document.createElement('img');
+    image.src = this.#userAvatarSrc;
+
+    image.addEventListener('load', () => {
+      this.#userAvatarWrapper.innerHTML = '';
+      this.#userAvatarWrapper.appendChild(image);
+    });
   };
 
   //

@@ -1,21 +1,28 @@
 import { catchAsync } from '../utils';
+import { ANIMATION_TIMEOUT, TOAST_FAIL } from '../config';
 
 import store from '../models/store';
 import userService from '../models/features/user/userService';
 import { ACTIONS } from '../models/features/user/reducer';
-import { TOAST_FAIL } from '../config';
+
+import ModalContentController from './modalContentController';
 
 const filename = 'userController.js';
 
-// Logout -> Set default username and default image
+// Logout -> Set default username and default image -> profile
 
-class UserController {
+class UserController extends ModalContentController {
   #UserView;
   #ToastView;
+  #handleOpenModal;
+  #handleCloseModal;
 
-  constructor(UserView, ToastView) {
+  constructor(UserView, ToastView, handleOpenModal, handleCloseModal) {
+    super();
     this.#UserView = UserView;
     this.#ToastView = ToastView;
+    this.#handleOpenModal = handleOpenModal;
+    this.#handleCloseModal = handleCloseModal;
   }
 
   handleData = catchAsync({
@@ -37,8 +44,19 @@ class UserController {
           "Couldn't load user data! Please refresh the page or sign in again.",
       });
 
-    console.log('Open profile!');
+    this.#UserView.scrollToTop();
+    setTimeout(
+      () =>
+        super.open(
+          this.#handleOpenModal,
+          this.#UserView.openProfile.bind(this.#UserView, store.state.user)
+        ),
+      ANIMATION_TIMEOUT
+    );
   };
+
+  handleCloseProfile = () =>
+    super.close(this.#handleCloseModal, this.#UserView.closeProfile);
 }
 
 export default UserController;

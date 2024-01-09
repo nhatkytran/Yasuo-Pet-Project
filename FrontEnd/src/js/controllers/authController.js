@@ -13,7 +13,6 @@ import { catchAsync, isUsernameValid, isPasswordValid } from '../utils';
 
 import store from '../models/store';
 import authService from '../models/features/auth/authService';
-import userService from '../models/features/user/userService';
 
 import ModalContentController from './modalContentController';
 
