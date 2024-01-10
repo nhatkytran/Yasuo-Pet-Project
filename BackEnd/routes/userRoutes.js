@@ -11,7 +11,11 @@ const {
   resetPassword,
 } = require('../controllers/authController');
 
-const { getMe } = require('../controllers/userController');
+const {
+  getMe,
+  getActivateCode,
+  activateAccount,
+} = require('../controllers/userController');
 
 const userRouter = express.Router();
 
@@ -35,6 +39,9 @@ userRouter.get('/loginGoogleSuccess', loginGoogleSuccess);
 userRouter.get('/checkIsLoggedIn', checkIsLoggedIn);
 
 userRouter.get('/logout', logout);
+
+userRouter.post('/activateCode', getActivateCode);
+userRouter.post('/activate', activateAccount);
 
 userRouter.post('/forgotPassword', forgotPassword);
 userRouter.post('/resetPassword/:email/:token', resetPassword);

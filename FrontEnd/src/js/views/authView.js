@@ -12,45 +12,66 @@ import {
 
 import { $, $_, $$_, animateFactory, classRemove } from '../utils';
 
-const warningMessageClass = '.login-form__header-warning-message';
+const loginWarningMessageClass = '.login-form__header-warning-message';
 const disabledCssText = `opacity: 0.6; cursor: not-allowed;`;
+const activateWarningMessageClass = '.activate-form__header-warning-message';
 
 class AuthView {
   #loginSection = $('.login-overlay');
   #loginForm = $('#login-form');
-
   #loginOpenButtonSubHeader = $('.sub-header__content-login');
   #loginOpenButtonMainHeader = $('.main-header__play-sign-in');
-
   #loginUserName = $('.user__info-name');
-
   #loginExitButton = $('.login-form__header-hero-close');
   #loginWarningButton = $('.login-form__header-warning-button');
-
-  #loginWarningMessageUsername = $(`${warningMessageClass}-username`);
-  #loginWarningMessagePassword = $(`${warningMessageClass}-password`);
-  #loginWarningMessageFail = $(`${warningMessageClass}-fail`);
-
+  #loginWarningMessageUsername = $(`${loginWarningMessageClass}-username`);
+  #loginWarningMessagePassword = $(`${loginWarningMessageClass}-password`);
+  #loginWarningMessageFail = $(`${loginWarningMessageClass}-fail`);
   #loginUsernameInput = $('#login-form-username');
   #loginPasswordInput = $('#login-form-password');
   #loginPasswordTypeButton = $('.login-form-password__type-button');
-
   #loginButton = $('.login-form__body-button');
   #loginButtonSocialWrapper = $('.login-form__options');
+  #loginActivateButton = $('.login-form__privacy-activate-button');
 
+  //
   #logoutButtonSubHeader = $('.sub-header__content-logout');
   #userAvatarWrapper = $('.yasuo-round');
   #userAvatarSrc;
 
+  //
+  #activateSection = $('.activate-overlay');
+  #activateForm = $('#activate-form');
+  #activateExitButton = $('.activate-form__header-hero-close');
+  #activateHeaderTitle = $('.activate-form__header-title');
+  #activateWarningButton = $('.activate-form__header-warning-button');
+  #activateWarningMessageEmail = $(`${activateWarningMessageClass}-email`);
+  #activateWarningMessageCode = $(`${activateWarningMessageClass}-code`);
+  #activateWarningMessageFail = $(`${activateWarningMessageClass}-fail`);
+  #activateEmailInput = $('#activate-form-email');
+  #activateCodeInput = $('#activate-form-code');
+  #activateButton = $('.activate-form__body-button');
+  #activateActionsWrapper = $('.activate-form__actions-wrapper');
+  #activateActionsBackWrapper = $('.activate-form__actions-back-wrapper');
+  #activateActionsBackButton = $('.activate-form__actions-back-button');
+
+  //
   #animateLoginSection;
+  #animateActivateSection;
 
   constructor() {
     this.#userAvatarSrc = $_(this.#userAvatarWrapper, 'img').src;
 
-    this.#animateLoginSection = animateFactory(this.#loginSection, {
-      start: FADE_IN,
-      end: 'fade-out-480',
-    });
+    const animateOption = { start: FADE_IN, end: 'fade-out-480' };
+
+    this.#animateLoginSection = animateFactory(
+      this.#loginSection,
+      animateOption
+    );
+    this.#animateActivateSection = animateFactory(
+      this.#activateSection,
+      animateOption
+    );
   }
 
   loginOpen = () => {
@@ -192,7 +213,96 @@ class AuthView {
   };
 
   //
+  activateOpen = () => {
+    classRemove(REMOVE, this.#activateSection);
+    this.#animateActivateSection(START);
+  };
+
+  activateClose = () => {
+    classRemove(ADD, this.#activateSection);
+    this.#animateActivateSection(END);
+  };
+
+  activateWarningMessage = ({ isError, field }) => {
+    classRemove(ADD, this.#activateWarningMessageFail);
+
+    if (isError) {
+      if (field === 'email')
+        this.#activateWarningMessageEmail.textContent =
+          'Please provide a valid email.';
+
+      if (field === 'code')
+        this.#activateWarningMessageCode.textContent =
+          'Please provide a valid code';
+
+      return classRemove(ADD, this.#activateWarningButton);
+    }
+
+    if (field === 'email') this.#activateWarningMessageEmail.textContent = '';
+    if (field === 'code') this.#activateWarningMessageCode.textContent = '';
+    classRemove(REMOVE, this.#activateWarningButton);
+  };
+
+  activateButtonDisplay = ({ canLogin }) => {
+    if (!canLogin) this.#activateButton.style.cssText = disabledCssText;
+    else this.#activateButton.style.cssText = `opacity: 1; cursor: pointer;`;
+  };
+
+  activateActionDisplay = ({ state, errorMessage }) => {
+    if (state === LOADING) {
+      this.#activateEmailInput.disabled = true;
+      this.#activateCodeInput.disabled = true;
+      this.#activateEmailInput.style.cssText = disabledCssText;
+      this.#activateCodeInput.style.cssText = disabledCssText;
+
+      $$_(this.#activateButton, 'svg').forEach((svg, index) =>
+        classRemove(index === 0 ? ADD : REMOVE, svg)
+      );
+      return (this.#activateButton.style.cssText = disabledCssText);
+    }
+
+    this.#activateEmailInput.disabled = false;
+    this.#activateCodeInput.disabled = false;
+    this.#activateEmailInput.style.cssText = `opacity: 1; cursor: text;`;
+    this.#activateCodeInput.style.cssText = `opacity: 1; cursor: text;`;
+
+    $$_(this.#activateButton, 'svg').forEach((svg, index) =>
+      classRemove(index === 1 ? ADD : REMOVE, svg)
+    );
+
+    if (state === ERROR) {
+      classRemove(ADD, this.#activateWarningButton);
+      this.#activateWarningMessageFail.textContent = errorMessage;
+      classRemove(REMOVE, this.#activateWarningMessageFail);
+      this.#activateButton.style.cssText = `opacity: 1; cursor: pointer;`;
+    }
+
+    if (state === CONTENT) {
+      this.#activateEmailInput.value = '';
+      this.#activateCodeInput.value = '';
+    }
+  };
+
+  activateGetCodeSuccess = (option = {}) => {
+    const { goBack } = option;
+
+    this.#activateHeaderTitle.textContent = goBack ? 'Activate' : 'Code';
+    classRemove(
+      goBack ? REMOVE : ADD,
+      this.#activateEmailInput.parentElement,
+      this.#activateActionsWrapper
+    );
+    classRemove(
+      goBack ? ADD : REMOVE,
+      this.#activateCodeInput.parentElement,
+      this.#activateActionsBackWrapper
+    );
+  };
+
+  //
   // Events listening //////////
+
+  // Sign-in //////////
 
   addLoginCheckFirst(handler) {
     document.addEventListener('DOMContentLoaded', handler);
@@ -205,9 +315,17 @@ class AuthView {
   }
 
   addLoginCloseHandler(handler) {
-    [this.#loginExitButton, this.#loginSection].forEach(element =>
-      element.addEventListener('click', handler)
+    [
+      this.#loginExitButton,
+      this.#loginSection,
+      this.#loginActivateButton,
+    ].forEach(element =>
+      element.addEventListener('click', event => {
+        event.preventDefault();
+        handler();
+      })
     );
+
     this.#loginForm.addEventListener('click', event => event.stopPropagation());
   }
 
@@ -254,8 +372,63 @@ class AuthView {
     });
   }
 
+  addLoginChooseActivateHandler(handler) {
+    this.#loginActivateButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  // Sign-out //////////
+
   addLogoutHandler(handler) {
     this.#logoutButtonSubHeader.addEventListener('click', handler);
+  }
+
+  // Activate //////////
+
+  addActivateCloseHandler(handler) {
+    [this.#activateExitButton, this.#activateSection].forEach(element =>
+      element.addEventListener('click', event => {
+        event.preventDefault();
+        handler();
+      })
+    );
+    this.#activateForm.addEventListener('click', event =>
+      event.stopPropagation()
+    );
+  }
+
+  addActivateWarningHanler(handler) {
+    this.#activateWarningButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  addActivateInputHandlers(handlers) {
+    ['input', 'blur'].forEach((eventName, eventIndex) =>
+      [this.#activateEmailInput, this.#activateCodeInput].forEach(
+        (input, index) =>
+          input.addEventListener(eventName, event =>
+            handlers[eventIndex][index](event.target.value)
+          )
+      )
+    );
+  }
+
+  addActivateHandler(handler) {
+    this.#activateButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  addActivateActionsBackHandler(handler) {
+    this.#activateActionsBackButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
   }
 }
 

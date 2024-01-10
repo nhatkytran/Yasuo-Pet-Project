@@ -1,5 +1,6 @@
 import {
   BACKEND_URL,
+  ANIMATION_TIMEOUT,
   CONTENT,
   ERROR,
   LOADING,
@@ -9,7 +10,13 @@ import {
   ERROR_ABORT_CODE,
 } from '../config';
 
-import { catchAsync, isUsernameValid, isPasswordValid } from '../utils';
+import {
+  catchAsync,
+  isActivateCodeValid,
+  isEmailValid,
+  isPasswordValid,
+  isUsernameValid,
+} from '../utils';
 
 import store from '../models/store';
 import authService from '../models/features/auth/authService';
@@ -23,9 +30,18 @@ class AuthController extends ModalContentController {
   #ToastView;
   #handleOpenModal;
   #handleCloseModal;
+
   #loginUsername = '';
   #loginPassword = '';
   #loginValid = false;
+  #loadingLoading = false;
+
+  #activateEmail = '';
+  #activateEmailValid = false;
+  #activateEmailLoading = false;
+  #activateCode = '';
+  #activateCodeValid = false;
+  #activateCodeLoading = false;
 
   constructor(AuthView, ToastView, handleOpenModal, handleCloseModal) {
     super();
@@ -97,8 +113,10 @@ class AuthController extends ModalContentController {
   handleLogin = catchAsync({
     filename,
     onProcess: async () => {
-      if (!this.#loginValid) return;
+      if (!this.#loginValid || this.#loadingLoading) return;
+
       this.#AuthView.loginActionDisplay({ state: LOADING });
+      this.#loadingLoading = true;
 
       await authService.login('/api/v1/users/login', {
         username: this.#loginUsername,
@@ -106,13 +124,14 @@ class AuthController extends ModalContentController {
       });
 
       this.#AuthView.loginActionDisplay({ state: CONTENT });
+      this.handleLoginClose();
+      this.#AuthView.loginSuccess();
+      this.#AuthView.loginSuccessSignal();
+
       this.#loginUsername = '';
       this.#loginPassword = '';
       this.#loginValid = false;
-      this.handleLoginClose();
-
-      this.#AuthView.loginSuccess();
-      this.#AuthView.loginSuccessSignal();
+      this.#loadingLoading = false;
 
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
@@ -120,6 +139,8 @@ class AuthController extends ModalContentController {
       });
     },
     onError: error => {
+      this.#loadingLoading = false;
+
       if (error.code === ERROR_ABORT_CODE)
         return this.#AuthView.loginActionDisplay({ state: CONTENT });
 
@@ -148,8 +169,13 @@ class AuthController extends ModalContentController {
     window.location.href = link;
   };
 
-  //
+  handleLoginChooseActivate = () =>
+    setTimeout(
+      () => super.open(this.#handleOpenModal, this.#AuthView.activateOpen),
+      ANIMATION_TIMEOUT * 2
+    );
 
+  //
   handleLogout = catchAsync({
     filename,
     onProcess: async () => {
@@ -169,6 +195,151 @@ class AuthController extends ModalContentController {
       this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
   });
+
+  //
+  handleActivateClose = () => {
+    authService.activateGetCodeAbort();
+    authService.activateConfirmCodeAbort();
+    super.close(this.#handleCloseModal, this.#AuthView.activateClose);
+  };
+
+  resetActivateEmailKit = () => {
+    this.#activateEmail = '';
+    this.#activateEmailValid = false;
+    this.#activateEmailLoading = false;
+  };
+
+  resetActivateCodeKit = () => {
+    this.#activateCode = '';
+    this.#activateCodeValid = false;
+    this.#activateCodeLoading = false;
+  };
+
+  handleActivateWarning = () =>
+    this.#ToastView.createToast({
+      ...store.state.toast[TOAST_WARNING],
+      content:
+        "Only activate accounts created manually! (Don't support OAuth.)",
+    });
+
+  handleActivateEnterEmail = email => {
+    this.#AuthView.activateWarningMessage({ isError: false, field: 'email' });
+    this.#activateEmail = email.trim();
+    this.#activateEmailValid = isEmailValid(this.#activateEmail);
+    this.#AuthView.activateButtonDisplay({
+      canLogin: this.#activateEmailValid,
+    });
+  };
+
+  handleActivateBlurEmail = () =>
+    !isEmailValid(this.#activateEmail) &&
+    this.#AuthView.activateWarningMessage({ isError: true, field: 'email' });
+
+  handleActivateEnterCode = code => {
+    this.#AuthView.activateWarningMessage({ isError: false, field: 'code' });
+    this.#activateCode = code.trim();
+    this.#activateCodeValid = isActivateCodeValid(this.#activateCode);
+    this.#AuthView.activateButtonDisplay({ canLogin: this.#activateCodeValid });
+  };
+
+  handleActivateBlurCode = () =>
+    !isActivateCodeValid(this.#activateCode) &&
+    this.#AuthView.activateWarningMessage({ isError: true, field: 'code' });
+
+  handleActivateGetCode = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (this.#activateEmailLoading) return;
+
+      this.#AuthView.activateActionDisplay({ state: LOADING });
+      this.#activateEmailLoading = true;
+
+      await authService.activateGetCode('/api/v1/users/activateCode', {
+        email: this.#activateEmail,
+      });
+
+      this.#AuthView.activateActionDisplay({ state: CONTENT });
+
+      this.#AuthView.activateGetCodeSuccess();
+      this.resetActivateEmailKit();
+
+      this.#ToastView.createToast({
+        ...store.state.toast[TOAST_SUCCESS],
+        content: 'Activate code is send to your email! Please check.',
+      });
+    },
+    onError: error => {
+      this.#activateEmailLoading = false;
+
+      if (error.code === ERROR_ABORT_CODE)
+        return this.#AuthView.activateActionDisplay({ state: CONTENT });
+
+      let errorMessage = 'Something went wrong! Please try again.';
+
+      if (error.response) {
+        const { code, message } = error.response.data;
+        [
+          'ACTIVATE_AUTHENTICATION_ERROR',
+          'ACTIVATE_OAUTH_ERROR',
+          'ACTIVATE_ACTIVE_ERROR',
+        ].includes(code) && (errorMessage = message);
+      }
+
+      this.#AuthView.activateActionDisplay({ state: ERROR, errorMessage });
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+    },
+  });
+
+  handleActivateConfirmCode = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (this.#activateCodeLoading) return;
+
+      this.#AuthView.activateActionDisplay({ state: LOADING });
+      this.#activateCodeLoading = true;
+
+      await authService.activateConfirmCode('/api/v1/users/activate', {
+        token: this.#activateCode,
+      });
+
+      this.#AuthView.activateActionDisplay({ state: CONTENT });
+
+      this.resetActivateCodeKit();
+      this.handleActivateClose();
+      setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
+
+      this.#ToastView.createToast({
+        ...store.state.toast[TOAST_SUCCESS],
+        content: 'Activate successfully!',
+      });
+    },
+    onError: error => {
+      this.#activateCodeLoading = false;
+
+      if (error.code === ERROR_ABORT_CODE)
+        return this.#AuthView.activateActionDisplay({ state: CONTENT });
+
+      let errorMessage = 'Something went wrong! Please try again.';
+
+      if (error.response) {
+        const { code, message } = error.response.data;
+        ['ACTIVATE_TOKEN_ERROR'].includes(code) && (errorMessage = message);
+      }
+
+      this.#AuthView.activateActionDisplay({ state: ERROR, errorMessage });
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+    },
+  });
+
+  handleActivate = () => {
+    if (this.#activateEmailValid) this.handleActivateGetCode();
+    if (this.#activateCodeValid) this.handleActivateConfirmCode();
+  };
+
+  handleActivateActionsBack = () => {
+    this.resetActivateCodeKit();
+    this.#AuthView.activateGetCodeSuccess({ goBack: true });
+  };
 }
 
 export default AuthController;

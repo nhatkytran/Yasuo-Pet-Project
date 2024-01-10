@@ -63,7 +63,18 @@ function authInit() {
     handleLoginPasswordType,
     handleLogin,
     handleLoginSocial,
+    handleLoginChooseActivate,
+    //
     handleLogout,
+    //
+    handleActivateClose,
+    handleActivateWarning,
+    handleActivateEnterEmail,
+    handleActivateBlurEmail,
+    handleActivateEnterCode,
+    handleActivateBlurCode,
+    handleActivate,
+    handleActivateActionsBack,
   } = new AuthController(
     AuthView,
     ToastView,
@@ -82,7 +93,20 @@ function authInit() {
   AuthView.addLoginPasswordTypeHandler(handleLoginPasswordType);
   AuthView.addLoginHandler(handleLogin);
   AuthView.addLoginSocialHandler(handleLoginSocial);
+  AuthView.addLoginChooseActivateHandler(handleLoginChooseActivate);
+
+  //
   AuthView.addLogoutHandler(handleLogout);
+
+  //
+  AuthView.addActivateCloseHandler(handleActivateClose);
+  AuthView.addActivateWarningHanler(handleActivateWarning);
+  AuthView.addActivateInputHandlers([
+    [handleActivateEnterEmail, handleActivateEnterCode],
+    [handleActivateBlurEmail, handleActivateBlurCode],
+  ]);
+  AuthView.addActivateHandler(handleActivate);
+  AuthView.addActivateActionsBackHandler(handleActivateActionsBack);
 }
 
 function userInit() {
@@ -244,7 +268,7 @@ function galleryInit() {
 }
 
 [
-  // toastInit,
+  toastInit,
   authInit,
   userInit,
   // purchaseInit,

@@ -20,6 +20,8 @@ const schema = new mongoose.Schema({
   },
   googleID: { type: String },
   active: { type: Boolean, default: false },
+  activateToken: { type: String, default: false },
+  activateTokenAt: { type: Date },
   ban: { type: Boolean, default: false },
   lastLogin: { type: Date },
   photo: { type: String, default: '/img/defaul.png' },
@@ -61,6 +63,16 @@ schema.methods.createPasswordResetToken = function () {
 
   this.passwordResetToken = hashedToken;
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return token;
+};
+
+schema.methods.createActivateToken = function () {
+  const token = crypto.randomBytes(6).toString('hex');
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+  this.activateToken = hashedToken;
+  this.activateTokenAt = Date.now() + 2 * 60 * 1000;
 
   return token;
 };

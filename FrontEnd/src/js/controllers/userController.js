@@ -10,6 +10,7 @@ import ModalContentController from './modalContentController';
 const filename = 'userController.js';
 
 // Logout -> Set default username and default image -> profile
+// Clear user's data when logout
 
 class UserController extends ModalContentController {
   #UserView;

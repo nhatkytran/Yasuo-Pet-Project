@@ -1,4 +1,4 @@
-.login-overlay {
+.auth-overlay {
   width: 100%;
   min-height: 100vh;
   position: absolute;
@@ -7,7 +7,7 @@
   @include flex-align-center;
 }
 
-.login-form {
+.auth-form {
   width: 100%;
   max-width: 50rem;
   background-color: $header-text-color;
@@ -24,7 +24,7 @@
   }
 }
 
-.login-form__header {
+.auth-form__header {
   text-align: center;
 
   &-hero {
@@ -89,7 +89,7 @@
   }
 }
 
-.login-form__body {
+.auth-form__body {
   padding: 0 2.4rem;
   margin-top: 2.6rem;
 
@@ -152,7 +152,7 @@
       }
     }
 
-    .login-form-password__type-button {
+    .auth-form-password__type-button {
       width: 5rem;
       height: 4.4rem;
       top: 0;
@@ -198,7 +198,7 @@
   }
 }
 
-.login-form__footer {
+.auth-form__footer {
   padding: 0 2.4rem;
   margin-top: 2rem;
 
@@ -207,7 +207,7 @@
   }
 }
 
-.login-form__actions {
+.auth-form__actions {
   justify-content: space-between;
   @include flex-align-center;
   @include use-font(FF-Mark-Medium);
@@ -219,7 +219,7 @@
   }
 }
 
-.login-form__options {
+.auth-form__options {
   margin-top: 3rem;
   justify-content: space-between;
   @include flex-align-center;
@@ -284,7 +284,7 @@
   }
 }
 
-.login-form__privacy {
+.auth-form__privacy {
   margin: 2.4rem 0 1.2rem;
   justify-content: space-between;
   @include flex-align-center;
@@ -312,4 +312,9 @@
       font-size: 1.2rem;
     }
   }
+}
+
+// Activate //////////
+.activate-form__footer {
+  margin-bottom: 3.6rem;
 }

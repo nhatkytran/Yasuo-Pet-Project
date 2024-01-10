@@ -4,7 +4,7 @@ const getBasicRoute = () => async endpoint => await axiosInstance.get(endpoint);
 
 //
 
-let abortController;
+let loginAbortController;
 
 const login = async (endpoint, { username, password }) =>
   await axiosInstance.post(
@@ -12,13 +12,13 @@ const login = async (endpoint, { username, password }) =>
     { username, password },
     {
       signal: (() => {
-        abortController = new AbortController();
-        return abortController.signal;
+        loginAbortController = new AbortController();
+        return loginAbortController.signal;
       })(),
     }
   );
 
-const loginAbort = () => abortController?.abort();
+const loginAbort = () => loginAbortController?.abort();
 
 const checkIsLoggedIn = getBasicRoute();
 
@@ -26,5 +26,50 @@ const checkIsLoggedIn = getBasicRoute();
 
 const logout = getBasicRoute();
 
-const authService = { login, loginAbort, checkIsLoggedIn, logout };
+//
+
+let activateGetCodeAbortController;
+
+const activateGetCode = async (endpoint, { email }) =>
+  await axiosInstance.post(
+    endpoint,
+    { email },
+    {
+      signal: (() => {
+        activateGetCodeAbortController = new AbortController();
+        return activateGetCodeAbortController.signal;
+      })(),
+    }
+  );
+
+const activateGetCodeAbort = () => activateGetCodeAbortController?.abort();
+
+let activateConfirmCodeAbortController;
+
+const activateConfirmCode = async (endpoint, { token }) =>
+  await axiosInstance.post(
+    endpoint,
+    { token },
+    {
+      signal: (() => {
+        activateConfirmCodeAbortController = new AbortController();
+        return activateConfirmCodeAbortController.signal;
+      })(),
+    }
+  );
+
+const activateConfirmCodeAbort = () =>
+  activateConfirmCodeAbortController?.abort();
+
+const authService = {
+  login,
+  loginAbort,
+  checkIsLoggedIn,
+  logout,
+  activateGetCode,
+  activateGetCodeAbort,
+  activateConfirmCode,
+  activateConfirmCodeAbort,
+};
+
 export default authService;
