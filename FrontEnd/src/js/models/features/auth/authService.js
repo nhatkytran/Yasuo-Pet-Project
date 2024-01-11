@@ -2,7 +2,7 @@ import axiosInstance from '../../axios';
 
 const getBasicRoute = () => async endpoint => await axiosInstance.get(endpoint);
 
-//
+// Sign-in //////////
 
 let loginAbortController;
 
@@ -22,11 +22,11 @@ const loginAbort = () => loginAbortController?.abort();
 
 const checkIsLoggedIn = getBasicRoute();
 
-//
+// Sign-out //////////
 
 const logout = getBasicRoute();
 
-//
+// Activate //////////
 
 let activateGetCodeAbortController;
 
@@ -61,6 +61,24 @@ const activateConfirmCode = async (endpoint, { token }) =>
 const activateConfirmCodeAbort = () =>
   activateConfirmCodeAbortController?.abort();
 
+// Forgot name //////////
+
+let forgotNameAbortController;
+
+const forgotName = async (endpoint, { email }) =>
+  await axiosInstance.post(
+    endpoint,
+    { email },
+    {
+      signal: (() => {
+        forgotNameAbortController = new AbortController();
+        return forgotNameAbortController.signal;
+      })(),
+    }
+  );
+
+const forgotNameAbort = () => forgotNameAbortController?.abort();
+
 const authService = {
   login,
   loginAbort,
@@ -70,6 +88,8 @@ const authService = {
   activateGetCodeAbort,
   activateConfirmCode,
   activateConfirmCodeAbort,
+  forgotName,
+  forgotNameAbort,
 };
 
 export default authService;

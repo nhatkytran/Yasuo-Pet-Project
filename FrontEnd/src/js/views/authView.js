@@ -15,6 +15,8 @@ import { $, $_, $$_, animateFactory, classRemove } from '../utils';
 const loginWarningMessageClass = '.login-form__header-warning-message';
 const disabledCssText = `opacity: 0.6; cursor: not-allowed;`;
 const activateWarningMessageClass = '.activate-form__header-warning-message';
+const forgotNameWarningMessageClass =
+  '.forgot-name-form__header-warning-message';
 
 class AuthView {
   #loginSection = $('.login-overlay');
@@ -33,6 +35,7 @@ class AuthView {
   #loginButton = $('.login-form__body-button');
   #loginButtonSocialWrapper = $('.login-form__options');
   #loginActivateButton = $('.login-form__privacy-activate-button');
+  #loginForgotNameButton = $('.login-form__actions-forgot-name');
 
   //
   #logoutButtonSubHeader = $('.sub-header__content-logout');
@@ -56,8 +59,19 @@ class AuthView {
   #activateActionsBackButton = $('.activate-form__actions-back-button');
 
   //
+  #forgotNameSection = $('.forgot-name-overlay');
+  #forgotNameForm = $('#forgot-name-form');
+  #forgotNameExitButton = $('.forgot-name-form__header-hero-close');
+  #forgotNameWarningButton = $('.forgot-name-form__header-warning-button');
+  #forgotNameWarningMessageEmail = $(`${forgotNameWarningMessageClass}-email`);
+  #forgotNameWarningMessageFail = $(`${forgotNameWarningMessageClass}-fail`);
+  #forgotNameEmailInput = $('#forgot-name-form-email');
+  #forgotNameButton = $('.forgot-name-form__body-button');
+
+  //
   #animateLoginSection;
   #animateActivateSection;
+  #animateForgotNameSection;
 
   constructor() {
     this.#userAvatarSrc = $_(this.#userAvatarWrapper, 'img').src;
@@ -72,7 +86,13 @@ class AuthView {
       this.#activateSection,
       animateOption
     );
+    this.#animateForgotNameSection = animateFactory(
+      this.#forgotNameSection,
+      animateOption
+    );
   }
+
+  // Sign-in //////////
 
   loginOpen = () => {
     classRemove(REMOVE, this.#loginSection);
@@ -174,7 +194,7 @@ class AuthView {
     }
   };
 
-  //
+  // Sign-out //////////
 
   logoutActionDisplay = state => {
     if (state === LOADING) {
@@ -212,7 +232,8 @@ class AuthView {
     });
   };
 
-  //
+  // Activate //////////
+
   activateOpen = () => {
     classRemove(REMOVE, this.#activateSection);
     this.#animateActivateSection(START);
@@ -299,10 +320,67 @@ class AuthView {
     );
   };
 
-  //
-  // Events listening //////////
+  // Forgot name //////////
 
-  // Sign-in //////////
+  forgotNameOpen = () => {
+    classRemove(REMOVE, this.#forgotNameSection);
+    this.#animateForgotNameSection(START);
+  };
+
+  forgotNameClose = () => {
+    classRemove(ADD, this.#forgotNameSection);
+    this.#animateForgotNameSection(END);
+  };
+
+  forgotNameWarningMessage = ({ isError, field }) => {
+    classRemove(ADD, this.#forgotNameWarningMessageFail);
+
+    if (isError) {
+      if (field === 'email')
+        this.#forgotNameWarningMessageEmail.textContent =
+          'Please provide a valid email.';
+
+      return classRemove(ADD, this.#forgotNameWarningButton);
+    }
+
+    if (field === 'email') this.#forgotNameWarningMessageEmail.textContent = '';
+    classRemove(REMOVE, this.#forgotNameWarningButton);
+  };
+
+  forgotNameButtonDisplay = ({ canLogin }) => {
+    if (!canLogin) this.#forgotNameButton.style.cssText = disabledCssText;
+    else this.#forgotNameButton.style.cssText = `opacity: 1; cursor: pointer;`;
+  };
+
+  forgotNameActionDisplay = ({ state, errorMessage }) => {
+    if (state === LOADING) {
+      this.#forgotNameEmailInput.disabled = true;
+      this.#forgotNameEmailInput.style.cssText = disabledCssText;
+
+      $$_(this.#forgotNameButton, 'svg').forEach((svg, index) =>
+        classRemove(index === 0 ? ADD : REMOVE, svg)
+      );
+      return (this.#forgotNameButton.style.cssText = disabledCssText);
+    }
+
+    this.#forgotNameEmailInput.disabled = false;
+    this.#forgotNameEmailInput.style.cssText = `opacity: 1; cursor: text;`;
+
+    $$_(this.#forgotNameButton, 'svg').forEach((svg, index) =>
+      classRemove(index === 1 ? ADD : REMOVE, svg)
+    );
+
+    if (state === ERROR) {
+      classRemove(ADD, this.#forgotNameWarningButton);
+      this.#forgotNameWarningMessageFail.textContent = errorMessage;
+      classRemove(REMOVE, this.#forgotNameWarningMessageFail);
+      this.#forgotNameButton.style.cssText = `opacity: 1; cursor: pointer;`;
+    }
+
+    if (state === CONTENT) this.#forgotNameEmailInput.value = '';
+  };
+
+  // Sign-in - Events listening //////////
 
   addLoginCheckFirst(handler) {
     document.addEventListener('DOMContentLoaded', handler);
@@ -319,6 +397,7 @@ class AuthView {
       this.#loginExitButton,
       this.#loginSection,
       this.#loginActivateButton,
+      this.#loginForgotNameButton,
     ].forEach(element =>
       element.addEventListener('click', event => {
         event.preventDefault();
@@ -379,13 +458,20 @@ class AuthView {
     });
   }
 
-  // Sign-out //////////
+  addLoginChooseForgotNameHandler(handler) {
+    this.#loginForgotNameButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  // Sign-out - Events listening //////////
 
   addLogoutHandler(handler) {
     this.#logoutButtonSubHeader.addEventListener('click', handler);
   }
 
-  // Activate //////////
+  // Activate - Events listening //////////
 
   addActivateCloseHandler(handler) {
     [this.#activateExitButton, this.#activateSection].forEach(element =>
@@ -426,6 +512,43 @@ class AuthView {
 
   addActivateActionsBackHandler(handler) {
     this.#activateActionsBackButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  // Forgot name - Events listening //////////
+
+  addForgotNameCloseHandler(handler) {
+    [this.#forgotNameExitButton, this.#forgotNameSection].forEach(element =>
+      element.addEventListener('click', event => {
+        event.preventDefault();
+        handler();
+      })
+    );
+
+    this.#forgotNameForm.addEventListener('click', event =>
+      event.stopPropagation()
+    );
+  }
+
+  addForgotNameWarningHandler(handler) {
+    this.#forgotNameWarningButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  addForgotNameInputEmailHandler(handlers) {
+    ['input', 'blur'].forEach((eventName, index) =>
+      this.#forgotNameEmailInput.addEventListener(eventName, event =>
+        handlers[index](event.target.value)
+      )
+    );
+  }
+
+  addForgotNameHandler(handler) {
+    this.#forgotNameButton.addEventListener('click', event => {
       event.preventDefault();
       handler();
     });

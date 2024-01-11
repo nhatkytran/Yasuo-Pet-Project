@@ -64,6 +64,7 @@ function authInit() {
     handleLogin,
     handleLoginSocial,
     handleLoginChooseActivate,
+    handleLoginChooseForgotName,
     //
     handleLogout,
     //
@@ -75,6 +76,12 @@ function authInit() {
     handleActivateBlurCode,
     handleActivate,
     handleActivateActionsBack,
+    //
+    handleForgotNameClose,
+    handleForgotNameWarning,
+    handleForgotNameEnterEmail,
+    handleForgotNameBlurEmail,
+    handleForgotName,
   } = new AuthController(
     AuthView,
     ToastView,
@@ -94,11 +101,10 @@ function authInit() {
   AuthView.addLoginHandler(handleLogin);
   AuthView.addLoginSocialHandler(handleLoginSocial);
   AuthView.addLoginChooseActivateHandler(handleLoginChooseActivate);
+  AuthView.addLoginChooseForgotNameHandler(handleLoginChooseForgotName);
 
-  //
   AuthView.addLogoutHandler(handleLogout);
 
-  //
   AuthView.addActivateCloseHandler(handleActivateClose);
   AuthView.addActivateWarningHanler(handleActivateWarning);
   AuthView.addActivateInputHandlers([
@@ -107,6 +113,14 @@ function authInit() {
   ]);
   AuthView.addActivateHandler(handleActivate);
   AuthView.addActivateActionsBackHandler(handleActivateActionsBack);
+
+  AuthView.addForgotNameCloseHandler(handleForgotNameClose);
+  AuthView.addForgotNameWarningHandler(handleForgotNameWarning);
+  AuthView.addForgotNameInputEmailHandler([
+    handleForgotNameEnterEmail,
+    handleForgotNameBlurEmail,
+  ]);
+  AuthView.addForgotNameHandler(handleForgotName);
 }
 
 function userInit() {

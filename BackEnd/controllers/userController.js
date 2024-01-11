@@ -88,3 +88,41 @@ exports.activateAccount = catchAsync(async (req, res, next) => {
     message: 'Activate account successfully!',
   });
 });
+
+exports.forgotUsername = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+  if (!validator.isEmail(email))
+    throw new AppError('Please provide a valid email!', 400);
+
+  const user = await User.findOne({ email });
+  if (!user)
+    throw new AppError(
+      `Incorrect email!`,
+      400,
+      'FORGOT_USERNAME_AUTHENTICATION_ERROR'
+    );
+
+  if (user.googleID || user.githubID || user.appleID)
+    throw new AppError(
+      'Only get username of accounts created manually!',
+      403,
+      'FORGOT_USERNAME_OAUTH_ERROR'
+    );
+
+  try {
+    const subject = 'Your username';
+    const message = `Your username: ${user.username}`;
+
+    await sendEmail({ email, subject, message });
+  } catch (error) {
+    throw new AppError(
+      'Something went wrong sending email! Please try again.',
+      500
+    );
+  }
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Token has been sent, please check your email',
+  });
+});

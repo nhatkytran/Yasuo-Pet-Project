@@ -34,7 +34,7 @@ class AuthController extends ModalContentController {
   #loginUsername = '';
   #loginPassword = '';
   #loginValid = false;
-  #loadingLoading = false;
+  #loginLoading = false;
 
   #activateEmail = '';
   #activateEmailValid = false;
@@ -43,6 +43,10 @@ class AuthController extends ModalContentController {
   #activateCodeValid = false;
   #activateCodeLoading = false;
 
+  #forgotNameEmail = '';
+  #forgotNameEmailValid = false;
+  #forgotNameEmailLoading = false;
+
   constructor(AuthView, ToastView, handleOpenModal, handleCloseModal) {
     super();
     this.#AuthView = AuthView;
@@ -50,6 +54,8 @@ class AuthController extends ModalContentController {
     this.#handleOpenModal = handleOpenModal;
     this.#handleCloseModal = handleCloseModal;
   }
+
+  // Sign-in //////////
 
   handleLoginCheckFirst = catchAsync({
     filename,
@@ -113,10 +119,10 @@ class AuthController extends ModalContentController {
   handleLogin = catchAsync({
     filename,
     onProcess: async () => {
-      if (!this.#loginValid || this.#loadingLoading) return;
+      if (!this.#loginValid || this.#loginLoading) return;
 
       this.#AuthView.loginActionDisplay({ state: LOADING });
-      this.#loadingLoading = true;
+      this.#loginLoading = true;
 
       await authService.login('/api/v1/users/login', {
         username: this.#loginUsername,
@@ -131,7 +137,7 @@ class AuthController extends ModalContentController {
       this.#loginUsername = '';
       this.#loginPassword = '';
       this.#loginValid = false;
-      this.#loadingLoading = false;
+      this.#loginLoading = false;
 
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
@@ -139,7 +145,7 @@ class AuthController extends ModalContentController {
       });
     },
     onError: error => {
-      this.#loadingLoading = false;
+      this.#loginLoading = false;
 
       if (error.code === ERROR_ABORT_CODE)
         return this.#AuthView.loginActionDisplay({ state: CONTENT });
@@ -175,7 +181,14 @@ class AuthController extends ModalContentController {
       ANIMATION_TIMEOUT * 2
     );
 
-  //
+  handleLoginChooseForgotName = () =>
+    setTimeout(
+      () => super.open(this.#handleOpenModal, this.#AuthView.forgotNameOpen),
+      ANIMATION_TIMEOUT * 2
+    );
+
+  // Sign-out //////////
+
   handleLogout = catchAsync({
     filename,
     onProcess: async () => {
@@ -196,7 +209,8 @@ class AuthController extends ModalContentController {
     },
   });
 
-  //
+  // Activate //////////
+
   handleActivateClose = () => {
     authService.activateGetCodeAbort();
     authService.activateConfirmCodeAbort();
@@ -265,7 +279,7 @@ class AuthController extends ModalContentController {
 
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
-        content: 'Activate code is send to your email! Please check.',
+        content: 'Activate code is sent to your email! Please check.',
       });
     },
     onError: error => {
@@ -340,6 +354,80 @@ class AuthController extends ModalContentController {
     this.resetActivateCodeKit();
     this.#AuthView.activateGetCodeSuccess({ goBack: true });
   };
+
+  // Forgot name //////////
+
+  handleForgotNameClose = () => {
+    authService.forgotNameAbort();
+    super.close(this.#handleCloseModal, this.#AuthView.forgotNameClose);
+  };
+
+  handleForgotNameWarning = () =>
+    this.#ToastView.createToast({
+      ...store.state.toast[TOAST_WARNING],
+      content:
+        "Only get username of accounts created manually! (Don't support OAuth.)",
+    });
+
+  handleForgotNameEnterEmail = email => {
+    this.#AuthView.forgotNameWarningMessage({ isError: false, field: 'email' });
+    this.#forgotNameEmail = email.trim();
+    this.#forgotNameEmailValid = isEmailValid(this.#forgotNameEmail);
+    this.#AuthView.forgotNameButtonDisplay({
+      canLogin: this.#forgotNameEmailValid,
+    });
+  };
+
+  handleForgotNameBlurEmail = () =>
+    !isEmailValid(this.#forgotNameEmail) &&
+    this.#AuthView.forgotNameWarningMessage({ isError: true, field: 'email' });
+
+  handleForgotName = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (!this.#forgotNameEmailValid || this.#forgotNameEmailLoading) return;
+
+      this.#AuthView.forgotNameActionDisplay({ state: LOADING });
+      this.#forgotNameEmailLoading = true;
+
+      await authService.forgotName('/api/v1/users/forgotUsername', {
+        email: this.#forgotNameEmail,
+      });
+
+      this.#AuthView.forgotNameActionDisplay({ state: CONTENT });
+
+      this.#forgotNameEmail = '';
+      this.#forgotNameEmailValid = false;
+      this.#forgotNameEmailLoading = false;
+
+      this.handleForgotNameClose();
+      setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
+
+      this.#ToastView.createToast({
+        ...store.state.toast[TOAST_SUCCESS],
+        content: 'Username is sent to your email! Please check.',
+      });
+    },
+    onError: error => {
+      this.#forgotNameEmailLoading = false;
+
+      if (error.code === ERROR_ABORT_CODE)
+        return this.#AuthView.forgotNameActionDisplay({ state: CONTENT });
+
+      let errorMessage = 'Something went wrong! Please try again.';
+
+      if (error.response) {
+        const { code, message } = error.response.data;
+        [
+          'FORGOT_USERNAME_AUTHENTICATION_ERROR',
+          'FORGOT_USERNAME_OAUTH_ERROR',
+        ].includes(code) && (errorMessage = message);
+      }
+
+      this.#AuthView.forgotNameActionDisplay({ state: ERROR, errorMessage });
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+    },
+  });
 }
 
 export default AuthController;

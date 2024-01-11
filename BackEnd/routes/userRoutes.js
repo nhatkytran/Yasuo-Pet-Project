@@ -15,6 +15,7 @@ const {
   getMe,
   getActivateCode,
   activateAccount,
+  forgotUsername,
 } = require('../controllers/userController');
 
 const userRouter = express.Router();
@@ -45,6 +46,8 @@ userRouter.post('/activate', activateAccount);
 
 userRouter.post('/forgotPassword', forgotPassword);
 userRouter.post('/resetPassword/:email/:token', resetPassword);
+
+userRouter.post('/forgotUsername', forgotUsername);
 
 userRouter.get('/me', getMe);
 
