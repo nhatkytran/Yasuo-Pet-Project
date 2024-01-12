@@ -52,6 +52,7 @@ function toastInit() {
 
 function authInit() {
   const {
+    // Sign-in //////////
     handleLoginCheckFirst,
     handleLoginOpen,
     handleLoginClose,
@@ -65,9 +66,10 @@ function authInit() {
     handleLoginSocial,
     handleLoginChooseActivate,
     handleLoginChooseForgotName,
-    //
+    handleLoginChooseSignup,
+    // Sign-out //////////
     handleLogout,
-    //
+    // Activate //////////
     handleActivateClose,
     handleActivateWarning,
     handleActivateEnterEmail,
@@ -76,14 +78,26 @@ function authInit() {
     handleActivateBlurCode,
     handleActivate,
     handleActivateActionsBack,
-    //
+    // Forgot name //////////
     handleForgotNameClose,
     handleForgotNameWarning,
     handleForgotNameEnterEmail,
     handleForgotNameBlurEmail,
     handleForgotName,
-    //
+    // Sign-up //////////
+    handleSignupClose,
     handleSignupWarning,
+    handleSignupEnterUsername,
+    handleSignupBlurUsername,
+    handleSignupEnterEmail,
+    handleSignupBlurEmail,
+    handleSignupEnterPassword,
+    handleSignupBlurPassword,
+    handleSignupPasswordType,
+    handleSignupEnterCode,
+    handleSignupBlurCode,
+    handleSignup,
+    handleSignupBack,
   } = new AuthController(
     AuthView,
     ToastView,
@@ -91,6 +105,7 @@ function authInit() {
     modalController.close
   );
 
+  // Sign-in //////////
   AuthView.addLoginCheckFirst(handleLoginCheckFirst);
   AuthView.addLoginOpenHandler(handleLoginOpen);
   AuthView.addLoginCloseHandler(handleLoginClose);
@@ -104,9 +119,12 @@ function authInit() {
   AuthView.addLoginSocialHandler(handleLoginSocial);
   AuthView.addLoginChooseActivateHandler(handleLoginChooseActivate);
   AuthView.addLoginChooseForgotNameHandler(handleLoginChooseForgotName);
+  AuthView.addLoginChooseSignupHandler(handleLoginChooseSignup);
 
+  // Sign-out //////////
   AuthView.addLogoutHandler(handleLogout);
 
+  // Activate //////////
   AuthView.addActivateCloseHandler(handleActivateClose);
   AuthView.addActivateWarningHanler(handleActivateWarning);
   AuthView.addActivateInputHandlers([
@@ -116,6 +134,7 @@ function authInit() {
   AuthView.addActivateHandler(handleActivate);
   AuthView.addActivateActionsBackHandler(handleActivateActionsBack);
 
+  // Forgot name //////////
   AuthView.addForgotNameCloseHandler(handleForgotNameClose);
   AuthView.addForgotNameWarningHandler(handleForgotNameWarning);
   AuthView.addForgotNameInputEmailHandler([
@@ -124,7 +143,24 @@ function authInit() {
   ]);
   AuthView.addForgotNameHandler(handleForgotName);
 
+  // Sign-up //////////
+  AuthView.addSignupCloseHandler(handleSignupClose);
   AuthView.addSignupWarningHanler(handleSignupWarning);
+  AuthView.addSignupInfoInputHandlers([
+    [
+      handleSignupEnterUsername,
+      handleSignupEnterEmail,
+      handleSignupEnterPassword,
+    ],
+    [handleSignupBlurUsername, handleSignupBlurEmail, handleSignupBlurPassword],
+  ]);
+  AuthView.addSignupPasswordTypeHandler(handleSignupPasswordType);
+  AuthView.addSignupCodeInputHandler([
+    handleSignupEnterCode,
+    handleSignupBlurCode,
+  ]);
+  AuthView.addSigupHandler(handleSignup);
+  AuthView.addSignupBackHandler(handleSignupBack);
 }
 
 function userInit() {

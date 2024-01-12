@@ -68,6 +68,10 @@ exports.activateAccount = catchAsync(async (req, res, next) => {
     activateTokenAt: { $gt: Date.now() },
   });
 
+  // Test
+  const start = Date.now();
+  while (Date.now() - start < 3000) {}
+
   if (!user)
     throw new AppError(
       'Invalid token or token has expired!',

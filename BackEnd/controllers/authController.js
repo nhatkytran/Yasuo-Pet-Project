@@ -6,6 +6,18 @@ const { User } = require('../models');
 exports.signup = catchAsync(async (req, res) => {
   const { username, email, password, passwordConfirm } = req.body;
 
+  if (await User.findOne({ username }))
+    throw new AppError(
+      'Username already exists!',
+      400,
+      'SIGNUP_USERNAME_ERROR'
+    );
+
+  if (await User.findOne({ email }))
+    throw new AppError('Email already exists!', 400, 'SIGNUP_EMAIL_ERROR');
+
+  return res.status(200).json({ status: 'success' });
+
   if (!username || !username.trim())
     throw new AppError('Please provide a username!', 400);
   if (!email || !email.trim())
@@ -29,7 +41,7 @@ exports.signup = catchAsync(async (req, res) => {
       400
     );
 
-  if (!password === passwordConfirm)
+  if (password !== passwordConfirm)
     throw new AppError('Password confirm - Failed!', 400);
 
   const user = await User.create({

@@ -79,6 +79,24 @@ const forgotName = async (endpoint, { email }) =>
 
 const forgotNameAbort = () => forgotNameAbortController?.abort();
 
+// Sign-up //////////
+
+let signupAbortController;
+
+const signup = async (endpoint, { username, email, password }) =>
+  await axiosInstance.post(
+    endpoint,
+    { username, email, password, passwordConfirm: password },
+    {
+      signal: (() => {
+        signupAbortController = new AbortController();
+        return signupAbortController.signal;
+      })(),
+    }
+  );
+
+const signupAbort = () => signupAbortController?.abort();
+
 const authService = {
   login,
   loginAbort,
@@ -90,6 +108,8 @@ const authService = {
   activateConfirmCodeAbort,
   forgotName,
   forgotNameAbort,
+  signup,
+  signupAbort,
 };
 
 export default authService;

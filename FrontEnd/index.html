@@ -170,7 +170,7 @@
         <div class="auth-form__privacy login-form__privacy">
           <button class="button auth-form__privacy-activate-button login-form__privacy-activate-button">Activate
             account</button>
-          <a href="">Sign Up</a>
+          <a class="login-form__privacy-signup-button" href="">Sign Up</a>
         </div>
       </div>
     </form>
@@ -264,6 +264,11 @@
           </div>
         </div>
 
+        <div class="auth-form__body-group signup-form__body-group remove">
+          <input id="signup-form-code" type="text" placeholder="Code" autocomplete="code">
+          <label for="signup-form-code">Code</label>
+        </div>
+
         <button type="submit" class="button auth-form__body-button signup-form__body-button">
           <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="20" height="20" viewBox="0 0 20 20">
             <path d="M16.172 9l-6.071-6.071 1.414-1.414 8.485 8.485-8.485 8.485-1.414-1.414 6.071-6.071h-16.172v-2z" />
@@ -279,8 +284,8 @@
       <div class="auth-form__footer signup-form__footer">
         <div class="auth-form__privacy signup-form__privacy">
           <div></div>
-          <a href="">Sign In</a>
-          <a class="remove" href="">Go Back</a>
+          <a class="signup-form__privacy-signin" href="">Sign In</a>
+          <a class="signup-form__privacy-back remove" href="">Go Back</a>
         </div>
       </div>
     </form>
