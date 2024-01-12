@@ -82,6 +82,8 @@ function authInit() {
     handleForgotNameEnterEmail,
     handleForgotNameBlurEmail,
     handleForgotName,
+    //
+    handleSignupWarning,
   } = new AuthController(
     AuthView,
     ToastView,
@@ -121,6 +123,8 @@ function authInit() {
     handleForgotNameBlurEmail,
   ]);
   AuthView.addForgotNameHandler(handleForgotName);
+
+  AuthView.addSignupWarningHanler(handleSignupWarning);
 }
 
 function userInit() {

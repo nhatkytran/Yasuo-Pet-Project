@@ -47,6 +47,15 @@ class AuthController extends ModalContentController {
   #forgotNameEmailValid = false;
   #forgotNameEmailLoading = false;
 
+  #signupInfoUsername = '';
+  #signupInfoEmail = '';
+  #signupInfoPassword = '';
+  #signupInfoValid = false;
+  #signupInfoLoading = false;
+  #signupCode = '';
+  #signupCodeValid = false;
+  #signupCodeLoading = false;
+
   constructor(AuthView, ToastView, handleOpenModal, handleCloseModal) {
     super();
     this.#AuthView = AuthView;
@@ -351,6 +360,7 @@ class AuthController extends ModalContentController {
   };
 
   handleActivateActionsBack = () => {
+    if (this.#activateCodeLoading) return;
     this.resetActivateCodeKit();
     this.#AuthView.activateGetCodeSuccess({ goBack: true });
   };
@@ -428,6 +438,26 @@ class AuthController extends ModalContentController {
       this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
   });
+
+  // Sign-up //////////
+
+  handleSignupEnterUsername = username => {};
+
+  handleSignupBlurUsername = () => {};
+
+  handleSignupEnterEmail = email => {};
+
+  handleSignupBlurEmail = () => {};
+
+  handleSignupEnterPassword = password => {};
+
+  handleSignupBlurPassword = () => {};
+
+  handleSignupWarning = () =>
+    this.#ToastView.createToast({
+      ...store.state.toast[TOAST_WARNING],
+      content: 'Remember to check all information again before signing up.',
+    });
 }
 
 export default AuthController;

@@ -72,7 +72,7 @@ const googleStrategy = new GoogleStrategy(
         picture: photo,
       } = profile._json;
 
-      const user = await User.findOne({ googleID });
+      const user = await User.findOne({ email });
 
       if (user) return done(null, user);
 

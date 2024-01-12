@@ -26,8 +26,8 @@ module.exports = merge(common, {
     client: {
       overlay: true,
     },
-    liveReload: true,
-    hot: true,
+    liveReload: false,
+    hot: false,
   },
   // Browser keeps reloading so many times
   // https://github.com/webpack/webpack/issues/2983

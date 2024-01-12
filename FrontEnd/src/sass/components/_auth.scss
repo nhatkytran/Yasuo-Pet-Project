@@ -152,6 +152,14 @@
       }
     }
 
+    #signup-form-password {
+      padding: 1.5rem 5.4rem 1.5rem 2rem;
+
+      &:not(:placeholder-shown) + label + .signup-form-password__type-button {
+        @include show;
+      }
+    }
+
     .auth-form-password__type-button {
       width: 5rem;
       height: 4.4rem;

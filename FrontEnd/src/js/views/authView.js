@@ -17,6 +17,7 @@ const disabledCssText = `opacity: 0.6; cursor: not-allowed;`;
 const activateWarningMessageClass = '.activate-form__header-warning-message';
 const forgotNameWarningMessageClass =
   '.forgot-name-form__header-warning-message';
+const signupWarningMessageClass = '.signup-form__header-warning-message';
 
 class AuthView {
   #loginSection = $('.login-overlay');
@@ -67,6 +68,17 @@ class AuthView {
   #forgotNameWarningMessageFail = $(`${forgotNameWarningMessageClass}-fail`);
   #forgotNameEmailInput = $('#forgot-name-form-email');
   #forgotNameButton = $('.forgot-name-form__body-button');
+
+  //
+  #signupWarningButton = $('.signup-form__header-warning-button');
+  #signupWarningMessageUsername = $(`${signupWarningMessageClass}-username`);
+  #signupWarningMessageEmail = $(`${signupWarningMessageClass}-email`);
+  #signupWarningMessagePassword = $(`${signupWarningMessageClass}-password`);
+  #signupWarningMessageCode = $(`${signupWarningMessageClass}-code`);
+  #signupWarningMessageFail = $(`${signupWarningMessageClass}-fail`);
+  #signupUsernameInput = $('#signup-form-username');
+  #signupEmailInput = $('#signup-form-email');
+  #signupPasswordInput = $('#signup-form-password');
 
   //
   #animateLoginSection;
@@ -191,6 +203,10 @@ class AuthView {
     if (state === CONTENT) {
       this.#loginUsernameInput.value = '';
       this.#loginPasswordInput.value = '';
+      classRemove(REMOVE, this.#loginWarningButton);
+      this.#loginWarningMessageUsername.textContent = '';
+      this.#loginWarningMessagePassword.textContent = '';
+      classRemove(ADD, this.#loginWarningMessageFail);
     }
   };
 
@@ -275,6 +291,7 @@ class AuthView {
       this.#activateCodeInput.disabled = true;
       this.#activateEmailInput.style.cssText = disabledCssText;
       this.#activateCodeInput.style.cssText = disabledCssText;
+      this.#activateActionsBackButton.style.cursor = 'not-allowed';
 
       $$_(this.#activateButton, 'svg').forEach((svg, index) =>
         classRemove(index === 0 ? ADD : REMOVE, svg)
@@ -286,6 +303,7 @@ class AuthView {
     this.#activateCodeInput.disabled = false;
     this.#activateEmailInput.style.cssText = `opacity: 1; cursor: text;`;
     this.#activateCodeInput.style.cssText = `opacity: 1; cursor: text;`;
+    this.#activateActionsBackButton.style.cursor = 'pointer';
 
     $$_(this.#activateButton, 'svg').forEach((svg, index) =>
       classRemove(index === 1 ? ADD : REMOVE, svg)
@@ -301,6 +319,10 @@ class AuthView {
     if (state === CONTENT) {
       this.#activateEmailInput.value = '';
       this.#activateCodeInput.value = '';
+      classRemove(REMOVE, this.#activateWarningButton);
+      this.#activateWarningMessageEmail.textContent = '';
+      this.#activateWarningMessageCode.textContent = '';
+      classRemove(ADD, this.#activateWarningMessageFail);
     }
   };
 
@@ -318,6 +340,14 @@ class AuthView {
       this.#activateCodeInput.parentElement,
       this.#activateActionsBackWrapper
     );
+
+    if (goBack) {
+      this.#activateCodeInput.value = '';
+      classRemove(REMOVE, this.#activateWarningButton);
+      this.#activateWarningMessageCode.textContent = '';
+      classRemove(ADD, this.#activateWarningMessageFail);
+      this.#activateButton.style.cssText = disabledCssText;
+    }
   };
 
   // Forgot name //////////
@@ -377,7 +407,49 @@ class AuthView {
       this.#forgotNameButton.style.cssText = `opacity: 1; cursor: pointer;`;
     }
 
-    if (state === CONTENT) this.#forgotNameEmailInput.value = '';
+    if (state === CONTENT) {
+      this.#forgotNameEmailInput.value = '';
+      classRemove(REMOVE, this.#forgotNameWarningButton);
+      this.#forgotNameWarningMessageEmail.textContent = '';
+      classRemove(ADD, this.#forgotNameWarningMessageFail);
+    }
+  };
+
+  // Sign-up //////////
+
+  signupWarningMessage = ({ isError, field }) => {
+    classRemove(ADD, this.#signupWarningMessageFail);
+
+    if (isError) {
+      if (field === 'username')
+        this.#signupWarningMessageUsername.textContent =
+          'Username must be 5+ characters.';
+
+      if (field === 'email')
+        this.#signupWarningMessageEmail.textContent =
+          'Please provide a valid email.';
+
+      if (field === 'password')
+        this.#signupWarningMessagePassword.textContent =
+          'Password: 8+ chars (uppercase, lowercase, number, symbol).';
+
+      if (field === 'code')
+        this.#signupWarningMessageCode.textContent =
+          'Please provide a valid code';
+
+      return classRemove(ADD, this.#signupWarningButton);
+    }
+
+    // Clear text when activate go back
+
+    if (field === 'username')
+      this.#signupWarningMessageUsername.textContent = '';
+
+    if (field === 'email') this.#activateWarningMessageEmail.textContent = '';
+    if (field === 'password') {
+    }
+    if (field === 'code') this.#activateWarningMessageCode.textContent = '';
+    classRemove(REMOVE, this.#activateWarningButton);
   };
 
   // Sign-in - Events listening //////////
@@ -552,6 +624,29 @@ class AuthView {
       event.preventDefault();
       handler();
     });
+  }
+
+  // Sign-up - Events listening //////////
+
+  addSignupWarningHanler(handler) {
+    this.#signupWarningButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  addSignupInfoInputHandlers(handlers) {
+    ['input', 'blur'].forEach((eventName, eventIndex) =>
+      [
+        this.#signupUsernameInput,
+        this.#signupEmailInput,
+        this.#signupPasswordInput,
+      ].forEach((input, index) =>
+        input.addEventListener(eventName, event =>
+          handlers[eventIndex][index](event.target.value)
+        )
+      )
+    );
   }
 }
 
