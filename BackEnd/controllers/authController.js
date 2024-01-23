@@ -16,8 +16,6 @@ exports.signup = catchAsync(async (req, res) => {
   if (await User.findOne({ email }))
     throw new AppError('Email already exists!', 400, 'SIGNUP_EMAIL_ERROR');
 
-  return res.status(200).json({ status: 'success' });
-
   if (!username || !username.trim())
     throw new AppError('Please provide a username!', 400);
   if (!email || !email.trim())
@@ -50,6 +48,27 @@ exports.signup = catchAsync(async (req, res) => {
     password: String(password),
     passwordConfirm: String(passwordConfirm),
   });
+
+  const activateToken = await user.createActivateToken();
+  await user.save({ validateModifiedOnly: true });
+
+  try {
+    const subject = 'Your activate token (only valid for 2 mins)';
+    const message = `Your activate token: ${activateToken}`;
+
+    await sendEmail({ email, subject, message });
+  } catch (error) {
+    user.activateToken = undefined;
+    user.activateTokenAt = undefined;
+
+    await user.save({ validateModifiedOnly: true });
+
+    throw new AppError(
+      'Something went wrong sending email! Please activate account manually.',
+      500,
+      'SIGNUP_SEND_EMAIL_ERROR'
+    );
+  }
 
   user.password = undefined;
   res.status(200).json({ status: 'success', user });

@@ -570,8 +570,11 @@ class AuthController extends ModalContentController {
 
       if (error.response) {
         const { code, message } = error.response.data;
-        ['SIGNUP_USERNAME_ERROR', 'SIGNUP_EMAIL_ERROR'].includes(code) &&
-          (errorMessage = message);
+        [
+          'SIGNUP_USERNAME_ERROR',
+          'SIGNUP_EMAIL_ERROR',
+          'SIGNUP_SEND_EMAIL_ERROR',
+        ].includes(code) && (errorMessage = message);
       }
 
       this.#AuthView.signupActionDisplay({ state: ERROR, errorMessage });
@@ -593,8 +596,8 @@ class AuthController extends ModalContentController {
 
       this.#AuthView.signupActionDisplay({ state: CONTENT });
       this.#resetSignupCodeKit();
-      // this.handleActivateClose();
-      // setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
+      this.handleSignupClose();
+      setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
 
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
