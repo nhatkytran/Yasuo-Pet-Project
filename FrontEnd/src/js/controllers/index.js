@@ -66,6 +66,7 @@ function authInit() {
     handleLoginSocial,
     handleLoginChooseActivate,
     handleLoginChooseForgotName,
+    handleLoginChooseForgotPassword,
     handleLoginChooseSignup,
     // Sign-out //////////
     handleLogout,
@@ -84,6 +85,18 @@ function authInit() {
     handleForgotNameEnterEmail,
     handleForgotNameBlurEmail,
     handleForgotName,
+    // Forgot password//////////
+    handleForgotPasswordClose,
+    handleForgotPasswordWarning,
+    handleForgotPasswordEnterEmail,
+    handleForgotPasswordBlurEmail,
+    handleForgotPasswordEnterCode,
+    handleForgotPasswordBlurCode,
+    handleForgotPasswordEnterNewPassword,
+    handleForgotPasswordBlurNewPassword,
+    handleForgotPasswordNewPasswordType,
+    handleForgotPassword,
+    handleForgotPasswordBack,
     // Sign-up //////////
     handleSignupClose,
     handleSignupWarning,
@@ -119,6 +132,7 @@ function authInit() {
   AuthView.addLoginSocialHandler(handleLoginSocial);
   AuthView.addLoginChooseActivateHandler(handleLoginChooseActivate);
   AuthView.addLoginChooseForgotNameHandler(handleLoginChooseForgotName);
+  AuthView.addLoginChooseForgotPasswordHandler(handleLoginChooseForgotPassword);
   AuthView.addLoginChooseSignupHandler(handleLoginChooseSignup);
 
   // Sign-out //////////
@@ -142,6 +156,23 @@ function authInit() {
     handleForgotNameBlurEmail,
   ]);
   AuthView.addForgotNameHandler(handleForgotName);
+
+  // Forgot password //////////
+  AuthView.addForgotPasswordCloseHandler(handleForgotPasswordClose);
+  AuthView.addForgotPasswordWarningHandler(handleForgotPasswordWarning);
+  AuthView.addForgotPasswordInputEmailHandler([
+    handleForgotPasswordEnterEmail,
+    handleForgotPasswordBlurEmail,
+  ]);
+  AuthView.addForgotPasswordResetHandlers([
+    [handleForgotPasswordEnterCode, handleForgotPasswordEnterNewPassword],
+    [handleForgotPasswordBlurCode, handleForgotPasswordBlurNewPassword],
+  ]);
+  AuthView.addForgotPasswordNewPasswordTypeHandler(
+    handleForgotPasswordNewPasswordType
+  );
+  AuthView.addForgotPasswordHandler(handleForgotPassword);
+  AuthView.addForgotPasswordBackHandler(handleForgotPasswordBack);
 
   // Sign-up //////////
   AuthView.addSignupCloseHandler(handleSignupClose);

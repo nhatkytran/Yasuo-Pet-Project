@@ -17,9 +17,13 @@ const disabledCssText = `opacity: 0.6; cursor: not-allowed;`;
 const activateWarningMessageClass = '.activate-form__header-warning-message';
 const forgotNameWarningMessageClass =
   '.forgot-name-form__header-warning-message';
+const forgotPasswordWarningMessageClass =
+  '.forgot-password-form__header-warning-message';
 const signupWarningMessageClass = '.signup-form__header-warning-message';
 
 class AuthView {
+  // Sign-in //////////
+
   #loginSection = $('.login-overlay');
   #loginForm = $('#login-form');
 
@@ -42,14 +46,17 @@ class AuthView {
   #loginButtonSocialWrapper = $('.login-form__options');
   #loginActivateButton = $('.login-form__privacy-activate-button');
   #loginForgotNameButton = $('.login-form__actions-forgot-name');
+  #loginForgotPasswordButton = $('.login-form__actions-forgot-password');
   #loginSignupButton = $('.login-form__privacy-signup-button');
 
-  //
+  // Sign-out //////////
+
   #logoutButtonSubHeader = $('.sub-header__content-logout');
   #userAvatarWrapper = $('.yasuo-round');
   #userAvatarSrc;
 
-  //
+  // Activate //////////
+
   #activateSection = $('.activate-overlay');
   #activateForm = $('#activate-form');
 
@@ -69,7 +76,8 @@ class AuthView {
   #activateActionsBackWrapper = $('.activate-form__actions-back-wrapper');
   #activateActionsBackButton = $('.activate-form__actions-back-button');
 
-  //
+  // Forgot name //////////
+
   #forgotNameSection = $('.forgot-name-overlay');
   #forgotNameForm = $('#forgot-name-form');
 
@@ -82,7 +90,48 @@ class AuthView {
 
   #forgotNameButton = $('.forgot-name-form__body-button');
 
-  //
+  // Forgot password //////////
+
+  #forgotPasswordSection = $('.forgot-password-overlay');
+  #forgotPasswordForm = $('#forgot-password-form');
+
+  #forgotPasswordExitButton = $('.forgot-password-form__header-hero-close');
+  #forgotPasswordWarningButton = $(
+    '.forgot-password-form__header-warning-button'
+  );
+
+  #forgotPasswordWarningMessageEmail = $(
+    `${forgotPasswordWarningMessageClass}-email`
+  );
+  #forgotPasswordWarningMessageCode = $(
+    `${forgotPasswordWarningMessageClass}-code`
+  );
+  #forgotPasswordWarningMessageNewPassword = $(
+    `${forgotPasswordWarningMessageClass}-new-password`
+  );
+  #forgotPasswordWarningMessageFail = $(
+    `${forgotPasswordWarningMessageClass}-fail`
+  );
+
+  #forgotPasswordEmailInput = $('#forgot-password-form-email');
+  #forgotPasswordCodeInput = $('#forgot-password-form-code');
+  #forgotPasswordNewPasswordInput = $('#forgot-password-form-new-password');
+  #forgotPasswordNewPasswordTypeButton = $(
+    '.forgot-password-form-new-password__type-button'
+  );
+
+  #forgotPasswordButton = $('.forgot-password-form__body-button');
+
+  #forgotPasswordActionsWrapper = $('.forgot-password-form__actions-wrapper');
+  #forgotPasswordActionsBackWrapper = $(
+    '.forgot-password-form__actions-back-wrapper'
+  );
+  #forgotPasswordActionsBackButton = $(
+    '.forgot-password-form__actions-back-button'
+  );
+
+  // Sign-up //////////
+
   #signupSection = $('.signup-overlay');
   #signupForm = $('#signup-form');
 
@@ -111,6 +160,7 @@ class AuthView {
   #animateLoginSection;
   #animateActivateSection;
   #animateForgotNameSection;
+  #animateForgotPasswordSection;
   #animateSignupSection;
 
   constructor() {
@@ -128,6 +178,10 @@ class AuthView {
     );
     this.#animateForgotNameSection = animateFactory(
       this.#forgotNameSection,
+      animateOption
+    );
+    this.#animateForgotPasswordSection = animateFactory(
+      this.#forgotPasswordSection,
       animateOption
     );
     this.#animateSignupSection = animateFactory(
@@ -187,10 +241,10 @@ class AuthView {
       classRemove(REMOVE, this.#loginWarningButton);
   };
 
-  loginButtonDisplay = ({ canLogin }) => {
-    if (!canLogin) this.#loginButton.style.cssText = disabledCssText;
-    else this.#loginButton.style.cssText = `opacity: 1; cursor: pointer;`;
-  };
+  loginButtonDisplay = ({ canSubmit }) =>
+    (this.#loginButton.style.cssText = canSubmit
+      ? `opacity: 1; cursor: pointer;`
+      : disabledCssText);
 
   loginPasswordTypeDisplay = () => {
     $$_(this.#loginPasswordTypeButton, 'svg').forEach((svg, index) => {
@@ -318,17 +372,19 @@ class AuthView {
     classRemove(REMOVE, this.#activateWarningButton);
   };
 
-  activateButtonDisplay = ({ canLogin }) => {
-    if (!canLogin) this.#activateButton.style.cssText = disabledCssText;
-    else this.#activateButton.style.cssText = `opacity: 1; cursor: pointer;`;
-  };
+  activateButtonDisplay = ({ canSubmit }) =>
+    (this.#activateButton.style.cssText = canSubmit
+      ? `opacity: 1; cursor: pointer;`
+      : disabledCssText);
 
   activateActionDisplay = ({ state, errorMessage }) => {
+    const inputs = [this.#activateEmailInput, this.#activateCodeInput];
+
     if (state === LOADING) {
-      this.#activateEmailInput.disabled = true;
-      this.#activateCodeInput.disabled = true;
-      this.#activateEmailInput.style.cssText = disabledCssText;
-      this.#activateCodeInput.style.cssText = disabledCssText;
+      inputs.forEach(input => {
+        input.disabled = true;
+        input.style.cssText = disabledCssText;
+      });
       this.#activateActionsBackButton.style.cursor = 'not-allowed';
 
       $$_(this.#activateButton, 'svg').forEach((svg, index) =>
@@ -337,10 +393,10 @@ class AuthView {
       return (this.#activateButton.style.cssText = disabledCssText);
     }
 
-    this.#activateEmailInput.disabled = false;
-    this.#activateCodeInput.disabled = false;
-    this.#activateEmailInput.style.cssText = `opacity: 1; cursor: text;`;
-    this.#activateCodeInput.style.cssText = `opacity: 1; cursor: text;`;
+    inputs.forEach(input => {
+      input.disabled = false;
+      input.style.cssText = `opacity: 1; cursor: text;`;
+    });
     this.#activateActionsBackButton.style.cursor = 'pointer';
 
     $$_(this.#activateButton, 'svg').forEach((svg, index) =>
@@ -415,10 +471,10 @@ class AuthView {
     classRemove(REMOVE, this.#forgotNameWarningButton);
   };
 
-  forgotNameButtonDisplay = ({ canLogin }) => {
-    if (!canLogin) this.#forgotNameButton.style.cssText = disabledCssText;
-    else this.#forgotNameButton.style.cssText = `opacity: 1; cursor: pointer;`;
-  };
+  forgotNameButtonDisplay = ({ canSubmit }) =>
+    (this.#forgotNameButton.style.cssText = canSubmit
+      ? `opacity: 1; cursor: pointer;`
+      : disabledCssText);
 
   forgotNameActionDisplay = ({ state, errorMessage }) => {
     if (state === LOADING) {
@@ -450,6 +506,144 @@ class AuthView {
       classRemove(REMOVE, this.#forgotNameWarningButton);
       this.#forgotNameWarningMessageEmail.textContent = '';
       classRemove(ADD, this.#forgotNameWarningMessageFail);
+    }
+  };
+
+  // Forgot password //////////
+
+  forgotPasswordOpen = () => {
+    classRemove(REMOVE, this.#forgotPasswordSection);
+    this.#animateForgotPasswordSection(START);
+  };
+
+  forgotPasswordClose = () => {
+    classRemove(ADD, this.#forgotPasswordSection);
+    this.#animateForgotPasswordSection(END);
+  };
+
+  forgotPasswordWarningMessage = ({ isError, field }) => {
+    classRemove(ADD, this.#forgotPasswordWarningMessageFail);
+
+    if (isError) {
+      if (field === 'email')
+        this.#forgotPasswordWarningMessageEmail.textContent =
+          'Please provide a valid email.';
+
+      if (field === 'code')
+        this.#forgotPasswordWarningMessageCode.textContent =
+          'Please provide a valid code';
+
+      if (field === 'new_password')
+        this.#forgotPasswordWarningMessageNewPassword.textContent =
+          'Password: 8+ chars (uppercase, lowercase, number, symbol).';
+
+      return classRemove(ADD, this.#forgotPasswordWarningButton);
+    }
+
+    if (field === 'email')
+      this.#forgotPasswordWarningMessageEmail.textContent = '';
+    if (field === 'code')
+      this.#forgotPasswordWarningMessageCode.textContent = '';
+    if (field === 'new_password')
+      this.#forgotPasswordWarningMessageNewPassword.textContent = '';
+
+    if (field === 'email')
+      classRemove(REMOVE, this.#forgotPasswordWarningButton);
+    else if (
+      this.#forgotPasswordWarningMessageCode.textContent === '' &&
+      this.#forgotPasswordWarningMessageNewPassword.textContent === ''
+    )
+      classRemove(REMOVE, this.#forgotPasswordWarningButton);
+  };
+
+  forgotPasswordButtonDisplay = ({ canSubmit }) =>
+    (this.#forgotPasswordButton.style.cssText = canSubmit
+      ? `opacity: 1; cursor: pointer;`
+      : disabledCssText);
+
+  forgotPasswordNewPasswordTypeDisplay = () =>
+    $$_(this.#forgotPasswordNewPasswordTypeButton, 'svg').forEach(
+      (svg, index) => {
+        svg.classList.toggle('remove');
+        if (!svg.classList.contains('remove'))
+          this.#forgotPasswordNewPasswordInput.setAttribute(
+            'type',
+            index === 0 ? 'password' : 'text'
+          );
+      }
+    );
+
+  forgotPasswordActionDisplay = ({ state, errorMessage }) => {
+    const inputs = [
+      this.#forgotPasswordEmailInput,
+      this.#forgotPasswordCodeInput,
+      this.#forgotPasswordNewPasswordInput,
+    ];
+
+    if (state === LOADING) {
+      inputs.forEach(input => {
+        input.disabled = true;
+        input.style.cssText = disabledCssText;
+      });
+      this.#forgotPasswordActionsBackButton.style.cursor = 'not-allowed';
+
+      $$_(this.#forgotPasswordButton, 'svg').forEach((svg, index) =>
+        classRemove(index === 0 ? ADD : REMOVE, svg)
+      );
+      return (this.#forgotPasswordButton.style.cssText = disabledCssText);
+    }
+
+    inputs.forEach(input => {
+      input.disabled = false;
+      input.style.cssText = `opacity: 1; cursor: text;`;
+    });
+    this.#forgotPasswordActionsBackButton.style.cursor = 'pointer';
+
+    $$_(this.#forgotPasswordButton, 'svg').forEach((svg, index) =>
+      classRemove(index === 1 ? ADD : REMOVE, svg)
+    );
+
+    if (state === ERROR) {
+      classRemove(ADD, this.#forgotPasswordWarningButton);
+      classRemove(REMOVE, this.#forgotPasswordWarningMessageFail);
+      this.#forgotPasswordWarningMessageFail.textContent = errorMessage;
+      this.#forgotPasswordButton.style.cssText = `opacity: 1; cursor: pointer;`;
+    }
+
+    if (state === CONTENT) {
+      inputs.forEach(input => (input.value = ''));
+      classRemove(REMOVE, this.#forgotPasswordWarningButton);
+      classRemove(ADD, this.#forgotPasswordWarningMessageFail);
+      this.#forgotPasswordWarningMessageEmail.textContent = '';
+      this.#forgotPasswordWarningMessageCode.textContent = '';
+      this.#forgotPasswordWarningMessageNewPassword.textContent = '';
+    }
+  };
+
+  forgotPasswordGetCodeSuccess = (option = {}) => {
+    const { goBack } = option;
+
+    classRemove(
+      goBack ? REMOVE : ADD,
+      this.#forgotPasswordEmailInput.parentElement,
+      this.#forgotPasswordActionsWrapper
+    );
+
+    classRemove(
+      goBack ? ADD : REMOVE,
+      this.#forgotPasswordCodeInput.parentElement,
+      this.#forgotPasswordNewPasswordInput.parentElement,
+      this.#forgotPasswordActionsBackWrapper
+    );
+
+    if (goBack) {
+      classRemove(REMOVE, this.#forgotPasswordWarningButton);
+      classRemove(ADD, this.#forgotPasswordWarningMessageFail);
+      this.#forgotPasswordWarningMessageCode.textContent = '';
+      this.#forgotPasswordWarningMessageNewPassword.textContent = '';
+      this.#forgotPasswordCodeInput.value = '';
+      this.#forgotPasswordNewPasswordInput.value = '';
+      this.#forgotPasswordButton.style.cssText = disabledCssText;
     }
   };
 
@@ -504,10 +698,10 @@ class AuthView {
       classRemove(REMOVE, this.#signupWarningButton);
   };
 
-  signupButtonDisplay = ({ canLogin }) => {
-    if (!canLogin) this.#signupButton.style.cssText = disabledCssText;
-    else this.#signupButton.style.cssText = `opacity: 1; cursor: pointer;`;
-  };
+  signupButtonDisplay = ({ canSubmit }) =>
+    (this.#signupButton.style.cssText = canSubmit
+      ? `opacity: 1; cursor: pointer;`
+      : disabledCssText);
 
   signupPasswordTypeDisplay = () =>
     $$_(this.#signupPasswordTypeButton, 'svg').forEach((svg, index) => {
@@ -552,19 +746,19 @@ class AuthView {
 
     if (state === ERROR) {
       classRemove(ADD, this.#signupWarningButton);
-      this.#signupWarningMessageFail.textContent = errorMessage;
       classRemove(REMOVE, this.#signupWarningMessageFail);
+      this.#signupWarningMessageFail.textContent = errorMessage;
       this.#signupButton.style.cssText = `opacity: 1; cursor: pointer;`;
     }
 
     if (state === CONTENT) {
       inputs.forEach(input => (input.value = ''));
       classRemove(REMOVE, this.#signupWarningButton);
+      classRemove(ADD, this.#signupWarningMessageFail);
       this.#signupWarningMessageUsername.textContent = '';
       this.#signupWarningMessageEmail.textContent = '';
       this.#signupWarningMessagePassword.textContent = '';
       this.#signupWarningMessageCode.textContent = '';
-      classRemove(ADD, this.#signupWarningMessageFail);
     }
   };
 
@@ -612,6 +806,7 @@ class AuthView {
       this.#loginSection,
       this.#loginActivateButton,
       this.#loginForgotNameButton,
+      this.#loginForgotPasswordButton,
       this.#loginSignupButton,
     ].forEach(element =>
       element.addEventListener('click', event => {
@@ -643,10 +838,7 @@ class AuthView {
   }
 
   addLoginPasswordTypeHandler(handler) {
-    this.#loginPasswordTypeButton.addEventListener('click', event => {
-      event.preventDefault();
-      handler();
-    });
+    this.#loginPasswordTypeButton.addEventListener('click', handler);
   }
 
   addLoginHandler(handler) {
@@ -675,6 +867,13 @@ class AuthView {
 
   addLoginChooseForgotNameHandler(handler) {
     this.#loginForgotNameButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  addLoginChooseForgotPasswordHandler(handler) {
+    this.#loginForgotPasswordButton.addEventListener('click', event => {
       event.preventDefault();
       handler();
     });
@@ -775,6 +974,70 @@ class AuthView {
     });
   }
 
+  // Forgot password - Events listening //////////
+
+  addForgotPasswordCloseHandler(handler) {
+    [this.#forgotPasswordExitButton, this.#forgotPasswordSection].forEach(
+      element =>
+        element.addEventListener('click', event => {
+          event.preventDefault();
+          handler();
+        })
+    );
+    this.#forgotPasswordForm.addEventListener('click', event =>
+      event.stopPropagation()
+    );
+  }
+
+  addForgotPasswordWarningHandler(handler) {
+    this.#forgotPasswordWarningButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  addForgotPasswordInputEmailHandler(handlers) {
+    ['input', 'blur'].forEach((eventName, index) =>
+      this.#forgotPasswordEmailInput.addEventListener(eventName, event =>
+        handlers[index](event.target.value)
+      )
+    );
+  }
+
+  addForgotPasswordResetHandlers(handlers) {
+    ['input', 'blur'].forEach((eventName, eventIndex) =>
+      [
+        this.#forgotPasswordCodeInput,
+        this.#forgotPasswordNewPasswordInput,
+      ].forEach((input, index) =>
+        input.addEventListener(eventName, event =>
+          handlers[eventIndex][index](event.target.value)
+        )
+      )
+    );
+  }
+
+  addForgotPasswordNewPasswordTypeHandler(handler) {
+    this.#forgotPasswordNewPasswordTypeButton.addEventListener(
+      'click',
+      handler
+    );
+  }
+
+  addForgotPasswordHandler(handler) {
+    this.#forgotPasswordButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  addForgotPasswordBackHandler(handler) {
+    this.#forgotPasswordActionsBackButton.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
   // Sign-up - Events listening //////////
 
   addSignupCloseHandler(handler) {
@@ -819,10 +1082,7 @@ class AuthView {
   }
 
   addSignupPasswordTypeHandler(handler) {
-    this.#signupPasswordTypeButton.addEventListener('click', event => {
-      event.preventDefault();
-      handler();
-    });
+    this.#signupPasswordTypeButton.addEventListener('click', handler);
   }
 
   addSigupHandler(handler) {

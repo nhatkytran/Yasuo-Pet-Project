@@ -47,6 +47,14 @@ class AuthController extends ModalContentController {
   #forgotNameEmailValid = false;
   #forgotNameEmailLoading = false;
 
+  #forgotPasswordEmail = '';
+  #forgotPasswordEmailValid = false;
+  #forgotPasswordEmailLoading = false;
+  #forgotPasswordResetCode = '';
+  #forgotPasswordResetNewPassword = '';
+  #forgotPasswordResetValid = false;
+  #forgotPasswordResetLoading = false;
+
   #signupInfoUsername = '';
   #signupInfoEmail = '';
   #signupInfoPassword = '';
@@ -103,7 +111,7 @@ class AuthController extends ModalContentController {
     this.#AuthView.loginWarningMessage({ isError: false, field: 'username' });
     this.#loginUsername = username.trim();
     this.#loginValid = this.#checkLoginValid();
-    this.#AuthView.loginButtonDisplay({ canLogin: this.#loginValid });
+    this.#AuthView.loginButtonDisplay({ canSubmit: this.#loginValid });
   };
 
   handleLoginBlurUsername = () =>
@@ -114,7 +122,7 @@ class AuthController extends ModalContentController {
     this.#AuthView.loginWarningMessage({ isError: false, field: 'password' });
     this.#loginPassword = password;
     this.#loginValid = this.#checkLoginValid();
-    this.#AuthView.loginButtonDisplay({ canLogin: this.#loginValid });
+    this.#AuthView.loginButtonDisplay({ canSubmit: this.#loginValid });
   };
 
   handleLoginBlurPassword = () =>
@@ -135,20 +143,20 @@ class AuthController extends ModalContentController {
     onProcess: async () => {
       if (!this.#loginValid || this.#loginLoading) return;
 
-      this.#AuthView.loginActionDisplay({ state: LOADING });
       this.#loginLoading = true;
+      this.#AuthView.loginActionDisplay({ state: LOADING });
 
       await authService.login('/api/v1/users/login', {
         username: this.#loginUsername,
         password: this.#loginPassword,
       });
 
+      this.#resetLoginKit();
       this.#AuthView.loginActionDisplay({ state: CONTENT });
 
       this.handleLoginClose();
       this.#AuthView.loginSuccess();
       this.#AuthView.loginSuccessSignal();
-      this.#resetLoginKit();
 
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
@@ -200,6 +208,13 @@ class AuthController extends ModalContentController {
       ANIMATION_TIMEOUT * 2
     );
 
+  handleLoginChooseForgotPassword = () =>
+    setTimeout(
+      () =>
+        super.open(this.#handleOpenModal, this.#AuthView.forgotPasswordOpen),
+      ANIMATION_TIMEOUT * 2
+    );
+
   handleLoginChooseSignup = () =>
     setTimeout(
       () => super.open(this.#handleOpenModal, this.#AuthView.signupOpen),
@@ -248,7 +263,7 @@ class AuthController extends ModalContentController {
     this.#activateEmail = email.trim();
     this.#activateEmailValid = isEmailValid(this.#activateEmail);
     this.#AuthView.activateButtonDisplay({
-      canLogin: this.#activateEmailValid,
+      canSubmit: this.#activateEmailValid,
     });
   };
 
@@ -260,7 +275,9 @@ class AuthController extends ModalContentController {
     this.#AuthView.activateWarningMessage({ isError: false, field: 'code' });
     this.#activateCode = code.trim();
     this.#activateCodeValid = isActivateCodeValid(this.#activateCode);
-    this.#AuthView.activateButtonDisplay({ canLogin: this.#activateCodeValid });
+    this.#AuthView.activateButtonDisplay({
+      canSubmit: this.#activateCodeValid,
+    });
   };
 
   handleActivateBlurCode = () =>
@@ -284,17 +301,16 @@ class AuthController extends ModalContentController {
     onProcess: async () => {
       if (this.#activateEmailLoading) return;
 
-      this.#AuthView.activateActionDisplay({ state: LOADING });
       this.#activateEmailLoading = true;
+      this.#AuthView.activateActionDisplay({ state: LOADING });
 
       await authService.activateGetCode('/api/v1/users/activateCode', {
         email: this.#activateEmail,
       });
 
-      this.#AuthView.activateActionDisplay({ state: CONTENT });
-
-      this.#AuthView.activateGetCodeSuccess();
       this.#resetActivateEmailKit();
+      this.#AuthView.activateActionDisplay({ state: CONTENT });
+      this.#AuthView.activateGetCodeSuccess();
 
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
@@ -330,16 +346,16 @@ class AuthController extends ModalContentController {
     onProcess: async () => {
       if (this.#activateCodeLoading) return;
 
-      this.#AuthView.activateActionDisplay({ state: LOADING });
       this.#activateCodeLoading = true;
+      this.#AuthView.activateActionDisplay({ state: LOADING });
 
       await authService.activateConfirmCode('/api/v1/users/activate', {
         token: this.#activateCode,
       });
 
+      this.#resetActivateCodeKit();
       this.#AuthView.activateActionDisplay({ state: CONTENT });
 
-      this.#resetActivateCodeKit();
       this.handleActivateClose();
       setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
 
@@ -398,7 +414,7 @@ class AuthController extends ModalContentController {
     this.#forgotNameEmail = email.trim();
     this.#forgotNameEmailValid = isEmailValid(this.#forgotNameEmail);
     this.#AuthView.forgotNameButtonDisplay({
-      canLogin: this.#forgotNameEmailValid,
+      canSubmit: this.#forgotNameEmailValid,
     });
   };
 
@@ -417,15 +433,16 @@ class AuthController extends ModalContentController {
     onProcess: async () => {
       if (!this.#forgotNameEmailValid || this.#forgotNameEmailLoading) return;
 
-      this.#AuthView.forgotNameActionDisplay({ state: LOADING });
       this.#forgotNameEmailLoading = true;
+      this.#AuthView.forgotNameActionDisplay({ state: LOADING });
 
       await authService.forgotName('/api/v1/users/forgotUsername', {
         email: this.#forgotNameEmail,
       });
 
-      this.#AuthView.forgotNameActionDisplay({ state: CONTENT });
       this.#resetForgotNameEmailKit();
+      this.#AuthView.forgotNameActionDisplay({ state: CONTENT });
+
       this.handleForgotNameClose();
       setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
 
@@ -455,6 +472,205 @@ class AuthController extends ModalContentController {
     },
   });
 
+  // Forgot password //////////
+
+  handleForgotPasswordClose = () => {
+    authService.forgotPasswordAbort();
+    authService.forgotPasswordResetAbort();
+    super.close(this.#handleCloseModal, this.#AuthView.forgotPasswordClose);
+  };
+
+  handleForgotPasswordWarning = () =>
+    this.#ToastView.createToast({
+      ...store.state.toast[TOAST_WARNING],
+      content:
+        "Only reset password of accounts created manually! (Don't support OAuth.)",
+    });
+
+  handleForgotPasswordEnterEmail = email => {
+    this.#AuthView.forgotPasswordWarningMessage({
+      isError: false,
+      field: 'email',
+    });
+    this.#forgotPasswordEmail = email.trim();
+    this.#forgotPasswordEmailValid = isEmailValid(this.#forgotPasswordEmail);
+    this.#AuthView.forgotPasswordButtonDisplay({
+      canSubmit: this.#forgotPasswordEmailValid,
+    });
+  };
+
+  handleForgotPasswordBlurEmail = () =>
+    !isEmailValid(this.#forgotPasswordEmail) &&
+    this.#AuthView.forgotPasswordWarningMessage({
+      isError: true,
+      field: 'email',
+    });
+
+  #checkForgotPasswordResetValid = () =>
+    isActivateCodeValid(this.#forgotPasswordResetCode) &&
+    isPasswordValid(this.#forgotPasswordResetNewPassword);
+
+  handleForgotPasswordEnterCode = code => {
+    this.#AuthView.forgotPasswordWarningMessage({
+      isError: false,
+      field: 'code',
+    });
+    this.#forgotPasswordResetCode = code.trim();
+    this.#forgotPasswordResetValid = this.#checkForgotPasswordResetValid();
+    this.#AuthView.forgotPasswordButtonDisplay({
+      canSubmit: this.#forgotPasswordResetValid,
+    });
+  };
+
+  handleForgotPasswordBlurCode = () =>
+    !isActivateCodeValid(this.#forgotPasswordResetCode) &&
+    this.#AuthView.forgotPasswordWarningMessage({
+      isError: true,
+      field: 'code',
+    });
+
+  handleForgotPasswordEnterNewPassword = newPassword => {
+    this.#AuthView.forgotPasswordWarningMessage({
+      isError: false,
+      field: 'new_password',
+    });
+    this.#forgotPasswordResetNewPassword = newPassword;
+    this.#forgotPasswordResetValid = this.#checkForgotPasswordResetValid();
+    this.#AuthView.forgotPasswordButtonDisplay({
+      canSubmit: this.#forgotPasswordResetValid,
+    });
+  };
+
+  handleForgotPasswordBlurNewPassword = () =>
+    !isPasswordValid(this.#forgotPasswordResetNewPassword) &&
+    this.#AuthView.forgotPasswordWarningMessage({
+      isError: true,
+      field: 'new_password',
+    });
+
+  handleForgotPasswordNewPasswordType = () =>
+    this.#AuthView.forgotPasswordNewPasswordTypeDisplay();
+
+  #resetForgotPasswordEmailKit = () => {
+    this.#forgotPasswordEmail = '';
+    this.#forgotPasswordEmailValid = false;
+    this.#forgotPasswordEmailLoading = false;
+  };
+
+  #resetForgotPasswordResetlKit = () => {
+    this.#forgotPasswordResetCode = '';
+    this.#forgotPasswordResetNewPassword = '';
+    this.#forgotPasswordResetValid = false;
+    this.#forgotPasswordResetLoading = false;
+  };
+
+  #handleForgotPasswordGetCode = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (this.#forgotPasswordEmailLoading) return;
+
+      this.#forgotPasswordEmailLoading = true;
+      this.#AuthView.forgotPasswordActionDisplay({ state: LOADING });
+
+      await authService.forgotPassword('/api/v1/users/forgotPassword', {
+        email: this.#forgotPasswordEmail,
+      });
+
+      this.#resetForgotPasswordEmailKit();
+      this.#AuthView.forgotPasswordActionDisplay({ state: CONTENT });
+      this.#AuthView.forgotPasswordGetCodeSuccess();
+
+      this.#ToastView.createToast({
+        ...store.state.toast[TOAST_SUCCESS],
+        content: 'Reset password code is sent to your email! Please check.',
+      });
+    },
+    onError: error => {
+      this.#forgotPasswordEmailLoading = false;
+
+      if (error.code === ERROR_ABORT_CODE) {
+        this.#resetForgotPasswordEmailKit();
+        return this.#AuthView.forgotPasswordActionDisplay({ state: CONTENT });
+      }
+
+      let errorMessage = 'Something went wrong! Please try again.';
+
+      if (error.response) {
+        const { code, message } = error.response.data;
+        [
+          'FORGOT_PASSWORD_AUTHENTICATION_ERROR',
+          'FORGOT_PASSWORD_OAUTH_ERROR',
+          'FORGOT_PASSWORD_SEND_EMAIL_ERROR',
+        ].includes(code) && (errorMessage = message);
+      }
+
+      this.#AuthView.forgotPasswordActionDisplay({
+        state: ERROR,
+        errorMessage,
+      });
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+    },
+  });
+
+  #handleForgotPasswordConfirmCode = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (this.#forgotPasswordResetLoading) return;
+
+      this.#forgotPasswordResetLoading = true;
+      this.#AuthView.forgotPasswordActionDisplay({ state: LOADING });
+
+      await authService.forgotPasswordReset('/api/v1/users/resetPassword', {
+        token: this.#forgotPasswordResetCode,
+        newPassword: this.#forgotPasswordResetNewPassword,
+      });
+
+      this.#resetForgotPasswordResetlKit();
+      this.#AuthView.forgotPasswordActionDisplay({ state: CONTENT });
+
+      // this.handleSignupClose();
+      // setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
+
+      this.#ToastView.createToast({
+        ...store.state.toast[TOAST_SUCCESS],
+        content: 'Change password successfully!',
+      });
+    },
+    onError: error => {
+      this.#forgotPasswordResetLoading = false;
+
+      if (error.code === ERROR_ABORT_CODE) {
+        this.#resetForgotPasswordResetlKit();
+        return this.#AuthView.forgotPasswordActionDisplay({ state: CONTENT });
+      }
+
+      let errorMessage = 'Something went wrong! Please try again.';
+
+      if (error.response) {
+        const { code, message } = error.response.data;
+        ['FORGOT_PASSWORD_TOKEN_ERROR'].includes(code) &&
+          (errorMessage = message);
+      }
+
+      this.#AuthView.forgotPasswordActionDisplay({
+        state: ERROR,
+        errorMessage,
+      });
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+    },
+  });
+
+  handleForgotPassword = () => {
+    if (this.#forgotPasswordEmailValid) this.#handleForgotPasswordGetCode();
+    if (this.#forgotPasswordResetValid) this.#handleForgotPasswordConfirmCode();
+  };
+
+  handleForgotPasswordBack = () => {
+    if (this.#forgotPasswordResetLoading) return;
+    this.#resetForgotPasswordResetlKit();
+    this.#AuthView.forgotPasswordGetCodeSuccess({ goBack: true });
+  };
+
   // Sign-up //////////
 
   handleSignupClose = () => {
@@ -478,7 +694,7 @@ class AuthController extends ModalContentController {
     this.#AuthView.signupWarningMessage({ isError: false, field: 'username' });
     this.#signupInfoUsername = username.trim();
     this.#signupInfoValid = this.#checkSingupInfoValid();
-    this.#AuthView.signupButtonDisplay({ canLogin: this.#signupInfoValid });
+    this.#AuthView.signupButtonDisplay({ canSubmit: this.#signupInfoValid });
   };
 
   handleSignupBlurUsername = () =>
@@ -489,7 +705,7 @@ class AuthController extends ModalContentController {
     this.#AuthView.signupWarningMessage({ isError: false, field: 'email' });
     this.#signupInfoEmail = email.trim();
     this.#signupInfoValid = this.#checkSingupInfoValid();
-    this.#AuthView.signupButtonDisplay({ canLogin: this.#signupInfoValid });
+    this.#AuthView.signupButtonDisplay({ canSubmit: this.#signupInfoValid });
   };
 
   handleSignupBlurEmail = () =>
@@ -500,7 +716,7 @@ class AuthController extends ModalContentController {
     this.#AuthView.signupWarningMessage({ isError: false, field: 'password' });
     this.#signupInfoPassword = password;
     this.#signupInfoValid = this.#checkSingupInfoValid();
-    this.#AuthView.signupButtonDisplay({ canLogin: this.#signupInfoValid });
+    this.#AuthView.signupButtonDisplay({ canSubmit: this.#signupInfoValid });
   };
 
   handleSignupBlurPassword = () =>
@@ -513,7 +729,7 @@ class AuthController extends ModalContentController {
     this.#AuthView.signupWarningMessage({ isError: false, field: 'code' });
     this.#signupCode = code.trim();
     this.#signupCodeValid = isActivateCodeValid(this.#signupCode);
-    this.#AuthView.signupButtonDisplay({ canLogin: this.#signupCodeValid });
+    this.#AuthView.signupButtonDisplay({ canSubmit: this.#signupCodeValid });
   };
 
   handleSignupBlurCode = () =>

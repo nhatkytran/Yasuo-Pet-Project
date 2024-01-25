@@ -8,6 +8,9 @@ const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
 
+dotenv.config({ path: path.join(__dirname, 'config.env') });
+const { PORT } = process.env;
+
 const { ApolloServer } = require('@apollo/server');
 const {
   expressMiddleware: apolloMidlleware,
@@ -18,8 +21,6 @@ const typeDefs = fs.readFileSync(
   'utf-8'
 );
 
-dotenv.config({ path: path.join(__dirname, 'config.env') });
-const { PORT } = process.env;
 const app = require('./app');
 
 (async () => {

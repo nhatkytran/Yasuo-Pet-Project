@@ -1,7 +1,8 @@
-const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+
+const { createTokenAndHash } = require('../utils');
 
 const schema = new mongoose.Schema({
   username: {
@@ -20,17 +21,17 @@ const schema = new mongoose.Schema({
   },
   googleID: { type: String },
   active: { type: Boolean, default: false },
-  activateToken: { type: String, default: false },
-  activateTokenAt: { type: Date },
+  activateToken: { type: String, select: false },
+  activateTokenAt: { type: Date, select: false },
   ban: { type: Boolean, default: false },
   lastLogin: { type: Date },
   photo: { type: String, default: '/img/defaul.png' },
   // Don't validate password here (login using Google doesn't need password)
   password: { type: String, select: false },
   passwordConfirm: { type: String },
-  passwordResetToken: { type: String, select: false },
-  passwordResetExpires: { type: Date, select: false },
-  passwordChangedAt: { type: Date },
+  passwordChangedAt: { type: Date, select: false },
+  forgotPasswordToken: { type: String, select: false },
+  forgotPasswordTokenAt: { type: Date, select: false },
 });
 
 schema.pre('save', async function (next) {
@@ -57,22 +58,20 @@ schema.methods.changedPassword = function () {
   return false;
 };
 
-schema.methods.createPasswordResetToken = function () {
-  const token = crypto.randomBytes(64).toString('hex');
-  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+schema.methods.createActivateToken = function () {
+  const { token, hashedToken } = createTokenAndHash({ randomBytes: 6 });
 
-  this.passwordResetToken = hashedToken;
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  this.activateToken = hashedToken;
+  this.activateTokenAt = Date.now() + 2 * 60 * 1000;
 
   return token;
 };
 
-schema.methods.createActivateToken = function () {
-  const token = crypto.randomBytes(6).toString('hex');
-  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+schema.methods.createForgotPasswordToken = function () {
+  const { token, hashedToken } = createTokenAndHash({ randomBytes: 6 });
 
-  this.activateToken = hashedToken;
-  this.activateTokenAt = Date.now() + 2 * 60 * 1000;
+  this.forgotPasswordToken = hashedToken;
+  this.forgotPasswordTokenAt = Date.now() + 2 * 60 * 1000;
 
   return token;
 };

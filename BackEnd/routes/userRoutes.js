@@ -7,8 +7,6 @@ const {
   loginGoogleSuccess,
   checkIsLoggedIn,
   logout,
-  forgotPassword,
-  resetPassword,
 } = require('../controllers/authController');
 
 const {
@@ -16,6 +14,8 @@ const {
   getActivateCode,
   activateAccount,
   forgotUsername,
+  forgotPassword,
+  resetPassword,
 } = require('../controllers/userController');
 
 const userRouter = express.Router();
@@ -44,10 +44,9 @@ userRouter.get('/logout', logout);
 userRouter.post('/activateCode', getActivateCode);
 userRouter.post('/activate', activateAccount);
 
-userRouter.post('/forgotPassword', forgotPassword);
-userRouter.post('/resetPassword/:email/:token', resetPassword);
-
 userRouter.post('/forgotUsername', forgotUsername);
+userRouter.post('/forgotPassword', forgotPassword);
+userRouter.post('/resetPassword', resetPassword);
 
 userRouter.get('/me', getMe);
 

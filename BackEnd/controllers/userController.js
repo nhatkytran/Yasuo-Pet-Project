@@ -12,10 +12,12 @@ exports.getMe = (req, res, next) => {
 
 exports.getActivateCode = catchAsync(async (req, res, next) => {
   const { email } = req.body;
+
   if (!validator.isEmail(email))
     throw new AppError('Please provide a valid email!', 400);
 
   const user = await User.findOne({ email });
+
   if (!user)
     throw new AppError(
       `Incorrect email!`,
@@ -55,7 +57,7 @@ exports.getActivateCode = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    message: 'Token has been sent, please check your email',
+    message: 'Token has been sent! Please check your email.',
   });
 });
 
@@ -67,10 +69,6 @@ exports.activateAccount = catchAsync(async (req, res, next) => {
     activateToken: hashedToken,
     activateTokenAt: { $gt: Date.now() },
   });
-
-  // Test
-  const start = Date.now();
-  while (Date.now() - start < 3000) {}
 
   if (!user)
     throw new AppError(
@@ -93,10 +91,12 @@ exports.activateAccount = catchAsync(async (req, res, next) => {
 
 exports.forgotUsername = catchAsync(async (req, res, next) => {
   const { email } = req.body;
+
   if (!validator.isEmail(email))
     throw new AppError('Please provide a valid email!', 400);
 
   const user = await User.findOne({ email });
+
   if (!user)
     throw new AppError(
       `Incorrect email!`,
@@ -125,6 +125,100 @@ exports.forgotUsername = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    message: 'Token has been sent, please check your email',
+    message: 'Username has been sent! Please check your email.',
+  });
+});
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+
+  if (!validator.isEmail(email))
+    throw new AppError('Please provide a valid email!', 400);
+
+  const user = await User.findOne({ email });
+
+  if (!user)
+    throw new AppError(
+      `Incorrect email!`,
+      400,
+      'FORGOT_PASSWORD_AUTHENTICATION_ERROR'
+    );
+
+  if (user.googleID || user.githubID || user.appleID)
+    throw new AppError(
+      'Only get password of accounts created manually!',
+      403,
+      'FORGOT_PASSWORD_OAUTH_ERROR'
+    );
+
+  const forgotPasswordToken = await user.createForgotPasswordToken();
+  await user.save({ validateModifiedOnly: true });
+
+  try {
+    const subject = 'Your forgot-password code (only valid for 2 mins)';
+    const message = `Your forgot-password code: ${forgotPasswordToken}`;
+
+    await sendEmail({ email, subject, message });
+  } catch (error) {
+    user.forgotPasswordToken = undefined;
+    user.forgotPasswordTokenAt = undefined;
+
+    await user.save({ validateModifiedOnly: true });
+
+    throw new AppError(
+      'Something went wrong sending email! Please try again.',
+      500,
+      'FORGOT_PASSWORD_SEND_EMAIL_ERROR'
+    );
+  }
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Password has been sent! Please check your email.',
+  });
+});
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const { token, newPassword } = req.body;
+
+  if (!token || !newPassword)
+    throw new Error('Please provide token and newPassword!', 400);
+
+  if (
+    !validator.isStrongPassword(newPassword, {
+      minLength: 8,
+      minUppercase: 1,
+      minLowercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    })
+  )
+    throw new AppError(
+      'Password must contain at least 8 characters (1 uppercase, 1 lowercase, 1 number, 1 symbol)',
+      400
+    );
+
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+  const user = await User.findOne({
+    forgotPasswordToken: hashedToken,
+    forgotPasswordTokenAt: { $gt: Date.now() },
+  });
+
+  if (!user)
+    throw new AppError(
+      'Invalid token or token has expired!',
+      401,
+      'FORGOT_PASSWORD_TOKEN_ERROR'
+    );
+
+  user.password = newPassword;
+  user.forgotPasswordToken = undefined;
+  user.forgotPasswordTokenAt = undefined;
+
+  await user.save({ validateModifiedOnly: true });
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Change password successfully!',
   });
 });

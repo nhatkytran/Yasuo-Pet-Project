@@ -79,6 +79,41 @@ const forgotName = async (endpoint, { email }) =>
 
 const forgotNameAbort = () => forgotNameAbortController?.abort();
 
+// Forgot password //////////
+
+let forgotPasswordAbortController;
+
+const forgotPassword = async (endpoint, { email }) =>
+  await axiosInstance.post(
+    endpoint,
+    { email },
+    {
+      signal: (() => {
+        forgotPasswordAbortController = new AbortController();
+        return forgotPasswordAbortController.signal;
+      })(),
+    }
+  );
+
+const forgotPasswordAbort = () => forgotPasswordAbortController?.abort();
+
+let forgotPasswordResetAbortController;
+
+const forgotPasswordReset = async (endpoint, { token, newPassword }) =>
+  await axiosInstance.post(
+    endpoint,
+    { token, newPassword },
+    {
+      signal: (() => {
+        forgotPasswordResetAbortController = new AbortController();
+        return forgotPasswordResetAbortController.signal;
+      })(),
+    }
+  );
+
+const forgotPasswordResetAbort = () =>
+  forgotPasswordResetAbortController?.abort();
+
 // Sign-up //////////
 
 let signupAbortController;
@@ -108,6 +143,10 @@ const authService = {
   activateConfirmCodeAbort,
   forgotName,
   forgotNameAbort,
+  forgotPassword,
+  forgotPasswordAbort,
+  forgotPasswordReset,
+  forgotPasswordResetAbort,
   signup,
   signupAbort,
 };
