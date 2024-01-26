@@ -33,7 +33,11 @@ exports.getActivateCode = catchAsync(async (req, res, next) => {
     );
 
   if (user.active)
-    throw new AppError('User is already active!', 400, 'ACTIVATE_ACTIVE_ERROR');
+    throw new AppError(
+      'User is already active! Login now.',
+      400,
+      'ACTIVATE_ACTIVE_ERROR'
+    );
 
   const activateToken = await user.createActivateToken();
   await user.save({ validateModifiedOnly: true });

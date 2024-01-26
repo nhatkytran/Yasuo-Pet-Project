@@ -2,23 +2,34 @@ import axiosInstance from '../../axios';
 
 const getBasicRoute = () => async endpoint => await axiosInstance.get(endpoint);
 
+const postRoute = fields => {
+  let abortController;
+
+  const mainFunc = async (endpoint, fieldValues) => {
+    const postData = fields.reduce((acc, field) => {
+      acc[field] = fieldValues[field];
+      return acc;
+    }, {});
+
+    return await axiosInstance.post(endpoint, postData, {
+      signal: (() => {
+        abortController = new AbortController();
+        return abortController.signal;
+      })(),
+    });
+  };
+
+  const abortFunc = () => abortController?.abort();
+
+  return { mainFunc, abortFunc };
+};
+
 // Sign-in //////////
 
-let loginAbortController;
-
-const login = async (endpoint, { username, password }) =>
-  await axiosInstance.post(
-    endpoint,
-    { username, password },
-    {
-      signal: (() => {
-        loginAbortController = new AbortController();
-        return loginAbortController.signal;
-      })(),
-    }
-  );
-
-const loginAbort = () => loginAbortController?.abort();
+const { mainFunc: login, abortFunc: loginAbort } = postRoute([
+  'username',
+  'password',
+]);
 
 const checkIsLoggedIn = getBasicRoute();
 
@@ -28,109 +39,35 @@ const logout = getBasicRoute();
 
 // Activate //////////
 
-let activateGetCodeAbortController;
+const { mainFunc: activateGetCode, abortFunc: activateGetCodeAbort } =
+  postRoute(['email']);
 
-const activateGetCode = async (endpoint, { email }) =>
-  await axiosInstance.post(
-    endpoint,
-    { email },
-    {
-      signal: (() => {
-        activateGetCodeAbortController = new AbortController();
-        return activateGetCodeAbortController.signal;
-      })(),
-    }
-  );
-
-const activateGetCodeAbort = () => activateGetCodeAbortController?.abort();
-
-let activateConfirmCodeAbortController;
-
-const activateConfirmCode = async (endpoint, { token }) =>
-  await axiosInstance.post(
-    endpoint,
-    { token },
-    {
-      signal: (() => {
-        activateConfirmCodeAbortController = new AbortController();
-        return activateConfirmCodeAbortController.signal;
-      })(),
-    }
-  );
-
-const activateConfirmCodeAbort = () =>
-  activateConfirmCodeAbortController?.abort();
+const { mainFunc: activateConfirmCode, abortFunc: activateConfirmCodeAbort } =
+  postRoute(['token']);
 
 // Forgot name //////////
 
-let forgotNameAbortController;
-
-const forgotName = async (endpoint, { email }) =>
-  await axiosInstance.post(
-    endpoint,
-    { email },
-    {
-      signal: (() => {
-        forgotNameAbortController = new AbortController();
-        return forgotNameAbortController.signal;
-      })(),
-    }
-  );
-
-const forgotNameAbort = () => forgotNameAbortController?.abort();
+const { mainFunc: forgotName, abortFunc: forgotNameAbort } = postRoute([
+  'email',
+]);
 
 // Forgot password //////////
 
-let forgotPasswordAbortController;
+const { mainFunc: forgotPassword, abortFunc: forgotPasswordAbort } = postRoute([
+  'email',
+]);
 
-const forgotPassword = async (endpoint, { email }) =>
-  await axiosInstance.post(
-    endpoint,
-    { email },
-    {
-      signal: (() => {
-        forgotPasswordAbortController = new AbortController();
-        return forgotPasswordAbortController.signal;
-      })(),
-    }
-  );
-
-const forgotPasswordAbort = () => forgotPasswordAbortController?.abort();
-
-let forgotPasswordResetAbortController;
-
-const forgotPasswordReset = async (endpoint, { token, newPassword }) =>
-  await axiosInstance.post(
-    endpoint,
-    { token, newPassword },
-    {
-      signal: (() => {
-        forgotPasswordResetAbortController = new AbortController();
-        return forgotPasswordResetAbortController.signal;
-      })(),
-    }
-  );
-
-const forgotPasswordResetAbort = () =>
-  forgotPasswordResetAbortController?.abort();
+const { mainFunc: forgotPasswordReset, abortFunc: forgotPasswordResetAbort } =
+  postRoute(['token', 'newPassword']);
 
 // Sign-up //////////
 
-let signupAbortController;
-
-const signup = async (endpoint, { username, email, password }) =>
-  await axiosInstance.post(
-    endpoint,
-    { username, email, password, passwordConfirm: password },
-    {
-      signal: (() => {
-        signupAbortController = new AbortController();
-        return signupAbortController.signal;
-      })(),
-    }
-  );
-
-const signupAbort = () => signupAbortController?.abort();
+const { mainFunc: signup, abortFunc: signupAbort } = postRoute([
+  'username',
+  'email',
+  'password',
+  'passwordConfirm',
+]);
 
 const authService = {
   login,

@@ -762,6 +762,7 @@ class AuthController extends ModalContentController {
         username: this.#signupInfoUsername,
         email: this.#signupInfoEmail,
         password: this.#signupInfoPassword,
+        passwordConfirm: this.#signupInfoPassword,
       });
 
       this.#AuthView.signupActionDisplay({ state: CONTENT });
