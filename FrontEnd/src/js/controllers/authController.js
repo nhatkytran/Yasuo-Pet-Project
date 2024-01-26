@@ -628,8 +628,8 @@ class AuthController extends ModalContentController {
       this.#resetForgotPasswordResetlKit();
       this.#AuthView.forgotPasswordActionDisplay({ state: CONTENT });
 
-      // this.handleSignupClose();
-      // setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
+      this.handleForgotPasswordClose();
+      setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
 
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
