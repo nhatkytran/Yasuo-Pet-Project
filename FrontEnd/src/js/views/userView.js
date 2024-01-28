@@ -6,6 +6,7 @@ import {
   ADD,
   REMOVE,
   LOGIN_SUCCESS_SIGNAL,
+  LOGOUT_SUCCESS_SIGNAL,
 } from '../config';
 
 import { $, $_, $$, animateFactory, classRemove } from '../utils';
@@ -59,9 +60,6 @@ class UserView {
   };
 
   #handleContent = userData => {
-    // Test
-    console.log(userData);
-
     const { id, username, email, photo } = userData;
 
     this.#profileRiotID.setAttribute('value', id);
@@ -105,7 +103,12 @@ class UserView {
 
   addDataHandler(handler) {
     // First loading of the page and after login will trigger
-    this.#username.addEventListener(LOGIN_SUCCESS_SIGNAL, handler);
+    this.#username.addEventListener(LOGIN_SUCCESS_SIGNAL, event =>
+      handler(event.detail)
+    );
+    this.#username.addEventListener(LOGOUT_SUCCESS_SIGNAL, event =>
+      handler(event.detail)
+    );
   }
 
   addOpenProfileHandler(handler) {

@@ -230,8 +230,10 @@ class AuthController extends ModalContentController {
 
       await authService.logout('/api/v1/users/logout');
 
+      this.#AuthView.logoutSuccessSignal();
       this.#AuthView.logoutActionDisplay(CONTENT);
       this.#AuthView.logoutSuccess();
+
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
         content: 'See you later.',

@@ -64,3 +64,4 @@ export const TOAST_FAIL = 'fail';
 export const TOAST_WARNING = 'warning';
 
 export const LOGIN_SUCCESS_SIGNAL = 'LOGIN_SUCCESS_SIGNAL';
+export const LOGOUT_SUCCESS_SIGNAL = 'LOGOUT_SUCCESS_SIGNAL';

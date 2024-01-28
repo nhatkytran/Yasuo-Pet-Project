@@ -8,6 +8,7 @@ import {
   END,
   FADE_IN,
   LOGIN_SUCCESS_SIGNAL,
+  LOGOUT_SUCCESS_SIGNAL,
 } from '../config';
 
 import { $, $_, $$_, animateFactory, classRemove } from '../utils';
@@ -227,7 +228,11 @@ class AuthView {
   };
 
   loginSuccessSignal = () =>
-    this.#loginUserName.dispatchEvent(new CustomEvent(LOGIN_SUCCESS_SIGNAL));
+    this.#loginUserName.dispatchEvent(
+      new CustomEvent(LOGIN_SUCCESS_SIGNAL, {
+        detail: 'log_in',
+      })
+    );
 
   loginWarningMessage = ({ isError, field }) => {
     classRemove(ADD, this.#loginWarningMessageFail);
@@ -338,6 +343,13 @@ class AuthView {
       this.#userAvatarWrapper.appendChild(image);
     });
   };
+
+  logoutSuccessSignal = () =>
+    this.#loginUserName.dispatchEvent(
+      new CustomEvent(LOGOUT_SUCCESS_SIGNAL, {
+        detail: 'log_out',
+      })
+    );
 
   // Activate //////////
 

@@ -28,12 +28,16 @@ class UserController extends ModalContentController {
 
   handleData = catchAsync({
     filename,
-    onProcess: async () => {
-      await userService.getData('/api/v1/users/me');
-      store.dispatch(ACTIONS.setDataOk());
+    onProcess: async state => {
+      if (state === 'log_in') {
+        await userService.getData('/api/v1/users/me');
+        store.dispatch(ACTIONS.setDataOk());
 
-      const { username, photo } = store.state.user;
-      this.#UserView.changeLook(username, photo);
+        const { username, photo } = store.state.user;
+        this.#UserView.changeLook(username, photo);
+      }
+
+      if (state === 'log_out') store.dispatch(ACTIONS.setDataNotOk());
     },
   });
 
@@ -46,6 +50,7 @@ class UserController extends ModalContentController {
       });
 
     this.#UserView.scrollToTop();
+
     setTimeout(
       () =>
         super.open(
