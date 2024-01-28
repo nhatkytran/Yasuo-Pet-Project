@@ -155,8 +155,8 @@ class AuthView {
 
   #signupButton = $('.signup-form__body-button');
 
-  #signupSigninButton = $('.signup-form__privacy-signin');
-  #signupBackButton = $('.signup-form__privacy-back');
+  #signupSigninButton = $('.signup-form__actions-wrapper-signin');
+  #signupBackButton = $('.signup-form__actions-wrapper-back');
 
   //
 
