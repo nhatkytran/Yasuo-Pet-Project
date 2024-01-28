@@ -10,6 +10,41 @@ exports.getMe = (req, res, next) => {
   });
 };
 
+exports.sendSolo = catchAsync(async (req, res, next) => {
+  const { inGameName, challengeeEmail } = req.body;
+
+  if (inGameName.trim().length < 5)
+    throw new Error('inGameName must be 5+ characters!', 400);
+  if (!validator.isEmail(challengeeEmail))
+    throw new Error('Please provide a valid challengeeEmail!', 400);
+
+  const user = await User.findOne({ username: inGameName });
+
+  if (!user)
+    throw new AppError(
+      "Your in-game name doesn't exist!",
+      404,
+      'SEND_SOLO_NAME_ERROR'
+    );
+
+  try {
+    const subject = 'I challenge you to a 1 v/s 1 battle';
+    const message = `Are you up for it? Find me in game: ${user.username} or send me email via < ${user.email} >.`;
+
+    await sendEmail({ email: user.email, subject, message });
+  } catch (error) {
+    throw new AppError(
+      'Something went wrong sending email! Please try again.',
+      500
+    );
+  }
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Email has been sent successfully!',
+  });
+});
+
 exports.getActivateCode = catchAsync(async (req, res, next) => {
   const { email } = req.body;
 
@@ -106,13 +141,6 @@ exports.forgotUsername = catchAsync(async (req, res, next) => {
       `Incorrect email!`,
       400,
       'FORGOT_USERNAME_AUTHENTICATION_ERROR'
-    );
-
-  if (user.googleID || user.githubID || user.appleID)
-    throw new AppError(
-      'Only get username of accounts created manually!',
-      403,
-      'FORGOT_USERNAME_OAUTH_ERROR'
     );
 
   try {

@@ -11,6 +11,7 @@ const {
 
 const {
   getMe,
+  sendSolo,
   getActivateCode,
   activateAccount,
   forgotUsername,
@@ -49,5 +50,6 @@ userRouter.post('/forgotPassword', forgotPassword);
 userRouter.post('/resetPassword', resetPassword);
 
 userRouter.get('/me', getMe);
+userRouter.post('/solo', sendSolo);
 
 module.exports = userRouter;

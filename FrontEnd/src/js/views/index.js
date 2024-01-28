@@ -14,3 +14,4 @@ export { default as SkinsView } from './skinsView';
 export { default as Skins2View } from './skins2View';
 export { default as RuinedView } from './ruinedView';
 export { default as GalleryView } from './galleryView';
+export { default as SoloView } from './soloView';

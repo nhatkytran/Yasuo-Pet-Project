@@ -69,6 +69,8 @@ const { mainFunc: signup, abortFunc: signupAbort } = postRoute([
   'passwordConfirm',
 ]);
 
+const { mainFunc: sendSolo } = postRoute(['inGameName', 'challengeeEmail']);
+
 const authService = {
   login,
   loginAbort,
@@ -86,6 +88,7 @@ const authService = {
   forgotPasswordResetAbort,
   signup,
   signupAbort,
+  sendSolo,
 };
 
 export default authService;

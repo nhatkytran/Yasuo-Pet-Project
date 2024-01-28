@@ -15,6 +15,7 @@ import {
   Skins2View,
   RuinedView,
   GalleryView,
+  SoloView,
 } from '../views';
 
 import ModalController from './modalController';
@@ -33,6 +34,7 @@ import SkinsController from './skinsController';
 import Skins2Controller from './skins2Controller';
 import RuinedController from './ruinedController';
 import GalleryController from './galleryController';
+import SoloController from './soloController';
 
 const modalController = new ModalController(ModalView);
 const warningController = new WarningController(
@@ -352,6 +354,22 @@ function galleryInit() {
   GalleryView.addChooseGalleryHandler(chooseGallery);
 }
 
+function soloInit() {
+  const {
+    handleEnterName,
+    handleBlurName,
+    handleEnterEmail,
+    handleBlurEmail,
+    handleSubmit,
+  } = new SoloController(SoloView, ToastView);
+
+  SoloView.addInputHandlers([
+    [handleEnterName, handleEnterEmail],
+    [handleBlurName, handleBlurEmail],
+  ]);
+  SoloView.addSubmitHandler(handleSubmit);
+}
+
 [
   toastInit,
   authInit,
@@ -367,4 +385,5 @@ function galleryInit() {
   // skins2Init,
   // ruinedInit,
   // galleryInit,
+  soloInit,
 ].forEach(init => init.call(null));

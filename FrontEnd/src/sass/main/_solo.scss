@@ -118,6 +118,7 @@
         border: none;
         outline: none;
         border-radius: 0.2rem;
+        @include use-font(Spiegel-Bold);
 
         @media only screen and (max-width: $px640) {
           margin: 0 auto;
@@ -134,26 +135,33 @@
 
       label {
         display: block;
-        font-size: 1.4rem;
+        font-size: 1.3rem;
+        letter-spacing: 0.1rem;
         margin-left: 2rem;
         margin-top: 0.7rem;
         transform: translateY(-3.8rem);
         transition: all ease 0.2s;
         @include hide;
-        @include use-font(Spiegel-Regular);
+        @include use-font(Spiegel-Bold);
+
+        &.error {
+          color: #e674f1;
+        }
       }
     }
 
     &__button {
       color: $header-text-color;
+      background-color: $button-color-blue;
       font-size: 1.3rem;
       letter-spacing: 0.1rem;
       padding: 1.5rem 2rem;
       border-radius: 0.1rem;
       margin-top: 0.8rem;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+      transition: all ease 0.2s;
       position: relative;
-      @include use-font(FF-Mark-Medium);
+      @include use-font(FF-Mark-Bold);
 
       @media only screen and (max-width: $px1140) {
         font-size: 1.2rem;
@@ -165,6 +173,10 @@
       }
       @media only screen and (max-width: $px540) {
         width: 100%;
+      }
+
+      &:hover {
+        background-color: $button-color-blue-hover;
       }
     }
   }
@@ -182,8 +194,12 @@
     $lg: linear-gradient($border-color, $border-color);
     background: $lg, $lg, $lg;
     background-repeat: no-repeat;
-    background-size: calc(100% - 2.4rem) 1px, 1px calc(100% - 2.4rem);
-    background-position: left 0 top 0, right 0 bottom 0;
+    background-size:
+      calc(100% - 2.4rem) 1px,
+      1px calc(100% - 2.4rem);
+    background-position:
+      left 0 top 0,
+      right 0 bottom 0;
     pointer-events: none;
     @include absolute-position(-50%, -50%);
 

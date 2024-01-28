@@ -458,7 +458,7 @@
   </div>
 
   <!-- Auth - Signup -->
-  <div class="auth-overlay signup-overlay">
+  <div class="auth-overlay signup-overlay remove">
     <form id="signup-form" class="auth-form signup-form">
       <div class="auth-form__header signup-form__header">
         <div class="auth-form__header-hero signup-form__header-hero">
@@ -3036,6 +3036,37 @@
     </div>
 
     <div class="line-section"></div>
+  </section>
+
+  <!-- Solo -->
+  <section class=" solo">
+    <div class="solo-main">
+      <form class="solo-form">
+        <div class="solo-form__header">
+          <p>Solo Yasuo <span class="solo-form__dash">-</span> <span class="solo-form__challenge">Challenge me!</span>
+          </p>
+          <p>Whoever wins this war becomes justice!</p>
+        </div>
+        <div class="solo-form__group">
+          <input id="solo-name" type="text" placeholder="Your in-game name" required>
+          <label for="solo-name" class="solo-name-label">Your in-game name</label>
+        </div>
+        <div class="solo-form__group">
+          <input id="solo-email" type="email" placeholder="Challengee's email" required>
+          <label for="solo-email" class="solo-email-label">Challengee's email</label>
+        </div>
+        <button class="button button-blue solo-form__button" type="submit">Send challenge</button>
+      </form>
+
+      <div class="solo-quote quote-part">
+        <p class="quote-part-quote">
+          “ There is only death... mine, or yours! ”
+        </p>
+        <p class="quote-part-who">-- Yasuo --</p>
+      </div>
+
+      <div class="solo-border"></div>
+    </div>
   </section>
 </body>
 

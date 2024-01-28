@@ -406,7 +406,7 @@ class AuthController extends ModalContentController {
     this.#ToastView.createToast({
       ...store.state.toast[TOAST_WARNING],
       content:
-        "Only get username of accounts created manually! (Don't support OAuth.)",
+        'if you sign in using OAuth, you can change your in-game name later.',
     });
 
   handleForgotNameEnterEmail = email => {
@@ -461,10 +461,8 @@ class AuthController extends ModalContentController {
 
       if (error.response) {
         const { code, message } = error.response.data;
-        [
-          'FORGOT_USERNAME_AUTHENTICATION_ERROR',
-          'FORGOT_USERNAME_OAUTH_ERROR',
-        ].includes(code) && (errorMessage = message);
+        ['FORGOT_USERNAME_AUTHENTICATION_ERROR'].includes(code) &&
+          (errorMessage = message);
       }
 
       this.#AuthView.forgotNameActionDisplay({ state: ERROR, errorMessage });
