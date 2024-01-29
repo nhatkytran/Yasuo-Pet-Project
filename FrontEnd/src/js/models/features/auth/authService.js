@@ -1,11 +1,12 @@
 import axiosInstance from '../../axios';
+import { BACKEND_URL } from '../../../config';
 
-const getBasicRoute = () => async endpoint => await axiosInstance.get(endpoint);
+const usersRoute = endpoint => `/api/v1/users/${endpoint}`;
 
-const postRoute = fields => {
+const postRoute = (endpoint, fields) => {
   let abortController;
 
-  const mainFunc = async (endpoint, fieldValues) => {
+  const mainFunc = async fieldValues => {
     const postData = fields.reduce((acc, field) => {
       acc[field] = fieldValues[field];
       return acc;
@@ -26,54 +27,67 @@ const postRoute = fields => {
 
 // Sign-in //////////
 
-const { mainFunc: login, abortFunc: loginAbort } = postRoute([
-  'username',
-  'password',
-]);
+const { mainFunc: login, abortFunc: loginAbort } = postRoute(
+  usersRoute('login'),
+  ['username', 'password']
+);
 
-const checkIsLoggedIn = getBasicRoute();
+const loginSocial = social =>
+  (window.location.href = `${BACKEND_URL}${usersRoute(`auth/${social}`)}`);
+
+const checkIsLoggedIn = async () => {
+  try {
+    await axiosInstance.get('/api/v1/users/checkIsLoggedIn');
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 
 // Sign-out //////////
 
-const logout = getBasicRoute();
+const logout = async () => await axiosInstance.get(usersRoute('logout'));
 
 // Activate //////////
 
 const { mainFunc: activateGetCode, abortFunc: activateGetCodeAbort } =
-  postRoute(['email']);
+  postRoute(usersRoute('activateCode'), ['email']);
 
 const { mainFunc: activateConfirmCode, abortFunc: activateConfirmCodeAbort } =
-  postRoute(['token']);
+  postRoute(usersRoute('activate'), ['token']);
 
 // Forgot name //////////
 
-const { mainFunc: forgotName, abortFunc: forgotNameAbort } = postRoute([
-  'email',
-]);
+const { mainFunc: forgotName, abortFunc: forgotNameAbort } = postRoute(
+  usersRoute('forgotUsername'),
+  ['email']
+);
 
 // Forgot password //////////
 
-const { mainFunc: forgotPassword, abortFunc: forgotPasswordAbort } = postRoute([
-  'email',
-]);
+const { mainFunc: forgotPassword, abortFunc: forgotPasswordAbort } = postRoute(
+  usersRoute('forgotPassword'),
+  ['email']
+);
 
 const { mainFunc: forgotPasswordReset, abortFunc: forgotPasswordResetAbort } =
-  postRoute(['token', 'newPassword']);
+  postRoute(usersRoute('resetPassword'), ['token', 'newPassword']);
 
 // Sign-up //////////
 
-const { mainFunc: signup, abortFunc: signupAbort } = postRoute([
-  'username',
-  'email',
-  'password',
-  'passwordConfirm',
-]);
+const { mainFunc: signup, abortFunc: signupAbort } = postRoute(
+  usersRoute('signup'),
+  ['username', 'email', 'password', 'passwordConfirm']
+);
+
+// Send Solo
 
 const { mainFunc: sendSolo } = postRoute(['inGameName', 'challengeeEmail']);
 
 const authService = {
   login,
   loginAbort,
+  loginSocial,
   checkIsLoggedIn,
   logout,
   activateGetCode,

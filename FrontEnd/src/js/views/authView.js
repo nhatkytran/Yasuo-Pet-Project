@@ -47,10 +47,10 @@ class AuthView {
   #loginButton = $('.login-form__body-button');
 
   #loginButtonSocialWrapper = $('.login-form__options');
-  #loginActivateButton = $('.login-form__privacy-activate-button');
   #loginForgotNameButton = $('.login-form__actions-forgot-name');
   #loginForgotPasswordButton = $('.login-form__actions-forgot-password');
-  #loginSignupButton = $('.login-form__privacy-signup-button');
+  #loginActivateButton = $('.login-form__actions-activate-account');
+  #loginSignupButton = $('.login-form__actions-sign-up');
 
   // Sign-out //////////
 

@@ -232,7 +232,7 @@
 }
 
 .auth-form__options {
-  margin-top: 3rem;
+  margin: 2rem 0;
   justify-content: space-between;
   @include flex-align-center;
 
@@ -292,36 +292,6 @@
 
     svg {
       fill: $header-text-color;
-    }
-  }
-}
-
-.auth-form__privacy {
-  margin: 2.4rem 0 1.2rem;
-  justify-content: space-between;
-  @include flex-align-center;
-
-  &-activate-button {
-    font-size: 1.4rem;
-    text-decoration: underline;
-    @include use-font(FF-Mark);
-
-    @media only screen and (max-width: $px440) {
-      font-size: 1.2rem;
-    }
-
-    &:hover {
-      filter: brightness(1.1);
-    }
-  }
-
-  a {
-    color: $color-layer;
-    font-size: 1.4rem;
-    text-transform: uppercase;
-
-    @media only screen and (max-width: $px440) {
-      font-size: 1.2rem;
     }
   }
 }

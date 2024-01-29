@@ -77,7 +77,7 @@ class AuthController extends ModalContentController {
   handleLoginCheckFirst = catchAsync({
     filename,
     onProcess: async () => {
-      if (!(await this.handleCheckIsLoggedIn())) return;
+      if (!(await authService.checkIsLoggedIn())) return;
       this.#AuthView.loginSuccess();
       this.#AuthView.loginSuccessSignal();
     },
@@ -89,15 +89,6 @@ class AuthController extends ModalContentController {
   handleLoginClose = () => {
     authService.loginAbort();
     super.close(this.#handleCloseModal, this.#AuthView.loginClose);
-  };
-
-  handleCheckIsLoggedIn = async () => {
-    try {
-      await authService.checkIsLoggedIn('/api/v1/users/checkIsLoggedIn');
-      return true;
-    } catch (error) {
-      return false;
-    }
   };
 
   handleLoginWarning = () =>
@@ -146,7 +137,7 @@ class AuthController extends ModalContentController {
       this.#loginLoading = true;
       this.#AuthView.loginActionDisplay({ state: LOADING });
 
-      await authService.login('/api/v1/users/login', {
+      await authService.login({
         username: this.#loginUsername,
         password: this.#loginPassword,
       });
@@ -189,11 +180,7 @@ class AuthController extends ModalContentController {
 
   handleLoginSocial = social => {
     if (['facebook', 'github', 'apple'].includes(social)) return;
-
-    let link;
-    if (social === 'google') link = `${BACKEND_URL}/api/v1/users/auth/google`;
-
-    window.location.href = link;
+    authService.loginSocial(social);
   };
 
   handleLoginChooseActivate = () =>
@@ -228,7 +215,7 @@ class AuthController extends ModalContentController {
     onProcess: async () => {
       this.#AuthView.logoutActionDisplay(LOADING);
 
-      await authService.logout('/api/v1/users/logout');
+      await authService.logout();
 
       this.#AuthView.logoutSuccessSignal();
       this.#AuthView.logoutActionDisplay(CONTENT);
@@ -306,9 +293,7 @@ class AuthController extends ModalContentController {
       this.#activateEmailLoading = true;
       this.#AuthView.activateActionDisplay({ state: LOADING });
 
-      await authService.activateGetCode('/api/v1/users/activateCode', {
-        email: this.#activateEmail,
-      });
+      await authService.activateGetCode({ email: this.#activateEmail });
 
       this.#resetActivateEmailKit();
       this.#AuthView.activateActionDisplay({ state: CONTENT });
@@ -351,12 +336,11 @@ class AuthController extends ModalContentController {
       this.#activateCodeLoading = true;
       this.#AuthView.activateActionDisplay({ state: LOADING });
 
-      await authService.activateConfirmCode('/api/v1/users/activate', {
-        token: this.#activateCode,
-      });
+      await authService.activateConfirmCode({ token: this.#activateCode });
 
       this.#resetActivateCodeKit();
       this.#AuthView.activateActionDisplay({ state: CONTENT });
+      this.handleActivateActionsBack();
 
       this.handleActivateClose();
       setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
@@ -438,9 +422,7 @@ class AuthController extends ModalContentController {
       this.#forgotNameEmailLoading = true;
       this.#AuthView.forgotNameActionDisplay({ state: LOADING });
 
-      await authService.forgotName('/api/v1/users/forgotUsername', {
-        email: this.#forgotNameEmail,
-      });
+      await authService.forgotName({ email: this.#forgotNameEmail });
 
       this.#resetForgotNameEmailKit();
       this.#AuthView.forgotNameActionDisplay({ state: CONTENT });
@@ -572,9 +554,7 @@ class AuthController extends ModalContentController {
       this.#forgotPasswordEmailLoading = true;
       this.#AuthView.forgotPasswordActionDisplay({ state: LOADING });
 
-      await authService.forgotPassword('/api/v1/users/forgotPassword', {
-        email: this.#forgotPasswordEmail,
-      });
+      await authService.forgotPassword({ email: this.#forgotPasswordEmail });
 
       this.#resetForgotPasswordEmailKit();
       this.#AuthView.forgotPasswordActionDisplay({ state: CONTENT });
@@ -620,13 +600,14 @@ class AuthController extends ModalContentController {
       this.#forgotPasswordResetLoading = true;
       this.#AuthView.forgotPasswordActionDisplay({ state: LOADING });
 
-      await authService.forgotPasswordReset('/api/v1/users/resetPassword', {
+      await authService.forgotPasswordReset({
         token: this.#forgotPasswordResetCode,
         newPassword: this.#forgotPasswordResetNewPassword,
       });
 
       this.#resetForgotPasswordResetlKit();
       this.#AuthView.forgotPasswordActionDisplay({ state: CONTENT });
+      this.handleForgotPasswordBack();
 
       this.handleForgotPasswordClose();
       setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
@@ -758,7 +739,7 @@ class AuthController extends ModalContentController {
       this.#AuthView.signupActionDisplay({ state: LOADING });
       this.#signupInfoLoading = true;
 
-      await authService.signup('/api/v1/users/signup', {
+      await authService.signup({
         username: this.#signupInfoUsername,
         email: this.#signupInfoEmail,
         password: this.#signupInfoPassword,
@@ -766,7 +747,6 @@ class AuthController extends ModalContentController {
       });
 
       this.#AuthView.signupActionDisplay({ state: CONTENT });
-
       this.#resetSignupInfoKit();
       this.#AuthView.signupInfoSuccess();
 
@@ -807,12 +787,12 @@ class AuthController extends ModalContentController {
       this.#AuthView.signupActionDisplay({ state: LOADING });
       this.#signupCodeLoading = true;
 
-      await authService.activateConfirmCode('/api/v1/users/activate', {
-        token: this.#signupCode,
-      });
+      await authService.activateConfirmCode({ token: this.#signupCode });
 
-      this.#AuthView.signupActionDisplay({ state: CONTENT });
       this.#resetSignupCodeKit();
+      this.#AuthView.signupActionDisplay({ state: CONTENT });
+      this.handleSignupBack();
+
       this.handleSignupClose();
       setTimeout(() => this.handleLoginOpen(), ANIMATION_TIMEOUT * 2);
 
