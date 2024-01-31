@@ -11,7 +11,15 @@ import {
   LOGOUT_SUCCESS_SIGNAL,
 } from '../config';
 
-import { $, $_, $$_, animateFactory, classRemove } from '../utils';
+import {
+  $,
+  $_,
+  $$_,
+  animateFactory,
+  classRemove,
+  passwordTypeDisplayFactory,
+  resetPasswordInput,
+} from '../utils';
 
 const loginWarningMessageClass = '.login-form__header-warning-message';
 const disabledCssText = `opacity: 0.6; cursor: not-allowed;`;
@@ -192,20 +200,6 @@ class AuthView {
     );
   };
 
-  #passwordTypeDisplayFactory = (input, typeButton) => () =>
-    $$_(typeButton, 'svg').forEach((svg, index) => {
-      svg.classList.toggle('remove');
-      if (!svg.classList.contains('remove'))
-        input.setAttribute('type', index === 0 ? 'password' : 'text');
-    });
-
-  #resetPasswordInput = (input, typeButton) => {
-    input.setAttribute('type', 'password');
-    $$_(typeButton, 'svg').forEach((svg, index) =>
-      classRemove(index === 0 ? REMOVE : ADD, svg)
-    );
-  };
-
   // Sign-in //////////
 
   loginOpen = () => {
@@ -263,7 +257,7 @@ class AuthView {
 
   loginButtonDisplay = this.#mainButtonDisplayFactory(this.#loginButton);
 
-  loginPasswordTypeDisplay = this.#passwordTypeDisplayFactory(
+  loginPasswordTypeDisplay = passwordTypeDisplayFactory(
     this.#loginPasswordInput,
     this.#loginPasswordTypeButton
   );
@@ -295,7 +289,7 @@ class AuthView {
     }
 
     if (state === CONTENT) {
-      this.#resetPasswordInput(
+      resetPasswordInput(
         this.#loginPasswordInput,
         this.#loginPasswordTypeButton
       );
@@ -556,7 +550,7 @@ class AuthView {
     this.#forgotPasswordButton
   );
 
-  forgotPasswordNewPasswordTypeDisplay = this.#passwordTypeDisplayFactory(
+  forgotPasswordNewPasswordTypeDisplay = passwordTypeDisplayFactory(
     this.#forgotPasswordNewPasswordInput,
     this.#forgotPasswordNewPasswordTypeButton
   );
@@ -594,7 +588,7 @@ class AuthView {
     }
 
     if (state === CONTENT) {
-      this.#resetPasswordInput(
+      resetPasswordInput(
         this.#forgotPasswordNewPasswordInput,
         this.#forgotPasswordNewPasswordTypeButton
       );
@@ -687,7 +681,7 @@ class AuthView {
 
   signupButtonDisplay = this.#mainButtonDisplayFactory(this.#signupButton);
 
-  signupPasswordTypeDisplay = this.#passwordTypeDisplayFactory(
+  signupPasswordTypeDisplay = passwordTypeDisplayFactory(
     this.#signupPasswordInput,
     this.#signupPasswordTypeButton
   );
@@ -726,7 +720,7 @@ class AuthView {
     }
 
     if (state === CONTENT) {
-      this.#resetPasswordInput(
+      resetPasswordInput(
         this.#signupPasswordInput,
         this.#signupPasswordTypeButton
       );

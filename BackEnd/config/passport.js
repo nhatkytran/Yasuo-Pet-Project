@@ -99,7 +99,7 @@ passport.serializeUser((user, done) => done(null, user._id.toString()));
 
 passport.deserializeUser(async (userId, done) => {
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select('+passwordChangedAt');
 
     if (
       !user ||

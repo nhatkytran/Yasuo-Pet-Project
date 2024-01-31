@@ -343,8 +343,8 @@
   }
 
   &-group {
-    position: relative;
     margin-bottom: 1.4rem;
+    position: relative;
 
     &.mb1rem {
       margin-bottom: 1rem;
@@ -430,6 +430,14 @@
       transition: all ease 0.2s;
       @include use-font(FF-Mark-Bold);
 
+      &[type="password"] {
+        padding: 2rem 5rem 0.8rem 0.8rem;
+      }
+
+      &:not(:placeholder-shown) + label + div.button {
+        @include show;
+      }
+
       &:hover {
         background: #3a3838;
         border: 1px solid #3a3838;
@@ -451,27 +459,34 @@
       pointer-events: none;
     }
 
-    &-message {
-      margin-top: 0.8rem;
-      justify-content: space-between;
+    div.button {
+      width: 5rem;
+      height: 4.4rem;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      justify-content: center;
       @include flex-align-center;
 
-      &-error {
+      svg {
+        fill: #f0f0f0;
+        @include square-dimension(2rem);
+      }
+    }
+
+    &-message {
+      margin-top: 0.8rem;
+
+      &-item {
         @include flex-align-center;
 
         p {
           color: #be29cc;
           font-size: 1rem;
           text-transform: uppercase;
-          margin-left: 0.4rem;
+          margin-left: 0.8rem;
           @include use-font(FF-Mark-Bold);
         }
-      }
-
-      button {
-        color: #b8b8b8;
-        font-size: 1rem;
-        @include use-font(FF-Mark-Bold);
       }
     }
   }
@@ -540,7 +555,7 @@
       padding: 0.6rem 0;
       border: 2px solid #8a8a8a1a;
       transition: all ease 0.2s;
-      cursor: default;
+      cursor: pointer;
 
       &.active {
         background-color: $color-button-blue;

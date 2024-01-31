@@ -197,18 +197,49 @@ function authInit() {
 }
 
 function userInit() {
-  const { handleData, handleOpenProfile, handleCloseProfile } =
-    new UserController(
-      UserView,
-      ToastView,
-      modalController.open,
-      modalController.close
-    );
+  const {
+    // General //////////
+    handleData,
+    handleOpenProfile,
+    handleCloseProfile,
+    // Riot Account Sign-in //////////
+    handleAccountSigninEnterCurrentPassword,
+    handleAccountSigninBlurCurrentPassword,
+    handleAccountSigninEnterNewPassword,
+    handleAccountSigninBlurNewPassword,
+    handleAccountSigninCurrentPasswordType,
+    handleAccountSigninNewPasswordType,
+    handleAccountSigninSubmit,
+    handleAccountSigninSubmitCancel,
+  } = new UserController(
+    UserView,
+    ToastView,
+    modalController.open,
+    modalController.close
+  );
 
+  // General //////////
   UserView.addDataHandler(handleData);
   UserView.addOpenProfileHandler(handleOpenProfile);
   UserView.addCloseProfileHandler(handleCloseProfile);
   UserView.addSidebarHandler(() => {});
+  // Riot Account Sign-in //////////
+  UserView.addAccountSigninInputHandlers([
+    [
+      handleAccountSigninEnterCurrentPassword,
+      handleAccountSigninEnterNewPassword,
+    ],
+    [
+      handleAccountSigninBlurCurrentPassword,
+      handleAccountSigninBlurNewPassword,
+    ],
+  ]);
+  UserView.addAccountSigninPasswordTypeHandlers([
+    handleAccountSigninCurrentPasswordType,
+    handleAccountSigninNewPasswordType,
+  ]);
+  UserView.addAccountSigninSubmitHandler(handleAccountSigninSubmit);
+  UserView.addAcountSigninSubmitCancelHandler(handleAccountSigninSubmitCancel);
 }
 
 function purchaseInit() {

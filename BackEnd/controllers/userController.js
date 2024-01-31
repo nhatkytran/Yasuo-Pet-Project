@@ -1,6 +1,14 @@
 const crypto = require('crypto');
 const validator = require('validator');
-const { AppError, catchAsync, sendEmail } = require('../utils');
+const bcrypt = require('bcrypt');
+
+const {
+  AppError,
+  catchAsync,
+  sendEmail,
+  isStrongPassword,
+} = require('../utils');
+
 const { User } = require('../models');
 
 exports.getMe = (req, res, next) => {
@@ -216,15 +224,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   if (!token || !newPassword)
     throw new Error('Please provide token and newPassword!', 400);
 
-  if (
-    !validator.isStrongPassword(newPassword, {
-      minLength: 8,
-      minUppercase: 1,
-      minLowercase: 1,
-      minNumbers: 1,
-      minSymbols: 1,
-    })
-  )
+  if (isStrongPassword(newPassword))
     throw new AppError(
       'Password must contain at least 8 characters (1 uppercase, 1 lowercase, 1 number, 1 symbol)',
       400
@@ -247,6 +247,45 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.forgotPasswordToken = undefined;
   user.forgotPasswordTokenAt = undefined;
 
+  await user.save({ validateModifiedOnly: true });
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Change password successfully!',
+  });
+});
+
+exports.changePassword = catchAsync(async (req, res, next) => {
+  const { email, currentPassword, newPassword } = req.body;
+
+  if (!validator.isEmail(email))
+    throw new AppError('Please provide a valid email!', 400);
+
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user) throw new AppError('Email does not exist!', 404);
+
+  if (!isStrongPassword(currentPassword) || !isStrongPassword(newPassword))
+    throw new AppError(
+      'Password must contain at least 8 characters (1 uppercase, 1 lowercase, 1 number, 1 symbol)',
+      400
+    );
+
+  if (!(await bcrypt.compare(currentPassword, user.password)))
+    throw new AppError(
+      'The current password is incorrect! Please try again.',
+      400,
+      'CHANGE_PASSWORD_INCORRECT_ERROR'
+    );
+
+  if (await bcrypt.compare(newPassword, user.password))
+    throw new AppError(
+      'The new password is the same as the current one!',
+      400,
+      'CHANGE_PASSWORD_INCORRECT_ERROR'
+    );
+
+  user.password = newPassword;
   await user.save({ validateModifiedOnly: true });
 
   res.status(200).json({

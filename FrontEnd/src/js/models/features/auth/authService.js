@@ -82,7 +82,19 @@ const { mainFunc: signup, abortFunc: signupAbort } = postRoute(
 
 // Send Solo
 
-const { mainFunc: sendSolo } = postRoute(['inGameName', 'challengeeEmail']);
+const { mainFunc: sendSolo } = postRoute(usersRoute('solo'), [
+  'inGameName',
+  'challengeeEmail',
+]);
+
+// Profile
+
+const { mainFunc: changePassword, abortFunc: changePasswordAbort } = postRoute(
+  usersRoute('changePassword'),
+  ['email', 'currentPassword', 'newPassword']
+);
+
+//
 
 const authService = {
   login,
@@ -103,6 +115,7 @@ const authService = {
   signup,
   signupAbort,
   sendSolo,
+  changePassword,
 };
 
 export default authService;

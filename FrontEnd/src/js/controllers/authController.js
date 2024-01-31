@@ -77,6 +77,12 @@ class AuthController extends ModalContentController {
   handleLoginCheckFirst = catchAsync({
     filename,
     onProcess: async () => {
+      // When we choose Goole as login method, but instead login we click the back button
+      // This will cause a bug that it selects the previous logged in account infor -> reload the page again will fix this problem
+      const perfEntries = performance.getEntriesByType('navigation');
+      if (perfEntries.length && perfEntries[0].type === 'back_forward')
+        window.location.reload();
+
       if (!(await authService.checkIsLoggedIn())) return;
       this.#AuthView.loginSuccess();
       this.#AuthView.loginSuccessSignal();
@@ -736,8 +742,8 @@ class AuthController extends ModalContentController {
     onProcess: async () => {
       if (this.#signupInfoLoading) return;
 
-      this.#AuthView.signupActionDisplay({ state: LOADING });
       this.#signupInfoLoading = true;
+      this.#AuthView.signupActionDisplay({ state: LOADING });
 
       await authService.signup({
         username: this.#signupInfoUsername,

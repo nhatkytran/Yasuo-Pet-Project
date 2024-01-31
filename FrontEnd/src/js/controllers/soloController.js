@@ -60,7 +60,7 @@ class SoloController {
       this.#submitLoading = true;
       this.#SoloView.actionDisplay({ state: LOADING });
 
-      await authService.sendSolo('/api/v1/users/solo', {
+      await authService.sendSolo({
         inGameName: this.#name,
         challengeeEmail: this.#email,
       });

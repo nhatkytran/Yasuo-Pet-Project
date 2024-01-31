@@ -17,6 +17,7 @@ const {
   forgotUsername,
   forgotPassword,
   resetPassword,
+  changePassword,
 } = require('../controllers/userController');
 
 const userRouter = express.Router();
@@ -26,7 +27,10 @@ userRouter.post('/login', passport.authenticate('local'), login);
 
 userRouter.get(
   '/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    prompt: 'select_account',
+  })
 );
 
 userRouter.get(
@@ -46,8 +50,11 @@ userRouter.post('/activateCode', getActivateCode);
 userRouter.post('/activate', activateAccount);
 
 userRouter.post('/forgotUsername', forgotUsername);
+
 userRouter.post('/forgotPassword', forgotPassword);
 userRouter.post('/resetPassword', resetPassword);
+
+userRouter.post('/changePassword', changePassword);
 
 userRouter.get('/me', getMe);
 userRouter.post('/solo', sendSolo);
