@@ -69,14 +69,15 @@ class UserController extends ModalContentController {
 
     this.#UserView.scrollToTop();
 
-    setTimeout(
-      () =>
-        super.open(
-          this.#handleOpenModal,
-          this.#UserView.openProfile.bind(this.#UserView, store.state.user)
-        ),
-      ANIMATION_TIMEOUT
-    );
+    let intervalId = setInterval(() => {
+      if (window.scrollY !== 0) return;
+      clearInterval(intervalId);
+
+      super.open(
+        this.#handleOpenModal,
+        this.#UserView.openProfile.bind(this.#UserView, store.state.user)
+      );
+    }, ANIMATION_TIMEOUT);
   };
 
   handleCloseProfile = () =>

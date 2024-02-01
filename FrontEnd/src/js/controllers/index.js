@@ -248,7 +248,12 @@ function purchaseInit() {
     handleOpenPurchaseView,
     handleClosePurchaseView,
     handleSkinRelates,
-  } = new PurchaseController(PurchaseView, ToastView);
+  } = new PurchaseController(
+    PurchaseView,
+    ToastView,
+    modalController.open,
+    modalController.close
+  );
 
   PurchaseView.addFetchDataHandler(handleData);
   PurchaseView.addOpenPurchaseViewHandler(handleOpenPurchaseView);

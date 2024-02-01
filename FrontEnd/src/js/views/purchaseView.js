@@ -106,18 +106,15 @@ class PurchaseView {
     });
   };
 
+  scrollToTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
   open = (skinData, skinRelatesData) => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     classRemove(REMOVE, this.#pur);
-    this.#handleContent(skinData, skinRelatesData);
     this.#animatePur(START);
-    setTimeout(() => {
-      classRemove(ADD, ...$$('.section')); // Help stop pur scroll at footer
-    }, ANIMATION_TIMEOUT_500);
+    this.#handleContent(skinData, skinRelatesData);
   };
 
   close = () => {
-    classRemove(REMOVE, ...$$('.section'));
     this.#animatePur(END);
     setTimeout(classRemove.bind(null, ADD, this.#pur), ANIMATION_TIMEOUT * 2);
   };
@@ -161,7 +158,7 @@ class PurchaseView {
       this.close();
       setTimeout(
         () => handler(Number.parseInt(target.dataset.trueIndex)),
-        ANIMATION_TIMEOUT * 2
+        ANIMATION_TIMEOUT
       );
     });
   }

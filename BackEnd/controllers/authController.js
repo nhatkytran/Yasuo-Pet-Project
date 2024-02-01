@@ -1,5 +1,10 @@
 const validator = require('validator');
-const { AppError, catchAsync, sendEmail } = require('../utils');
+const {
+  AppError,
+  catchAsync,
+  sendEmail,
+  isStrongPassword,
+} = require('../utils');
 const { User } = require('../models');
 
 exports.signup = catchAsync(async (req, res) => {
@@ -24,15 +29,7 @@ exports.signup = catchAsync(async (req, res) => {
   if (!passwordConfirm || !passwordConfirm.trim())
     throw new AppError('Please confirm your password!', 400);
 
-  if (
-    !validator.isStrongPassword(password, {
-      minLength: 8,
-      minUppercase: 1,
-      minLowercase: 1,
-      minNumbers: 1,
-      minSymbols: 1,
-    })
-  )
+  if (!isStrongPassword(password))
     throw new AppError(
       'Password must contain at least 8 characters (1 uppercase, 1 lowercase, 1 number, 1 symbol)',
       400

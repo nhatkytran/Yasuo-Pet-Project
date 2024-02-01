@@ -1,4 +1,11 @@
-import { CONTENT, ERROR, LOADING, TOAST_FAIL } from '../config';
+import {
+  ANIMATION_TIMEOUT,
+  CONTENT,
+  ERROR,
+  LOADING,
+  TOAST_FAIL,
+} from '../config';
+
 import { catchAsync } from '../utils';
 
 import store from '../models/store';
@@ -12,26 +19,44 @@ const filename = 'purchaseController.js';
 class PurchaseController extends ModalContentController {
   #PurchaseView;
   #ToastView;
+  #handleOpenModal;
+  #handleCloseModal;
 
-  constructor(PurchaseView, ToastView) {
+  constructor(PurchaseView, ToastView, handleOpenModal, handleCloseModal) {
     super();
     this.#PurchaseView = PurchaseView;
     this.#ToastView = ToastView;
+    this.#handleOpenModal = handleOpenModal;
+    this.#handleCloseModal = handleCloseModal;
   }
 
   handleOpenPurchaseView = index => {
-    const skins = store.state.skins.skins;
-    const skinData = skins[index];
+    this.#PurchaseView.scrollToTop();
 
-    const skinRelatesData = [index - 1, index + 1, index + 2].map(idx => {
-      const trueIndex = (idx + skins.length) % skins.length;
-      return { ...skins[trueIndex], trueIndex };
-    });
+    let intervalId = setInterval(() => {
+      if (window.scrollY !== 0) return;
+      clearInterval(intervalId);
 
-    this.#PurchaseView.open(skinData, skinRelatesData);
+      const skins = store.state.skins.skins;
+      const skinData = skins[index];
+      const skinRelatesData = [index - 1, index + 1, index + 2].map(idx => {
+        const trueIndex = (idx + skins.length) % skins.length;
+        return { ...skins[trueIndex], trueIndex };
+      });
+
+      super.open(
+        this.#handleOpenModal,
+        this.#PurchaseView.open.bind(
+          this.#PurchaseView,
+          skinData,
+          skinRelatesData
+        )
+      );
+    }, ANIMATION_TIMEOUT);
   };
 
-  handleClosePurchaseView = () => this.#PurchaseView.close();
+  handleClosePurchaseView = () =>
+    super.close(this.#handleCloseModal, this.#PurchaseView.close);
 
   handleData = catchAsync({
     filename,
