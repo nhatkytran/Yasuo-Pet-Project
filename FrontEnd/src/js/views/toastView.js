@@ -4,8 +4,8 @@ import { $, $$ } from '../utils';
 class ToastView {
   #toastWrapper = $('#toast');
 
-  #generateToastMarkup = ({ type, title, content }) => `
-    <div class="toast toast-${type}">
+  #generateToastMarkup = ({ type, title, content }, isToastLoading) => `
+    <div class="toast toast-${type} ${isToastLoading && 'loading'}">
       <div class="toast-overlay"></div>
       <div class="toast-content">
         <div class="toast-content__main">
@@ -26,8 +26,8 @@ class ToastView {
       (item, index) => (item.style.transform = `translateY(${index * 9.4}rem)`)
     );
 
-  createToast = data => {
-    const markup = this.#generateToastMarkup(data);
+  createToast = (data, isToastLoading) => {
+    const markup = this.#generateToastMarkup(data, isToastLoading);
     this.#toastWrapper.insertAdjacentHTML('beforeend', markup);
     this.#arrageToasts();
     const element = [...$$('.toast')].at(-1);

@@ -8,6 +8,7 @@ import {
   TOAST_FAIL,
   ERROR_ABORT_CODE,
   ERROR,
+  CLEAR_TOAST_TIMEOUT,
 } from '../config';
 
 import store from '../models/store';
@@ -184,10 +185,16 @@ class UserController extends ModalContentController {
 
       this.#UserView.accountSigninActionDisplay({ state: CONTENT });
       this.#resetAccountSigninSubmitKit();
-      this.#ToastView.createToast({
-        ...store.state.toast[TOAST_SUCCESS],
-        content: 'Change password successfully!',
-      });
+
+      setTimeout(() => window.location.reload(), CLEAR_TOAST_TIMEOUT);
+      this.#ToastView.createToast(
+        {
+          ...store.state.toast[TOAST_SUCCESS],
+          content:
+            'Password changed successfully! Page will refresh in 5 seconds.',
+        },
+        true
+      );
     },
     onError: error => {
       this.#accountSigninSubmitLoading = false;

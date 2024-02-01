@@ -288,8 +288,11 @@ exports.changePassword = catchAsync(async (req, res, next) => {
   user.password = newPassword;
   await user.save({ validateModifiedOnly: true });
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Change password successfully!',
+  req.logout(error => {
+    if (error) console.error(error);
+    res.status(200).json({
+      status: 'success',
+      message: 'Change password successfully!',
+    });
   });
 });

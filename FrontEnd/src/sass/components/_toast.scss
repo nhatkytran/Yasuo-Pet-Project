@@ -35,6 +35,18 @@
       background-image: url("/src/assets/img/toast/#{$image}");
     }
 
+    .toast-content::after {
+      content: "";
+      height: 0.24rem;
+      width: 100%;
+      background-color: $bright-color;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      animation: toast-loading linear 4s forwards;
+      display: none;
+    }
+
     .toast-content__main {
       border-left: 0.24rem solid $bright-color;
 
@@ -93,6 +105,10 @@
     background-size: cover;
     background-position: center;
     @include full-dimension;
+  }
+
+  &.loading .toast-content::after {
+    display: block;
   }
 
   &-content {

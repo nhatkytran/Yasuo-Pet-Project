@@ -20,6 +20,14 @@
     transform: rotate(360deg);
   }
 }
+@keyframes toast-loading {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
 
 @keyframes fade-in {
   0% {
