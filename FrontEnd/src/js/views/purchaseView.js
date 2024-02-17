@@ -106,7 +106,13 @@ class PurchaseView {
     });
   };
 
-  scrollToTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    setTimeout(
+      () => this.#pur.scrollTo({ top: 0, behavior: 'smooth' }),
+      ANIMATION_TIMEOUT_500
+    );
+  };
 
   open = (skinData, skinRelatesData) => {
     classRemove(REMOVE, this.#pur);

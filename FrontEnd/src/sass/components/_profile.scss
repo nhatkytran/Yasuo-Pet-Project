@@ -3,7 +3,6 @@
   color: #ebebeb;
   background-image: url("/src/assets/img/profile-background.svg");
   background-size: cover;
-  position: relative;
   @include use-font(FF-Mark-Medium);
 
   &-header {
