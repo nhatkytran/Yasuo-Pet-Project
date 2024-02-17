@@ -202,6 +202,12 @@ function userInit() {
     handleData,
     handleOpenProfile,
     handleCloseProfile,
+    // Information //////////
+    handleInformationAvatarCancel,
+    handleInformationAvatarChooseFile,
+    handleInformationAvatarAdjustClose,
+    handleInformationAvatarSaveFile,
+    handleInformationAvatarUploadFile,
     // Riot Account Sign-in //////////
     handleAccountSigninEnterCurrentPassword,
     handleAccountSigninBlurCurrentPassword,
@@ -223,6 +229,18 @@ function userInit() {
   UserView.addOpenProfileHandler(handleOpenProfile);
   UserView.addCloseProfileHandler(handleCloseProfile);
   UserView.addSidebarHandler(() => {});
+  // Information //////////
+  UserView.addInformationAvatarResetFileHandler(handleInformationAvatarCancel);
+  UserView.addInformationAvatarChooseFileHandler(
+    handleInformationAvatarChooseFile
+  );
+  UserView.addInformationAvatarCancelFileHandler(
+    handleInformationAvatarAdjustClose
+  );
+  UserView.addInformationAvatarSaveFileHandler(handleInformationAvatarSaveFile);
+  UserView.addInformationAvatarUploadFileHandler(
+    handleInformationAvatarUploadFile
+  );
   // Riot Account Sign-in //////////
   UserView.addAccountSigninInputHandlers([
     [

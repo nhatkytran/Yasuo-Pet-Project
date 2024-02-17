@@ -1,6 +1,10 @@
+const fs = require('fs').promises;
+const path = require('path');
 const crypto = require('crypto');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const sharp = require('sharp');
 
 const {
   AppError,
@@ -294,5 +298,69 @@ exports.changePassword = catchAsync(async (req, res, next) => {
       status: 'success',
       message: 'Change password successfully!',
     });
+  });
+});
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (_, file, cb) =>
+  file.mimetype.startsWith('image')
+    ? cb(null, true)
+    : cb(new AppError('Not an image! Please update only images.', 400), false);
+
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+
+exports.uploadUserPhoto = upload.single('photo');
+
+const filePathPhoto = fileName =>
+  path.join(__dirname, '..', 'public', 'img', 'users', fileName);
+
+exports.resizeUserPhoto = catchAsync(async (req, _, next) => {
+  if (!req.file) throw new Error('Something went wrong!');
+
+  const fileName = `user-avatar-${req.user._id}-${Date.now()}.jpeg`;
+  const filePath = filePathPhoto(fileName);
+
+  await sharp(req.file.buffer)
+    .resize(252, 252)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(filePath);
+
+  req.file.filename = fileName;
+  next();
+});
+
+exports.deleteOldUserPhoto = async (req, res, next) => {
+  try {
+    const fileName = req.user.photo.split('/').at(-1);
+    await fs.unlink(filePathPhoto(fileName));
+  } catch (error) {
+    console.error(error);
+  } finally {
+    next();
+  }
+};
+
+exports.changePhoto = catchAsync(async (req, res, next) => {
+  const photo = `${req.protocol}://${req.get('host')}/img/users/${
+    req.file.filename
+  }`;
+
+  await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      photo,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Change avatar successfully!',
+    photo,
   });
 });

@@ -18,6 +18,10 @@ const {
   forgotPassword,
   resetPassword,
   changePassword,
+  uploadUserPhoto,
+  resizeUserPhoto,
+  deleteOldUserPhoto,
+  changePhoto,
 } = require('../controllers/userController');
 
 const userRouter = express.Router();
@@ -55,6 +59,14 @@ userRouter.post('/forgotPassword', forgotPassword);
 userRouter.post('/resetPassword', resetPassword);
 
 userRouter.post('/changePassword', changePassword);
+
+userRouter.post(
+  '/changeAvatar',
+  uploadUserPhoto,
+  resizeUserPhoto,
+  deleteOldUserPhoto,
+  changePhoto
+);
 
 userRouter.get('/me', getMe);
 userRouter.post('/solo', sendSolo);

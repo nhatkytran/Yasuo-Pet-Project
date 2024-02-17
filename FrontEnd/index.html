@@ -641,7 +641,7 @@
   </div>
 
   <!-- Profile -->
-  <div class="pro-pur profile remove">
+  <div class="pro-pur profile">
     <div class="pro-pur-header profile-header">
       <div class="pro-pur-header__content">
         <button class="button pro-pur-header__back profile-header__back">
@@ -901,13 +901,15 @@
                   <div class="profile-pi__img-container">
                     <img src="/src/assets/img/subHeader/sub-header-yasuo-logo.png" alt="User's avatar">
                   </div>
-                  <input id="profile-file-avatar" type="file">
+                  <input id="profile-file-avatar" type="file" name="informationAvatarInput" accept="image/*">
                 </div>
 
                 <div class="profile-content__block-form-action">
-                  <button type="submit" class="button profile-content__block-form-action-submit">Save
+                  <button id="information-avatar-button-submit" type="submit"
+                    class="button profile-content__block-form-action-submit">Save
                     changes</button>
-                  <button class="button profile-content__block-form-action-cancel remove">Cancel</button>
+                  <button id="information-avatar-button-cancel"
+                    class="button profile-content__block-form-action-cancel remove">Cancel</button>
                 </div>
               </form>
             </div>
@@ -1288,6 +1290,32 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="profile-upload-avatar remove">
+      <div class="profile-upload-avatar__container">
+        <header class="profile-upload-avatar__header">
+          Choose profile picture
+          <button class="button profile-upload-avatar__header-close">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path
+                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z">
+              </path>
+            </svg>
+          </button>
+        </header>
+        <div class="profile-upload-avatar__body">
+          <!-- <div /> for Cropper.js to use -->
+          <div>
+            <img class="profile-upload-avatar__image-adjust" alt="Image upload avatar">
+          </div>
+          <div class="profile-upload-avatar__image-preview"></div>
+        </div>
+        <footer class="profile-upload-avatar__footer">
+          <button class="button profile-upload-avatar__footer-cancel">Cancel</button>
+          <button class="button profile-upload-avatar__footer-save">Save</button>
+        </footer>
       </div>
     </div>
   </div>

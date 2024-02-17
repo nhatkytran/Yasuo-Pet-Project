@@ -1,13 +1,16 @@
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.min.css';
+
 import { catchAsync, isPasswordValid } from '../utils';
 
 import {
   ANIMATION_TIMEOUT,
   CONTENT,
   LOADING,
+  ERROR,
   TOAST_SUCCESS,
   TOAST_FAIL,
   ERROR_ABORT_CODE,
-  ERROR,
   CLEAR_TOAST_TIMEOUT,
 } from '../config';
 
@@ -20,14 +23,18 @@ import ModalContentController from './modalContentController';
 
 const filename = 'userController.js';
 
-// Logout -> Set default username and default image -> profile
-// Clear user's data when logout
-
 class UserController extends ModalContentController {
   #UserView;
   #ToastView;
   #handleOpenModal;
   #handleCloseModal;
+
+  #informationAvatarFile = null;
+  #informationAvatarFileOrigin = null;
+  #informationAvatarReader = null;
+  #informationAvatarCropper = null;
+  #informationAvatarValid = false;
+  #informationAvatarLoading = false;
 
   #accountSigninCurrentPassword = '';
   #accountSigninNewPassword = '';
@@ -82,6 +89,119 @@ class UserController extends ModalContentController {
 
   handleCloseProfile = () =>
     super.close(this.#handleCloseModal, this.#UserView.closeProfile);
+
+  // Information //////////
+
+  #resetInformationAvatarKit = () => {
+    this.#informationAvatarFile = null;
+    this.#informationAvatarFileOrigin = null;
+    this.#informationAvatarReader = null;
+    this.#informationAvatarCropper = null;
+    this.#informationAvatarValid = false;
+    this.#informationAvatarLoading = false;
+  };
+
+  handleInformationAvatarCancel = () => {
+    if (this.#informationAvatarLoading) return;
+    this.#resetInformationAvatarKit();
+    this.#UserView.informationAvatarCancel();
+  };
+
+  #handleInformationAvatarAdjustOpen = () => {
+    this.#UserView.informationAvatarAdjustToggle({ open: true });
+
+    this.#informationAvatarCropper = new Cropper(
+      this.#UserView.informationAvatarAdjustImageGetter(),
+      {
+        aspectRatio: 1,
+        viewMode: 3,
+        preview: this.#UserView.informationAvatarPreviewClassGetter(),
+      }
+    );
+  };
+
+  handleInformationAvatarAdjustClose = ({ save = false }) => {
+    this.#UserView.informationAvatarAdjustToggle({ open: false });
+    this.#informationAvatarCropper.destroy();
+    !save && this.handleInformationAvatarCancel();
+  };
+
+  handleInformationAvatarChooseFile = file => {
+    if (!file.type.startsWith('image/')) {
+      this.#ToastView.createToast({
+        ...store.state.toast[TOAST_FAIL],
+        content: 'Image type is required!',
+      });
+      return this.handleInformationAvatarCancel();
+    }
+
+    this.#informationAvatarReader = new FileReader();
+
+    this.#informationAvatarReader.onload = () => {
+      const url = this.#informationAvatarReader.result;
+      this.#UserView.informationAvatarAdjustImage({ url });
+      this.#handleInformationAvatarAdjustOpen();
+      this.#informationAvatarFileOrigin = file;
+    };
+
+    this.#informationAvatarReader.readAsDataURL(file);
+  };
+
+  handleInformationAvatarSaveFile = () => {
+    if (!this.#informationAvatarReader || !this.#informationAvatarCropper) {
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+      return this.handleInformationAvatarCancel();
+    }
+
+    this.#informationAvatarCropper
+      .getCroppedCanvas({ width: 252, height: 252 })
+      .toBlob(blob => {
+        const reader = new FileReader();
+        const { type, name } = this.#informationAvatarFileOrigin;
+        const file = new File([blob], name, { type });
+
+        reader.onloadend = () => {
+          this.handleInformationAvatarAdjustClose({ save: true });
+          this.#informationAvatarValid = true;
+          this.#informationAvatarFile = file;
+          this.#UserView.informationAvatarReady(reader.result);
+        };
+
+        reader.readAsDataURL(blob);
+      });
+  };
+
+  handleInformationAvatarUploadFile = catchAsync({
+    filename,
+    onProcess: async () => {
+      if (!this.#informationAvatarValid || this.#informationAvatarLoading)
+        return;
+
+      this.#informationAvatarLoading = true;
+      this.#UserView.informationAvatarActionDisplay({ state: LOADING });
+
+      await userService.changeAvatar(
+        '/api/v1/users/changeAvatar',
+        this.#informationAvatarFile
+      );
+
+      this.#informationAvatarLoading = false;
+      this.#UserView.informationAvatarMainImageSrcSetter(
+        store.state.user.photo
+      );
+      this.handleInformationAvatarCancel();
+      this.#UserView.informationAvatarActionDisplay({ state: CONTENT });
+      this.#ToastView.createToast({
+        ...store.state.toast[TOAST_SUCCESS],
+        content: 'Avatar changed successfully!',
+      });
+    },
+    onError: () => {
+      this.#informationAvatarLoading = false;
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+      this.#UserView.informationAvatarActionDisplay({ state: ERROR });
+    },
+  });
 
   // Riot Account Sign-in //////////
 

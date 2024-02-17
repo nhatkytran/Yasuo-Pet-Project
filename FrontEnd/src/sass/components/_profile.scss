@@ -3,6 +3,7 @@
   color: #ebebeb;
   background-image: url("/src/assets/img/profile-background.svg");
   background-size: cover;
+  position: relative;
   @include use-font(FF-Mark-Medium);
 
   &-header {
@@ -606,6 +607,7 @@
     margin-left: 1rem;
     padding: 0.6rem;
     border-radius: 0.3rem;
+    cursor: pointer;
     @include use-font(FF-Mark-Medium);
 
     &:disabled {
@@ -997,6 +999,116 @@
     a:visited {
       display: block;
       @include use-font(FF-Mark-Bold);
+    }
+  }
+}
+
+.profile-upload-avatar {
+  background-color: rgba($color: #000000, $alpha: 0.6);
+  padding: 5.6rem 0.8rem;
+  overflow-y: scroll;
+  @include full-dimension;
+  @include absolute-position(-50%, -50%);
+  @include scroll-bar(#211e1f, 0.4rem);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 700px;
+    color: #050505;
+    background-color: #eaeaea;
+    margin: 0 auto;
+    border-radius: 0.4rem;
+  }
+
+  &__header {
+    height: 6rem;
+    font-size: 2rem;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    justify-content: center;
+    @include flex-align-center;
+    @include use-font(FF-Mark-Bold);
+
+    &-close {
+      background-color: #ccc;
+      padding: 0.8rem;
+      border-radius: 50%;
+      top: 50%;
+      right: 1.2rem;
+      transform: translateY(-50%);
+      position: absolute;
+      justify-content: center;
+      @include flex-align-center;
+
+      &:hover {
+        background-color: #c3c3c3;
+      }
+
+      svg {
+        @include square-dimension(2rem);
+      }
+    }
+  }
+
+  &__body {
+    padding: 4rem;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: end;
+
+    @media only screen and (max-width: $px540) {
+      padding: 1.6rem;
+    }
+  }
+
+  &__image-adjust {
+    width: 100%;
+    display: block;
+  }
+
+  &__image-preview {
+    overflow: hidden;
+    border: 1px solid $color-button-blue;
+    @include square-dimension(16rem);
+
+    @media only screen and (max-width: $px540) {
+      @include square-dimension(12rem);
+    }
+  }
+
+  &__footer {
+    height: 6.8rem;
+    padding: 1.6rem;
+    border-top: 1px solid #ccc;
+    justify-content: end;
+    @include flex-align-center;
+
+    .button {
+      height: 100%;
+      min-width: 11rem;
+      font-size: 1.3rem;
+      border-radius: 0.3rem;
+      @include use-font(FF-Mark-Bold);
+    }
+
+    &-cancel {
+      min-width: 8.6rem;
+
+      &:hover {
+        background-color: #ccc;
+      }
+    }
+
+    &-save {
+      background-color: $color-button-blue;
+      color: #f0f0f0;
+      margin-left: 0.4rem;
     }
   }
 }

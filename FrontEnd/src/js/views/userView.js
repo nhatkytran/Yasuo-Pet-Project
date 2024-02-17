@@ -46,6 +46,28 @@ class UserView {
     end: 'fade-out-480',
   });
 
+  // Information //////////
+
+  #informationAvatarAdjustSection = $('.profile-upload-avatar');
+  #informationAvatarAdjustContainer = $('.profile-upload-avatar__container');
+  #informationAvatarInput = $('#profile-file-avatar');
+  #informationAvatarMainImage = $_(this.#profileAvatarContainer, 'img');
+  #informationAvatarMainImageSrc = this.#informationAvatarMainImage.src;
+  #informationAvatarAdjustImage = $('.profile-upload-avatar__image-adjust');
+  #informationAvatarPreviewClass = '.profile-upload-avatar__image-preview';
+
+  #informationAvatarAdjustClose = $('.profile-upload-avatar__header-close');
+  #informationAvatarAdjustCancel = $('.profile-upload-avatar__footer-cancel');
+  #informationAvatarAdjustSave = $('.profile-upload-avatar__footer-save');
+
+  #informationAvatarButtonCancel = $('#information-avatar-button-cancel');
+  #informationAvatarButtonSubmit = $('#information-avatar-button-submit');
+
+  #animateIAAdjust = animateFactory(this.#informationAvatarAdjustSection, {
+    start: 'fade-in-500',
+    end: 'fade-out-480',
+  });
+
   // Riot Account Sign-in //////////
 
   #accountSigninCurrentPasswordInput = $(
@@ -93,9 +115,12 @@ class UserView {
 
     // Change avatar
     const image = document.createElement('img');
-    image.src = photoLink.startsWith('http')
+    const src = photoLink.startsWith('http')
       ? photoLink
       : `${BACKEND_URL}${photoLink}`;
+
+    image.src = src;
+    this.#informationAvatarMainImageSrc = src;
 
     image.addEventListener('load', () => {
       this.#userAvatarWrapper.innerHTML = '';
@@ -177,6 +202,101 @@ class UserView {
     });
   }
 
+  // Information - Events listening //////////
+
+  informationAvatarAdjustToggle = ({ open }) => {
+    classRemove(open ? REMOVE : ADD, this.#informationAvatarAdjustSection);
+    this.#animateIAAdjust(open ? START : END);
+  };
+
+  informationAvatarAdjustImage = ({ url }) =>
+    (this.#informationAvatarAdjustImage.src = url);
+
+  informationAvatarAdjustImageGetter = () => this.#informationAvatarAdjustImage;
+
+  informationAvatarPreviewClassGetter = () =>
+    this.#informationAvatarPreviewClass;
+
+  informationAvatarMainImageSrcSetter = imageSrc =>
+    (this.#informationAvatarMainImageSrc = imageSrc);
+
+  informationAvatarCancel = () => {
+    this.#informationAvatarInput.value = '';
+    this.#informationAvatarMainImage.src = this.#informationAvatarMainImageSrc;
+    this.#informationAvatarButtonSubmit.classList.remove('active');
+    classRemove(ADD, this.#informationAvatarButtonCancel);
+  };
+
+  informationAvatarReady = imageSrc => {
+    this.#informationAvatarMainImage.src = imageSrc;
+    this.#informationAvatarButtonSubmit.classList.add('active');
+    classRemove(REMOVE, this.#informationAvatarButtonCancel);
+  };
+
+  informationAvatarActionDisplay = ({ state }) => {
+    const inputs = [this.#informationAvatarInput];
+    const buttons = [
+      this.#informationAvatarButtonCancel,
+      this.#informationAvatarButtonSubmit,
+    ];
+
+    const cssText = state === LOADING ? disabledCssEffect : enabledCssEffect;
+    inputs.forEach(input => {
+      input.disabled = state === LOADING;
+      input.style.cssText = cssText;
+    });
+    buttons.forEach(button => (button.style.cssText = cssText));
+
+    if (state === CONTENT) {
+      inputs.forEach(input => (input.value = ''));
+      this.#informationAvatarMainImage.src =
+        this.#informationAvatarMainImageSrc;
+      this.#informationAvatarButtonSubmit.classList.remove('active');
+      classRemove(ADD, this.#informationAvatarButtonCancel);
+    }
+  };
+
+  //
+
+  addInformationAvatarResetFileHandler(handler) {
+    this.#informationAvatarInput.addEventListener('click', handler);
+    this.#informationAvatarButtonCancel.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  addInformationAvatarUploadFileHandler(handler) {
+    this.#informationAvatarButtonSubmit.addEventListener('click', event => {
+      event.preventDefault();
+      handler();
+    });
+  }
+
+  addInformationAvatarChooseFileHandler(handler) {
+    this.#informationAvatarInput.addEventListener('change', event => {
+      if (!(event.target.files.length > 0)) return;
+      handler(event.target.files[0]);
+    });
+  }
+
+  addInformationAvatarCancelFileHandler(handler) {
+    const closeElements = [
+      this.#informationAvatarAdjustSection,
+      this.#informationAvatarAdjustClose,
+      this.#informationAvatarAdjustCancel,
+    ];
+
+    closeElements.forEach(el => el.addEventListener('click', handler));
+    this.#informationAvatarAdjustContainer.addEventListener('click', event =>
+      event.stopPropagation()
+    );
+  }
+
+  addInformationAvatarSaveFileHandler(handler) {
+    this.#informationAvatarAdjustSave.addEventListener('click', handler);
+  }
+
   // Riot Account Sign-in - Events listening //////////
 
   accountSigninWarningMessage = ({ isError, field, allFieldsValid }) => {
@@ -238,8 +358,6 @@ class UserView {
       input.style.cssText = cssText;
     });
     buttons.forEach(button => (button.style.cssText = cssText));
-
-    if (state === LOADING) return;
 
     if (state === ERROR) {
       this.#accountSigninPasswordMessageGeneralParagraph.textContent =
