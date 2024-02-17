@@ -177,6 +177,18 @@ class UserController extends ModalContentController {
       if (!this.#informationAvatarValid || this.#informationAvatarLoading)
         return;
 
+      if (!(await authService.checkIsLoggedIn())) {
+        setTimeout(() => window.location.reload(), CLEAR_TOAST_TIMEOUT);
+        return this.#ToastView.createToast(
+          {
+            ...store.state.toast[TOAST_FAIL],
+            content:
+              'Please login to get access! Page will refresh in 5 seconds.',
+          },
+          true
+        );
+      }
+
       this.#informationAvatarLoading = true;
       this.#UserView.informationAvatarActionDisplay({ state: LOADING });
 
@@ -294,6 +306,18 @@ class UserController extends ModalContentController {
     onProcess: async () => {
       if (!this.#accountSigninSubmitValid || this.#accountSigninSubmitLoading)
         return;
+
+      if (!(await authService.checkIsLoggedIn())) {
+        setTimeout(() => window.location.reload(), CLEAR_TOAST_TIMEOUT);
+        return this.#ToastView.createToast(
+          {
+            ...store.state.toast[TOAST_FAIL],
+            content:
+              'Please login to get access! Page will refresh in 5 seconds.',
+          },
+          true
+        );
+      }
 
       this.#accountSigninSubmitLoading = true;
       this.#UserView.accountSigninActionDisplay({ state: LOADING });

@@ -6,6 +6,7 @@ const {
   login,
   loginGoogleSuccess,
   checkIsLoggedIn,
+  protect,
   logout,
 } = require('../controllers/authController');
 
@@ -62,6 +63,7 @@ userRouter.post('/changePassword', changePassword);
 
 userRouter.post(
   '/changeAvatar',
+  protect,
   uploadUserPhoto,
   resizeUserPhoto,
   deleteOldUserPhoto,
