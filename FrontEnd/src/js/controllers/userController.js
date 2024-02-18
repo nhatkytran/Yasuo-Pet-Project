@@ -177,9 +177,12 @@ class UserController extends ModalContentController {
       if (!this.#informationAvatarValid || this.#informationAvatarLoading)
         return;
 
+      this.#informationAvatarLoading = true;
+      this.#UserView.informationAvatarActionDisplay({ state: LOADING });
+
       if (!(await authService.checkIsLoggedIn())) {
         setTimeout(() => window.location.reload(), CLEAR_TOAST_TIMEOUT);
-        return this.#ToastView.createToast(
+        this.#ToastView.createToast(
           {
             ...store.state.toast[TOAST_FAIL],
             content:
@@ -187,10 +190,8 @@ class UserController extends ModalContentController {
           },
           true
         );
+        throw new Error('Something went wrong!');
       }
-
-      this.#informationAvatarLoading = true;
-      this.#UserView.informationAvatarActionDisplay({ state: LOADING });
 
       await userService.changeAvatar(
         '/api/v1/users/changeAvatar',
@@ -307,9 +308,12 @@ class UserController extends ModalContentController {
       if (!this.#accountSigninSubmitValid || this.#accountSigninSubmitLoading)
         return;
 
+      this.#accountSigninSubmitLoading = true;
+      this.#UserView.accountSigninActionDisplay({ state: LOADING });
+
       if (!(await authService.checkIsLoggedIn())) {
         setTimeout(() => window.location.reload(), CLEAR_TOAST_TIMEOUT);
-        return this.#ToastView.createToast(
+        this.#ToastView.createToast(
           {
             ...store.state.toast[TOAST_FAIL],
             content:
@@ -317,10 +321,8 @@ class UserController extends ModalContentController {
           },
           true
         );
+        throw new Error('Something went wrong!');
       }
-
-      this.#accountSigninSubmitLoading = true;
-      this.#UserView.accountSigninActionDisplay({ state: LOADING });
 
       await authService.changePassword({
         email: store.state.user.email,

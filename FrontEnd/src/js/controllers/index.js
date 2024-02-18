@@ -410,16 +410,16 @@ function galleryInit() {
 
 function soloInit() {
   const {
-    handleEnterName,
-    handleBlurName,
+    handleEnterMessage,
+    handleBlurMessage,
     handleEnterEmail,
     handleBlurEmail,
     handleSubmit,
   } = new SoloController(SoloView, ToastView);
 
   SoloView.addInputHandlers([
-    [handleEnterName, handleEnterEmail],
-    [handleBlurName, handleBlurEmail],
+    [handleEnterMessage, handleEnterEmail],
+    [handleBlurMessage, handleBlurEmail],
   ]);
   SoloView.addSubmitHandler(handleSubmit);
 }

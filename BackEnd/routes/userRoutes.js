@@ -71,6 +71,6 @@ userRouter.post(
 );
 
 userRouter.get('/me', getMe);
-userRouter.post('/solo', sendSolo);
+userRouter.post('/solo', protect, sendSolo);
 
 module.exports = userRouter;

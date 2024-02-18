@@ -1,5 +1,13 @@
-import { CONTENT, LOADING, ERROR, TOAST_SUCCESS, TOAST_FAIL } from '../config';
-import { catchAsync, isEmailValid, isUsernameValid } from '../utils';
+import {
+  CONTENT,
+  LOADING,
+  ERROR,
+  TOAST_SUCCESS,
+  TOAST_FAIL,
+  CLEAR_TOAST_TIMEOUT,
+} from '../config';
+
+import { catchAsync, isEmailValid } from '../utils';
 
 import store from '../models/store';
 import authService from '../models/features/auth/authService';
@@ -10,7 +18,7 @@ class SoloController {
   #SoloView;
   #ToastView;
 
-  #name = '';
+  #message = '';
   #email = '';
   #submitValid = false;
   #submitLoading = false;
@@ -20,19 +28,21 @@ class SoloController {
     this.#ToastView = ToastView;
   }
 
-  #checkSubmitValid = () =>
-    isUsernameValid(this.#name) && isEmailValid(this.#email);
+  #isMessageValid = message => message.length <= 300;
 
-  handleEnterName = name => {
-    this.#SoloView.warningMessage({ isError: false, field: 'name' });
-    this.#name = name.trim();
+  #checkSubmitValid = () =>
+    this.#isMessageValid(this.#message) && isEmailValid(this.#email);
+
+  handleEnterMessage = message => {
+    this.#SoloView.warningMessage({ isError: false, field: 'message' });
+    this.#message = message.trim();
     this.#submitValid = this.#checkSubmitValid();
     this.#SoloView.buttonDisplay({ canSubmit: this.#submitValid });
   };
 
-  handleBlurName = () =>
-    !isUsernameValid(this.#name) &&
-    this.#SoloView.warningMessage({ isError: true, field: 'name' });
+  handleBlurMessage = () =>
+    !this.#isMessageValid(this.#message) &&
+    this.#SoloView.warningMessage({ isError: true, field: 'message' });
 
   handleEnterEmail = email => {
     this.#SoloView.warningMessage({ isError: false, field: 'email' });
@@ -46,7 +56,7 @@ class SoloController {
     this.#SoloView.warningMessage({ isError: true, field: 'email' });
 
   #resetSubmitKit = () => {
-    this.#name = '';
+    this.#message = '';
     this.#email = '';
     this.#submitValid = false;
     this.#submitLoading = false;
@@ -60,33 +70,40 @@ class SoloController {
       this.#submitLoading = true;
       this.#SoloView.actionDisplay({ state: LOADING });
 
+      if (!(await authService.checkIsLoggedIn())) {
+        const isLoggedIn = store.state.user.ok;
+        const toastMessage = `Please login to get access! ${
+          isLoggedIn ? 'Page will refresh in 5 seconds.' : ''
+        }`;
+
+        isLoggedIn &&
+          setTimeout(() => window.location.reload(), CLEAR_TOAST_TIMEOUT);
+
+        this.#ToastView.createToast(
+          {
+            ...store.state.toast[TOAST_FAIL],
+            content: toastMessage,
+          },
+          isLoggedIn
+        );
+
+        throw new Error('Something went wrong!');
+      }
+
       await authService.sendSolo({
-        inGameName: this.#name,
-        challengeeEmail: this.#email,
+        message: this.#message,
+        opponentEmail: this.#email,
       });
 
       this.#resetSubmitKit();
       this.#SoloView.actionDisplay({ state: CONTENT });
-
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
         content: 'Email has been sent successfully!',
       });
     },
-    onError: error => {
+    onError: () => {
       this.#submitLoading = false;
-
-      if (error.response) {
-        const { code, message } = error.response.data;
-
-        ['SEND_SOLO_NAME_ERROR'].includes(code) &&
-          this.#SoloView.warningMessage({
-            isError: true,
-            field: 'name',
-            customMessage: message,
-          });
-      }
-
       this.#SoloView.actionDisplay({ state: ERROR });
       this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },

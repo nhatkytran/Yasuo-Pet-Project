@@ -5,11 +5,10 @@ const enabledCssEffect = `opacity: 1; cursor: pointer;`;
 const disabledCssEffect = `opacity: 0.6; cursor: not-allowed;`;
 
 class SoloView {
-  #nameInput = $('#solo-name');
+  #messageInput = $('#solo-message');
   #emailInput = $('#solo-email');
-  #nameLabel = $('.solo-name-label');
+  #messageLabel = $('.solo-message-label');
   #emailLabel = $('.solo-email-label');
-
   #submitButton = $('.solo-form__button');
 
   #warningMessageError = (isError, element, message) => {
@@ -18,22 +17,21 @@ class SoloView {
   };
 
   warningMessage = ({ isError, field, customMessage }) => {
-    console.log(customMessage);
-    if (field === 'name')
+    if (field === 'message')
       this.#warningMessageError(
         isError,
-        this.#nameLabel,
+        this.#messageLabel,
         customMessage ||
           (isError
-            ? 'In-game name must be 5+ characters!'
-            : 'Your in-game name')
+            ? "You message's max length is 300 characters!"
+            : 'Your message')
       );
     if (field === 'email')
       this.#warningMessageError(
         isError,
         this.#emailLabel,
         customMessage ||
-          (isError ? 'Please provide a valid email!' : "Challengee's email")
+          (isError ? 'Please provide a valid email!' : "Opponent's email")
       );
   };
 
@@ -43,7 +41,7 @@ class SoloView {
       : disabledCssEffect);
 
   actionDisplay = ({ state }) => {
-    const inputs = [this.#nameInput, this.#emailInput];
+    const inputs = [this.#messageInput, this.#emailInput];
 
     if (state === LOADING) {
       inputs.forEach(input => {
@@ -65,7 +63,7 @@ class SoloView {
 
   addInputHandlers(handlers) {
     ['input', 'blur'].forEach((eventName, eventIndex) =>
-      [this.#nameInput, this.#emailInput].forEach((input, index) =>
+      [this.#messageInput, this.#emailInput].forEach((input, index) =>
         input.addEventListener(eventName, event =>
           handlers[eventIndex][index](event.target.value)
         )

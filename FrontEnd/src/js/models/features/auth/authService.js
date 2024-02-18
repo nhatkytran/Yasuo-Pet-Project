@@ -83,8 +83,8 @@ const { mainFunc: signup, abortFunc: signupAbort } = postRoute(
 // Send Solo
 
 const { mainFunc: sendSolo } = postRoute(usersRoute('solo'), [
-  'inGameName',
-  'challengeeEmail',
+  'message',
+  'opponentEmail',
 ]);
 
 // Profile

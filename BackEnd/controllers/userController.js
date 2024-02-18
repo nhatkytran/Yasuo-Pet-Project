@@ -23,27 +23,20 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.sendSolo = catchAsync(async (req, res, next) => {
-  const { inGameName, challengeeEmail } = req.body;
+  const { message, opponentEmail } = req.body;
 
-  if (inGameName.trim().length < 5)
-    throw new Error('inGameName must be 5+ characters!', 400);
-  if (!validator.isEmail(challengeeEmail))
-    throw new Error('Please provide a valid challengeeEmail!', 400);
+  if (message.trim().length > 300)
+    throw new Error("You message's max length is 300 characters!", 400);
+  if (!validator.isEmail(opponentEmail))
+    throw new Error('Please provide a valid opponentEmail!', 400);
 
-  const user = await User.findOne({ username: inGameName });
-
-  if (!user)
-    throw new AppError(
-      "Your in-game name doesn't exist!",
-      404,
-      'SEND_SOLO_NAME_ERROR'
-    );
+  const user = req.user;
 
   try {
     const subject = 'I challenge you to a 1 v/s 1 battle';
-    const message = `Are you up for it? Find me in game: ${user.username} or send me email via < ${user.email} >.`;
+    const emailMessage = `Are you up for it? Find me in game: ${user.username} or send me email via < ${user.email} >. More information: ${message}`;
 
-    await sendEmail({ email: user.email, subject, message });
+    await sendEmail({ email: user.email, subject, message: emailMessage });
   } catch (error) {
     throw new AppError(
       'Something went wrong sending email! Please try again.',

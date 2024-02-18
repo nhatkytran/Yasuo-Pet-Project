@@ -30,12 +30,11 @@ class SkinsController {
     onProcess: async () => {
       if (!store.state.skins.ok) {
         this.#SkinsView.displayContent(LOADING);
-
         await skinsService.getData('/api/v1/skins/data');
-        await this.#SkinsView.createImages(store.state.skins.skins);
-
-        store.dispatch(ACTIONS.setDataOk());
       }
+
+      await this.#SkinsView.createImages(store.state.skins.skins);
+      store.dispatch(ACTIONS.setDataOk());
 
       this.#prepareSlideData();
       this.#SkinsView.displayContent(CONTENT);
