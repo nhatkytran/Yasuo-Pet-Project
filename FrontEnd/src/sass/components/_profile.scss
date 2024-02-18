@@ -695,7 +695,6 @@
       @include flex-align-center;
 
       span {
-        display: block;
         background-color: #f9f9f9;
         border-radius: 50%;
         position: relative;
@@ -1108,6 +1107,134 @@
       background-color: $color-button-blue;
       color: #f0f0f0;
       margin-left: 0.4rem;
+    }
+  }
+}
+
+.profile-ps-code {
+  margin-top: 3rem;
+
+  &__header {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+
+    span {
+      color: $color-button-blue;
+      @include use-font(FF-Mark-Bold);
+    }
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    margin-bottom: 0.4rem;
+    justify-content: space-between;
+    @include flex-align-center;
+
+    &.active p {
+      color: #b8b8b8;
+      text-decoration: line-through;
+      @include use-font(FF-Mark-Medium);
+    }
+
+    p {
+      font-size: 1.4rem;
+      @include use-font(FF-Mark-Bold);
+    }
+
+    span {
+      font-size: 1rem;
+      top: 0.2rem;
+      position: relative;
+    }
+  }
+}
+
+.profile-ps-skin-empty {
+  @include flex-align-center;
+
+  svg {
+    fill: #7a7a7a;
+    margin-right: 0.6rem;
+
+    @media only screen and (max-width: $px640) {
+      @include square-dimension(2rem);
+    }
+  }
+
+  p {
+    color: #7a7a7a;
+    font-size: 1.5rem;
+
+    @media only screen and (max-width: $px640) {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+.profile-ps-skin {
+  list-style: none;
+
+  li {
+    width: 100%;
+    height: 6rem;
+    background-color: #333131;
+    margin-bottom: 1.4rem;
+    border-radius: 0.3rem;
+    overflow: hidden;
+  }
+
+  &__item {
+    cursor: pointer;
+    @include full-dimension;
+    @include flex-align-center;
+
+    &.active {
+      border-right: 1px solid $color-button-blue;
+    }
+
+    img {
+      object-fit: cover;
+      @include square-dimension(6rem);
+    }
+
+    &-content {
+      flex: 1;
+      padding: 0.6rem 1rem;
+
+      p {
+        font-size: 1.5rem;
+        @include use-font(FF-Mark-Bold);
+      }
+
+      span {
+        display: block;
+        color: #b8b8b8;
+        font-size: 1rem;
+        line-height: 1.1;
+        margin-top: 0.2rem;
+        @include use-font(FF-Mark-Bold);
+      }
+    }
+
+    &-quantity {
+      width: 4.78rem;
+      height: auto;
+      justify-content: center;
+      @include flex-align-center;
+
+      span {
+        background-color: #f9f9f9;
+        color: #211f1e;
+        font-size: 1.2rem;
+        border-radius: 50%;
+        justify-content: center;
+        @include flex-align-center;
+        @include square-dimension(2rem);
+        @include use-font(FF-Mark-Bold);
+      }
     }
   }
 }
