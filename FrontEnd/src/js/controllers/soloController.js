@@ -87,7 +87,9 @@ class SoloController {
           isLoggedIn
         );
 
-        throw new Error('Something went wrong!');
+        const error = new Error();
+        error.prevent2Toasts = true;
+        throw error;
       }
 
       await authService.sendSolo({
@@ -102,10 +104,11 @@ class SoloController {
         content: 'Email has been sent successfully!',
       });
     },
-    onError: () => {
+    onError: error => {
       this.#submitLoading = false;
       this.#SoloView.actionDisplay({ state: ERROR });
-      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+      !error.prevent2Toasts &&
+        this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
   });
 }

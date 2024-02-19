@@ -1,8 +1,6 @@
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.min.css';
 
-import { catchAsync, isPasswordValid } from '../utils';
-
 import {
   ANIMATION_TIMEOUT,
   CONTENT,
@@ -13,6 +11,8 @@ import {
   ERROR_ABORT_CODE,
   CLEAR_TOAST_TIMEOUT,
 } from '../config';
+
+import { catchAsync, isPasswordValid } from '../utils';
 
 import store from '../models/store';
 import userService from '../models/features/user/userService';
