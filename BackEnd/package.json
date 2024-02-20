@@ -27,6 +27,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "sharp": "^0.33.2",
+    "stripe": "^14.17.0",
     "validator": "^13.11.0"
   },
   "devDependencies": {

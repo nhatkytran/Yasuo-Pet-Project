@@ -27,6 +27,8 @@ class PurchaseView {
   #pur = $('.pur');
   #purButtonBack = $('.pur-header__back');
 
+  #skinPurchaseButton = $('.pur-article__buy-button');
+
   #backgroundImageWrapper = $('.pur-intro__background');
   #mainImageWrapper = $('.pur-intro__content-image-wrapper');
 
@@ -161,6 +163,12 @@ class PurchaseView {
       event.preventDefault();
       const target = event.target.closest('.pur-relate__skins-link');
       if (target) handler(target.dataset.trueIndex);
+    });
+  }
+
+  addPurchaseSkinHandler(handler) {
+    this.#skinPurchaseButton.addEventListener('click', event => {
+      handler(0);
     });
   }
 }

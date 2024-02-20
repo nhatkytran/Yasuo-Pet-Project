@@ -262,10 +262,11 @@ function userInit() {
 
 function purchaseInit() {
   const {
-    handleData,
     handleOpenPurchaseView,
     handleClosePurchaseView,
     handleSkinRelates,
+    handleData,
+    handlerPurchaseSkin,
   } = new PurchaseController(
     PurchaseView,
     ToastView,
@@ -277,6 +278,7 @@ function purchaseInit() {
   PurchaseView.addOpenPurchaseViewHandler(handleOpenPurchaseView);
   PurchaseView.addClosePurchaseViewHandler(handleClosePurchaseView);
   PurchaseView.addSkinRealatesHandler(handleSkinRelates);
+  PurchaseView.addPurchaseSkinHandler(handlerPurchaseSkin);
 }
 
 function subwebInit() {

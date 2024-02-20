@@ -11,10 +11,15 @@ import { catchAsync } from '../utils';
 import store from '../models/store';
 import skinsService from '../models/features/skins/skinsService';
 import { ACTIONS } from '../models/features/skins/reducer';
+import userService from '../models/features/user/userService';
 
 import ModalContentController from './modalContentController';
 
 const filename = 'purchaseController.js';
+
+const stripe = Stripe(
+  'pk_test_51MbOACI8uPqtxRMLapqSYKjWHI0tKVlNTHmbRyNTS4hYvUFByFqlwevrAFo8y8bBXdGwcwIV1odoal2DjrA7bRzo007ZwXM2hW'
+);
 
 class PurchaseController extends ModalContentController {
   #PurchaseView;
@@ -76,6 +81,21 @@ class PurchaseController extends ModalContentController {
       this.#PurchaseView.displayContent(ERROR);
       this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
+  });
+
+  handlerPurchaseSkin = catchAsync({
+    filename,
+    onProcess: async skinIndex => {
+      const session = await userService.purchaseSkin(
+        `/api/v1/users/checkoutSession/${skinIndex}`
+      );
+
+      console.log(stripe);
+      console.log(stripe.redirectToCheckout);
+
+      await stripe.redirectToCheckout({ sessionId: session.id });
+    },
+    onError: error => {},
   });
 }
 

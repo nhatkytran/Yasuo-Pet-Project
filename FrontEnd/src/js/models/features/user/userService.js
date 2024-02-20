@@ -30,7 +30,11 @@ const changeAvatar = async (endpoint, file) => {
   store.dispatch(ACTIONS.setUserPhoto(data.photo));
 };
 
-const changeAvatarAbort = () => changeAvatarAbortController?.abort();
+const purchaseSkin = async endpoint => {
+  const { data } = await axiosInstance.get(endpoint);
+  return data.session;
+  // No need to sync user's data, purchase action will refresh the page again
+};
 
-const userService = { getData, changeAvatar, changeAvatarAbort };
+const userService = { getData, changeAvatar, purchaseSkin };
 export default userService;

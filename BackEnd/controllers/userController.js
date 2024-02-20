@@ -5,6 +5,7 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const sharp = require('sharp');
+const Stripe = require('stripe');
 
 const {
   AppError,
@@ -13,7 +14,9 @@ const {
   isStrongPassword,
 } = require('../utils');
 
-const { User } = require('../models');
+const { User, Skins } = require('../models');
+
+const { STRIPE_SECRET_KEY } = process.env;
 
 exports.getMe = (req, res, next) => {
   res.status(200).json({
@@ -355,5 +358,62 @@ exports.changePhoto = catchAsync(async (req, res, next) => {
     status: 'success',
     message: 'Change avatar successfully!',
     photo,
+  });
+});
+
+exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+  const { skinIndex } = req.params;
+
+  const [data] = await Skins.find();
+  if (!data) return next(new Error());
+
+  const skin = data.skins[Number.parseInt(skinIndex)];
+  if (!skin) return next(new Error());
+
+  console.log(skin);
+
+  const user = req.user;
+
+  const successUrl = `${req.protocol}://${req.get(
+    'host'
+  )}/api/v1/users/checkoutSuccess`;
+  const cancelUrl = `${req.protocol}://${req.get(
+    'host'
+  )}/api/v1/users/checkoutCancel`;
+
+  const stripe = Stripe(STRIPE_SECRET_KEY);
+  const session = await stripe.checkout.sessions.create({
+    mode: 'payment',
+    payment_method_types: ['card'],
+    success_url: successUrl,
+    cancel_url: cancelUrl,
+    customer_email: user.email,
+    client_reference_id: skinIndex,
+    line_items: [
+      {
+        quantity: 1,
+        price_data: {
+          currency: 'usd',
+          unit_amount: skin.price * 100,
+          product_data: {
+            name: skin.name,
+            description: `${skin.details[0].slice(0, 64)}...`,
+            // images: [
+            //   `${req.protocol}://${req.get('host')}/img/tours/${
+            //     tour.imageCover
+            //   }`,
+            // ],
+            images: [
+              'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg',
+            ],
+          },
+        },
+      },
+    ],
+  });
+
+  res.status(200).json({
+    status: 'success',
+    session,
   });
 });

@@ -89,10 +89,11 @@ const { mainFunc: sendSolo } = postRoute(usersRoute('solo'), [
 
 // Profile
 
-const { mainFunc: changePassword, abortFunc: changePasswordAbort } = postRoute(
-  usersRoute('changePassword'),
-  ['email', 'currentPassword', 'newPassword']
-);
+const { mainFunc: changePassword } = postRoute(usersRoute('changePassword'), [
+  'email',
+  'currentPassword',
+  'newPassword',
+]);
 
 //
 
