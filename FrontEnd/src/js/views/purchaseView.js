@@ -13,7 +13,6 @@ import {
 import {
   $,
   $_,
-  $$,
   $$_,
   animateFactory,
   classRemove,
@@ -106,18 +105,19 @@ class PurchaseView {
     });
   };
 
-  scrollToTop = () => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  #adjustTopPosition = (element, scrollVertical) =>
+    (element.style.cssText = `top: ${scrollVertical ?? 0}px`);
+
+  open = (skinData, skinRelatesData, scrollVertical) => {
+    this.#adjustTopPosition(this.#pur, scrollVertical);
+    classRemove(REMOVE, this.#pur);
+    this.#animatePur(START);
+    this.#handleContent(skinData, skinRelatesData);
+
     setTimeout(
       () => this.#pur.scrollTo({ top: 0, behavior: 'smooth' }),
       ANIMATION_TIMEOUT_500
     );
-  };
-
-  open = (skinData, skinRelatesData) => {
-    classRemove(REMOVE, this.#pur);
-    this.#animatePur(START);
-    this.#handleContent(skinData, skinRelatesData);
   };
 
   close = () => {
@@ -160,12 +160,7 @@ class PurchaseView {
     this.#skinRelatesWrapper.addEventListener('click', event => {
       event.preventDefault();
       const target = event.target.closest('.pur-relate__skins-link');
-      if (!target) return;
-      this.close();
-      setTimeout(
-        () => handler(Number.parseInt(target.dataset.trueIndex)),
-        ANIMATION_TIMEOUT
-      );
+      if (target) handler(target.dataset.trueIndex);
     });
   }
 }

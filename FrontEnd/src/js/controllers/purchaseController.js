@@ -31,32 +31,33 @@ class PurchaseController extends ModalContentController {
   }
 
   handleOpenPurchaseView = index => {
-    this.#PurchaseView.scrollToTop();
+    const skins = store.state.skins.skins;
+    const skinData = skins[index];
+    const skinRelatesData = [index - 1, index + 1, index + 2].map(idx => {
+      const trueIndex = (idx + skins.length) % skins.length;
+      return { ...skins[trueIndex], trueIndex };
+    });
 
-    let intervalId = setInterval(() => {
-      if (window.scrollY !== 0) return;
-      clearInterval(intervalId);
-
-      const skins = store.state.skins.skins;
-      const skinData = skins[index];
-      const skinRelatesData = [index - 1, index + 1, index + 2].map(idx => {
-        const trueIndex = (idx + skins.length) % skins.length;
-        return { ...skins[trueIndex], trueIndex };
-      });
-
-      super.open(
-        this.#handleOpenModal,
-        this.#PurchaseView.open.bind(
-          this.#PurchaseView,
-          skinData,
-          skinRelatesData
-        )
-      );
-    }, ANIMATION_TIMEOUT);
+    super.open(
+      this.#handleOpenModal,
+      this.#PurchaseView.open.bind(
+        this.#PurchaseView,
+        skinData,
+        skinRelatesData
+      )
+    );
   };
 
   handleClosePurchaseView = () =>
     super.close(this.#handleCloseModal, this.#PurchaseView.close);
+
+  handleSkinRelates = index => {
+    super.close(this.#handleCloseModal, this.#PurchaseView.close);
+    setTimeout(
+      () => this.#PurchaseView.openPurchaseViewSignal(index),
+      ANIMATION_TIMEOUT * 2
+    );
+  };
 
   handleData = catchAsync({
     filename,
@@ -76,8 +77,6 @@ class PurchaseController extends ModalContentController {
       this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
   });
-
-  handleSkinRelates = index => this.#PurchaseView.openPurchaseViewSignal(index);
 }
 
 export default PurchaseController;
