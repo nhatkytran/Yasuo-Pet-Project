@@ -96,7 +96,8 @@
   }
   &::-webkit-scrollbar-thumb {
     background-color: $bg-color;
-    border-radius: $radius;
+    border-top-left-radius: $radius;
+    border-bottom-left-radius: $radius;
     box-shadow: 0 3px 13px 1px rgba(0, 0, 0, 0.12);
     -webkit-box-shadow: 0 3px 13px 1px rgba(0, 0, 0, 0.12);
   }

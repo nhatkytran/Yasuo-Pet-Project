@@ -200,14 +200,19 @@ class AuthView {
     );
   };
 
+  #adjustTopPosition = (element, scrollVertical) =>
+    (element.style.cssText = `top: ${scrollVertical ?? 0}px`);
+
   // Sign-in //////////
 
-  loginOpen = () => {
+  loginOpen = scrollVertical => {
+    this.#adjustTopPosition(this.#loginSection, scrollVertical);
     classRemove(REMOVE, this.#loginSection);
     this.#animateLoginSection(START);
   };
 
   loginClose = () => {
+    this.#adjustTopPosition(this.#loginSection);
     classRemove(ADD, this.#loginSection);
     this.#animateLoginSection(END);
   };
@@ -347,12 +352,14 @@ class AuthView {
 
   // Activate //////////
 
-  activateOpen = () => {
+  activateOpen = scrollVertical => {
+    this.#adjustTopPosition(this.#activateSection, scrollVertical);
     classRemove(REMOVE, this.#activateSection);
     this.#animateActivateSection(START);
   };
 
   activateClose = () => {
+    this.#adjustTopPosition(this.#activateSection);
     classRemove(ADD, this.#activateSection);
     this.#animateActivateSection(END);
   };
@@ -443,12 +450,14 @@ class AuthView {
 
   // Forgot name //////////
 
-  forgotNameOpen = () => {
+  forgotNameOpen = scrollVertical => {
+    this.#adjustTopPosition(this.#forgotNameSection, scrollVertical);
     classRemove(REMOVE, this.#forgotNameSection);
     this.#animateForgotNameSection(START);
   };
 
   forgotNameClose = () => {
+    this.#adjustTopPosition(this.#forgotNameSection);
     classRemove(ADD, this.#forgotNameSection);
     this.#animateForgotNameSection(END);
   };
@@ -501,12 +510,14 @@ class AuthView {
 
   // Forgot password //////////
 
-  forgotPasswordOpen = () => {
+  forgotPasswordOpen = scrollVertical => {
+    this.#adjustTopPosition(this.#forgotPasswordSection, scrollVertical);
     classRemove(REMOVE, this.#forgotPasswordSection);
     this.#animateForgotPasswordSection(START);
   };
 
   forgotPasswordClose = () => {
+    this.#adjustTopPosition(this.#forgotPasswordSection);
     classRemove(ADD, this.#forgotPasswordSection);
     this.#animateForgotPasswordSection(END);
   };
@@ -630,12 +641,14 @@ class AuthView {
 
   // Sign-up //////////
 
-  signupOpen = () => {
+  signupOpen = scrollVertical => {
+    this.#adjustTopPosition(this.#signupSection, scrollVertical);
     classRemove(REMOVE, this.#signupSection);
     this.#animateSignupSection(START);
   };
 
   signupClose = () => {
+    this.#adjustTopPosition(this.#signupSection);
     classRemove(ADD, this.#signupSection);
     this.#animateSignupSection(END);
   };
