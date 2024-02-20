@@ -489,6 +489,82 @@
       stroke: #444;
     }
   }
+
+  &__card {
+    width: 100%;
+    max-width: 48rem;
+    background-color: #121212;
+    margin: 4.8rem auto 0;
+    padding: 2.5rem;
+    border-radius: 1.8rem;
+    position: relative;
+
+    @media only screen and (max-width: $px540) {
+      transform: scale(0.9);
+    }
+
+    &-header {
+      justify-content: space-between;
+      @include flex-align-center;
+    }
+
+    &-logo {
+      justify-content: space-between;
+      @include flex-align-center;
+
+      img {
+        width: 4.8rem;
+        margin-right: 1rem;
+      }
+
+      p {
+        font-size: 1.6rem;
+      }
+    }
+
+    &-chip {
+      width: 6rem;
+    }
+
+    &-content {
+      margin-top: 4.8rem;
+    }
+
+    &-details {
+      &-cvc {
+        font-size: 1.4rem;
+      }
+
+      &-number {
+        font-size: 2.2rem;
+        letter-spacing: 0.2rem;
+        @include use-font(Spiegel-Regular);
+      }
+    }
+
+    &-info {
+      margin-top: 2.4rem;
+      justify-content: space-between;
+      @include flex-align-center;
+
+      &-name {
+        font-size: 1.8rem;
+        letter-spacing: 0.3rem;
+        @include use-font(Spiegel-Regular);
+      }
+
+      &-valid {
+        &-text {
+          font-size: 1.4rem;
+        }
+
+        &-date {
+          font-size: 1.6rem;
+          line-height: 1.7rem;
+        }
+      }
+    }
+  }
 }
 
 .pur-relate {
