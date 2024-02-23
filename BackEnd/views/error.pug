@@ -1,0 +1,11 @@
+extends base
+
+block header
+  link(rel='stylesheet' href='/css/error.css')
+  title= 'Something went wrong!'
+
+block content
+  .container.roboto-regular
+    img(src='/img/error.png' alt='')
+    p.text-error Something went wrong!
+    a.button-error(href='http://127.0.0.1:8080/') Go back

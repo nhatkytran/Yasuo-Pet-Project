@@ -505,6 +505,6 @@ exports.getCheckoutState = async (req, res, next) => {
     res.status(200).render('checkout', { state, user, skin });
   } catch (error) {
     console.error(error);
-    res.status(500).send('<h1>Something went wrong!</h1>');
+    res.status(200).render('error');
   }
 };
