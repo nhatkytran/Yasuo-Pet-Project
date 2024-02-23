@@ -26,6 +26,9 @@ const app = express();
 const { NODE_ENV } = process.env;
 if (NODE_ENV === 'development') app.use(morgan('dev'));
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());

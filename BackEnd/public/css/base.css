@@ -1,0 +1,25 @@
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.4;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}

@@ -345,13 +345,8 @@ exports.changePhoto = catchAsync(async (req, res, next) => {
 
   await User.findByIdAndUpdate(
     req.user._id,
-    {
-      photo,
-    },
-    {
-      new: true,
-      runValidators: true,
-    }
+    { photo },
+    { new: true, runValidators: true }
   );
 
   res.status(200).json({
@@ -376,10 +371,10 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
   const successUrl = `${req.protocol}://${req.get(
     'host'
-  )}/api/v1/users/checkoutSuccess`;
+  )}/api/v1/users/checkout/success/${skinIndex}/65cf6f7845081cc53f21a10f`;
   const cancelUrl = `${req.protocol}://${req.get(
     'host'
-  )}/api/v1/users/checkoutCancel`;
+  )}/api/v1/users/checkout/fail/${skinIndex}/65cf6f7845081cc53f21a10f`;
 
   const stripe = Stripe(STRIPE_SECRET_KEY);
   const session = await stripe.checkout.sessions.create({
@@ -404,6 +399,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
             //   }`,
             // ],
             images: [
+              // test
               'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg',
             ],
           },
@@ -417,3 +413,98 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     session,
   });
 });
+
+exports.createSkinCheckout = async (req, res, next) => {
+  return next();
+
+  const { skinIndexParam } = req.params;
+  const skinIndex = Number.parseInt(skinIndexParam);
+
+  const user = req.user;
+  const [data] = await Skins.find();
+  const skin = data.skins[skinIndex];
+
+  const isSkinPurchasedBefore = user.purchasedSkins.some(
+    skin => skin.index === skinIndex
+  );
+
+  let userPurchasedSkins;
+  const skinReceipt = {
+    receipt: `#${Date.now()}`,
+    code: crypto.randomBytes(6).toString('hex'),
+    date: Date.now(),
+    active: false,
+  };
+
+  if (!isSkinPurchasedBefore) {
+    const newSkin = {
+      index: skinIndex,
+      name: skin.name,
+      price: skin.price,
+      description: `${skin.details[0].slice(0, 64)}...`,
+      image: skin.image,
+      quantity: 1,
+      skins: [skinReceipt],
+    };
+
+    userPurchasedSkins = [...user.purchasedSkins, newSkin];
+    userPurchasedSkins.sort((a, b) => a.index - b.index);
+  } else {
+    userPurchasedSkins = [...user.purchasedSkins].map(skn => {
+      if (skn.index === skinIndex) {
+        skn.quantity += 1;
+        skn.skins.push(skinReceipt);
+      }
+
+      return skn;
+    });
+  }
+
+  await User.findByIdAndUpdate(
+    user.id,
+    { purchasedSkins: userPurchasedSkins },
+    { new: true, runValidators: true }
+  );
+
+  next();
+};
+
+exports.getCheckoutState = async (req, res, next) => {
+  try {
+    const { state, skinIndexParam, skinReceiptParam } = req.params;
+    const skinIndex = Number.parseInt(skinIndexParam);
+    const skinReceipt = `#${skinReceiptParam}`;
+    const user = req.user;
+
+    const skinObject = user.purchasedSkins
+      .find(skn => skn.index === skinIndex)
+      .toObject();
+    const skinInfo = skinObject.skins.find(
+      info => info.receipt === skinReceipt
+    );
+
+    const { name, price, description, image } = skinObject;
+    const { receipt, date } = skinInfo;
+
+    const skin = {
+      name,
+      price: new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(price),
+      description,
+      image,
+      receipt,
+      date: date.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      }),
+    };
+
+    res.status(200).render('checkout', { state, user, skin });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('<h1>Something went wrong!</h1>');
+  }
+};

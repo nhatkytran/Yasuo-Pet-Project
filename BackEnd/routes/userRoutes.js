@@ -24,6 +24,8 @@ const {
   deleteOldUserPhoto,
   changePhoto,
   getCheckoutSession,
+  createSkinCheckout,
+  getCheckoutState,
 } = require('../controllers/userController');
 
 const userRouter = express.Router();
@@ -74,12 +76,12 @@ userRouter.post(
 userRouter.get('/me', getMe);
 userRouter.post('/solo', protect, sendSolo);
 
-userRouter.get('/checkoutSuccess', (req, res, next) => {
-  res.send('<h1>Success</h1>');
-});
-userRouter.get('/checkoutCancel', (req, res, next) => {
-  res.send('<h1>Cancel</h1>');
-});
 userRouter.get('/checkoutSession/:skinIndex', getCheckoutSession);
+
+userRouter.get(
+  '/checkout/:state/:skinIndexParam/:skinReceiptParam',
+  createSkinCheckout,
+  getCheckoutState
+);
 
 module.exports = userRouter;

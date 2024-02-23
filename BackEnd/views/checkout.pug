@@ -1,0 +1,78 @@
+extends base
+
+block header
+  link(rel='stylesheet' href='/css/checkout.css')
+  - console.log(skin.name)
+  title= skin.name
+
+block content
+  .container
+    main.roboto-regular
+      .block.block-left
+        .block-left__mobile
+        header.left-header
+          img.left-header__image(src='/img/default.png' alt='Yasuo The King')
+          p.left-header__text Yasuo The King
+        .left-content
+          p.left-content__name= skin.name
+          p.left-content__price= skin.price
+          p.left-content__desc= skin.description
+        .left-image__wrapper
+          img.left-image(src=skin.image)
+        footer.block-footer.left-footer
+          .block-footer__author
+            p Tran Nhat Ky
+          .block-footer__cod
+            p Terms
+            p Privacy
+      .block.block-right
+        header.right-header
+          - if (state === 'success')
+            svg.right-header__icon(xmlns='http://www.w3.org/2000/svg' version='1.1' width='24' height='24' viewbox='0 0 32 32')
+              path(d='M16 0c-8.836 0-16 7.164-16 16s7.164 16 16 16 16-7.164 16-16-7.164-16-16-16zM13.52 23.383l-7.362-7.363 2.828-2.828 4.533 4.535 9.617-9.617 2.828 2.828-12.444 12.445z')
+            p Checkout successfully!
+          - if (state === 'cancel')
+            svg.right-header__icon.error(xmlns='http://www.w3.org/2000/svg' version='1.1' width='24' height='24' viewbox='0 0 32 32')
+              path(d='M16 0c-8.836 0-16 7.164-16 16s7.164 16 16 16 16-7.164 16-16-7.164-16-16-16zM23.914 21.086l-2.828 2.828-5.086-5.086-5.086 5.086-2.828-2.828 5.086-5.086-5.086-5.086 2.828-2.828 5.086 5.086 5.086-5.086 2.828 2.828-5.086 5.086 5.086 5.086z')
+            p Checkout failed!
+        .right-hr
+        .right-email
+          p.right-email__text Email
+          p= user.email
+        - if (state === 'success')
+          p.right-message
+            | The Code of the skin was sent to your email! Please check. If there was
+            | something
+            | wrong,
+            | contact admin via 
+            span.right-message__email(style='font-weight: 500;') nhockkutean2@gmail.com
+        - if (state === 'cancel')
+          p.right-message
+            | Something went wrong! Please try again. If you need any help, contact admin via 
+            span.right-message__email(style='font-weight: 500;') nhockkutean2@gmail.com
+        .right-hr
+        .right-info
+          p.right-info__text RECEIPT
+          p.right-info__value= skin.receipt
+        .right-info
+          p.right-info__text AMOUNT PAID
+          p= skin.price
+        .right-info
+          p.right-info__text DATE PAID
+          p= skin.date
+        .right-info
+          p.right-info__text PAYMENT METHOD
+          p
+            span(style='font-weight: 500;') Visa
+            |  - 4242
+        .right-hr
+        - if (state === 'success')
+          a(href="http://127.0.0.1:8080/").right-confirm-button Confirm
+        - if (state === 'cancel')
+          a(href="http://127.0.0.1:8080/").right-confirm-button.error Confirm
+        footer.block-footer.right-footer
+          .block-footer__author
+            p Tran Nhat Ky
+          .block-footer__cod
+            p Terms
+            p Privacy

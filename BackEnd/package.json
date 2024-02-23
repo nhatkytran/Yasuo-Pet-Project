@@ -15,6 +15,7 @@
     "bcrypt": "^5.1.1",
     "connect-mongo": "^5.0.0",
     "cors": "^2.8.5",
+    "date-fns": "^3.3.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
@@ -26,6 +27,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
+    "pug": "^3.0.2",
     "sharp": "^0.33.2",
     "stripe": "^14.17.0",
     "validator": "^13.11.0"

@@ -32,6 +32,24 @@ const schema = new mongoose.Schema({
   passwordChangedAt: { type: Date, select: false },
   forgotPasswordToken: { type: String, select: false },
   forgotPasswordTokenAt: { type: Date, select: false },
+  purchasedSkins: [
+    {
+      index: { type: Number },
+      name: { type: String },
+      price: { type: Number },
+      description: { type: String },
+      image: { type: String },
+      quantity: { type: Number },
+      skins: [
+        {
+          receipt: { type: String },
+          code: { type: String },
+          date: { type: Date },
+          active: { type: Boolean },
+        },
+      ],
+    },
+  ],
 });
 
 schema.pre('save', async function (next) {
