@@ -16,7 +16,7 @@ const handleDuplicateError = error => {
   );
 };
 
-const globalErrorHandler = (error, _, res, __) => {
+const globalErrorHandler = (error, req, res, __) => {
   let newError = NODE_ENV === 'development' ? error : Object.create(error);
 
   if (NODE_ENV === 'production') {
@@ -34,6 +34,9 @@ const globalErrorHandler = (error, _, res, __) => {
   newError.statusCode = newError.statusCode || 500;
   newError.status = newError.status || 'error';
   newError.message = newError.message || 'Something went wrong!';
+
+  if (!req.originalUrl.startsWith('/api'))
+    return sendErrorRender(newError, res);
 
   if (NODE_ENV === 'development') sendErrorDevAPI(newError, res);
   if (NODE_ENV === 'production') sendErrorProdAPI(newError, res);
@@ -55,6 +58,11 @@ const sendErrorProdAPI = (error, res) => {
   }
 
   res.status(statusCode).json({ status, message, code });
+};
+
+const sendErrorRender = (error, res) => {
+  const { statusCode } = error;
+  res.status(statusCode).render('error');
 };
 
 module.exports = globalErrorHandler;

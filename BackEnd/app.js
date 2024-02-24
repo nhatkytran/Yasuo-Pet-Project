@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const globalErrorHandler = require('./controllers/errorController');
+const { AppError } = require('./utils');
 
 const session = require('express-session');
 const passport = require('passport');
@@ -67,6 +68,10 @@ app.use('/api/v1/ruined', ruinedRouter);
 app.use('/api/v1/skins', skinsRouter);
 app.use('/api/v1/subweb', subwebRouter);
 app.use('/api/v1/users', userRouter);
+
+app.all('*', (req, _, next) =>
+  next(new AppError(`${req.originalUrl} not found!`, 404))
+);
 
 app.use(globalErrorHandler);
 
