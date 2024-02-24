@@ -29,3 +29,43 @@ body::-webkit-scrollbar {
   font-weight: 400;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'FF-Mark-Bold';
+  src: url("../font/FontFont_FF.Mark.Pro.Bold.otf") format('opentype');
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'FF-Mark-Medium';
+  src: url("../font/FontFont_FF.Mark.Pro.Medium.otf") format('opentype');
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'FF-Mark';
+  src: url("../font/FontFont_FF.Mark.Pro.otf") format('opentype');
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'FF-Mark-Hair';
+  src: url("../font/FontFont_FF.Mark.Pro.Hairline.otf") format('opentype');
+  font-display: fallback;
+}
+
+.ff-mark-bold {
+  font-family: 'FF-Mark-Bold', sans-serif;
+}
+
+.ff-mark-medium {
+  font-family: 'FF-Mark-Medium', sans-serif;
+}
+
+.ff-mark {
+  font-family: 'FF-Mark', sans-serif;
+}
+
+.ff-mark-hair {
+  font-family: 'FF-Mark-Hair', sans-serif;
+}

@@ -53,10 +53,7 @@ app.get('/', (req, res) => {
     console.log('isAuthenticated:', req.isAuthenticated());
   }
 
-  res.status(200).json({
-    message:
-      'Hello! This API is made to serve `Yasuo | The King of All Kings`. If you wanna use this API, please contact the author Nhat Ky Tran via email <nhockkutean2@gmail.com>',
-  });
+  res.status(200).render('pageAPI');
 });
 
 app.use('/api/v1/abilities', abilitiesRouter);

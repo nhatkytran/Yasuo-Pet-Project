@@ -1,0 +1,133 @@
+main {
+  background-color: #0c0c0c;
+  background-image: url('../img/bg_2x.jpeg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.container {
+  min-height: 100vh;
+  background-image: linear-gradient(to bottom, transparent, #000000b0);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 4.8rem 7.2rem 0;
+}
+
+.header__logo {
+  height: 6.4rem;
+  width: 16.867rem;
+  fill: #fcfcfc;
+}
+
+.content__wrapper {
+  flex: 1;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 50rem;
+  background-color: #fff;
+  padding: 4.8rem;
+}
+
+.content__header {
+  font-size: 2.4rem;
+  text-align: center;
+  padding: 2.4rem 0;
+}
+
+.content__message {
+  font-size: 1.6rem;
+  text-align: justify;
+}
+
+.author-email {
+  color: #33c5df;
+  user-select: all;
+}
+
+.content__button:link,
+.content__button:visited {
+  display: block;
+  background-color: #33c5df;
+  color: #000;
+  font-size: 1.8rem;
+  text-decoration: none;
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1.2rem 1.6rem;
+  transition: all ease 0.2s;
+}
+
+.footer {
+  color: #adadad;
+  text-transform: uppercase;
+  margin: 2.4rem 7.2rem 4.8rem;
+}
+
+.footer-1 {
+  margin-bottom: 1rem;
+}
+
+.footer-1__item {
+  margin-right: 1rem;
+}
+
+.footer-2 {
+  font-size: 0.8rem;
+}
+
+.footer-2__item {
+  color: #ebebebe6;
+  text-decoration: underline;
+}
+
+/* 1040px */
+@media only screen and (max-width: 65em) {
+  main {
+    background-image: url('../img/bg_1x.jpeg');
+  }
+}
+
+/* 640px */
+@media only screen and (max-width: 40em) {
+  .header {
+    padding: 2rem 2rem 0;
+  }
+
+  .footer {
+    margin: 2rem;
+  }
+}
+
+/* 440px */
+@media only screen and (max-width: 27.5em) {
+  .header {
+    padding: 1rem 2rem 0;
+  }
+
+  .content__wrapper {
+    padding: 1rem;
+  }
+
+  .content {
+    padding: 2.8rem;
+  }
+
+  .content__header {
+    padding: 1.4rem 0 2.4rem;
+  }
+
+  .footer {
+    margin: 1rem;
+  }
+}
