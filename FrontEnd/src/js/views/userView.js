@@ -39,7 +39,6 @@ class UserView {
   #profileEmail = $('#profile-email');
   #profileAvatarContainer = $('.profile-pi__img-container');
   #profileUsername = $('#profile-username');
-  #profileFileAvatar = $('#profile-file-avatar');
 
   #animateProfile = animateFactory(this.#profile, {
     start: 'fade-in-500',
@@ -51,8 +50,7 @@ class UserView {
   #informationAvatarAdjustSection = $('.profile-upload-avatar');
   #informationAvatarAdjustContainer = $('.profile-upload-avatar__container');
   #informationAvatarInput = $('#profile-file-avatar');
-  #informationAvatarMainImage = $_(this.#profileAvatarContainer, 'img');
-  #informationAvatarMainImageSrc = this.#informationAvatarMainImage.src;
+  #informationAvatarMainImageSrc = $_(this.#profileAvatarContainer, 'img').src;
   #informationAvatarAdjustImage = $('.profile-upload-avatar__image-adjust');
   #informationAvatarPreviewClass = '.profile-upload-avatar__image-preview';
 
@@ -98,9 +96,21 @@ class UserView {
     '#riot-account-signin-new-password-type-button'
   );
 
+  // Helpers //////////
+
+  #appendImage = (container, imageSource) => {
+    const image = document.createElement('img');
+
+    image.src = imageSource;
+    image.addEventListener('load', () => {
+      container.innerHTML = '';
+      container.appendChild(image);
+    });
+  };
+
   // General - Events listening //////////
 
-  changeLook = (username, photoLink) => {
+  changeLook = (username, photo) => {
     // Change username
     let nameUI = username;
     const socials = ['google', 'facebook', 'github', 'apple'];
@@ -114,41 +124,25 @@ class UserView {
     this.#username.textContent = nameUI;
 
     // Change avatar
-    const image = document.createElement('img');
-    const src = photoLink.startsWith('http')
-      ? photoLink
-      : `${BACKEND_URL}${photoLink}`;
+    const imageSource = photo.startsWith('http')
+      ? photo
+      : `${BACKEND_URL}${photo}`;
 
-    image.src = src;
-    this.#informationAvatarMainImageSrc = src;
-
-    image.addEventListener('load', () => {
-      this.#userAvatarWrapper.innerHTML = '';
-      this.#userAvatarWrapper.appendChild(image);
-    });
+    this.#informationAvatarMainImageSrc = imageSource;
+    this.#appendImage(this.#userAvatarWrapper, imageSource);
   };
 
   #handleContent = userData => {
-    const { id, username, email, photo } = userData;
+    const { id, username, email } = userData;
 
     this.#profileRiotID.setAttribute('value', id);
     this.#profileEmail.setAttribute('value', email);
     this.#profileUsername.setAttribute('value', username);
 
-    let photoLink = `${BACKEND_URL}${photo}`;
-
-    if (photo.startsWith('http')) {
-      photoLink = photo;
-      this.#profileFileAvatar.disabled = true;
-    }
-
-    const image = document.createElement('img');
-    image.src = photoLink;
-
-    image.addEventListener('load', () => {
-      this.#profileAvatarContainer.innerHTML = '';
-      this.#profileAvatarContainer.appendChild(image);
-    });
+    this.#appendImage(
+      this.#profileAvatarContainer,
+      this.#informationAvatarMainImageSrc
+    );
   };
 
   scrollToTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -221,14 +215,17 @@ class UserView {
     (this.#informationAvatarMainImageSrc = imageSrc);
 
   informationAvatarCancel = () => {
+    this.#appendImage(
+      this.#profileAvatarContainer,
+      this.#informationAvatarMainImageSrc
+    );
     this.#informationAvatarInput.value = '';
-    this.#informationAvatarMainImage.src = this.#informationAvatarMainImageSrc;
     this.#informationAvatarButtonSubmit.classList.remove('active');
     classRemove(ADD, this.#informationAvatarButtonCancel);
   };
 
   informationAvatarReady = imageSrc => {
-    this.#informationAvatarMainImage.src = imageSrc;
+    this.#appendImage(this.#profileAvatarContainer, imageSrc);
     this.#informationAvatarButtonSubmit.classList.add('active');
     classRemove(REMOVE, this.#informationAvatarButtonCancel);
   };
@@ -248,11 +245,17 @@ class UserView {
     buttons.forEach(button => (button.style.cssText = cssText));
 
     if (state === CONTENT) {
+      this.#appendImage(
+        this.#profileAvatarContainer,
+        this.#informationAvatarMainImageSrc
+      );
       inputs.forEach(input => (input.value = ''));
-      this.#informationAvatarMainImage.src =
-        this.#informationAvatarMainImageSrc;
       this.#informationAvatarButtonSubmit.classList.remove('active');
       classRemove(ADD, this.#informationAvatarButtonCancel);
+      this.#appendImage(
+        this.#userAvatarWrapper,
+        this.#informationAvatarMainImageSrc
+      );
     }
   };
 

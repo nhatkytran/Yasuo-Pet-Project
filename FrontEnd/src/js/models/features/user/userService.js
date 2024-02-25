@@ -13,17 +13,11 @@ const getData = async endpoint => {
   store.dispatch(ACTIONS.getData(user));
 };
 
-let changeAvatarAbortController;
-
 const changeAvatar = async (endpoint, file) => {
   const form = new FormData();
   form.append('photo', file);
 
   const { data } = await axiosInstance.post(endpoint, form, {
-    signal: (() => {
-      changeAvatarAbortController = new AbortController();
-      return changeAvatarAbortController.signal;
-    })(),
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
@@ -32,8 +26,8 @@ const changeAvatar = async (endpoint, file) => {
 
 const purchaseSkin = async endpoint => {
   const { data } = await axiosInstance.get(endpoint);
-  return data.session;
   // No need to sync user's data, purchase action will refresh the page again
+  return data.session;
 };
 
 const userService = { getData, changeAvatar, purchaseSkin };

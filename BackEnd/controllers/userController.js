@@ -365,8 +365,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const skin = data.skins[Number.parseInt(skinIndex)];
   if (!skin) return next(new Error());
 
-  console.log(skin);
-
   const user = req.user;
 
   const successUrl = `${req.protocol}://${req.get(
