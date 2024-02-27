@@ -6,6 +6,11 @@ const cors = require('cors');
 const globalErrorHandler = require('./controllers/errorController');
 const { AppError } = require('./utils');
 
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+
 const session = require('express-session');
 const passport = require('passport');
 const { sessionOptions } = require('./config/database');
@@ -34,18 +39,28 @@ const {
 } = require('./routes');
 
 const app = express();
-
 const { NODE_ENV } = process.env;
-if (NODE_ENV === 'development') app.use(morgan('dev'));
 
+// Set security HTTP Headers
+app.use(helmet());
+
+if (NODE_ENV === 'development') app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true }));
+
+// Data sanitization against NoSQL query injection --> Dot or Dollar sign in MongoDB
+app.use(mongoSanitize());
+
+// Data sanitization against XSS --> Malicious code HTML,...
+app.use(xss());
+
+// Template Engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+// Cors
 app.use(
   cors({
     origin: 'http://127.0.0.1:8080',
@@ -54,9 +69,19 @@ app.use(
 );
 app.options('*', cors());
 
+// Express session
 app.use(session(sessionOptions));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Limit requests from same API
+const limiter = rateLimit({
+  max: 1000,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP! Please try again in an hour.',
+});
+
+app.use('/', limiter);
 
 app.get('/', (req, res) => {
   if (NODE_ENV === 'development') {
