@@ -1,4 +1,3 @@
-const validator = require('validator');
 const {
   AppError,
   catchAsync,
@@ -91,6 +90,10 @@ exports.loginGoogleSuccess = catchAsync(async (req, res, next) => {
 });
 
 exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
+  // Test
+  const start = Date.now();
+  while (Date.now() - start < 1500) {}
+
   if (!req.isAuthenticated())
     throw new AppError('You are not logged in yet!', 401);
   res.status(200).json({ status: 'success' });

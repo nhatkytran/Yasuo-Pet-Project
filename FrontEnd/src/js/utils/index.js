@@ -1,6 +1,7 @@
 export { $, $$, $_, $$_ } from './selectors';
 export { default as addEvent } from './addEvent';
 export { default as animateFactory } from './animateFactory';
+export { default as capitalizeWordsInSentence } from './capitalizeWordsInSentence';
 export { default as catchAsync } from './catchAsync';
 export { checkTimeoutError, checkAbortError } from './checkFetchError';
 export { default as classRemove } from './classRemove';
@@ -13,6 +14,7 @@ export { default as isEmailValid } from './isEmailValid';
 export { default as isPasswordValid } from './isPasswordValid';
 export { default as isUsernameValid } from './isUsernameValid';
 export { default as mapMarkup } from './mapMarkup';
+export { default as notLoggedInKickOut } from './notLoggedInKickOut';
 export { default as passwordTypeDisplayFactory } from './passwordTypeDisplayFactory';
 export { default as promisifyLoadingImage } from './promisifyLoadingImage';
 export { default as promisifyLoadingVideo } from './promisifyLoadingVideo';

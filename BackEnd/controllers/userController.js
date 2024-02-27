@@ -68,7 +68,7 @@ exports.getActivateCode = catchAsync(async (req, res, next) => {
       'ACTIVATE_AUTHENTICATION_ERROR'
     );
 
-  if (user.googleID || user.githubID || user.appleID)
+  if (user.googleID || user.facebookID || user.githubID || user.appleID)
     throw new AppError(
       'This feature only supports accounts created manually!',
       403,
@@ -184,7 +184,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       'FORGOT_PASSWORD_AUTHENTICATION_ERROR'
     );
 
-  if (user.googleID || user.githubID || user.appleID)
+  if (user.googleID || user.facebookID || user.githubID || user.appleID)
     throw new AppError(
       'Only get password of accounts created manually!',
       403,
@@ -265,11 +265,20 @@ exports.changePassword = catchAsync(async (req, res, next) => {
 
   if (!user) throw new AppError('Email does not exist!', 404);
 
+  if (user.googleID || user.facebookID || user.githubID || user.appleID)
+    throw new AppError(
+      'This feature only supports accounts created manually!',
+      403,
+      'ACTIVATE_OAUTH_ERROR'
+    );
+
   if (!isStrongPassword(currentPassword) || !isStrongPassword(newPassword))
     throw new AppError(
       'Password must contain at least 8 characters (1 uppercase, 1 lowercase, 1 number, 1 symbol)',
       400
     );
+
+  console.log(currentPassword, user.password);
 
   if (!(await bcrypt.compare(currentPassword, user.password)))
     throw new AppError(
@@ -339,9 +348,7 @@ exports.deleteOldUserPhoto = async (req, res, next) => {
 };
 
 exports.changePhoto = catchAsync(async (req, res, next) => {
-  const photo = `${req.protocol}://${req.get('host')}/img/users/${
-    req.file.filename
-  }`;
+  const photo = `/img/users/${req.file.filename}`;
 
   await User.findByIdAndUpdate(
     req.user._id,

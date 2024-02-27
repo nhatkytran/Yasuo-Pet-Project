@@ -4,14 +4,8 @@ const shema = new mongoose.Schema({
   when: { type: Date, required: true },
   where: { type: String, required: true },
   error: {
-    message: {
-      type: String,
-      required: true,
-    },
-    stackJSONFormat: {
-      type: String,
-      required: true,
-    },
+    message: { type: String },
+    stackJSONFormat: { type: String },
   },
 });
 

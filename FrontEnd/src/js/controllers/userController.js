@@ -12,7 +12,7 @@ import {
   CLEAR_TOAST_TIMEOUT,
 } from '../config';
 
-import { catchAsync, isPasswordValid } from '../utils';
+import { catchAsync, isPasswordValid, notLoggedInKickOut } from '../utils';
 
 import store from '../models/store';
 import userService from '../models/features/user/userService';
@@ -190,7 +190,10 @@ class UserController extends ModalContentController {
           },
           true
         );
-        throw new Error('Something went wrong!');
+
+        const error = new Error();
+        error.prevent2Toasts = true;
+        throw error;
       }
 
       await userService.changeAvatar(
@@ -209,10 +212,11 @@ class UserController extends ModalContentController {
         content: 'Avatar changed successfully!',
       });
     },
-    onError: () => {
+    onError: error => {
       this.#informationAvatarLoading = false;
-      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
       this.#UserView.informationAvatarActionDisplay({ state: ERROR });
+      !error.prevent2Toasts &&
+        this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
   });
 
@@ -321,7 +325,10 @@ class UserController extends ModalContentController {
           },
           true
         );
-        throw new Error('Something went wrong!');
+
+        const error = new Error();
+        error.prevent2Toasts = true;
+        throw error;
       }
 
       await authService.changePassword({
@@ -363,7 +370,8 @@ class UserController extends ModalContentController {
       }
 
       this.#UserView.accountSigninActionDisplay({ state: ERROR, errorMessage });
-      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+      !error.prevent2Toasts &&
+        this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
   });
 
@@ -372,6 +380,45 @@ class UserController extends ModalContentController {
     this.#resetAccountSigninSubmitKit();
     this.#UserView.accountSigninSubmitCancel();
   };
+
+  // Purchased Skins //////////
+
+  handlePurSkinsViewCode = catchAsync({
+    filename,
+    onProcess: async skinIndex => {
+      userService.checkIsLoggedInAbort();
+
+      const skin = store.state.user.purchasedSkins.find(
+        skn => skn.index === skinIndex
+      );
+
+      this.#UserView.purSkinsChooseSkinItem(skinIndex);
+      this.#UserView.purSkinsActionDisplay({ skin, state: LOADING });
+
+      const { isLoggedIn, errorType } = await userService.checkIsLoggedIn();
+
+      if (!isLoggedIn) {
+        const error = new Error();
+
+        if (errorType === ERROR_ABORT_CODE) error.errorType = errorType;
+        else error.prevent2Toasts = true;
+
+        throw error;
+      }
+
+      this.#UserView.purSkinsActionDisplay({ skin, state: CONTENT });
+    },
+    onError: error => {
+      if (error.errorType === ERROR_ABORT_CODE) return;
+
+      this.#UserView.purSkinsActionDisplay({ skin: null, state: ERROR });
+
+      if (error.prevent2Toasts)
+        return notLoggedInKickOut(this.#ToastView.createToast);
+
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+    },
+  });
 }
 
 export default UserController;

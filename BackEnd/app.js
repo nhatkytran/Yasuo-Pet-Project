@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -9,6 +10,16 @@ const session = require('express-session');
 const passport = require('passport');
 const { sessionOptions } = require('./config/database');
 require('./config/passport');
+
+const { ApolloServer } = require('@apollo/server');
+const {
+  expressMiddleware: apolloMidlleware,
+} = require('@apollo/server/express4');
+const resolvers = require('./graphql/resolvers');
+const typeDefs = fs.readFileSync(
+  path.join(__dirname, 'graphql/schema.graphql'),
+  'utf-8'
+);
 
 const {
   abilitiesRouter,
@@ -66,10 +77,16 @@ app.use('/api/v1/skins', skinsRouter);
 app.use('/api/v1/subweb', subwebRouter);
 app.use('/api/v1/users', userRouter);
 
-app.all('*', (req, _, next) =>
-  next(new AppError(`${req.originalUrl} not found!`, 404))
-);
+(async () => {
+  const apolloServer = new ApolloServer({ typeDefs, resolvers });
+  await apolloServer.start();
+  app.use('/graphql', apolloMidlleware(apolloServer));
 
-app.use(globalErrorHandler);
+  app.all('*', (req, _, next) =>
+    next(new AppError(`${req.originalUrl} not found!`, 404))
+  );
+
+  app.use(globalErrorHandler);
+})();
 
 module.exports = app;

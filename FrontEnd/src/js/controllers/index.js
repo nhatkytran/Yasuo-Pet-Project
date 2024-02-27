@@ -217,6 +217,8 @@ function userInit() {
     handleAccountSigninNewPasswordType,
     handleAccountSigninSubmit,
     handleAccountSigninSubmitCancel,
+    // Purchased Skins //////////
+    handlePurSkinsViewCode,
   } = new UserController(
     UserView,
     ToastView,
@@ -258,6 +260,8 @@ function userInit() {
   ]);
   UserView.addAccountSigninSubmitHandler(handleAccountSigninSubmit);
   UserView.addAcountSigninSubmitCancelHandler(handleAccountSigninSubmitCancel);
+  // Purchased Skins //////////
+  UserView.addPurSkinsViewCodeHandler(handlePurSkinsViewCode);
 }
 
 function purchaseInit() {

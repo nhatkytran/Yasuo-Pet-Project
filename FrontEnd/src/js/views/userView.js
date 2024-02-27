@@ -18,8 +18,10 @@ import {
   $$,
   animateFactory,
   classRemove,
+  mapMarkup,
   passwordTypeDisplayFactory,
   resetPasswordInput,
+  capitalizeWordsInSentence,
 } from '../utils';
 
 const enabledCssEffect = `opacity: 1; cursor: pointer;`;
@@ -35,6 +37,7 @@ class UserView {
   #profileSidebarList = $_($('.profile-sidebar'), 'ul');
 
   #profile = $('.profile');
+  #profileContent = $('.profile-content');
   #profileRiotID = $('#profile-riot-id');
   #profileEmail = $('#profile-email');
   #profileAvatarContainer = $('.profile-pi__img-container');
@@ -96,6 +99,20 @@ class UserView {
     '#riot-account-signin-new-password-type-button'
   );
 
+  // Purchased Skins //////////
+  #purSkinsCodeContainer = $('.profile-ps-code');
+  #purSkinsCodeHeader = $('.profile-ps-code__header');
+  #purSkinsCodeSkinName = $('.profile-ps-code__header-skin-name');
+  #purSkinsCodeLoading = $('.profile-ps-code__loading');
+  #purSkinsCodeError = $('.profile-ps-code__error');
+  #purSkinsCodeList = $_(this.#purSkinsCodeContainer, 'ul');
+
+  #purSkinsEmptyMessage = $('.profile-ps-skin-empty');
+  #purSkinsSkinList = $('.profile-ps-skin');
+  #purSkinsSkinItemClass = '.profile-ps-skin__item';
+
+  // #purSkins = $();
+
   // Helpers //////////
 
   #appendImage = (container, imageSource) => {
@@ -133,7 +150,16 @@ class UserView {
   };
 
   #handleContent = userData => {
-    const { id, username, email } = userData;
+    const {
+      id,
+      username,
+      email,
+      purchasedSkins,
+      googleID,
+      facebookID,
+      githubID,
+      appleID,
+    } = userData;
 
     this.#profileRiotID.setAttribute('value', id);
     this.#profileEmail.setAttribute('value', email);
@@ -143,6 +169,13 @@ class UserView {
       this.#profileAvatarContainer,
       this.#informationAvatarMainImageSrc
     );
+
+    if (googleID || facebookID || githubID || appleID) {
+      this.#accountSigninCurrentPasswordInput.disabled = true;
+      this.#accountSigninNewPasswordInput.disabled = true;
+    }
+
+    this.#purSkinsHandleData(purchasedSkins);
   };
 
   scrollToTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -155,10 +188,12 @@ class UserView {
 
   closeProfile = () => {
     this.#animateProfile(END);
-    setTimeout(
-      classRemove.bind(null, ADD, this.#profile),
-      ANIMATION_TIMEOUT * 2
-    );
+
+    setTimeout(() => {
+      this.#profileContent.scrollTo({ top: 0, left: 0 });
+      this.#purSkinsResetData();
+      classRemove(ADD, this.#profile);
+    }, ANIMATION_TIMEOUT * 2);
   };
 
   //
@@ -212,7 +247,7 @@ class UserView {
     this.#informationAvatarPreviewClass;
 
   informationAvatarMainImageSrcSetter = imageSrc =>
-    (this.#informationAvatarMainImageSrc = imageSrc);
+    (this.#informationAvatarMainImageSrc = `${BACKEND_URL}${imageSrc}`);
 
   informationAvatarCancel = () => {
     this.#appendImage(
@@ -302,7 +337,7 @@ class UserView {
 
   // Riot Account Sign-in - Events listening //////////
 
-  accountSigninWarningMessage = ({ isError, field, allFieldsValid }) => {
+  accountSigninWarningMessage = ({ isError, field }) => {
     let input;
     let message;
 
@@ -452,6 +487,98 @@ class UserView {
     this.#accountSigninButtonCancel.addEventListener('click', event => {
       event.preventDefault();
       handler();
+    });
+  }
+
+  // Purchased Skins //////////
+
+  #purSkinsResetData = () => {
+    classRemove(
+      ADD,
+      this.#purSkinsCodeContainer,
+      this.#purSkinsCodeHeader,
+      this.#purSkinsCodeLoading,
+      this.#purSkinsCodeError,
+      this.#purSkinsEmptyMessage
+    );
+    this.#purSkinsCodeSkinName.innerHTML = '';
+    this.#purSkinsCodeList.innerHTML = '';
+    this.#purSkinsSkinList.innerHTML = '';
+  };
+
+  #purSkinsHandleData = purchasedSkins => {
+    if (purchasedSkins.length === 0)
+      return classRemove(REMOVE, this.#purSkinsEmptyMessage);
+
+    const markup = mapMarkup(
+      purchasedSkins,
+      skn => `
+        <li>
+          <div class="profile-ps-skin__item" data-skin-index=${skn.index}>
+            <img src="${BACKEND_URL}${skn.image}" alt="${skn.name}" draggable="false">
+            <div class="profile-ps-skin__item-content">
+              <p>${skn.name}</p>
+              <span>$${skn.price}</span>
+            </div>
+            <div class="profile-ps-skin__item-quantity">
+              <span>${skn.quantity}</span>
+            </div>
+          </div>
+        </li>
+      `
+    );
+
+    this.#purSkinsSkinList.insertAdjacentHTML('afterbegin', markup);
+  };
+
+  purSkinsChooseSkinItem = skinIndex => {
+    $$(this.#purSkinsSkinItemClass).forEach(sknEl => {
+      const action =
+        Number(sknEl.dataset.skinIndex) === skinIndex ? ADD : REMOVE;
+      sknEl.classList[action]('active');
+    });
+  };
+
+  purSkinsActionDisplay = ({ skin, state }) => {
+    classRemove(REMOVE, this.#purSkinsCodeContainer, this.#purSkinsCodeHeader);
+    classRemove(ADD, this.#purSkinsCodeLoading, this.#purSkinsCodeError);
+
+    if (skin) {
+      this.#purSkinsCodeList.innerHTML = '';
+      this.#purSkinsCodeSkinName.innerHTML = capitalizeWordsInSentence(
+        skin.name
+      );
+    }
+
+    if (state === LOADING) classRemove(REMOVE, this.#purSkinsCodeLoading);
+    if (state === ERROR) classRemove(REMOVE, this.#purSkinsCodeError);
+
+    if (state === CONTENT) {
+      const markup = mapMarkup(skin.skins, skn => {
+        const date = new Date(skn.date).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        });
+
+        return `
+          <li class="${skn.active ? 'active' : ''}">
+            <p>${skn.code}</p>
+            <span>${date}</span>
+          </li>
+        `;
+      });
+
+      this.#purSkinsCodeList.insertAdjacentHTML('afterbegin', markup);
+    }
+  };
+
+  //
+
+  addPurSkinsViewCodeHandler(handler) {
+    this.#purSkinsSkinList.addEventListener('click', event => {
+      const target = event.target.closest(this.#purSkinsSkinItemClass);
+      if (target) handler(Number(target.dataset.skinIndex));
     });
   }
 }

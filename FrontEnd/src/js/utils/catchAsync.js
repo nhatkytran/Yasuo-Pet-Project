@@ -1,4 +1,4 @@
-import { ENV } from '../config';
+import { ENV, ERROR_ABORT_CODE } from '../config';
 import axiosInstance from '../models/axios';
 
 const catchAsync = ({
@@ -14,7 +14,13 @@ const catchAsync = ({
       await onProcess(...args);
     } catch (error) {
       if (ENV === 'development') handleErrorDev(error);
-      if (ENV === 'production') handleErrorProd(error, filename);
+      if (ENV === 'production') {
+        // error.errorType is passed in controller.js
+        // error.errorType = < error >
+        error.errorType !== ERROR_ABORT_CODE &&
+          handleErrorProd(error, filename);
+      }
+
       onError(error);
     } finally {
       onFinnally(...args);

@@ -1,3 +1,5 @@
+import { ERROR_ABORT_CODE } from '../../../config';
+import { checkAbortError } from '../../../utils';
 import axiosInstance from '../../axios';
 import store from '../../store';
 import { ACTIONS } from './reducer';
@@ -30,5 +32,31 @@ const purchaseSkin = async endpoint => {
   return data.session;
 };
 
-const userService = { getData, changeAvatar, purchaseSkin };
+let isLoggedInAbortController;
+
+const checkIsLoggedIn = async () => {
+  try {
+    await axiosInstance.get('/api/v1/users/checkIsLoggedIn', {
+      signal: (() => {
+        isLoggedInAbortController = new AbortController();
+        return isLoggedInAbortController.signal;
+      })(),
+    });
+
+    return { isLoggedIn: true };
+  } catch (error) {
+    const errorType = checkAbortError(error) ? ERROR_ABORT_CODE : '';
+    return { isLoggedIn: false, errorType };
+  }
+};
+
+const checkIsLoggedInAbort = () => isLoggedInAbortController?.abort();
+
+const userService = {
+  getData,
+  changeAvatar,
+  purchaseSkin,
+  checkIsLoggedIn,
+  checkIsLoggedInAbort,
+};
 export default userService;

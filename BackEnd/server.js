@@ -5,29 +5,12 @@ process.on('uncaughtException', error => {
 });
 
 const path = require('path');
-const fs = require('fs');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: path.join(__dirname, 'config.env') });
 const { PORT } = process.env;
 
-const { ApolloServer } = require('@apollo/server');
-const {
-  expressMiddleware: apolloMidlleware,
-} = require('@apollo/server/express4');
-const resolvers = require('./graphql/resolvers');
-const typeDefs = fs.readFileSync(
-  path.join(__dirname, 'graphql/schema.graphql'),
-  'utf-8'
-);
-
 const app = require('./app');
-
-(async () => {
-  const apolloServer = new ApolloServer({ typeDefs, resolvers });
-  await apolloServer.start();
-  app.use('/graphql', apolloMidlleware(apolloServer));
-})();
 
 const port = PORT || 3000;
 const server = app.listen(port, () => {
