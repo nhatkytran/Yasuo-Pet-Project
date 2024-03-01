@@ -12,7 +12,7 @@ import {
   CLEAR_TOAST_TIMEOUT,
 } from '../config';
 
-import { catchAsync, isPasswordValid, notLoggedInKickOut } from '../utils';
+import { AppError, catchAsync, isPasswordValid, kickout } from '../utils';
 
 import store from '../models/store';
 import userService from '../models/features/user/userService';
@@ -180,21 +180,8 @@ class UserController extends ModalContentController {
       this.#informationAvatarLoading = true;
       this.#UserView.informationAvatarActionDisplay({ state: LOADING });
 
-      if (!(await authService.checkIsLoggedIn())) {
-        setTimeout(() => window.location.reload(), CLEAR_TOAST_TIMEOUT);
-        this.#ToastView.createToast(
-          {
-            ...store.state.toast[TOAST_FAIL],
-            content:
-              'Please login to get access! Page will refresh in 5 seconds.',
-          },
-          true
-        );
-
-        const error = new Error();
-        error.prevent2Toasts = true;
-        throw error;
-      }
+      if (!(await authService.checkIsLoggedIn()))
+        throw new AppError({ authError: true });
 
       await userService.changeAvatar(
         '/api/v1/users/changeAvatar',
@@ -215,8 +202,16 @@ class UserController extends ModalContentController {
     onError: error => {
       this.#informationAvatarLoading = false;
       this.#UserView.informationAvatarActionDisplay({ state: ERROR });
-      !error.prevent2Toasts &&
-        this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+
+      if (error.authError)
+        return kickout({
+          createToast: this.#ToastView.createToast,
+          success: false,
+          message:
+            'Please sign in to get access! Page will refresh in 5 seconds.',
+        });
+
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
   });
 
@@ -315,21 +310,8 @@ class UserController extends ModalContentController {
       this.#accountSigninSubmitLoading = true;
       this.#UserView.accountSigninActionDisplay({ state: LOADING });
 
-      if (!(await authService.checkIsLoggedIn())) {
-        setTimeout(() => window.location.reload(), CLEAR_TOAST_TIMEOUT);
-        this.#ToastView.createToast(
-          {
-            ...store.state.toast[TOAST_FAIL],
-            content:
-              'Please login to get access! Page will refresh in 5 seconds.',
-          },
-          true
-        );
-
-        const error = new Error();
-        error.prevent2Toasts = true;
-        throw error;
-      }
+      if (!(await authService.checkIsLoggedIn()))
+        throw new AppError({ authError: true });
 
       await authService.changePassword({
         email: store.state.user.email,
@@ -340,15 +322,12 @@ class UserController extends ModalContentController {
       this.#UserView.accountSigninActionDisplay({ state: CONTENT });
       this.#resetAccountSigninSubmitKit();
 
-      setTimeout(() => window.location.reload(), CLEAR_TOAST_TIMEOUT);
-      this.#ToastView.createToast(
-        {
-          ...store.state.toast[TOAST_SUCCESS],
-          content:
-            'Password changed successfully! Page will refresh in 5 seconds.',
-        },
-        true
-      );
+      kickout({
+        createToast: this.#ToastView.createToast,
+        success: true,
+        message:
+          'Password changed successfully! Page will refresh in 5 seconds.',
+      });
     },
     onError: error => {
       this.#accountSigninSubmitLoading = false;
@@ -360,7 +339,6 @@ class UserController extends ModalContentController {
 
       let errorMessage = 'Something went wrong! Please try again.';
 
-      // Check password
       if (error.response) {
         const { code, message } = error.response.data;
         [
@@ -370,8 +348,16 @@ class UserController extends ModalContentController {
       }
 
       this.#UserView.accountSigninActionDisplay({ state: ERROR, errorMessage });
-      !error.prevent2Toasts &&
-        this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
+
+      if (error.authError)
+        return kickout({
+          createToast: this.#ToastView.createToast,
+          success: false,
+          message:
+            'Please sign in to get access! Page will refresh in 5 seconds.',
+        });
+
+      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
   });
 
@@ -398,12 +384,8 @@ class UserController extends ModalContentController {
       const { isLoggedIn, errorType } = await userService.checkIsLoggedIn();
 
       if (!isLoggedIn) {
-        const error = new Error();
-
-        if (errorType === ERROR_ABORT_CODE) error.errorType = errorType;
-        else error.prevent2Toasts = true;
-
-        throw error;
+        if (errorType === ERROR_ABORT_CODE) throw new AppError({ errorType });
+        throw new AppError({ authError: true });
       }
 
       this.#UserView.purSkinsActionDisplay({ skin, state: CONTENT });
@@ -413,8 +395,13 @@ class UserController extends ModalContentController {
 
       this.#UserView.purSkinsActionDisplay({ skin: null, state: ERROR });
 
-      if (error.prevent2Toasts)
-        return notLoggedInKickOut(this.#ToastView.createToast);
+      if (error.authError)
+        return kickout({
+          createToast: this.#ToastView.createToast,
+          success: false,
+          message:
+            'Please sign in to get access! Page will refresh in 5 seconds.',
+        });
 
       this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },

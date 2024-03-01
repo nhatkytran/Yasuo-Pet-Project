@@ -42,7 +42,7 @@ const app = express();
 const { NODE_ENV } = process.env;
 
 // Set security HTTP Headers
-app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 
 if (NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -82,6 +82,12 @@ const limiter = rateLimit({
 });
 
 app.use('/', limiter);
+
+app.use('/test', (req, res, next) => {
+  const start = Date.now();
+  while (Date.now() - start < 1000) {}
+  res.send('Hello');
+});
 
 app.get('/', (req, res) => {
   if (NODE_ENV === 'development') {
