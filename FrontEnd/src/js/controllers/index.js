@@ -349,23 +349,28 @@ function menuMobileInit() {
 }
 
 function informationInit() {
-  const { handleStartAnimation } = new InformationController(InformationView);
+  const { handleStartAnimation } = new InformationController(
+    InformationView,
+    ToastView
+  );
+
   InformationView.addIntersectionObserver(handleStartAnimation);
 }
 
 function abilitiesInit() {
-  const { chooseSkill, playVideoFirstTime } = new AbilitiesController(
-    AbilitiesView
-  );
+  const { chooseSkill, playVideoFirstTime, handleIntersectionObserver } =
+    new AbilitiesController(AbilitiesView, ToastView);
 
   AbilitiesView.addChooseSkillHander(chooseSkill);
   AbilitiesView.addRefetchHandler(chooseSkill);
   AbilitiesView.addPlayVideoFirstTimeHandler(playVideoFirstTime);
+  AbilitiesView.addIntersectionObserver(handleIntersectionObserver);
 }
 
 function skinsInit() {
   const { handleData, handleSlide, exploreSkins } = new SkinsController(
-    SkinsView
+    SkinsView,
+    ToastView
   );
 
   SkinsView.addIntersectionObserver(handleData);
@@ -375,7 +380,8 @@ function skinsInit() {
 
 function skins2Init() {
   const { handleData, slideActions, mbSlideActions } = new Skins2Controller(
-    Skins2View
+    Skins2View,
+    ToastView
   );
 
   Skins2View.addIntersectionObserver(handleData);
@@ -397,6 +403,7 @@ function skins2Init() {
 function ruinedInit() {
   const { handleData, explore } = new RuinedController(
     RuinedView,
+    ToastView,
     warningController.framework
   );
 
@@ -407,6 +414,7 @@ function ruinedInit() {
 function galleryInit() {
   const { handleData, chooseGallery } = new GalleryController(
     GalleryView,
+    ToastView,
     warningController.framework
   );
 

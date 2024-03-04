@@ -15,11 +15,14 @@ import {
   $$,
   $$_,
   classRemove,
+  intersectOneTime,
   mapMarkup,
   promisifyLoadingVideo,
 } from '../utils';
 
 class AbilitiesView {
+  #skillsSection = $('.abilities__overlay');
+
   #skillsContainer = $('.ab__skills');
   #skills = $$('.ab__skills-skill');
   #skillCircle = $('.ab__skills-progress-circle');
@@ -176,6 +179,10 @@ class AbilitiesView {
 
   addPlayVideoFirstTimeHandler(handler) {
     this.#playVideoButton.addEventListener('click', handler, { once: true });
+  }
+
+  addIntersectionObserver(handler) {
+    intersectOneTime(this.#skillsSection, { threshold: 0.3 }, handler);
   }
 }
 

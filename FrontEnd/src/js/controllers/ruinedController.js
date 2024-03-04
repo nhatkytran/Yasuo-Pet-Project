@@ -1,4 +1,4 @@
-import { CONTENT, LOADING, ERROR } from '../config';
+import { CONTENT, LOADING, ERROR, TOAST_RUINED } from '../config';
 import { catchAsync } from '../utils';
 
 import store from '../models/store';
@@ -9,12 +9,14 @@ const filename = 'ruinedController.js';
 
 class RuinedController {
   #RuinedView;
+  #ToastView;
   explore;
 
-  constructor(RuinedView, warningFramework) {
-    const URL = 'https://www.ruinedking.com/en-us/';
-
+  constructor(RuinedView, ToastView, warningFramework) {
     this.#RuinedView = RuinedView;
+    this.#ToastView = ToastView;
+
+    const URL = 'https://www.ruinedking.com/en-us/';
     this.explore = warningFramework({
       open: () => window.open(URL, '_blank'),
       accept: () => ({
@@ -33,6 +35,7 @@ class RuinedController {
       await this.#RuinedView.createImages(store.state.ruined.images);
 
       store.dispatch(ACTIONS.setDataOk());
+      this.#ToastView.createToast(store.state.toast[TOAST_RUINED]);
       this.#RuinedView.displayContent(CONTENT);
     },
     onError: () => {

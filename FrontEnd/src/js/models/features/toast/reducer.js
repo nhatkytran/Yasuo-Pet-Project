@@ -17,7 +17,12 @@ const initialState = {
   skins: {
     type: 'skins',
     title: 'Skins',
-    content: "Look doesn't matter? Huh, what a shame!",
+    content: "Look doesn't matter? Huh, I think it does!",
+  },
+  skins2: {
+    type: 'skins',
+    title: 'Skins',
+    content: "Appearances aren't important? Well, I beg to differ!",
   },
   ruined: {
     type: 'ruined',

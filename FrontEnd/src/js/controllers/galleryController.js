@@ -1,4 +1,4 @@
-import { CONTENT, LOADING, ERROR } from '../config';
+import { CONTENT, LOADING, ERROR, TOAST_GALLERY } from '../config';
 import { catchAsync } from '../utils';
 
 import store from '../models/store';
@@ -9,10 +9,12 @@ const filename = 'galleryController.js';
 
 class GalleryController {
   #GalleryView;
+  #ToastView;
   chooseGallery;
 
-  constructor(GalleryView, warningFramework) {
+  constructor(GalleryView, ToastView, warningFramework) {
     this.#GalleryView = GalleryView;
+    this.#ToastView = ToastView;
 
     this.chooseGallery = warningFramework({
       open: index =>
@@ -33,6 +35,7 @@ class GalleryController {
       await this.#GalleryView.createGallery(store.state.gallery.gallery);
 
       store.dispatch(ACTIONS.setDataOk());
+      this.#ToastView.createToast(store.state.toast[TOAST_GALLERY]);
       this.#GalleryView.displayContent(CONTENT);
     },
     onError: () => this.#GalleryView.displayContent(ERROR),

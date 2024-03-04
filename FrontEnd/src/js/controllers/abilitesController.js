@@ -1,4 +1,11 @@
-import { LOADING, ERROR, CONTENT, SHOW, HIDE } from '../config';
+import {
+  LOADING,
+  ERROR,
+  CONTENT,
+  SHOW,
+  HIDE,
+  TOAST_ABILITIES,
+} from '../config';
 import { catchAsync, checkAbortError } from '../utils';
 
 import store from '../models/store';
@@ -9,10 +16,12 @@ const filename = 'abilitiesController.js';
 
 class AbilitiesController {
   #AbilitiesView;
+  #ToastView;
   #lastSkillIndex;
 
-  constructor(AbilitiesView) {
+  constructor(AbilitiesView, ToastView) {
     this.#AbilitiesView = AbilitiesView;
+    this.#ToastView = ToastView;
   }
 
   chooseSkill = index => {
@@ -55,6 +64,9 @@ class AbilitiesController {
     this.#AbilitiesView.displayPlayVideoButton(HIDE);
     this.#AbilitiesView.controlVideoChosen(this.#lastSkillIndex);
   };
+
+  handleIntersectionObserver = () =>
+    this.#ToastView.createToast(store.state.toast[TOAST_ABILITIES]);
 }
 
 export default AbilitiesController;

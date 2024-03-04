@@ -1,4 +1,4 @@
-import { CONTENT, LOADING, ERROR, LEFT, RIGHT } from '../config';
+import { CONTENT, LOADING, ERROR, LEFT, RIGHT, TOAST_SKINS } from '../config';
 import { catchAsync, sideIndices } from '../utils';
 
 import store from '../models/store';
@@ -9,13 +9,15 @@ const filename = 'skinsController.js';
 
 class SkinsController {
   #SkinsView;
+  #ToastView;
   #totalSkins;
   #totalSkinsCeil; // Right side (include current slide)
   #totalSkinsFloor; // Left side
   #currentIndex = 0;
 
-  constructor(SkinsView) {
+  constructor(SkinsView, ToastView) {
     this.#SkinsView = SkinsView;
+    this.#ToastView = ToastView;
   }
 
   #prepareSlideData = () => {
@@ -34,8 +36,9 @@ class SkinsController {
       }
 
       await this.#SkinsView.createImages(store.state.skins.skins);
-      store.dispatch(ACTIONS.setDataOk());
 
+      store.dispatch(ACTIONS.setDataOk());
+      this.#ToastView.createToast(store.state.toast[TOAST_SKINS]);
       this.#prepareSlideData();
       this.#SkinsView.displayContent(CONTENT);
     },

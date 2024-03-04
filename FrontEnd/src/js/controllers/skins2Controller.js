@@ -1,4 +1,4 @@
-import { CONTENT, LOADING, ERROR, REM, X, Y } from '../config';
+import { CONTENT, LOADING, ERROR, REM, X, Y, TOAST_SKINS2 } from '../config';
 import { catchAsync } from '../utils';
 
 import store from '../models/store';
@@ -9,11 +9,13 @@ const filename = 'skins2Controller.js';
 
 class Skins2Controller {
   #Skins2View;
+  #ToastView;
   slideActions;
   mbSlideActions;
 
-  constructor(Skins2View) {
+  constructor(Skins2View, ToastView) {
     this.#Skins2View = Skins2View;
+    this.#ToastView = ToastView;
     this.slideActions = this.#handleSlider();
     this.mbSlideActions = this.#handleMbSlider();
   }
@@ -33,6 +35,7 @@ class Skins2Controller {
       ]);
 
       store.dispatch(ACTIONS.setDataOk());
+      this.#ToastView.createToast(store.state.toast[TOAST_SKINS2]);
       this.#Skins2View.displayContent(CONTENT);
       this.#Skins2View.prepareSlidersData();
       this.mbSlideActions.init();

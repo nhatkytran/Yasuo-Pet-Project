@@ -58,10 +58,16 @@ export const ERROR_LOAD_IMAGE = 'Something went wrong loading image!';
 
 export const INVALID_ACTION_MESSAGE = 'Invalid action!';
 
-export const TOAST_WELCOME = 'welcome';
 export const TOAST_SUCCESS = 'success';
 export const TOAST_FAIL = 'fail';
 export const TOAST_WARNING = 'warning';
+export const TOAST_WELCOME = 'welcome';
+export const TOAST_INFORMATION = 'information';
+export const TOAST_ABILITIES = 'abilities';
+export const TOAST_SKINS = 'skins';
+export const TOAST_SKINS2 = 'skins2';
+export const TOAST_RUINED = 'ruined';
+export const TOAST_GALLERY = 'gallery';
 
 export const LOGIN_SUCCESS_SIGNAL = 'LOGIN_SUCCESS_SIGNAL';
 export const LOGOUT_SUCCESS_SIGNAL = 'LOGOUT_SUCCESS_SIGNAL';
