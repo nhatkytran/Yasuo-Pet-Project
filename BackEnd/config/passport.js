@@ -21,10 +21,6 @@ const localStrategy = new LocalStrategy(
       if (!username || !password)
         throw new AppError('Please provide username and password!', 400);
 
-      // Test
-      const start = Date.now();
-      while (Date.now() - start < 1500) {}
-
       const user = await User.findOne({ username }).select('+password');
 
       if (!user || !(await bcrypt.compare(password, user.password)))

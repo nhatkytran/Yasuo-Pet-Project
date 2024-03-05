@@ -75,43 +75,38 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Limit requests from same API
-const limiter = rateLimit({
-  max: 1000,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP! Please try again in an hour.',
-});
-
-app.use('/', limiter);
-
-app.use('/test', (req, res, next) => {
-  const start = Date.now();
-  while (Date.now() - start < 1000) {}
-  res.send('Hello');
-});
-
-app.get('/', (req, res) => {
-  if (NODE_ENV === 'development') {
-    console.log(req.session);
-    console.log('isAuthenticated:', req.isAuthenticated());
-  }
-
-  res.status(200).render('pageAPI');
-});
-
-app.use('/api/v1/abilities', abilitiesRouter);
-app.use('/api/v1/allGames', allGamesRouter);
-app.use('/api/v1/errorToAdmin', errorToAdminRouter);
-app.use('/api/v1/exploreGames', exploreGamesRouter);
-app.use('/api/v1/gallery', galleryRouter);
-app.use('/api/v1/ruined', ruinedRouter);
-app.use('/api/v1/skins', skinsRouter);
-app.use('/api/v1/subweb', subwebRouter);
-app.use('/api/v1/users', userRouter);
+app.use(
+  '/',
+  rateLimit({
+    max: 1000,
+    windowMs: 60 * 60 * 1000,
+    message: 'Too many requests from this IP! Please try again in an hour.',
+  })
+);
 
 (async () => {
+  app.get('/', (req, res) => {
+    if (NODE_ENV === 'development') {
+      console.log(req.session);
+      console.log('isAuthenticated:', req.isAuthenticated());
+    }
+
+    res.status(200).render('pageAPI');
+  });
+
   const apolloServer = new ApolloServer({ typeDefs, resolvers });
   await apolloServer.start();
   app.use('/graphql', apolloMidlleware(apolloServer));
+
+  app.use('/api/v1/abilities', abilitiesRouter);
+  app.use('/api/v1/allGames', allGamesRouter);
+  app.use('/api/v1/errorToAdmin', errorToAdminRouter);
+  app.use('/api/v1/exploreGames', exploreGamesRouter);
+  app.use('/api/v1/gallery', galleryRouter);
+  app.use('/api/v1/ruined', ruinedRouter);
+  app.use('/api/v1/skins', skinsRouter);
+  app.use('/api/v1/subweb', subwebRouter);
+  app.use('/api/v1/users', userRouter);
 
   app.all('*', (req, _, next) =>
     next(new AppError(`${req.originalUrl} not found!`, 404))
