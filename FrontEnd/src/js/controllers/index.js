@@ -6,6 +6,7 @@ import {
   UserView,
   PurchaseView,
   SubwebView,
+  MainHeaderView,
   ExploreAllgamesView as AllgamesView,
   ExploreGamesView as GamesView,
   MenuMobileView,
@@ -25,6 +26,7 @@ import AuthController from './authController';
 import UserController from './userController';
 import PurchaseController from './purchaseController';
 import SubwebController from './subwebController';
+import MainHeaderController from './mainHeaderController';
 import ExploreAllgamesController from './exploreAllgamesController';
 import ExploreGamesController from './exploreGamesController';
 import MenuMobileController from './menuMobileController';
@@ -309,6 +311,15 @@ function subwebInit() {
   SubwebView.addSpeakerProgressHandler(...handleSpeakerProgress());
 }
 
+function mainHeaderInit() {
+  const { handleToggleSticky, handleSurfSections } = new MainHeaderController(
+    MainHeaderView
+  );
+
+  MainHeaderView.addIntersectionObserver(handleToggleSticky);
+  MainHeaderView.addSurfSections(handleSurfSections);
+}
+
 function exploreAllgamesInit() {
   const { open, close, handleData, selectPosters, toggleLinks } =
     new ExploreAllgamesController(
@@ -444,6 +455,7 @@ function soloInit() {
   userInit,
   purchaseInit,
   subwebInit,
+  mainHeaderInit,
   exploreAllgamesInit,
   exploreGamesInit,
   menuMobileInit,

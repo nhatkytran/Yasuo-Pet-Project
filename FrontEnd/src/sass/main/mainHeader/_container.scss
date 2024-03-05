@@ -1,3 +1,12 @@
+.main-header__illusion {
+  height: 7rem;
+  background-color: $header-bg-color;
+
+  @media only screen and (max-width: $px640) {
+    height: 6rem;
+  }
+}
+
 .main-header__cover {
   width: 100%;
   height: 7rem;
@@ -13,6 +22,7 @@
   }
 
   &.sticky {
+    top: 0;
     position: fixed;
 
     .main-header-about {

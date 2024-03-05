@@ -5,6 +5,7 @@ export { default as AuthView } from './authView';
 export { default as UserView } from './userView';
 export { default as PurchaseView } from './purchaseView';
 export { default as SubwebView } from './subwebView';
+export { default as MainHeaderView } from './mainHeaderView';
 export { default as ExploreAllgamesView } from './exploreAllgamesView';
 export { default as ExploreGamesView } from './exploreGamesView';
 export { default as MenuMobileView } from './menuMobileView';
