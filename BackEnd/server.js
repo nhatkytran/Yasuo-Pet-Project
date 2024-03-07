@@ -4,17 +4,11 @@ process.on('uncaughtException', error => {
   process.exit(1);
 });
 
-// const cluster = require('cluster');
-// const os = require('os');
 const path = require('path');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: path.join(__dirname, 'config.env') });
-const { NODE_ENV, PORT } = process.env;
-
-// Enhancing Node Performance -> PM2 instead
-// if (cluster.isMaster && NODE_ENV !== 'development')
-//   return os.cpus().map(() => cluster.fork());
+const { PORT } = process.env;
 
 const app = require('./app');
 

@@ -99,9 +99,9 @@ app.use(
   await apolloServer.start();
   app.use('/graphql', apolloMidlleware(apolloServer));
 
+  app.use('/api/v1/errorToAdmin', errorToAdminRouter);
   app.use('/api/v1/abilities', abilitiesRouter);
   app.use('/api/v1/allGames', allGamesRouter);
-  app.use('/api/v1/errorToAdmin', errorToAdminRouter);
   app.use('/api/v1/exploreGames', exploreGamesRouter);
   app.use('/api/v1/gallery', galleryRouter);
   app.use('/api/v1/ruined', ruinedRouter);

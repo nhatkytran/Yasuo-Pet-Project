@@ -1,13 +1,8 @@
 const { Skins } = require('../models');
-const { catchAsync, AppError } = require('../utils');
+const { getSectionData } = require('./handlerFactory');
 
-exports.getData = catchAsync(async (_, res) => {
-  const [data] = await Skins.find();
-
-  if (!data) throw new AppError("Skins's data not found!", 404);
-
-  res.status(200).json({
-    status: 'success',
-    skinsAssets: data,
-  });
+exports.getData = getSectionData({
+  Model: Skins,
+  cacheRedis: true,
+  dataName: 'skinsAssets',
 });
