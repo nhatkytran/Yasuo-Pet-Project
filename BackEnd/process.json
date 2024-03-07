@@ -1,0 +1,17 @@
+{
+  "apps": [
+    {
+      "name": "backend",
+      "script": "server.js",
+      "watch": true,
+      "ignore_watch": ["node_modules", "logs"],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "node_args": ["--inspect"],
+      "max_memory_restart": "100M",
+      "autorestart": true,
+      "instances": "max"
+    }
+  ]
+}

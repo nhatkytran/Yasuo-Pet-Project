@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "pm2-runtime start process.json",
     "dev": "NODE_ENV=development nodemon --inspect server.js",
     "prod": "NODE_ENV=production nodemon --inspect server.js"
   },
@@ -29,6 +30,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
+    "pm2": "^5.3.1",
     "pug": "^3.0.2",
     "sharp": "^0.33.2",
     "stripe": "^14.17.0",
