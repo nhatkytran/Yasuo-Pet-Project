@@ -89,6 +89,9 @@ exports.loginGoogleSuccess = catchAsync(async (req, res, next) => {
   res.redirect('http://127.0.0.1:8080');
 });
 
+exports.loginGoogleFailure = (req, res, next) =>
+  res.status(200).render('error');
+
 exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
   if (!req.isAuthenticated())
     throw new AppError('You are not logged in yet!', 401, '', false);

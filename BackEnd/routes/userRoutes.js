@@ -5,6 +5,7 @@ const {
   signup,
   login,
   loginGoogleSuccess,
+  loginGoogleFailure,
   checkIsLoggedIn,
   protect,
   logout,
@@ -45,10 +46,12 @@ userRouter.get(
   '/auth/google/callback',
   passport.authenticate('google', {
     successRedirect: '/api/v1/users/loginGoogleSuccess',
+    failureRedirect: '/api/v1/users/loginGoogleFailure',
   })
 );
 
 userRouter.get('/loginGoogleSuccess', loginGoogleSuccess);
+userRouter.get('/loginGoogleFailure', loginGoogleFailure);
 
 userRouter.get('/checkIsLoggedIn', checkIsLoggedIn);
 

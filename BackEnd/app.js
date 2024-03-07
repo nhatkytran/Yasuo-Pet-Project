@@ -15,6 +15,7 @@ const session = require('express-session');
 const passport = require('passport');
 const { sessionOptions } = require('./config/database');
 require('./config/passport');
+require('./config/redis');
 
 const { ApolloServer } = require('@apollo/server');
 const {
