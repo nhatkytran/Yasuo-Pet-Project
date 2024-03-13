@@ -59,7 +59,7 @@ app.post(
 );
 
 app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // Data sanitization against NoSQL query injection --> Dot or Dollar sign in MongoDB
 app.use(mongoSanitize());
@@ -78,12 +78,13 @@ if (NODE_ENV !== 'development') app.use(compression());
 app.enable('trust proxy');
 
 // Cors
-app.use(
-  cors({
-    origin: 'http://127.0.0.1:8080',
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: 'http://127.0.0.1:8080',
+//     credentials: true,
+//   })
+// );
+app.use(cors());
 app.options('*', cors());
 
 // Express session

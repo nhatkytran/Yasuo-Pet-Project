@@ -90,9 +90,6 @@ class PurchaseController extends ModalContentController {
         `/api/v1/users/checkoutSession/${skinIndex}`
       );
 
-      console.log(stripe);
-      console.log(stripe.redirectToCheckout);
-
       await stripe.redirectToCheckout({ sessionId: session.id });
     },
     onError: error => {},
