@@ -31,7 +31,11 @@ exports.sessionOptions = {
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({ mongoUrl: SESSION_DB }),
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
+  cookie: {
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    sameSite: 'none',
+    // secure: true,
+  },
 };
 
 const DATABASE_DB = createDB(DATABASE, {
