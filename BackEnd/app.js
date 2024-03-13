@@ -52,11 +52,11 @@ if (NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Stripe Webhook implementation
-app.post(
-  '/webhook-checkout',
-  express.raw({ type: 'application/json' }),
-  webhookCheckout
-);
+// app.post(
+//   '/webhook-checkout',
+//   express.raw({ type: 'application/json' }),
+//   webhookCheckout
+// );
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -78,13 +78,12 @@ if (NODE_ENV !== 'development') app.use(compression());
 app.enable('trust proxy');
 
 // Cors
-// app.use(
-//   cors({
-//     origin: 'http://127.0.0.1:8080',
-//     credentials: true,
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://127.0.0.1:8080',
+    credentials: true,
+  })
+);
 app.options('*', cors());
 
 // Express session
@@ -99,6 +98,7 @@ app.use(
     max: 1000,
     windowMs: 60 * 60 * 1000,
     message: 'Too many requests from this IP! Please try again in an hour.',
+    validate: { trustProxy: false },
   })
 );
 

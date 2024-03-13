@@ -37,6 +37,8 @@ const globalErrorHandler = (error, req, res, __) => {
 
   if (newError.console) console.error(newError);
 
+  console.log(newError);
+
   if (!req.originalUrl.startsWith('/api'))
     return sendErrorRender(newError, res);
 
