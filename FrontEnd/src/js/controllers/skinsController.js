@@ -10,14 +10,16 @@ const filename = 'skinsController.js';
 class SkinsController {
   #SkinsView;
   #ToastView;
+  #PurchaseView;
   #totalSkins;
   #totalSkinsCeil; // Right side (include current slide)
   #totalSkinsFloor; // Left side
   #currentIndex = 0;
 
-  constructor(SkinsView, ToastView) {
+  constructor(SkinsView, ToastView, PurchaseView) {
     this.#SkinsView = SkinsView;
     this.#ToastView = ToastView;
+    this.#PurchaseView = PurchaseView;
   }
 
   #prepareSlideData = () => {
@@ -143,9 +145,8 @@ class SkinsController {
     };
   }
 
-  exploreSkins = () => {
-    alert(`Buy skin --> ${this.#currentIndex}`);
-  };
+  exploreSkins = () =>
+    this.#PurchaseView.openPurchaseViewSignal(this.#currentIndex);
 }
 
 export default SkinsController;

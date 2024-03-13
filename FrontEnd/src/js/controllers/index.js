@@ -381,7 +381,8 @@ function abilitiesInit() {
 function skinsInit() {
   const { handleData, handleSlide, exploreSkins } = new SkinsController(
     SkinsView,
-    ToastView
+    ToastView,
+    PurchaseView
   );
 
   SkinsView.addIntersectionObserver(handleData);

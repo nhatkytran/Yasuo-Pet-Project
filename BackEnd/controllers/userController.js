@@ -16,7 +16,7 @@ const {
 
 const { User, Skins } = require('../models');
 
-const { STRIPE_SECRET_KEY } = process.env;
+const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
 
 exports.getMe = (req, res, next) => {
   res.status(200).json({
@@ -364,22 +364,17 @@ exports.changePhoto = catchAsync(async (req, res, next) => {
 });
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
-  const { skinIndex } = req.params;
+  const skinIndex = Number.parseInt(req.params.skinIndex);
 
-  const [data] = await Skins.find();
-  if (!data) return next(new Error());
+  const [data] = await Skins.find().cacheRedis();
 
-  const skin = data.skins[Number.parseInt(skinIndex)];
+  const skin = data.skins[skinIndex];
   if (!skin) return next(new Error());
 
-  const user = req.user;
-
-  const successUrl = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/users/checkout/success/${skinIndex}/65cf6f7845081cc53f21a10f`;
-  const cancelUrl = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/users/checkout/fail/${skinIndex}/65cf6f7845081cc53f21a10f`;
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
+  const actionUrl = `${baseUrl}/api/v1/users/checkout`;
+  const successUrl = `${actionUrl}/success/${skinIndex}/65cf6f7845081cc53f21a10f`;
+  const cancelUrl = `${actionUrl}/fail/${skinIndex}/65cf6f7845081cc53f21a10f`;
 
   const stripe = Stripe(STRIPE_SECRET_KEY);
   const session = await stripe.checkout.sessions.create({
@@ -387,7 +382,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     payment_method_types: ['card'],
     success_url: successUrl,
     cancel_url: cancelUrl,
-    customer_email: user.email,
+    customer_email: req.user.email,
     client_reference_id: skinIndex,
     line_items: [
       {
@@ -419,7 +414,32 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createSkinCheckout = async (req, res, next) => {
+const createSkinCheckout = async session => {
+  const skinIndex = session.client_reference_id;
+
+  console.log('Create Skin', skinIndex);
+};
+
+exports.webhookCheckout = async (req, res) => {
+  try {
+    const signature = req.headers['stripe-signature'];
+    const stripe = Stripe(STRIPE_SECRET_KEY);
+    const event = stripe.webhooks.constructEvent(
+      req.body,
+      signature,
+      STRIPE_WEBHOOK_SECRET
+    );
+
+    if (event.type === 'checkout.session.completed')
+      await createSkinCheckout(event.data.object);
+
+    res.status(200).json({ received: true });
+  } catch (err) {
+    res.status(400).send(`Webhook error: ${err.message}`);
+  }
+};
+
+exports.createSkinCheckout2 = async (req, res, next) => {
   return next();
 
   const { skinIndexParam } = req.params;

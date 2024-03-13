@@ -39,6 +39,8 @@ const {
   userRouter,
 } = require('./routes');
 
+const { webhookCheckout } = require('./controllers/userController');
+
 const app = express();
 const { NODE_ENV } = process.env;
 
@@ -47,6 +49,12 @@ app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 
 if (NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout
+);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true }));
