@@ -50,6 +50,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 if (NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Stripe Webhook implementation
 app.post(
   '/webhook-checkout',
   express.raw({ type: 'application/json' }),

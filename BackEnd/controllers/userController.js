@@ -433,8 +433,10 @@ exports.webhookCheckout = async (req, res) => {
     if (event.type === 'checkout.session.completed')
       await createSkinCheckout(event.data.object);
 
+    console.log('----------> Send');
     res.status(200).json({ received: true });
   } catch (err) {
+    console.log('----------> Error');
     res.status(400).send(`Webhook error: ${err.message}`);
   }
 };

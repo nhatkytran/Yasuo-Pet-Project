@@ -25,7 +25,6 @@ const {
   deleteOldUserPhoto,
   changePhoto,
   getCheckoutSession,
-  createSkinCheckout,
   getCheckoutState,
 } = require('../controllers/userController');
 
@@ -83,7 +82,6 @@ userRouter.get('/checkoutSession/:skinIndex', getCheckoutSession);
 
 userRouter.get(
   '/checkout/:state/:skinIndexParam/:skinReceiptParam',
-  createSkinCheckout,
   getCheckoutState
 );
 
