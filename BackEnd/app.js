@@ -52,11 +52,11 @@ if (NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Stripe Webhook implementation
-// app.post(
-//   '/webhook-checkout',
-//   express.raw({ type: 'application/json' }),
-//   webhookCheckout
-// );
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout
+);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -78,15 +78,12 @@ if (NODE_ENV !== 'development') app.use(compression());
 app.enable('trust proxy');
 
 // Cors
-app.use(
-  cors({
-    origin:
-      NODE_ENV === 'development'
-        ? 'http://127.0.0.1:8080'
-        : 'https://yasuo-front.netlify.app',
-    credentials: true,
-  })
-);
+const corsOriginUrl =
+  NODE_ENV === 'development'
+    ? 'http://127.0.0.1:8080'
+    : 'https://yasuo-front.netlify.app';
+
+app.use(cors({ origin: corsOriginUrl, credentials: true }));
 app.options('*', cors());
 
 // Express session
