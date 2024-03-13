@@ -33,8 +33,8 @@ exports.sessionOptions = {
   store: MongoStore.create({ mongoUrl: SESSION_DB }),
   cookie: {
     maxAge: 30 * 24 * 60 * 60 * 1000,
+    secure: true,
     sameSite: 'none',
-    // secure: true,
   },
 };
 
