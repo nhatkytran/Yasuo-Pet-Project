@@ -408,10 +408,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     ],
   });
 
-  res.status(200).json({
-    status: 'success',
-    session,
-  });
+  res.status(200).json({ status: 'success', session });
 });
 
 const createSkinCheckout = async session => {

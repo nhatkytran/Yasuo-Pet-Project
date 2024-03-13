@@ -10,6 +10,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const compression = require('compression');
 
 const session = require('express-session');
 const passport = require('passport');
@@ -69,6 +70,12 @@ app.use(xss());
 // Template Engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+
+// Compress data before sending to user
+if (NODE_ENV !== 'development') app.use(compression());
+
+// Enable proxy to allow express-rate-limit from accurately identifying users
+app.enable('trust proxy');
 
 // Cors
 app.use(
