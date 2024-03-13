@@ -9,7 +9,6 @@ import {
   TOAST_SUCCESS,
   TOAST_FAIL,
   ERROR_ABORT_CODE,
-  CLEAR_TOAST_TIMEOUT,
 } from '../config';
 
 import { AppError, catchAsync, isPasswordValid, kickout } from '../utils';

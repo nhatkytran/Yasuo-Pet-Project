@@ -80,7 +80,7 @@ app.enable('trust proxy');
 // Cors
 app.use(
   cors({
-    origin: 'http://127.0.0.1:8080',
+    origin: ['http://127.0.0.1:8080', 'https://yasuo-front.netlify.app/'],
     credentials: true,
   })
 );
