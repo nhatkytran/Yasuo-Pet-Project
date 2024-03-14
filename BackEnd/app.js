@@ -84,13 +84,15 @@ let corsOrigin;
 if (NODE_ENV === 'development') corsOrigin = 'http://127.0.0.1:8080';
 else {
   const whilelist = [
-    'http://127.0.0.1:10000',
+    'https://yasuo-the-king.onrender.com',
     'https://yasuo-the-king.netlify.app',
     'https://dashboard.stripe.com',
   ];
 
-  corsOrigin = (origin, callback) =>
+  corsOrigin = (origin, callback) => {
+    console.log('--->', origin);
     whilelist.indexOf(origin) !== -1 && callback(null, true);
+  };
 }
 
 app.use(cors({ origin: corsOrigin, credentials: true }));
