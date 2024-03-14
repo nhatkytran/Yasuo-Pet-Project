@@ -81,7 +81,7 @@ userRouter.post('/solo', protect, sendSolo);
 userRouter.get('/checkoutSession/:skinIndex', getCheckoutSession);
 
 userRouter.get(
-  '/checkout/:state/:skinIndexParam/:skinReceiptParam',
+  '/checkout/:state/:skinIndexParam/:skinReceiptParam?',
   getCheckoutState
 );
 

@@ -50,13 +50,13 @@ block content
             | Something went wrong! Please try again. If you need any help, contact admin via 
             span.right-message__email.ff-mark-medium nhockkutean2@gmail.com
         .right-hr
-        .right-info
+        .right-info(class= skin.receipt ? '' : 'remove')
           p.right-info__text.ff-mark-medium RECEIPT
           p.right-info__value= skin.receipt
         .right-info
           p.right-info__text.ff-mark-medium AMOUNT PAID
           p= skin.price
-        .right-info
+        .right-info(class= skin.date ? '' : 'remove')
           p.right-info__text.ff-mark-medium DATE PAID
           p= skin.date
         .right-info

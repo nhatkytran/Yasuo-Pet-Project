@@ -372,9 +372,14 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   if (!skin) return next(new Error());
 
   const baseUrl = `${req.protocol}://${req.get('host')}`;
-  const actionUrl = `${baseUrl}/api/v1/users/checkout`;
-  const successUrl = `${actionUrl}/success/${skinIndex}/65cf6f7845081cc53f21a10f`;
-  const cancelUrl = `${actionUrl}/fail/${skinIndex}/65cf6f7845081cc53f21a10f`;
+
+  const actionUrl = state =>
+    `${baseUrl}/api/v1/users/checkout/${state}/${skinIndex}`;
+
+  // successUrl is also monkey patched in Webhook
+  // 2 situations: have skinReceiptParam and do not
+  const successUrl = actionUrl('success');
+  const cancelUrl = actionUrl('cancel');
 
   const stripe = Stripe(STRIPE_SECRET_KEY);
   const session = await stripe.checkout.sessions.create({
@@ -406,35 +411,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 const createSkinCheckout = async session => {
   const skinIndex = session.client_reference_id;
 
-  console.log('Create Skin', skinIndex);
-};
+  const user = await User.findOne({ email: session.customer_email });
 
-exports.webhookCheckout = async (req, res) => {
-  try {
-    const stripe = Stripe(STRIPE_SECRET_KEY);
-
-    const event = stripe.webhooks.constructEvent(
-      req.body,
-      req.headers['stripe-signature'],
-      STRIPE_WEBHOOK_SECRET
-    );
-
-    if (event.type === 'checkout.session.completed')
-      createSkinCheckout(event.data.object);
-
-    res.status(200).json({ received: true });
-  } catch (err) {
-    res.status(400).send(`Webhook error: ${err.message}`);
-  }
-};
-
-exports.createSkinCheckout2 = async (req, res, next) => {
-  return next();
-
-  const { skinIndexParam } = req.params;
-  const skinIndex = Number.parseInt(skinIndexParam);
-
-  const user = req.user;
   const [data] = await Skins.find();
   const skin = data.skins[skinIndex];
 
@@ -479,23 +457,43 @@ exports.createSkinCheckout2 = async (req, res, next) => {
     { purchasedSkins: userPurchasedSkins },
     { new: true, runValidators: true }
   );
+};
 
-  next();
+exports.webhookCheckout = async (req, res) => {
+  try {
+    const stripe = Stripe(STRIPE_SECRET_KEY);
+
+    const event = stripe.webhooks.constructEvent(
+      req.body,
+      req.headers['stripe-signature'],
+      STRIPE_WEBHOOK_SECRET
+    );
+
+    if (event.type === 'checkout.session.completed')
+      await createSkinCheckout(event.data.object);
+
+    res.status(200).json({ received: true });
+  } catch (err) {
+    res.status(400).send(`Webhook error: ${err.message}`);
+  }
 };
 
 exports.getCheckoutState = async (req, res, next) => {
   try {
     const { state, skinIndexParam, skinReceiptParam } = req.params;
+
     const skinIndex = Number.parseInt(skinIndexParam);
-    const skinReceipt = `#${skinReceiptParam}`;
+    const skinReceipt = skinReceiptParam ? `#${skinReceiptParam}` : '';
+
     const user = req.user;
 
     const skinObject = user.purchasedSkins
       .find(skn => skn.index === skinIndex)
       .toObject();
-    const skinInfo = skinObject.skins.find(
-      info => info.receipt === skinReceipt
-    );
+
+    const skinInfo = skinReceiptParam
+      ? skinObject.skins.find(info => info.receipt === skinReceipt)
+      : {};
 
     const { name, price, description, image } = skinObject;
     const { receipt, date } = skinInfo;
@@ -509,11 +507,13 @@ exports.getCheckoutState = async (req, res, next) => {
       description,
       image,
       receipt,
-      date: date.toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-      }),
+      date:
+        date &&
+        date.toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        }),
     };
 
     res.status(200).render('checkout', { state, user, skin });

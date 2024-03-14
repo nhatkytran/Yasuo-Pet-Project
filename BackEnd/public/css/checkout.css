@@ -4,6 +4,10 @@
   max-width: 38rem;
 }
 
+.remove {
+  display: none !important;
+}
+
 /* Main */
 .container {
   min-height: 100vh;
