@@ -3,6 +3,7 @@ const MongoStore = require('connect-mongo');
 const { createDB } = require('../utils');
 
 const {
+  NODE_ENV,
   DATABASE,
   DATABASE_NAME,
   DATABASE_PASSWORD,
@@ -26,6 +27,16 @@ const SESSION_DB = createDB(DATABASE, {
 // Session -> SessionID stored in Cookie
 // Cookie -> Cookie header and Set-cookie header
 
+let cookieOptions = {};
+
+// In development invironment, backend is 127.0.0.1:3000 and frontend is 127.0.0.1:8080
+// but when deploy, we have 2 different origins, so we need to config this
+if (NODE_ENV !== 'development')
+  cookieOptions = {
+    secure: true,
+    sameSite: 'none',
+  };
+
 exports.sessionOptions = {
   secret: DATABASE_COLLECTION_SESSION_SECRET,
   resave: false,
@@ -33,8 +44,7 @@ exports.sessionOptions = {
   store: MongoStore.create({ mongoUrl: SESSION_DB }),
   cookie: {
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    secure: true,
-    sameSite: 'none',
+    ...cookieOptions,
   },
 };
 

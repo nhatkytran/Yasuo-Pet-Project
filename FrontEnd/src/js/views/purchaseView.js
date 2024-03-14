@@ -20,6 +20,9 @@ import {
   mapMarkup,
 } from '../utils';
 
+const enabledCssEffect = `opacity: 1; cursor: pointer;`;
+const disabledCssEffect = `opacity: 0.6; cursor: not-allowed;`;
+
 class PurchaseView {
   #mainButton = $_($('.trailer__content'), 'button');
   #mainButtonLoader = $_(this.#mainButton, 'svg');
@@ -43,16 +46,12 @@ class PurchaseView {
   #skinPrice = $_($('.pur-article__buy-header'), 'label');
   #skinRelatesWrapper = $_($('.pur-relate__skins'), 'ul');
 
-  #animatePur;
+  #animatePur = animateFactory(this.#pur, {
+    start: 'fade-in-500',
+    end: 'fade-out-480',
+  });
 
-  constructor() {
-    this.#animatePur = animateFactory(this.#pur, {
-      start: 'fade-in-500',
-      end: 'fade-out-480',
-    });
-  }
-
-  #handleContent = (skinData, skinRelatesData) => {
+  #handleContent = (skinData, skinIndex, skinRelatesData) => {
     const {
       name,
       releaseYear,
@@ -105,16 +104,18 @@ class PurchaseView {
         </li>
       `;
     });
+
+    this.#skinPurchaseButton.setAttribute('data-skin-index', skinIndex);
   };
 
   #adjustTopPosition = (element, scrollVertical) =>
     (element.style.cssText = `top: ${scrollVertical ?? 0}px`);
 
-  open = (skinData, skinRelatesData, scrollVertical) => {
+  open = (skinData, skinIndex, skinRelatesData, scrollVertical) => {
     this.#adjustTopPosition(this.#pur, scrollVertical);
     classRemove(REMOVE, this.#pur);
     this.#animatePur(START);
-    this.#handleContent(skinData, skinRelatesData);
+    this.#handleContent(skinData, skinIndex, skinRelatesData);
 
     setTimeout(
       () => this.#pur.scrollTo({ top: 0, behavior: 'smooth' }),
@@ -137,6 +138,10 @@ class PurchaseView {
     this.#mainButton.style.cursor =
       state === LOADING ? 'not-allowed' : 'pointer';
   }
+
+  purchaseSkinDisplay = ({ state }) =>
+    (this.#skinPurchaseButton.style.cssText =
+      state === LOADING ? disabledCssEffect : enabledCssEffect);
 
   //
   // Events listening //////////
@@ -167,8 +172,8 @@ class PurchaseView {
   }
 
   addPurchaseSkinHandler(handler) {
-    this.#skinPurchaseButton.addEventListener('click', event => {
-      handler(0);
+    this.#skinPurchaseButton.addEventListener('click', function () {
+      handler(Number.parseInt(this.dataset.skinIndex));
     });
   }
 }

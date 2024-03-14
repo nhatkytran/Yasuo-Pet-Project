@@ -393,15 +393,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
           product_data: {
             name: skin.name,
             description: `${skin.details[0].slice(0, 64)}...`,
-            // images: [
-            //   `${req.protocol}://${req.get('host')}/img/tours/${
-            //     tour.imageCover
-            //   }`,
-            // ],
-            images: [
-              // test
-              'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg',
-            ],
+            images: [`${baseUrl}${skin.image}`],
           },
         },
       },
@@ -430,10 +422,8 @@ exports.webhookCheckout = async (req, res) => {
     if (event.type === 'checkout.session.completed')
       createSkinCheckout(event.data.object);
 
-    console.log('----------> Send');
     res.status(200).json({ received: true });
   } catch (err) {
-    console.log('----------> Error');
     res.status(400).send(`Webhook error: ${err.message}`);
   }
 };

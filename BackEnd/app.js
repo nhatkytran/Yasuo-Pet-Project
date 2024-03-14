@@ -78,23 +78,21 @@ if (NODE_ENV !== 'development') app.use(compression());
 app.enable('trust proxy');
 
 // Cors
-const corsWhitelist =
-  NODE_ENV === 'development'
-    ? ['http://127.0.0.1:8080']
-    : ['https://yasuo-front.netlify.app', 'https://dashboard.stripe.com'];
+let corsOrigin;
+// When origin is string, it also allows 127.0.0.1:3000
+// Something went wrong when it is a function
+if (NODE_ENV === 'development') corsOrigin = 'http://127.0.0.1:8080';
+else {
+  const whilelist = [
+    'https://yasuo-front.netlify.app',
+    'https://dashboard.stripe.com',
+  ];
 
-console.log(corsWhitelist);
+  corsOrigin = (origin, callback) =>
+    whilelist.indexOf(origin) !== -1 && callback(null, true);
+}
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    console.log(origin);
-    if (corsWhitelist.indexOf(origin) !== -1) callback(null, true);
-    else callback(new Error('Not allowed by CORS'));
-  },
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(cors({ origin: corsOrigin, credentials: true }));
 app.options('*', cors());
 
 // Express session

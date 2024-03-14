@@ -4,8 +4,8 @@
 export const ENV = 'development';
 // export const ENV = 'production';
 
-// export const BACKEND_URL = 'http://127.0.0.1:3000';
-export const BACKEND_URL = 'https://yasuo-projects.onrender.com';
+export const BACKEND_URL = 'http://127.0.0.1:3000';
+// export const BACKEND_URL = 'https://yasuo-projects.onrender.com';
 
 export const REM = 10;
 export const FETCH_API_TIMEOUT = 60;
