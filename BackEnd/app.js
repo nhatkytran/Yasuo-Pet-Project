@@ -81,7 +81,7 @@ app.enable('trust proxy');
 const corsWhitelist =
   NODE_ENV === 'development'
     ? ['http://127.0.0.1:8080']
-    : ['https://yasuo-front.netlify.app', 'https://dashboard.stripe.com/'];
+    : ['https://yasuo-front.netlify.app', 'https://dashboard.stripe.com'];
 
 const corsOptions = {
   origin: function (origin, callback) {
