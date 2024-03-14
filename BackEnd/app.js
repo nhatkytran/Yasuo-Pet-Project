@@ -78,12 +78,20 @@ if (NODE_ENV !== 'development') app.use(compression());
 app.enable('trust proxy');
 
 // Cors
-const corsOriginUrl =
+const corsWhitelist =
   NODE_ENV === 'development'
-    ? 'http://127.0.0.1:8080'
-    : 'https://yasuo-front.netlify.app';
+    ? ['http://127.0.0.1:8080']
+    : ['https://yasuo-front.netlify.app', 'https://dashboard.stripe.com/'];
 
-app.use(cors({ origin: corsOriginUrl, credentials: true }));
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (corsWhitelist.indexOf(origin) !== -1) callback(null, true);
+    else callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.options('*', cors());
 
 // Express session

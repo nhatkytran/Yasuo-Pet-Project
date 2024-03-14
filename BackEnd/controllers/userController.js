@@ -419,16 +419,16 @@ const createSkinCheckout = async session => {
 
 exports.webhookCheckout = async (req, res) => {
   try {
-    const signature = req.headers['stripe-signature'];
     const stripe = Stripe(STRIPE_SECRET_KEY);
+
     const event = stripe.webhooks.constructEvent(
       req.body,
-      signature,
+      req.headers['stripe-signature'],
       STRIPE_WEBHOOK_SECRET
     );
 
     if (event.type === 'checkout.session.completed')
-      await createSkinCheckout(event.data.object);
+      createSkinCheckout(event.data.object);
 
     console.log('----------> Send');
     res.status(200).json({ received: true });
