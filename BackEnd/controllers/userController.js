@@ -409,7 +409,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 });
 
 const createSkinCheckout = async session => {
-  const skinIndex = session.client_reference_id;
+  const skinIndex = Number.parseInt(session.client_reference_id);
 
   const user = await User.findOne({ email: session.customer_email });
 
