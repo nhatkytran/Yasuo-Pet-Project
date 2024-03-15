@@ -563,8 +563,12 @@ class UserView {
 
         return `
           <li class="${skn.active ? 'active' : ''}">
-            <p>${skn.code}</p>
-            <span>${date}</span>
+            <a href="${BACKEND_URL}/api/v1/users/checkout/success/${
+          skin.index
+        }/${skn.receipt.slice(1)}">
+              <p>${skn.code}</p>
+              <span>${date}</span>
+            </a>
           </li>
         `;
       });

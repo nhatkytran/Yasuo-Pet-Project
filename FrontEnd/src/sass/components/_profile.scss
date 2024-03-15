@@ -1143,9 +1143,7 @@
   }
 
   li {
-    margin-bottom: 0.6rem;
-    justify-content: space-between;
-    @include flex-align-center;
+    margin-bottom: 0.4rem;
 
     &.active p {
       color: #b8b8b8;
@@ -1153,14 +1151,29 @@
       @include use-font(FF-Mark-Medium);
     }
 
-    p {
-      font-size: 1.2rem;
-      @include use-font(FF-Mark-Bold);
-    }
+    a:link,
+    a:visited {
+      color: inherit;
+      text-decoration: none;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.4rem;
+      transition: all ease 0.2s;
+      justify-content: space-between;
+      @include flex-align-center;
 
-    span {
-      font-size: 1rem;
-      margin-left: 3rem;
+      &:hover {
+        background-color: #4c4648;
+      }
+
+      p {
+        font-size: 1.2rem;
+        @include use-font(FF-Mark-Bold);
+      }
+
+      span {
+        font-size: 1rem;
+        margin-left: 3rem;
+      }
     }
   }
 }
