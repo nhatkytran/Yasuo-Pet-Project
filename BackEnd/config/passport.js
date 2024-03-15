@@ -5,8 +5,12 @@ const bcrypt = require('bcrypt');
 const { AppError } = require('../utils');
 const { User } = require('../models');
 
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CLIENT_REDIRECT } =
-  process.env;
+const {
+  NODE_ENV,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_CLIENT_REDIRECT,
+} = process.env;
 
 const LocalStrategy = passportLocal.Strategy;
 const GoogleStrategy = passportGoogle.Strategy;
@@ -51,13 +55,16 @@ const localStrategy = new LocalStrategy(
   }
 );
 
-// Test
-// Change google link
+let googleClientRedirect =
+  'http://127.0.0.1:3000/api/v1/users/auth/google/callback';
+
+if (NODE_ENV !== 'development') googleClientRedirect = GOOGLE_CLIENT_REDIRECT;
+
 const googleStrategy = new GoogleStrategy(
   {
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: GOOGLE_CLIENT_REDIRECT,
+    callbackURL: googleClientRedirect,
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
