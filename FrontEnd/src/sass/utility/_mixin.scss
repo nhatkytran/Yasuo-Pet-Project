@@ -1,11 +1,7 @@
 // Color
 @mixin primary-background($opa) {
-  background-image: linear-gradient(to bottom, rgba($color-primary-dark, $opa), rgba($color-primary-light, $opa));
-  background-image: -webkit-linear-gradient(
-    to bottom,
-    rgba($color-primary-dark, $opa),
-    rgba($color-primary-light, $opa)
-  );
+  background-image: linear-gradient(rgba($color-primary-dark, $opa), rgba($color-primary-light, $opa));
+  background-image: -webkit-linear-gradient(rgba($color-primary-dark, $opa), rgba($color-primary-light, $opa));
   clip-path: inset(0.2rem); // Fix line on Safari
 }
 

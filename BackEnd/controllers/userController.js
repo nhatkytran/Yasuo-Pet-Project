@@ -486,10 +486,18 @@ exports.getCheckoutState = async (req, res, next) => {
     const skinReceipt = skinReceiptParam ? `#${skinReceiptParam}` : '';
 
     const user = req.user;
+    let skinObject;
 
-    const skinObject = user.purchasedSkins
-      .find(skn => skn.index === skinIndex)
-      .toObject();
+    if (skinReceiptParam)
+      skinObject = user.purchasedSkins
+        .find(skn => skn.index === skinIndex)
+        .toObject();
+    else {
+      const [data] = await Skins.find().cacheRedis();
+      if (!data) throw new AppError('Data not found!', 404);
+
+      skinObject = data.skins[skinIndex];
+    }
 
     const skinInfo = skinReceiptParam
       ? skinObject.skins.find(info => info.receipt === skinReceipt)

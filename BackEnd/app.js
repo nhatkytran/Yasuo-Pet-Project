@@ -84,8 +84,7 @@ let corsOrigin;
 if (NODE_ENV === 'development') corsOrigin = 'http://127.0.0.1:8080';
 else {
   const whilelist = [
-    undefined, // 'https://yasuo-the-king.onrender.com'
-    // google
+    undefined, // 'https://yasuo-the-king.onrender.com' & 'google'
     'https://yasuo-the-king.netlify.app',
     'https://dashboard.stripe.com',
   ];
