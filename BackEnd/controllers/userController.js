@@ -16,7 +16,7 @@ const {
 
 const { User, Skins } = require('../models');
 
-const { BACKEND_URL, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
+const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
 
 exports.getMe = (req, res, next) => {
   res.status(200).json({
@@ -426,7 +426,7 @@ const createSkinCheckout = async session => {
   const skinReceipt = {
     receipt: `#${receiptNumber}`,
     code: crypto.randomBytes(6).toString('hex'),
-    date: Date.now(),
+    date: receiptNumber,
     active: false,
   };
 
@@ -459,8 +459,6 @@ const createSkinCheckout = async session => {
     { purchasedSkins: userPurchasedSkins },
     { new: true, runValidators: true }
   );
-
-  return { receiptNumber };
 };
 
 exports.webhookCheckout = async (req, res) => {
@@ -473,13 +471,8 @@ exports.webhookCheckout = async (req, res) => {
       STRIPE_WEBHOOK_SECRET
     );
 
-    if (event.type === 'checkout.session.completed') {
-      const { receiptNumber } = await createSkinCheckout(event.data.object);
-
-      await stripe.checkout.sessions.update(session.id, {
-        success_url: `${BACKEND_URL}/api/v1/users/checkout/success/${receiptNumber}`,
-      });
-    }
+    if (event.type === 'checkout.session.completed')
+      createSkinCheckout(event.data.object);
 
     res.status(200).json({ received: true });
   } catch (err) {

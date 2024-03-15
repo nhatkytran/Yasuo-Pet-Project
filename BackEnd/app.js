@@ -89,10 +89,8 @@ else {
     'https://dashboard.stripe.com',
   ];
 
-  corsOrigin = (origin, callback) => {
-    console.log('--->', origin);
+  corsOrigin = (origin, callback) =>
     whilelist.indexOf(origin) !== -1 && callback(null, true);
-  };
 }
 
 app.use(cors({ origin: corsOrigin, credentials: true }));
