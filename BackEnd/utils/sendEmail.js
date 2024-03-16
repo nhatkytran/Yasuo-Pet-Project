@@ -91,6 +91,44 @@ class Email {
       challengerMessage,
     });
   }
+
+  async sendActivateCode(code) {
+    await this.send({
+      template: 'activate',
+      subject: 'Yasuo The King! Activate code',
+      username: this.username,
+      code,
+    });
+  }
+
+  async sendForgotUsername() {
+    await this.send({
+      template: 'forgotUsername',
+      subject: 'Yasuo The King! Username',
+      username: this.username,
+    });
+  }
+
+  async sendForgotPassword(code) {
+    await this.send({
+      template: 'forgotPassword',
+      subject: 'Yasuo The King! Password reset code',
+      username: this.username,
+      code,
+    });
+  }
+
+  async sendPurchasedSkinCode(options) {
+    const { code, skinname } = options;
+
+    await this.send({
+      template: 'forgotPassword',
+      subject: 'Yasuo The King! ',
+      username: this.username,
+      skinname,
+      code,
+    });
+  }
 }
 
 module.exports = Email;

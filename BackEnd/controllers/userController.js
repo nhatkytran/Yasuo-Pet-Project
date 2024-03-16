@@ -84,10 +84,7 @@ exports.getActivateCode = catchAsync(async (req, res, next) => {
   await user.save({ validateModifiedOnly: true });
 
   try {
-    const subject = 'Your activate token (only valid for 2 mins)';
-    const message = `Your activate token: ${activateToken}`;
-
-    await sendEmail({ email, subject, message });
+    await new Email(user).sendActivateCode(activateToken);
   } catch (error) {
     user.activateToken = undefined;
     user.activateTokenAt = undefined;
@@ -100,9 +97,8 @@ exports.getActivateCode = catchAsync(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Token has been sent! Please check your email.',
+  sendSuccess(res, {
+    metadata: { message: 'Token has been sent! Please check your email.' },
   });
 });
 
@@ -128,10 +124,7 @@ exports.activateAccount = catchAsync(async (req, res, next) => {
 
   await user.save({ validateModifiedOnly: true });
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Activate account successfully!',
-  });
+  sendSuccess(res, { metadata: { message: 'Activate account successfully!' } });
 });
 
 exports.forgotUsername = catchAsync(async (req, res, next) => {
@@ -150,10 +143,7 @@ exports.forgotUsername = catchAsync(async (req, res, next) => {
     );
 
   try {
-    const subject = 'Your username';
-    const message = `Your username: ${user.username}`;
-
-    await sendEmail({ email, subject, message });
+    await new Email(user).sendForgotUsername();
   } catch (error) {
     throw new AppError(
       'Something went wrong sending email! Please try again.',
@@ -161,9 +151,8 @@ exports.forgotUsername = catchAsync(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Username has been sent! Please check your email.',
+  sendSuccess(res, {
+    metadata: { message: 'Username has been sent! Please check your email.' },
   });
 });
 
@@ -193,10 +182,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateModifiedOnly: true });
 
   try {
-    const subject = 'Your forgot-password code (only valid for 2 mins)';
-    const message = `Your forgot-password code: ${forgotPasswordToken}`;
-
-    await sendEmail({ email, subject, message });
+    await new Email(user).sendForgotPassword(forgotPasswordToken);
   } catch (error) {
     user.forgotPasswordToken = undefined;
     user.forgotPasswordTokenAt = undefined;
@@ -210,9 +196,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Password has been sent! Please check your email.',
+  sendSuccess(res, {
+    metadata: {
+      message: 'Password reset code has been sent! Please check your email.',
+    },
   });
 });
 
@@ -247,10 +234,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   await user.save({ validateModifiedOnly: true });
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Change password successfully!',
-  });
+  sendSuccess(res, { metadata: { message: 'Change password successfully!' } });
 });
 
 exports.changePassword = catchAsync(async (req, res, next) => {
@@ -276,8 +260,6 @@ exports.changePassword = catchAsync(async (req, res, next) => {
       400
     );
 
-  console.log(currentPassword, user.password);
-
   if (!(await bcrypt.compare(currentPassword, user.password)))
     throw new AppError(
       'The current password is incorrect! Please try again.',
@@ -295,13 +277,8 @@ exports.changePassword = catchAsync(async (req, res, next) => {
   user.password = newPassword;
   await user.save({ validateModifiedOnly: true });
 
-  req.logout(error => {
-    if (error) console.error(error);
-    res.status(200).json({
-      status: 'success',
-      message: 'Change password successfully!',
-    });
-  });
+  req.logout(error => error && console.error(error));
+  sendSuccess(res, { metadata: { message: 'Change password successfully!' } });
 });
 
 const multerStorage = multer.memoryStorage();
@@ -420,10 +397,11 @@ const createSkinCheckout = async session => {
 
   let userPurchasedSkins;
   const receiptNumber = Date.now();
+  const skinCode = crypto.randomBytes(6).toString('hex');
 
   const skinReceipt = {
     receipt: `#${receiptNumber}`,
-    code: crypto.randomBytes(6).toString('hex'),
+    code: skinCode,
     date: receiptNumber,
     active: false,
   };
@@ -457,6 +435,11 @@ const createSkinCheckout = async session => {
     { purchasedSkins: userPurchasedSkins },
     { new: true, runValidators: true }
   );
+
+  await Email(user).sendPurchasedSkinCode({
+    skinname: skin.name,
+    code: skinCode,
+  });
 };
 
 exports.webhookCheckout = async (req, res) => {
