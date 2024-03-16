@@ -1,10 +1,14 @@
 const {
   AppError,
+  Email,
   catchAsync,
-  sendEmail,
+  sendSuccess,
   isStrongPassword,
 } = require('../utils');
+
 const { User } = require('../models');
+
+const { NODE_ENV } = process.env;
 
 exports.signup = catchAsync(async (req, res) => {
   const { username, email, password, passwordConfirm } = req.body;
@@ -48,10 +52,7 @@ exports.signup = catchAsync(async (req, res) => {
   await user.save({ validateModifiedOnly: true });
 
   try {
-    const subject = 'Your activate token (only valid for 2 mins)';
-    const message = `Your activate token: ${activateToken}`;
-
-    await sendEmail({ email, subject, message });
+    await new Email(user).sendWelcome({ oAuth: false, code: activateToken });
   } catch (error) {
     user.activateToken = undefined;
     user.activateTokenAt = undefined;
@@ -66,7 +67,7 @@ exports.signup = catchAsync(async (req, res) => {
   }
 
   user.password = undefined;
-  res.status(200).json({ status: 'success', user });
+  sendSuccess(res, { metadata: { user } });
 });
 
 // passport.authenticate('local') verifyCallback function calls next(error)
@@ -76,17 +77,23 @@ exports.login = catchAsync(async (req, res, next) => {
   user.lastLogin = Date.now();
   await user.save({ validateModifiedOnly: true });
 
-  res.status(200).json({ status: 'success' });
+  sendSuccess(res);
 });
 
 exports.loginGoogleSuccess = catchAsync(async (req, res, next) => {
   const { user } = req;
 
+  // Send email can go wrong some times, no need to await here
+  if (!user.lastLogin) new Email(user).sendWelcome({ oAuth: true });
+
   user.lastLogin = Date.now();
   await user.save({ validateModifiedOnly: true });
 
-  // Test
-  res.redirect('http://127.0.0.1:8080');
+  res.redirect(
+    NODE_ENV === 'development'
+      ? 'http://127.0.0.1:8080'
+      : 'https://yasuo-the-king.netlify.app/'
+  );
 });
 
 exports.loginGoogleFailure = (req, res, next) =>
@@ -95,19 +102,21 @@ exports.loginGoogleFailure = (req, res, next) =>
 exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
   if (!req.isAuthenticated())
     throw new AppError('You are not logged in yet!', 401, '', false);
-  res.status(200).json({ status: 'success' });
+
+  sendSuccess(res);
 });
 
 exports.protect = (req, res, next) => {
   if (!req.isAuthenticated())
     throw new AppError('Please login to get access!', 401, '', false);
+
   next();
 };
 
 exports.logout = catchAsync(async (req, res, next) =>
-  req.logout(error => {
-    if (error)
-      next(new AppError("Couldn't log out! Please try again later.", 500));
-    else res.status(200).json({ status: 'success' });
-  })
+  req.logout(error =>
+    error
+      ? next(new AppError("Couldn't log out! Please try again later.", 500))
+      : sendSuccess(res)
+  )
 );

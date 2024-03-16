@@ -112,6 +112,11 @@ app.use(
   })
 );
 
+// Test
+app.get('/testEmail', (req, res, next) => {
+  res.status(200).render('email/welcome');
+});
+
 (async () => {
   app.get('/', (req, res) => {
     if (NODE_ENV === 'development') {

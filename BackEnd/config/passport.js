@@ -85,7 +85,6 @@ const googleStrategy = new GoogleStrategy(
         googleID,
         active: true,
         photo,
-        lastLogin: Date.now(),
       });
 
       done(null, newUser);
