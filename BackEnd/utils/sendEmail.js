@@ -20,7 +20,7 @@ class Email {
   constructor(user) {
     this.from = `Trần Nhật Kỳ < ${EMAIL_AUTHOR} >`;
     this.to = user.email;
-    this.username = user.username;
+    this.username = user.username || '';
   }
 
   newTransport() {
@@ -45,16 +45,11 @@ class Email {
   }
 
   async send(options = {}) {
-    const { template, subject, url, code } = options;
+    const { template, subject, ...locals } = options;
 
     const html = pug.renderFile(
       path.join(__dirname, `../views/email/${template}.pug`),
-      {
-        subject,
-        username: this.username,
-        url,
-        code,
-      }
+      { subject, ...locals }
     );
 
     const mailOptions = {
@@ -69,17 +64,31 @@ class Email {
   }
 
   async sendWelcome(options = {}) {
-    const { oAuth, url, code } = options;
+    const { oAuth, code } = options;
 
     const subject = oAuth
       ? ''
-      : 'Yasuo activate code (only valid for only 2 minutes)';
+      : ' Your activate code (only valid for only 2 minutes)';
 
     await this.send({
       template: 'welcome',
       subject: `Welcome to Yasuo The King!${subject}`,
-      url,
+      username: this.username,
       code,
+    });
+  }
+
+  async sendSolo(options = {}) {
+    const { challengerName, challengerEmail, challengerMessage } = options;
+
+    await this.send({
+      template: 'solo',
+      subject:
+        'Solo Yasuo - Challenger! Whoever wins this battle becomes justice!',
+      url: 'https://yasuo-the-king.netlify.app',
+      challengerName,
+      challengerEmail,
+      challengerMessage,
     });
   }
 }

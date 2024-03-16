@@ -8,22 +8,20 @@ const sharp = require('sharp');
 const Stripe = require('stripe');
 
 const {
-  AppError,
-  catchAsync,
   sendEmail,
+  AppError,
+  Email,
+  catchAsync,
   isStrongPassword,
+  sendSuccess,
 } = require('../utils');
 
 const { User, Skins } = require('../models');
 
 const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
 
-exports.getMe = (req, res, next) => {
-  res.status(200).json({
-    status: 'success',
-    user: req.user,
-  });
-};
+exports.getMe = (req, res, next) =>
+  sendSuccess(res, { metadata: { user: req.user } });
 
 exports.sendSolo = catchAsync(async (req, res, next) => {
   const { message, opponentEmail } = req.body;
@@ -36,10 +34,11 @@ exports.sendSolo = catchAsync(async (req, res, next) => {
   const user = req.user;
 
   try {
-    const subject = 'I challenge you to a 1 v/s 1 battle';
-    const emailMessage = `Are you up for it? Find me in game: ${user.username} or send me email via < ${user.email} >. More information: ${message}`;
-
-    await sendEmail({ email: user.email, subject, message: emailMessage });
+    await new Email({ email: opponentEmail }).sendSolo({
+      challengerName: user.username,
+      challengerEmail: user.email,
+      challengerMessage: message,
+    });
   } catch (error) {
     throw new AppError(
       'Something went wrong sending email! Please try again.',
@@ -47,9 +46,8 @@ exports.sendSolo = catchAsync(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Email has been sent successfully!',
+  sendSuccess(res, {
+    metadata: { message: 'Email has been sent successfully!' },
   });
 });
 

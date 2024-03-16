@@ -114,7 +114,7 @@ app.use(
 
 // Test
 app.get('/testEmail', (req, res, next) => {
-  res.status(200).render('email/welcome');
+  res.status(200).render('email/solo');
 });
 
 (async () => {

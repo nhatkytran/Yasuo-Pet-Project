@@ -1,0 +1,22 @@
+extends baseEmail
+
+block content
+  p Hi,
+  p This is the Yasuo The King challenge email, daring you to a Yasuo 1v1 battle. 🗡️
+  p Are you up for it? Challenger's information: in-game name '#{challengerName}'; email '#{challengerEmail}'.
+
+  - if (challengerMessage)
+    p Challenger's message:
+    p.code.fs20px= challengerMessage
+
+  p If you don't have any account, go create one at Yasuo The King page:
+  table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+    tbody
+      tr
+        td(align='left')
+          table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+            tbody
+              tr
+                td
+                  a(href=`${url}`, target='_blank') Explore now
+  p - The survivor will be crowned the king. 👑
