@@ -436,7 +436,7 @@ const createSkinCheckout = async session => {
     { new: true, runValidators: true }
   );
 
-  await Email(user).sendPurchasedSkinCode({
+  await new Email(user).sendPurchasedSkinCode({
     skinname: skin.name,
     code: skinCode,
   });
