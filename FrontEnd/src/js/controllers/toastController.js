@@ -1,6 +1,3 @@
-import { TOAST_WELCOME } from '../config';
-import store from '../models/store';
-
 class ToastController {
   #ToastView;
 
@@ -9,9 +6,6 @@ class ToastController {
   }
 
   handleClearToast = element => this.#ToastView.clear(element);
-
-  handleWelcomeToast = () =>
-    this.#ToastView.createToast(store.state.toast[TOAST_WELCOME]);
 }
 
 export default ToastController;

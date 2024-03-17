@@ -34,7 +34,6 @@ const handleErrorDev = error => {
 };
 
 const handleErrorProd = async (error, filename) => {
-  console.log(123);
   try {
     await axiosInstance.post('/api/v1/errorToAdmin', {
       when: new Date(),

@@ -50,10 +50,6 @@ class ToastView {
       handler(event.target.closest('.toast'));
     });
   }
-
-  addWelcomeToastHandler(handler) {
-    document.addEventListener('DOMContentLoaded', handler);
-  }
 }
 
 export default new ToastView();

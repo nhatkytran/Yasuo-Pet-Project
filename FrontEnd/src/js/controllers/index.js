@@ -46,12 +46,8 @@ const warningController = new WarningController(
 );
 
 function toastInit() {
-  const { handleClearToast, handleWelcomeToast } = new ToastController(
-    ToastView
-  );
-
+  const { handleClearToast } = new ToastController(ToastView);
   ToastView.addClearToastHandler(handleClearToast);
-  ToastView.addWelcomeToastHandler(handleWelcomeToast);
 }
 
 function authInit() {

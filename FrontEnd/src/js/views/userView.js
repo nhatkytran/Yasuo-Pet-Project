@@ -199,12 +199,9 @@ class UserView {
   //
 
   addDataHandler(handler) {
-    // First loading of the page and after login will trigger
-    this.#username.addEventListener(LOGIN_SUCCESS_SIGNAL, event =>
-      handler(event.detail)
-    );
-    this.#username.addEventListener(LOGOUT_SUCCESS_SIGNAL, event =>
-      handler(event.detail)
+    // Login signal triggered at first loading and login action
+    [LOGIN_SUCCESS_SIGNAL, LOGOUT_SUCCESS_SIGNAL].forEach(signal =>
+      this.#username.addEventListener(signal, event => handler(event.detail))
     );
   }
 

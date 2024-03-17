@@ -33,6 +33,9 @@ const signupWarningMessageClass = '.signup-form__header-warning-message';
 const animateOptions = { start: FADE_IN, end: 'fade-out-480' };
 
 class AuthView {
+  // Server running //////////
+  #serverRunning = $('.server-running');
+
   // Sign-in //////////
 
   #loginSection = $('.login-overlay');
@@ -202,6 +205,11 @@ class AuthView {
 
   #adjustTopPosition = (element, scrollVertical) =>
     (element.style.cssText = `top: ${scrollVertical ?? 0}px`);
+
+  // Server running //////////
+
+  serverRunning = state =>
+    classRemove(state === START ? REMOVE : ADD, this.#serverRunning);
 
   // Sign-in //////////
 

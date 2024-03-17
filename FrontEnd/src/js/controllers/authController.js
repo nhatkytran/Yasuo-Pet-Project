@@ -1,9 +1,12 @@
 import {
-  BACKEND_URL,
+  ENV,
   ANIMATION_TIMEOUT,
   CONTENT,
   ERROR,
   LOADING,
+  START,
+  END,
+  TOAST_WELCOME,
   TOAST_SUCCESS,
   TOAST_FAIL,
   TOAST_WARNING,
@@ -83,9 +86,31 @@ class AuthController extends ModalContentController {
       if (perfEntries.length && perfEntries[0].type === 'back_forward')
         window.location.reload();
 
-      if (!(await authService.checkIsLoggedIn())) return;
-      this.#AuthView.loginSuccess();
-      this.#AuthView.loginSuccessSignal();
+      super.open(
+        this.#handleOpenModal,
+        this.#AuthView.serverRunning.bind(this.#AuthView, START)
+      );
+
+      const isLoggedIn = await authService.checkIsLoggedIn();
+
+      // Sometimes fetch too fast, so we need to wait a while for the modal open completely
+      // And we also want user see page loading effect
+      setTimeout(
+        () => {
+          super.close(
+            this.#handleCloseModal,
+            this.#AuthView.serverRunning.bind(this.#AuthView, END)
+          );
+
+          this.#ToastView.createToast(store.state.toast[TOAST_WELCOME]);
+        },
+        ENV === 'development' ? ANIMATION_TIMEOUT * 2 : 10000
+      );
+
+      if (isLoggedIn) {
+        this.#AuthView.loginSuccess();
+        this.#AuthView.loginSuccessSignal();
+      }
     },
   });
 
