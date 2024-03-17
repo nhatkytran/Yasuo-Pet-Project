@@ -1,9 +1,9 @@
 *,
-*::before,
-*::after {
-  padding: 0;
-  margin: 0;
+:after,
+:before {
   box-sizing: inherit;
+  margin: 0;
+  padding: 0
 }
 
 html {
@@ -11,61 +11,62 @@ html {
   font-size: 62.5%;
   overflow-x: hidden;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent
 }
 
 body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
-  line-height: 1.4;
+  line-height: 1.4
 }
 
 body::-webkit-scrollbar {
-  display: none;
+  display: none
 }
 
 .roboto-regular {
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
+  font-family: Roboto, sans-serif;
   font-style: normal;
+  font-weight: 400
 }
 
 @font-face {
-  font-family: 'FF-Mark-Bold';
+  font-display: fallback;
+  font-family: FF-Mark-Bold;
   src: url("../font/FontFont_FF.Mark.Pro.Bold.otf") format('opentype');
-  font-display: fallback;
 }
 
 @font-face {
-  font-family: 'FF-Mark-Medium';
+  font-display: fallback;
+  font-family: FF-Mark-Medium;
   src: url("../font/FontFont_FF.Mark.Pro.Medium.otf") format('opentype');
-  font-display: fallback;
 }
 
 @font-face {
-  font-family: 'FF-Mark';
+  font-display: fallback;
+  font-family: FF-Mark;
   src: url("../font/FontFont_FF.Mark.Pro.otf") format('opentype');
-  font-display: fallback;
 }
 
 @font-face {
-  font-family: 'FF-Mark-Hair';
-  src: url("../font/FontFont_FF.Mark.Pro.Hairline.otf") format('opentype');
   font-display: fallback;
+  font-family: FF-Mark-Hair;
+  src: url("../font/FontFont_FF.Mark.Pro.Hairline.otf") format('opentype');
 }
 
 .ff-mark-bold {
-  font-family: 'FF-Mark-Bold', sans-serif;
+  font-family: FF-Mark-Bold, sans-serif
 }
 
 .ff-mark-medium {
-  font-family: 'FF-Mark-Medium', sans-serif;
+  font-family: FF-Mark-Medium, sans-serif
 }
 
 .ff-mark {
-  font-family: 'FF-Mark', sans-serif;
+  font-family: FF-Mark, sans-serif
 }
 
 .ff-mark-hair {
-  font-family: 'FF-Mark-Hair', sans-serif;
+  font-family: FF-Mark-Hair, sans-serif
 }
