@@ -80,38 +80,45 @@ exports.login = catchAsync(async (req, res, next) => {
   sendSuccess(res);
 });
 
-exports.loginGoogleSuccess = catchAsync(async (req, res, next) => {
-  const { user } = req;
+exports.loginGoogle = catchAsync(async (req, res, next) => {
+  try {
+    const { user } = req;
 
-  // Send email can go wrong some times, no need to await here
-  if (!user.lastLogin) new Email(user).sendWelcome({ oAuth: true });
+    // Send email can go wrong some times, no need to await here
+    if (!user.lastLogin) new Email(user).sendWelcome({ oAuth: true });
 
-  user.lastLogin = Date.now();
-  await user.save({ validateModifiedOnly: true });
+    user.lastLogin = Date.now();
+    await user.save({ validateModifiedOnly: true });
 
-  res.redirect(
-    NODE_ENV === 'development'
-      ? 'http://127.0.0.1:8080'
-      : 'https://yasuo-the-king.netlify.app/'
-  );
+    res.redirect(
+      NODE_ENV === 'development'
+        ? 'http://127.0.0.1:8080'
+        : 'https://yasuo-the-king.netlify.app/'
+    );
+  } catch (error) {
+    error.oAuth = true;
+    throw error;
+  }
 });
-
-exports.loginGoogleFailure = (req, res, next) =>
-  res.status(200).render('error');
 
 exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
   if (!req.isAuthenticated())
-    throw new AppError('You are not logged in yet!', 401, '', false);
+    throw new AppError('You are not logged in yet!', 401, '', {
+      console: false,
+    });
 
   sendSuccess(res);
 });
 
-exports.protect = (req, res, next) => {
+// catchAsync here to handle error better
+exports.protect = catchAsync(async (req, res, next) => {
   if (!req.isAuthenticated())
-    throw new AppError('Please login to get access!', 401, '', false);
+    throw new AppError('Please login to get access!', 401, '', {
+      console: false,
+    });
 
   next();
-};
+});
 
 exports.logout = catchAsync(async (req, res, next) =>
   req.logout(error =>

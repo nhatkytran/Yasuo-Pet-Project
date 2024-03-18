@@ -37,7 +37,10 @@ const globalErrorHandler = (error, req, res, __) => {
 
   if (newError.console) console.error(newError);
 
-  if (!req.originalUrl.startsWith('/api'))
+  // Google login fail
+  const isOAuth = newError.oAuth;
+
+  if (!req.originalUrl.startsWith('/api') || isOAuth)
     return sendErrorRender(newError, res);
 
   if (NODE_ENV === 'development') sendErrorDevAPI(newError, res);

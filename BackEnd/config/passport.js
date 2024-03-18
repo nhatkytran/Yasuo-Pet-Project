@@ -89,6 +89,8 @@ const googleStrategy = new GoogleStrategy(
 
       done(null, newUser);
     } catch (error) {
+      // oAuth here is used bu errorController
+      error.oAuth = true;
       done(error);
     }
   }

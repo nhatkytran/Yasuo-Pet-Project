@@ -4,8 +4,7 @@ const passport = require('passport');
 const {
   signup,
   login,
-  loginGoogleSuccess,
-  loginGoogleFailure,
+  loginGoogle,
   checkIsLoggedIn,
   protect,
   logout,
@@ -41,20 +40,15 @@ userRouter.get(
   })
 );
 
+// Failure handled by in passport config and errorController
+// error.oAuth = true
 userRouter.get(
   '/auth/google/callback',
-  passport.authenticate('google', {
-    successRedirect: '/api/v1/users/loginGoogleSuccess',
-    failureRedirect: '/api/v1/users/loginGoogleFailure',
-  })
+  passport.authenticate('google'),
+  loginGoogle
 );
 
-userRouter.get('/loginGoogleSuccess', loginGoogleSuccess);
-userRouter.get('/loginGoogleFailure', loginGoogleFailure);
-
 userRouter.get('/checkIsLoggedIn', checkIsLoggedIn);
-
-userRouter.get('/logout', logout);
 
 userRouter.post('/activateCode', getActivateCode);
 userRouter.post('/activate', activateAccount);
@@ -64,24 +58,28 @@ userRouter.post('/forgotUsername', forgotUsername);
 userRouter.post('/forgotPassword', forgotPassword);
 userRouter.post('/resetPassword', resetPassword);
 
-userRouter.post('/changePassword', changePassword);
+userRouter.use(protect);
+
+userRouter.get('/logout', logout);
 
 userRouter.post(
   '/changeAvatar',
-  protect,
   uploadUserPhoto,
   resizeUserPhoto,
   deleteOldUserPhoto,
   changePhoto
 );
 
+userRouter.post('/changePassword', changePassword);
+
 userRouter.get('/me', getMe);
-userRouter.post('/solo', protect, sendSolo);
+userRouter.post('/solo', sendSolo);
 
 userRouter.get('/checkoutSession/:skinIndex', getCheckoutSession);
 
 userRouter.get(
   '/checkout/:state/:skinIndexParam/:skinReceiptParam?',
+
   getCheckoutState
 );
 
