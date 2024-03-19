@@ -4,28 +4,28 @@ jest.setTimeout(30 * 1000);
 
 let browser, page;
 
-// beforeEach(async () => {
-//   browser = await puppeteer.launch({
-//     headless: false, // headless by default is run -> run without GUI
-//   });
+beforeEach(async () => {
+  browser = await puppeteer.launch({
+    headless: false, // headless by default is run -> run without GUI
+  });
 
-//   page = await browser.newPage();
+  page = await browser.newPage();
 
-//   await page.goto('http://127.0.0.1:8080');
-//   await page.setViewport({ width: 1140, height: 1024 });
-// });
+  await page.goto('http://127.0.0.1:8080');
+  await page.setViewport({ width: 1140, height: 1024 });
+});
 
-// afterEach(async () => await browser.close());
+afterEach(async () => await browser.close());
 
 //
 
-test('the page opens and has correct text', async () => {
+test('The page opens and has correct text', async () => {
   const text = await page.$eval('.sh-footer__text-left', el => el.innerHTML);
 
   expect(text).toEqual('The unforgiven');
 });
 
-test('clicking signin starts oauth flow', async () => {
+test.only('Clicking signin starts oauth flow', async () => {
   await page.click('.sub-header__content-login');
 
   // Wait for signin form opens
@@ -43,4 +43,21 @@ test('clicking signin starts oauth flow', async () => {
   expect(url).toMatch(/accounts\.google\.com/);
 });
 
-// test.only('***', () => {});
+// npm run devj
+test('When signed in, shows logout button', async () => {
+  const session =
+    '65f9a002cd7a70124dd6bb66.6856a9fb566796657e73f77c6862c3adee80d5278766ec5fcddcc8c605440145';
+
+  await page.setCookie({ name: 'connect.jest', value: session });
+
+  await page.goto('http://127.0.0.1:8080');
+
+  const text = await page.$eval(
+    '.sub-header__content-logout-title',
+    el => el.innerHTML
+  );
+
+  console.log(text);
+
+  expect(text).toEqual('Sign out');
+});

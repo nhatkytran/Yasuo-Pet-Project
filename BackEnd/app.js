@@ -43,7 +43,7 @@ const {
 const { webhookCheckout } = require('./controllers/userController');
 
 const app = express();
-const { NODE_ENV } = process.env;
+const { NODE_ENV, NODE_ENV_TEST } = process.env;
 
 // Set security HTTP Headers
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
@@ -111,6 +111,9 @@ app.use(
     validate: { trustProxy: false },
   })
 );
+
+// Support Jest Authentication testing
+if (NODE_ENV_TEST === 'jest') require('./config/jest')(app);
 
 (async () => {
   app.get('/', (req, res) => {
