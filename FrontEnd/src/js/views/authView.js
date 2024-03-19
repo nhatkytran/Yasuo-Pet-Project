@@ -236,9 +236,7 @@ class AuthView {
 
   loginSuccessSignal = () =>
     this.#loginUserName.dispatchEvent(
-      new CustomEvent(LOGIN_SUCCESS_SIGNAL, {
-        detail: 'log_in',
-      })
+      new CustomEvent(LOGIN_SUCCESS_SIGNAL, { detail: 'log_in' })
     );
 
   loginWarningMessage = ({ isError, field }) => {
