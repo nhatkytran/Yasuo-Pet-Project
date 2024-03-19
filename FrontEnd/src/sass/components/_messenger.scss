@@ -1,0 +1,26 @@
+.messenger:link,
+.messenger:visited {
+  background-color: #1db2cf;
+  border-radius: 100%;
+  right: 1.4rem;
+  bottom: 1.4rem;
+  position: fixed;
+  z-index: 999;
+  justify-content: center;
+  @include flex-align-center;
+  @include square-dimension(4rem);
+
+  @media only screen and (max-width: $px1040) {
+    right: 1rem;
+    bottom: 1rem;
+    @include square-dimension(3rem);
+  }
+
+  svg {
+    @include square-dimension(3rem);
+
+    @media only screen and (max-width: $px1040) {
+      @include square-dimension(2rem);
+    }
+  }
+}
