@@ -5,6 +5,7 @@
   color: #ebebeb;
   background-image: url("/src/assets/img/profile-background.svg");
   background-size: cover;
+  top: 0; // top is set again using JS
   position: absolute;
   z-index: 10000;
   @include use-font(FF-Mark-Medium);

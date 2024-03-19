@@ -4,8 +4,6 @@ import {
   CONTENT,
   ERROR,
   LOADING,
-  START,
-  END,
   TOAST_WELCOME,
   TOAST_SUCCESS,
   TOAST_FAIL,
@@ -86,10 +84,7 @@ class AuthController extends ModalContentController {
       if (perfEntries.length && perfEntries[0].type === 'back_forward')
         window.location.reload();
 
-      super.open(
-        this.#handleOpenModal,
-        this.#AuthView.serverRunning.bind(this.#AuthView, START)
-      );
+      super.open(this.#handleOpenModal, this.#AuthView.serverRunningOpen);
 
       const isLoggedIn = await authService.checkIsLoggedIn();
 
@@ -99,10 +94,14 @@ class AuthController extends ModalContentController {
         () => {
           super.close(
             this.#handleCloseModal,
-            this.#AuthView.serverRunning.bind(this.#AuthView, END)
+            this.#AuthView.serverRunningClose
           );
 
-          this.#ToastView.createToast(store.state.toast[TOAST_WELCOME]);
+          // Wait for server-running animation
+          setTimeout(
+            () => this.#ToastView.createToast(store.state.toast[TOAST_WELCOME]),
+            ANIMATION_TIMEOUT
+          );
         },
         ENV === 'development' ? ANIMATION_TIMEOUT * 2 : 10000
       );

@@ -71,19 +71,14 @@ class SubwebView {
   #instructionCloseButton = $_(this.#instruction, 'svg');
   #instructionOkayButton = $_(this.#instruction, 'button');
 
-  #animateTrailerContent;
-  #animateInstruction;
-
-  constructor() {
-    this.#animateTrailerContent = animateFactory(this.#trailerContent, {
-      start: FADE_IN,
-      end: FADE_OUT,
-    });
-    this.#animateInstruction = animateFactory(this.#instructionWrapper, {
-      start: 'fade-in-500',
-      end: 'fade-out-480',
-    });
-  }
+  #animateTrailerContent = animateFactory(this.#trailerContent, {
+    start: FADE_IN,
+    end: FADE_OUT,
+  });
+  #animateInstruction = animateFactory(this.#instructionWrapper, {
+    start: 'fade-in-500',
+    end: 'fade-out-480',
+  });
 
   startAnimationObserve = startAnimationObserveFactory(
     [
@@ -185,6 +180,7 @@ class SubwebView {
 
   close = timeToClose => {
     this.#animateInstruction(END);
+
     setTimeout(
       classRemove.bind(null, ADD, this.#instructionWrapper),
       timeToClose

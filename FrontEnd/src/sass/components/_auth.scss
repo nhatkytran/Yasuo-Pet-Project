@@ -1,8 +1,8 @@
 .auth-overlay {
   width: 100%;
   height: 100vh;
-  top: 0; // top is set again using JS
   padding: 0 0.8rem;
+  top: 0; // top is set again using JS
   position: absolute;
   overflow-y: scroll;
   z-index: 1001;

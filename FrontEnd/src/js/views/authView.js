@@ -7,8 +7,10 @@ import {
   START,
   END,
   FADE_IN,
+  FADE_OUT,
   LOGIN_SUCCESS_SIGNAL,
   LOGOUT_SUCCESS_SIGNAL,
+  ANIMATION_TIMEOUT,
 } from '../config';
 
 import {
@@ -30,7 +32,7 @@ const forgotPasswordWarningMessageClass =
   '.forgot-password-form__header-warning-message';
 const signupWarningMessageClass = '.signup-form__header-warning-message';
 
-const animateOptions = { start: FADE_IN, end: 'fade-out-480' };
+const animateOptions = { start: FADE_IN, end: FADE_OUT };
 
 class AuthView {
   // Server running //////////
@@ -170,8 +172,10 @@ class AuthView {
   #signupSigninButton = $('.signup-form__actions-wrapper-signin');
   #signupBackButton = $('.signup-form__actions-wrapper-back');
 
-  //
-
+  #animateServerRunningSection = animateFactory(
+    this.#serverRunning,
+    animateOptions
+  );
   #animateLoginSection = animateFactory(this.#loginSection, animateOptions);
   #animateActivateSection = animateFactory(
     this.#activateSection,
@@ -206,10 +210,23 @@ class AuthView {
   #adjustTopPosition = (element, scrollVertical) =>
     (element.style.cssText = `top: ${scrollVertical ?? 0}px`);
 
+  #animationOut = actions => setTimeout(actions, ANIMATION_TIMEOUT);
+
   // Server running //////////
 
-  serverRunning = state =>
-    classRemove(state === START ? REMOVE : ADD, this.#serverRunning);
+  serverRunningOpen = scrollVertical => {
+    this.#adjustTopPosition(this.#serverRunning, scrollVertical);
+    classRemove(REMOVE, this.#serverRunning);
+  };
+
+  serverRunningClose = () => {
+    this.#animateServerRunningSection(END);
+
+    this.#animationOut(() => {
+      classRemove(ADD, this.#serverRunning);
+      this.#adjustTopPosition(this.#serverRunning);
+    });
+  };
 
   // Sign-in //////////
 
@@ -220,9 +237,12 @@ class AuthView {
   };
 
   loginClose = () => {
-    this.#adjustTopPosition(this.#loginSection);
-    classRemove(ADD, this.#loginSection);
     this.#animateLoginSection(END);
+
+    this.#animationOut(() => {
+      classRemove(ADD, this.#loginSection);
+      this.#adjustTopPosition(this.#loginSection);
+    });
   };
 
   loginSuccess = () => {
@@ -365,9 +385,12 @@ class AuthView {
   };
 
   activateClose = () => {
-    this.#adjustTopPosition(this.#activateSection);
-    classRemove(ADD, this.#activateSection);
     this.#animateActivateSection(END);
+
+    this.#animationOut(() => {
+      classRemove(ADD, this.#activateSection);
+      this.#adjustTopPosition(this.#activateSection);
+    });
   };
 
   activateWarningMessage = ({ isError, field }) => {
@@ -463,9 +486,12 @@ class AuthView {
   };
 
   forgotNameClose = () => {
-    this.#adjustTopPosition(this.#forgotNameSection);
-    classRemove(ADD, this.#forgotNameSection);
     this.#animateForgotNameSection(END);
+
+    this.#animationOut(() => {
+      classRemove(ADD, this.#forgotNameSection);
+      this.#adjustTopPosition(this.#forgotNameSection);
+    });
   };
 
   forgotNameWarningMessage = ({ isError, field }) => {
@@ -523,9 +549,12 @@ class AuthView {
   };
 
   forgotPasswordClose = () => {
-    this.#adjustTopPosition(this.#forgotPasswordSection);
-    classRemove(ADD, this.#forgotPasswordSection);
     this.#animateForgotPasswordSection(END);
+
+    this.#animationOut(() => {
+      classRemove(ADD, this.#forgotPasswordSection);
+      this.#adjustTopPosition(this.#forgotPasswordSection);
+    });
   };
 
   forgotPasswordWarningMessage = ({ isError, field }) => {
@@ -654,9 +683,12 @@ class AuthView {
   };
 
   signupClose = () => {
-    this.#adjustTopPosition(this.#signupSection);
-    classRemove(ADD, this.#signupSection);
     this.#animateSignupSection(END);
+
+    this.#animationOut(() => {
+      classRemove(ADD, this.#signupSection);
+      this.#adjustTopPosition(this.#signupSection);
+    });
   };
 
   signupWarningMessage = ({ isError, field }) => {

@@ -8,7 +8,6 @@ const sharp = require('sharp');
 const Stripe = require('stripe');
 
 const {
-  sendEmail,
   AppError,
   Email,
   catchAsync,
