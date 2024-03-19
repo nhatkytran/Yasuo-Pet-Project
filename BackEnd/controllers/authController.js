@@ -103,9 +103,7 @@ exports.loginGoogle = catchAsync(async (req, res, next) => {
 
 exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
   if (!req.isAuthenticated())
-    throw new AppError('You are not logged in yet!', 401, '', {
-      console: false,
-    });
+    throw new AppError('You are not logged in yet!', 401, '');
 
   sendSuccess(res);
 });
@@ -113,9 +111,11 @@ exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
 // catchAsync here to handle error better
 exports.protect = catchAsync(async (req, res, next) => {
   if (!req.isAuthenticated())
-    throw new AppError('Please login to get access!', 401, '', {
-      console: false,
-    });
+    throw new AppError(
+      'Please login to get access!',
+      401,
+      'AUTHENTICATION_ERROR'
+    );
 
   next();
 });

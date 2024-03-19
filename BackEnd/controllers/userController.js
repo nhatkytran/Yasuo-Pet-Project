@@ -277,8 +277,13 @@ exports.changePassword = catchAsync(async (req, res, next) => {
   user.password = newPassword;
   await user.save({ validateModifiedOnly: true });
 
-  req.logout(error => error && console.error(error));
-  sendSuccess(res, { metadata: { message: 'Change password successfully!' } });
+  req.logout(error => {
+    error && console.error(error);
+
+    sendSuccess(res, {
+      metadata: { message: 'Change password successfully!' },
+    });
+  });
 });
 
 const multerStorage = multer.memoryStorage();
@@ -331,10 +336,8 @@ exports.changePhoto = catchAsync(async (req, res, next) => {
     { new: true, runValidators: true }
   );
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Change avatar successfully!',
-    photo,
+  sendSuccess(res, {
+    metadata: { message: 'Change avatar successfully!', photo },
   });
 });
 

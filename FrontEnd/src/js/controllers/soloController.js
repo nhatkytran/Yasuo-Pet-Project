@@ -1,13 +1,5 @@
-import {
-  CONTENT,
-  LOADING,
-  ERROR,
-  TOAST_SUCCESS,
-  TOAST_FAIL,
-  CLEAR_TOAST_TIMEOUT,
-} from '../config';
-
-import { AppError, catchAsync, isEmailValid, kickout } from '../utils';
+import { CONTENT, LOADING, ERROR, TOAST_SUCCESS } from '../config';
+import { authErrorShouldKickout, catchAsync, isEmailValid } from '../utils';
 
 import store from '../models/store';
 import authService from '../models/features/auth/authService';
@@ -70,12 +62,6 @@ class SoloController {
       this.#submitLoading = true;
       this.#SoloView.actionDisplay({ state: LOADING });
 
-      if (!(await authService.checkIsLoggedIn()))
-        throw new AppError({
-          authError: true,
-          authBefore: store.state.user.ok,
-        });
-
       await authService.sendSolo({
         message: this.#message,
         opponentEmail: this.#email,
@@ -91,23 +77,7 @@ class SoloController {
     onError: error => {
       this.#submitLoading = false;
       this.#SoloView.actionDisplay({ state: ERROR });
-
-      if (error.authError && error.authBefore)
-        return kickout({
-          createToast: this.#ToastView.createToast,
-          success: false,
-          message:
-            'Please sign in to get access! Page will refresh in 5 seconds.',
-        });
-
-      const content = error.authError
-        ? { content: 'Please login to get access!' }
-        : {};
-
-      this.#ToastView.createToast({
-        ...store.state.toast[TOAST_FAIL],
-        ...content,
-      });
+      authErrorShouldKickout(error, this.#ToastView);
     },
   });
 }

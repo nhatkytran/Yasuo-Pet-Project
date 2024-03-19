@@ -109,7 +109,7 @@ class AuthController extends ModalContentController {
 
       if (isLoggedIn) {
         this.#AuthView.loginSuccess();
-        this.#AuthView.loginSuccessSignal();
+        this.#AuthView.loginSuccessSignal(); // userController will fetch user's information
       }
     },
   });

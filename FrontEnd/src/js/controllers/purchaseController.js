@@ -6,13 +6,12 @@ import {
   TOAST_FAIL,
 } from '../config';
 
-import { AppError, catchAsync, kickout } from '../utils';
+import { authErrorShouldKickout, catchAsync } from '../utils';
 
 import store from '../models/store';
 import skinsService from '../models/features/skins/skinsService';
 import { ACTIONS } from '../models/features/skins/reducer';
 import userService from '../models/features/user/userService';
-import authService from '../models/features/auth/authService';
 
 import ModalContentController from './modalContentController';
 
@@ -94,12 +93,6 @@ class PurchaseController extends ModalContentController {
       this.#purchaseSkinLoading = true;
       this.#PurchaseView.purchaseSkinDisplay({ state: LOADING });
 
-      if (!(await authService.checkIsLoggedIn()))
-        throw new AppError({
-          authError: true,
-          authBefore: store.state.user.ok,
-        });
-
       const session = await userService.purchaseSkin(
         `/api/v1/users/checkoutSession/${skinIndex}`
       );
@@ -109,23 +102,7 @@ class PurchaseController extends ModalContentController {
     onError: error => {
       this.#purchaseSkinLoading = false;
       this.#PurchaseView.purchaseSkinDisplay({ state: ERROR });
-
-      if (error.authError && error.authBefore)
-        return kickout({
-          createToast: this.#ToastView.createToast,
-          success: false,
-          message:
-            'Please sign in to get access! Page will refresh in 5 seconds.',
-        });
-
-      const content = error.authError
-        ? { content: 'Please login to get access!' }
-        : {};
-
-      this.#ToastView.createToast({
-        ...store.state.toast[TOAST_FAIL],
-        ...content,
-      });
+      authErrorShouldKickout(error, this.#ToastView);
     },
   });
 }

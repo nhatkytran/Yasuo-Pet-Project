@@ -63,6 +63,7 @@ class UserController extends ModalContentController {
 
       if (state === 'log_out') store.dispatch(ACTIONS.setDataNotOk());
     },
+    onError: error => authErrorShouldKickout(error, this.#ToastView),
   });
 
   handleOpenProfile = () => {
@@ -179,9 +180,6 @@ class UserController extends ModalContentController {
       this.#informationAvatarLoading = true;
       this.#UserView.informationAvatarActionDisplay({ state: LOADING });
 
-      if (!(await authService.checkIsLoggedIn()))
-        throw new AppError({ authError: true });
-
       await userService.changeAvatar(
         '/api/v1/users/changeAvatar',
         this.#informationAvatarFile
@@ -193,6 +191,7 @@ class UserController extends ModalContentController {
       );
       this.handleInformationAvatarCancel();
       this.#UserView.informationAvatarActionDisplay({ state: CONTENT });
+
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
         content: 'Avatar changed successfully!',
@@ -202,13 +201,17 @@ class UserController extends ModalContentController {
       this.#informationAvatarLoading = false;
       this.#UserView.informationAvatarActionDisplay({ state: ERROR });
 
-      if (error.authError)
-        return kickout({
-          createToast: this.#ToastView.createToast,
-          success: false,
-          message:
-            'Please sign in to get access! Page will refresh in 5 seconds.',
-        });
+      if (error.response) {
+        const { code } = error.response.data;
+
+        if (code === 'AUTHENTICATION_ERROR')
+          return kickout({
+            createToast: this.#ToastView.createToast,
+            success: false,
+            message:
+              'Please sign in to get access! Page will refresh in 5 seconds.',
+          });
+      }
 
       this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
@@ -309,9 +312,6 @@ class UserController extends ModalContentController {
       this.#accountSigninSubmitLoading = true;
       this.#UserView.accountSigninActionDisplay({ state: LOADING });
 
-      if (!(await authService.checkIsLoggedIn()))
-        throw new AppError({ authError: true });
-
       await authService.changePassword({
         email: store.state.user.email,
         currentPassword: this.#accountSigninCurrentPassword,
@@ -348,13 +348,17 @@ class UserController extends ModalContentController {
 
       this.#UserView.accountSigninActionDisplay({ state: ERROR, errorMessage });
 
-      if (error.authError)
-        return kickout({
-          createToast: this.#ToastView.createToast,
-          success: false,
-          message:
-            'Please sign in to get access! Page will refresh in 5 seconds.',
-        });
+      if (error.response) {
+        const { code } = error.response.data;
+
+        if (code === 'AUTHENTICATION_ERROR')
+          return kickout({
+            createToast: this.#ToastView.createToast,
+            success: false,
+            message:
+              'Please sign in to get access! Page will refresh in 5 seconds.',
+          });
+      }
 
       this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
     },
@@ -387,6 +391,8 @@ class UserController extends ModalContentController {
         throw new AppError({ authError: true });
       }
 
+      // This is not a good practice because people can use the debugger to see
+      // user's data, this is just a tamporary solution
       this.#UserView.purSkinsActionDisplay({ skin, state: CONTENT });
     },
     onError: error => {

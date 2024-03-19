@@ -2,6 +2,7 @@ export { $, $$, $_, $$_ } from './selectors';
 export { default as AppError } from './appError';
 export { default as addEvent } from './addEvent';
 export { default as animateFactory } from './animateFactory';
+export { default as authErrorShouldKickout } from './authErrorShouldKickout';
 export { default as capitalizeWordsInSentence } from './capitalizeWordsInSentence';
 export { default as catchAsync } from './catchAsync';
 export { checkTimeoutError, checkAbortError } from './checkFetchError';

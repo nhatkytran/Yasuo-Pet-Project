@@ -1,8 +1,8 @@
 class AppError extends Error {
-  constructor(message, statusCode, code = '', options) {
+  constructor(message, statusCode, code = '', options = {}) {
     super(message);
 
-    const { console = true } = options;
+    const { console = false } = options;
 
     this.statusCode = statusCode;
     this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';

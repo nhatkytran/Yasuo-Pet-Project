@@ -79,7 +79,6 @@ userRouter.get('/checkoutSession/:skinIndex', getCheckoutSession);
 
 userRouter.get(
   '/checkout/:state/:skinIndexParam/:skinReceiptParam?',
-
   getCheckoutState
 );
 

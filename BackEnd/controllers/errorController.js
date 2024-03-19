@@ -37,6 +37,9 @@ const globalErrorHandler = (error, req, res, __) => {
 
   if (newError.console) console.error(newError);
 
+  if (NODE_ENV === 'production' && !newError.isOperational)
+    console.error(newError);
+
   // Google login fail
   const isOAuth = newError.oAuth;
 
