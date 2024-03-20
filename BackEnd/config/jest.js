@@ -36,41 +36,4 @@ module.exports = app => {
 
     next();
   });
-
-  // Test
-  app.get('/createTestUser', async (req, res, next) => {
-    const randomString = () => crypto.randomBytes(6).toString('hex');
-
-    let username = randomString();
-    let email = `${randomString()}@gmail.com`;
-
-    while (true) {
-      const user = await User.findOne({ username, email });
-
-      if (!user) break;
-
-      username = randomString();
-      email = `${randomString()}@gmail.com`;
-    }
-
-    const data = { username, email };
-
-    const user = await User.create(data);
-
-    const JEST_SIGN_SESSION_SECRET = 'Icutes3M';
-
-    const key = await pbkdf2Async(
-      JSON.stringify(data),
-      JEST_SIGN_SESSION_SECRET,
-      10000,
-      32,
-      'sha256'
-    );
-
-    const session = `${user._id.toString()}.${key.toString('hex')}`;
-
-    console.log(session);
-
-    res.status(200).json({ status: 'success' });
-  });
 };

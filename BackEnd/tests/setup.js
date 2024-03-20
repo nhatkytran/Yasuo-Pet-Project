@@ -1,3 +1,5 @@
+// Backend -> npm run devj -> supports Authentication testing
+
 jest.setTimeout(30 * 1000);
 
 const path = require('path');
