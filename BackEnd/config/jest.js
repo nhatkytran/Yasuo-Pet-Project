@@ -18,7 +18,7 @@ module.exports = app => {
   ];
 
   app.use(async (req, res, next) => {
-    const session = cookie.parse(req.headers.cookie)['connect.jest'];
+    const session = cookie.parse(req.headers.cookie || '')['connect.jest'];
 
     if (!session) return next();
 

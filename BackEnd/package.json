@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "jest": {
+    "setupFiles": [
+      "./tests/setup.js"
+    ]
+  },
   "scripts": {
     "start": "pm2-runtime start process.json",
     "dev": "NODE_ENV=development nodemon --inspect server.js",
