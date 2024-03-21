@@ -12,38 +12,55 @@ afterEach(async () => await page.closeWebsite());
 
 afterAll(async () => await mongoose.disconnect());
 
-// Google Authentication
+const waitServerRunning = () =>
+  new Promise(resolve => setTimeout(resolve, 1000));
 
-test('The page opens and has correct text', async () => {
-  const text = await page.getContentOf('.sh-footer__text-left');
+describe('Google Authentication', () => {
+  test('The page opens and has correct text', async () => {
+    const text = await page.getContentOf('.sh-footer__text-left');
 
-  expect(text).toEqual('The unforgiven');
+    expect(text).toEqual('The unforgiven');
+  });
+
+  test('Clicking signin starts oauth flow', async () => {
+    await page.loginFormOpen();
+    await page.evaluateClick('.login-form__options-google');
+    await page.waitForNavigation({ url: /accounts/ });
+
+    expect(await page.url()).toMatch(/accounts\.google\.com/);
+  });
+
+  test('When signed in, shows logout button', async () => {
+    await page.loginOAuth();
+
+    const text = await page.getContentOf('.sub-header__content-logout-title');
+
+    expect(text).toEqual('Sign out');
+  });
 });
 
-test('Clicking signin starts oauth flow', async () => {
-  await page.click('.sub-header__content-login');
+describe('Local Authentication', () => {
+  beforeEach(async () => await page.loginFormOpen());
 
-  // Wait for signin form opens
-  await page.waitForSelector('.login-form__header-title');
+  test('Enter invalid inputs!', async () => {
+    await page.type('#login-form-username', 'username');
+    await page.type('#login-form-password', 'asd123AA$');
+    await page.evaluateClick('.login-form__body-button');
 
-  // Authenticate using google
-  await page.evaluate(() =>
-    document.querySelector('.login-form__options-google').click()
-  );
+    await page.waitForSelector('.toast.toast-fail');
 
-  await page.waitForNavigation({ url: /accounts/ });
+    const text = await page.getContentOf(
+      '.login-form__header-warning-message-fail'
+    );
 
-  const url = await page.url();
+    expect(text).toEqual('Incorrect username or password!');
+  });
 
-  expect(url).toMatch(/accounts\.google\.com/);
+  test('Enter valid inputs!', async () => {
+    await page.loginLocal();
+
+    const text = await page.getContentOf('.sub-header__content-logout-title');
+
+    expect(text).toEqual('Sign out');
+  });
 });
-
-test('When signed in, shows logout button', async () => {
-  await page.loginOAuth();
-
-  const text = await page.getContentOf('.sub-header__content-logout-title');
-
-  expect(text).toEqual('Sign out');
-});
-
-// Local Authentication

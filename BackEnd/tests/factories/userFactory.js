@@ -22,6 +22,7 @@ exports.userFactory = async () => {
     username,
     email,
     password: `${randomString()}3M$`,
+    active: true,
   };
 
   const user = await User.create(data);
