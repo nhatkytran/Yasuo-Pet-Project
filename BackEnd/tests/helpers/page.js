@@ -75,7 +75,6 @@ class Page {
   async loginLocal() {
     this.user = await userFactory();
     const { username, password } = this.user;
-    console.log(username, password);
 
     await this.page.type('#login-form-username', username);
     await this.page.type('#login-form-password', password);

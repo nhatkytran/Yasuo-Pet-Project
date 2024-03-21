@@ -12,9 +12,6 @@ afterEach(async () => await page.closeWebsite());
 
 afterAll(async () => await mongoose.disconnect());
 
-const waitServerRunning = () =>
-  new Promise(resolve => setTimeout(resolve, 1000));
-
 describe('Google Authentication', () => {
   test('The page opens and has correct text', async () => {
     const text = await page.getContentOf('.sh-footer__text-left');
@@ -62,5 +59,17 @@ describe('Local Authentication', () => {
     const text = await page.getContentOf('.sub-header__content-logout-title');
 
     expect(text).toEqual('Sign out');
+  });
+});
+
+describe.only('Signing out', () => {
+  test('Clicking sign out button, see signin button', async () => {
+    await page.loginOAuth();
+    await page.evaluateClick('.sub-header__content-logout');
+    await page.waitForSelector('.toast.toast-success');
+
+    const text = await page.getContentOf('.sub-header__content-login-title');
+
+    expect(text).toEqual('Sign in');
   });
 });
