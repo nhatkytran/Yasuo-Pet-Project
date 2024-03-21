@@ -62,7 +62,7 @@ describe('Local Authentication', () => {
   });
 });
 
-describe.only('Signing out', () => {
+describe('Signing out', () => {
   test('Clicking sign out button, see signin button', async () => {
     await page.loginOAuth();
     await page.evaluateClick('.sub-header__content-logout');

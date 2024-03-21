@@ -57,19 +57,19 @@ class Page {
     await this.page.waitForSelector('.login-overlay', { visible: true });
   }
 
+  async setSessionCookie(session) {
+    await this.page.setCookie({ name: 'connect.jest', value: session });
+  }
+
   async loginOAuth() {
     this.user = await userFactory();
     const session = await sessionFactory(this.user);
 
-    await this.page.setCookie({ name: 'connect.jest', value: session });
+    await this.setSessionCookie(session);
     await this.page.goto('http://127.0.0.1:8080', {
       waitUntil: 'domcontentloaded',
     });
     await waitServerRunning();
-  }
-
-  async getContentOf(selector) {
-    return this.page.$eval(selector, el => el.innerHTML);
   }
 
   async loginLocal() {
@@ -81,6 +81,14 @@ class Page {
     await this.evaluateClick('.login-form__body-button');
 
     await this.page.waitForSelector('.toast.toast-success');
+  }
+
+  async getContentOf(selector) {
+    return this.page.$eval(selector, el => el.innerHTML);
+  }
+
+  async getValueOf(selector) {
+    return this.page.$eval(selector, input => input.value);
   }
 
   async evaluateClick(selector) {
