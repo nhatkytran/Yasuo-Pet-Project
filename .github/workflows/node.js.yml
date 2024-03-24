@@ -78,7 +78,7 @@ jobs:
         cd FrontEnd
         nohup npm run dev &
     - name: Wait for Frontend to Finish
-      run: sleep 30s
+      run: sleep 15s
 
     - name: Run Tests
       run: |
