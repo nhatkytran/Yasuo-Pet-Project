@@ -20,18 +20,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Backend uses Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: "Backend/package-lock.json"
-    - name: Use Node.js ${{ matrix.node-version }}
+        cache-dependency-path: "../Backend/package-lock.json"
+    - name: Frontend uses Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: "Frontend/package-lock.json"
+        cache-dependency-path: "../Frontend/package-lock.json"
         
     - name: Install Backend Dependencies
       run: cd BackEnd && npm install
