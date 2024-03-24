@@ -12,6 +12,11 @@ afterEach(async () => await page.closeWebsite());
 
 afterAll(async () => await mongoose.disconnect());
 
+// Test
+test.only('***', async () => {
+  expect(1).toEqual(1);
+});
+
 describe('Google Authentication', () => {
   test('The page opens and has correct text', async () => {
     const text = await page.getContentOf('.sh-footer__text-left');

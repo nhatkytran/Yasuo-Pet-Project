@@ -3,10 +3,6 @@ const puppeteer = require('puppeteer');
 const { userFactory, deleteUserFactory } = require('../factories/userFactory');
 const sessionFactory = require('../factories/sessionFactory');
 
-// On Frontend code, we need to wait for the server to boost up (onrender)
-const waitServerRunning = () =>
-  new Promise(resolve => setTimeout(resolve, 1000));
-
 class Page {
   static async build() {
     const browser = await puppeteer.launch({
@@ -37,12 +33,17 @@ class Page {
     this.page = page;
   }
 
+  // On Frontend code, we need to wait for the server to boost up (onrender)
+  async waitServerRunning() {
+    await this.page.waitForSelector('.toast.toast-welcome');
+  }
+
   async gotoWebsite() {
     await this.page.goto('http://127.0.0.1:8080', {
       waitUntil: 'domcontentloaded',
     });
     await this.page.setViewport({ width: 1140, height: 1024 });
-    await waitServerRunning();
+    await this.waitServerRunning();
   }
 
   async closeWebsite() {
@@ -69,7 +70,7 @@ class Page {
     await this.page.goto('http://127.0.0.1:8080', {
       waitUntil: 'domcontentloaded',
     });
-    await waitServerRunning();
+    await this.waitServerRunning();
   }
 
   async loginLocal() {
@@ -97,6 +98,44 @@ class Page {
       selector
     );
   }
+
+  async get(path) {
+    return this.page.evaluate(
+      async (_path, _metadata) => {
+        const response = await fetch(_path, _metadata);
+        return await response.json();
+      },
+      path,
+      apiOptions('GET')
+    );
+  }
+
+  async post(path, data) {
+    return this.page.evaluate(
+      async (_path, _metadata) => {
+        const response = await fetch(_path, _metadata);
+        return await response.json();
+      },
+      path,
+      apiOptions('POST', { body: JSON.stringify(data) })
+    );
+  }
+
+  execRequests(actions) {
+    return Promise.all(
+      actions.map(({ method, path, data }) => this[method](path, data))
+    );
+  }
 }
+
+const apiOptions = (method, metadata = {}) => {
+  return {
+    method: method,
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    timeout: 30000,
+    ...metadata,
+  };
+};
 
 module.exports = Page;

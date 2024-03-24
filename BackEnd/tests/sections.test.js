@@ -12,6 +12,11 @@ afterEach(async () => await page.closeWebsite());
 
 afterAll(async () => await mongoose.disconnect());
 
+// Test
+test.only('***', async () => {
+  expect(1).toEqual(1);
+});
+
 describe("Fetch each section's data", () => {
   test('Scroll to Skins section and see images of all skins', async () => {
     await page.evaluate(() => {
