@@ -14,6 +14,35 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      NODE_ENV_TEST: ${{ secrets.NODE_ENV_TEST }}
+      DATABASE: ${{ secrets.DATABASE }}
+      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      DATABASE_COLLECTION_YASUO: ${{ secrets.DATABASE_COLLECTION_YASUO }}
+      DATABASE_COLLECTION_SESSION_SECRET: ${{ secrets.DATABASE_COLLECTION_SESSION_SECRET }}
+      DATABASE_COLLECTION_SESSION: ${{ secrets.DATABASE_COLLECTION_SESSION }}
+      EMAIL_AUTHOR: ${{ secrets.EMAIL_AUTHOR }}
+      MAILTRAP_HOST: ${{ secrets.MAILTRAP_HOST }}
+      MAILTRAP_PORT: ${{ secrets.MAILTRAP_PORT }}
+      MAILTRAP_USERNAME: ${{ secrets.MAILTRAP_USERNAME }}
+      MAILTRAP_PASSWORD: ${{ secrets.MAILTRAP_PASSWORD }}
+      BREVO_HOST: ${{ secrets.BREVO_HOST }}
+      BREVO_PORT: ${{ secrets.BREVO_PORT }}
+      BREVO_KEY_NAME: ${{ secrets.BREVO_KEY_NAME }}
+      BREVO_KEY_VALUE: ${{ secrets.BREVO_KEY_VALUE }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      GOOGLE_CLIENT_REDIRECT: ${{ secrets.GOOGLE_CLIENT_REDIRECT }}
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+      STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_USERNAME: ${{ secrets.REDIS_USERNAME }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      JEST_SIGN_SESSION_SECRET: ${{ secrets.JEST_SIGN_SESSION_SECRET }}
+
     strategy:
       matrix:
         node-version: [18.x]
@@ -38,33 +67,6 @@ jobs:
     - name: Run Backend Code
       run: |
         cd BackEnd
-        echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> $GITHUB_ENV
-        echo "NODE_ENV_TEST=${{ secrets.NODE_ENV_TEST }}" >> $GITHUB_ENV
-        echo "DATABASE=${{ secrets.DATABASE }}" >> $GITHUB_ENV
-        echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> $GITHUB_ENV
-        echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> $GITHUB_ENV
-        echo "DATABASE_COLLECTION_YASUO=${{ secrets.DATABASE_COLLECTION_YASUO }}" >> $GITHUB_ENV
-        echo "DATABASE_COLLECTION_SESSION_SECRET=${{ secrets.DATABASE_COLLECTION_SESSION_SECRET }}" >> $GITHUB_ENV
-        echo "DATABASE_COLLECTION_SESSION=${{ secrets.DATABASE_COLLECTION_SESSION }}" >> $GITHUB_ENV
-        echo "EMAIL_AUTHOR=${{ secrets.EMAIL_AUTHOR }}" >> $GITHUB_ENV
-        echo "MAILTRAP_HOST=${{ secrets.MAILTRAP_HOST }}" >> $GITHUB_ENV
-        echo "MAILTRAP_PORT=${{ secrets.MAILTRAP_PORT }}" >> $GITHUB_ENV
-        echo "MAILTRAP_USERNAME=${{ secrets.MAILTRAP_USERNAME }}" >> $GITHUB_ENV
-        echo "MAILTRAP_PASSWORD=${{ secrets.MAILTRAP_PASSWORD }}" >> $GITHUB_ENV
-        echo "BREVO_HOST=${{ secrets.BREVO_HOST }}" >> $GITHUB_ENV
-        echo "BREVO_PORT=${{ secrets.BREVO_PORT }}" >> $GITHUB_ENV
-        echo "BREVO_KEY_NAME=${{ secrets.BREVO_KEY_NAME }}" >> $GITHUB_ENV
-        echo "BREVO_KEY_VALUE=${{ secrets.BREVO_KEY_VALUE }}" >> $GITHUB_ENV
-        echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> $GITHUB_ENV
-        echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> $GITHUB_ENV
-        echo "GOOGLE_CLIENT_REDIRECT=${{ secrets.GOOGLE_CLIENT_REDIRECT }}" >> $GITHUB_ENV
-        echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> $GITHUB_ENV
-        echo "STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}" >> $GITHUB_ENV
-        echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> $GITHUB_ENV
-        echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> $GITHUB_ENV
-        echo "REDIS_USERNAME=${{ secrets.REDIS_USERNAME }}" >> $GITHUB_ENV
-        echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> $GITHUB_ENV
-        echo "JEST_SIGN_SESSION_SECRET=${{ secrets.JEST_SIGN_SESSION_SECRET }}" >> $GITHUB_ENV
         npm run devj
     - name: Wait for Backend to Finish
       run: sleep 10s
