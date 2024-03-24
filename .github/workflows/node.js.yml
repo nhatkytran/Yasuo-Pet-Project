@@ -67,7 +67,7 @@ jobs:
     - name: Run Backend Code
       run: |
         cd BackEnd
-        npm run devj
+        nohup npm run devj &
     - name: Wait for Backend to Finish
       run: sleep 10s
 
@@ -76,11 +76,11 @@ jobs:
     - name: Run Frontend Code
       run: |
         cd FrontEnd
-        npm run dev
+        nohup npm run dev &
     - name: Wait for Frontend to Finish
       run: sleep 30s
 
     - name: Run Tests
       run: |
         cd BackEnd
-        npm run test
+        nohup npm run test &
