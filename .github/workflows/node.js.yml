@@ -27,10 +27,10 @@ jobs:
         cache: 'npm'
         
     - name: Install Backend Dependencies
-      run: cd Backend && npm install
+      run: cd BackEnd && npm install
     - name: Run Backend Code
       run: |
-        cd Backend
+        cd BackEnd
         echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> $GITHUB_ENV
         echo "NODE_ENV_TEST=${{ secrets.NODE_ENV_TEST }}" >> $GITHUB_ENV
         echo "DATABASE=${{ secrets.DATABASE }}" >> $GITHUB_ENV
@@ -63,15 +63,15 @@ jobs:
       run: sleep 10s
 
     - name: Install Frontend Dependencies
-      run: cd Frontend && npm install
+      run: cd FrontEnd && npm install
     - name: Run Frontend Code
       run: |
-        cd Frontend
+        cd FrontEnd
         npm run dev
     - name: Wait for Frontend to Finish
       run: sleep 30s
 
     - name: Run Tests
       run: |
-        cd Backend
+        cd BackEnd
         npm run test
