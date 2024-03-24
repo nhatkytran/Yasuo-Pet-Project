@@ -25,13 +25,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: "Backend/package-json"
+        cache-dependency-path: "Backend/package-lock.json"
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: "Frontend/package-json"
+        cache-dependency-path: "Frontend/package-lock.json"
         
     - name: Install Backend Dependencies
       run: cd BackEnd && npm install
