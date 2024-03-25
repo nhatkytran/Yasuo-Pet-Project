@@ -1,6 +1,3 @@
-import Cropper from 'cropperjs';
-import 'cropperjs/dist/cropper.min.css';
-
 import {
   ANIMATION_TIMEOUT,
   CONTENT,
@@ -107,7 +104,18 @@ class UserController extends ModalContentController {
     this.#UserView.informationAvatarCancel();
   };
 
-  #handleInformationAvatarAdjustOpen = () => {
+  #handleInformationAvatarAdjustOpen = async () => {
+    const [{ default: Cropper }] = await Promise.all([
+      import(
+        'cropperjs'
+        /* webpackChunkName: "cropperjs" */
+      ),
+      import(
+        'cropperjs/dist/cropper.min.css'
+        /* webpackChunkName: "croppercss" */
+      ),
+    ]);
+
     this.#UserView.informationAvatarAdjustToggle({ open: true });
 
     this.#informationAvatarCropper = new Cropper(

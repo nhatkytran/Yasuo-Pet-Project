@@ -45,6 +45,7 @@ const redis = new Redis({
   host: REDIS_HOST,
   username: REDIS_USERNAME,
   password: REDIS_PASSWORD,
+  idleTimeout: 10000,
 });
 
 redis.connect(() => console.log('Redis connected successfully!'));

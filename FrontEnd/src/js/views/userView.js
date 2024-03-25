@@ -244,7 +244,9 @@ class UserView {
     this.#informationAvatarPreviewClass;
 
   informationAvatarMainImageSrcSetter = imageSrc =>
-    (this.#informationAvatarMainImageSrc = `${BACKEND_URL}${imageSrc}`);
+    (this.#informationAvatarMainImageSrc = imageSrc.startsWith('http')
+      ? imageSrc
+      : `${BACKEND_URL}${imageSrc}`);
 
   informationAvatarCancel = () => {
     this.#appendImage(
@@ -284,6 +286,8 @@ class UserView {
       inputs.forEach(input => (input.value = ''));
       this.#informationAvatarButtonSubmit.classList.remove('active');
       classRemove(ADD, this.#informationAvatarButtonCancel);
+
+      console.log(this.#informationAvatarMainImageSrc);
       this.#appendImage(
         this.#userAvatarWrapper,
         this.#informationAvatarMainImageSrc

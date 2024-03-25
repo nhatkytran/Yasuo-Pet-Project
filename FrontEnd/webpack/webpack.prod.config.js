@@ -22,14 +22,27 @@ module.exports = merge(common, {
         },
       }),
     ],
+    runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
       maxSize: Infinity,
-      minSize: 0,
+      minSize: 2000,
       cacheGroups: {
+        validator: {
+          test: /[\\/]node_modules[\\/]validator[\\/]/,
+          name: 'validator',
+        },
         node_modules: {
           test: /[\\/]node_modules[\\/]/,
           name: 'node_modules',
+          chunks: 'initial',
+        },
+        async: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'async',
+          name(module, chunks) {
+            return chunks.map(chunk => chunk.name).join('-');
+          },
         },
       },
     },

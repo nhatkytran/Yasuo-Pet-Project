@@ -1,6 +1,7 @@
 // have '_' character --> normal text
 // have or don't have '-' character --> can become a class
 
+// Test
 export const ENV = 'development';
 // export const ENV = 'production';
 export const BACKEND_URL = 'http://127.0.0.1:3000';
