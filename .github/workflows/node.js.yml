@@ -5,13 +5,12 @@ name: Yasuo The King CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ['master']
   pull_request:
-    branches: [ "master" ]
+    branches: ['master']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     env:
@@ -41,6 +40,9 @@ jobs:
       REDIS_HOST: ${{ secrets.REDIS_HOST }}
       REDIS_USERNAME: ${{ secrets.REDIS_USERNAME }}
       REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
+      CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
       JEST_SIGN_SESSION_SECRET: ${{ secrets.JEST_SIGN_SESSION_SECRET }}
 
     strategy:
@@ -48,39 +50,39 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Backend uses Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: "BackEnd/package-lock.json"
-    - name: Frontend uses Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: "FrontEnd/package-lock.json"
-        
-    - name: Install Backend Dependencies
-      run: cd BackEnd && npm install
-    - name: Run Backend Code
-      run: |
-        cd BackEnd
-        nohup npm run devj &
-    - name: Wait for Backend to Finish
-      run: sleep 10s
+      - uses: actions/checkout@v3
+      - name: Backend uses Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: 'BackEnd/package-lock.json'
+      - name: Frontend uses Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: 'FrontEnd/package-lock.json'
 
-    - name: Install Frontend Dependencies
-      run: cd FrontEnd && npm install
-    - name: Run Frontend Code
-      run: |
-        cd FrontEnd
-        nohup npm run dev &
-    - name: Wait for Frontend to Finish
-      run: sleep 15s
+      - name: Install Backend Dependencies
+        run: cd BackEnd && npm install
+      - name: Run Backend Code
+        run: |
+          cd BackEnd
+          nohup npm run devj &
+      - name: Wait for Backend to Finish
+        run: sleep 10s
 
-    - name: Run Tests
-      run: |
-        cd BackEnd
-        nohup npm run test &
+      - name: Install Frontend Dependencies
+        run: cd FrontEnd && npm install
+      - name: Run Frontend Code
+        run: |
+          cd FrontEnd
+          nohup npm run dev &
+      - name: Wait for Frontend to Finish
+        run: sleep 15s
+
+      - name: Run Tests
+        run: |
+          cd BackEnd
+          nohup npm run test &

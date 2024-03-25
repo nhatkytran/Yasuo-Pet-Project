@@ -15,6 +15,11 @@ const {
   sendSuccess,
 } = require('../utils');
 
+const {
+  cloudinaryUploader,
+  cloudinaryDestroyer,
+} = require('../config/cloudinary');
+
 const { User, Skins } = require('../models');
 
 const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
@@ -311,14 +316,24 @@ exports.resizeUserPhoto = catchAsync(async (req, _, next) => {
     .jpeg({ quality: 90 })
     .toFile(filePath);
 
-  req.file.filename = fileName;
+  const { secure_url } = await cloudinaryUploader(filePath);
+
+  req.file.filePath = filePath;
+  req.file.cloudinarySecureURL = secure_url;
   next();
 });
 
 exports.deleteOldUserPhoto = async (req, res, next) => {
   try {
-    const fileName = req.user.photo.split('/').at(-1);
-    await fs.unlink(filePathPhoto(fileName));
+    // Delete photo created in file system
+    await fs.unlink(req.file.filePath);
+
+    // Delete photo on Cloudinary
+    // https://res.cloudinary.com/dxo1gnffi/image/upload/v1711353587/qjkcdmlpxrvhtkexevy3.jpg
+    if (req.user.photo !== '/img/default.png') {
+      const cloudinaryPublicID = req.user.photo.split('/').at(-1).split('.')[0];
+      await cloudinaryDestroyer(cloudinaryPublicID);
+    }
   } catch (error) {
     console.error(error);
   } finally {
@@ -327,7 +342,7 @@ exports.deleteOldUserPhoto = async (req, res, next) => {
 };
 
 exports.changePhoto = catchAsync(async (req, res, next) => {
-  const photo = `/img/users/${req.file.filename}`;
+  const photo = req.file.cloudinarySecureURL;
 
   await User.findByIdAndUpdate(
     req.user._id,

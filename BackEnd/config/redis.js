@@ -11,27 +11,33 @@ mongoose.Query.prototype.cacheRedis = function () {
 };
 
 mongoose.Query.prototype.exec = async function () {
-  if (!this.isCacheRedis) return await exec.apply(this, arguments);
+  try {
+    if (!this.isCacheRedis) return await exec.apply(this, arguments);
 
-  const key = JSON.stringify(
-    Object.assign({}, structuredClone(this.getQuery()), {
-      collection: this.mongooseCollection.name,
-    })
-  );
+    const key = JSON.stringify(
+      Object.assign({}, structuredClone(this.getQuery()), {
+        collection: this.mongooseCollection.name,
+      })
+    );
 
-  const cachedResult = await redis.get(key);
+    const cachedResult = await redis.get(key);
 
-  if (cachedResult) {
-    const result = JSON.parse(cachedResult);
+    if (cachedResult) {
+      const result = JSON.parse(cachedResult);
 
-    if (!Array.isArray(result)) return new this.model(result);
-    return result.map(item => new this.model(item));
+      if (!Array.isArray(result)) return new this.model(result);
+      return result.map(item => new this.model(item));
+    }
+
+    const result = await exec.apply(this, arguments);
+    await redis.set(key, JSON.stringify(result), 'EX', 30 * 60);
+
+    return result;
+  } catch (error) {
+    // [ioredis] Unhandled error event: Error: getaddrinfo ENOTFOUND redis-14732.c1.ap-southeast-1-1.ec2.cloud.redislabs.com
+    // at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:108:26)
+    return await exec.apply(this, arguments);
   }
-
-  const result = await exec.apply(this, arguments);
-  await redis.set(key, JSON.stringify(result), 'EX', 30 * 60);
-
-  return result;
 };
 
 const redis = new Redis({
