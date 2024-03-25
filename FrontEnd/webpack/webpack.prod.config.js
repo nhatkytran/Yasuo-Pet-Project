@@ -1,7 +1,8 @@
-const glob = require('glob');
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+// const glob = require('glob');
 // const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
 
 const common = require('./webpack.common.config');
@@ -11,6 +12,7 @@ module.exports = merge(common, {
   mode: 'production',
   // devtool: 'source-map', // Don't expose you code unless needing to debug in production code
   optimization: {
+    usedExports: true, // Tree shaken applied by default by Webpack in produciton mode
     minimize: true,
     minimizer: [
       `...`, // Keep settings of Webpack
@@ -20,6 +22,17 @@ module.exports = merge(common, {
         },
       }),
     ],
+    splitChunks: {
+      chunks: 'all',
+      maxSize: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        node_modules: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'node_modules',
+        },
+      },
+    },
   },
   module: {
     rules: [

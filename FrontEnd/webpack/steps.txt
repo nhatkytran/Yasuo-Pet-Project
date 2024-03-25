@@ -316,3 +316,28 @@ module: {
     }
   ]
 }
+
+*** Tree Shaking ***
+
+optimization: {
+  usedExports: true, // Tree shaken applied by default by Webpack in produciton mode
+}
+
+*** Applying Code Splittin and Lazy Loading to Production Code ***
+
+-> Analyze Bundles
+webpack.analyze.config.js
+"bundle-analyzer": "BABEL_ENV=production webpack --config webpack/webpack.analyze.config.js"
+
+-> Putting node_modules into its own bundle
+splitChunks: {
+  chunks: 'all',
+  maxSize: Infinity,
+  minSize: 0,
+  cacheGroups: {
+    node_modules: {
+      test: /[\\/]node_modules[\\/]/,
+      name: 'node_modules',
+    },
+  },
+}
