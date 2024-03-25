@@ -40,9 +40,6 @@ jobs:
       REDIS_HOST: ${{ secrets.REDIS_HOST }}
       REDIS_USERNAME: ${{ secrets.REDIS_USERNAME }}
       REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-      CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
-      CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
-      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
       JEST_SIGN_SESSION_SECRET: ${{ secrets.JEST_SIGN_SESSION_SECRET }}
 
     strategy:
