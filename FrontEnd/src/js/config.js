@@ -1,11 +1,10 @@
 // have '_' character --> normal text
 // have or don't have '-' character --> can become a class
 
-// Test
 export const ENV = 'development';
-// export const BACKEND_URL = 'http://127.0.0.1:3000';
+export const BACKEND_URL = 'http://127.0.0.1:3000';
 // export const ENV = 'production';
-export const BACKEND_URL = 'https://yasuo-the-king.onrender.com';
+// export const BACKEND_URL = 'https://yasuo-the-king.onrender.com';
 
 export const REM = 10;
 export const FETCH_API_TIMEOUT = 60;

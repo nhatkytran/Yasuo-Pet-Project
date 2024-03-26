@@ -1,59 +1,40 @@
 const passport = require('passport');
-const passportLocal = require('passport-local');
-const passportGoogle = require('passport-google-oauth20');
-const bcrypt = require('bcrypt');
+const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
+const { Strategy: JWTStrategy, ExtractJwt } = require('passport-jwt');
+
 const { AppError } = require('../utils');
 const { User } = require('../models');
 
 const {
   NODE_ENV,
+  JWT_SECRET,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   GOOGLE_CLIENT_REDIRECT,
 } = process.env;
 
-const LocalStrategy = passportLocal.Strategy;
-const GoogleStrategy = passportGoogle.Strategy;
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: JWT_SECRET,
+  algorithms: ['HS256'],
+};
 
-const localStrategy = new LocalStrategy(
-  { usernameField: 'username', passwordField: 'password' },
-  async (usernameParam, passwordParam, done) => {
-    try {
-      const username = String(usernameParam);
-      const password = String(passwordParam);
+const jwtStrategy = new JWTStrategy(jwtOptions, async (payload, done) => {
+  try {
+    console.log(2222);
+    console.log(payload);
 
-      if (!username || !password)
-        throw new AppError('Please provide username and password!', 400);
+    return done(null, false);
 
-      const user = await User.findOne({ username }).select('+password');
+    const user = await User.findById(payload.id);
 
-      if (!user || !(await bcrypt.compare(password, user.password)))
-        throw new AppError(
-          'Incorrect username or password!',
-          401,
-          'LOGIN_AUTHENTICATION_ERROR'
-        );
-
-      if (user.ban)
-        throw new AppError(
-          'Your account has been banned!',
-          403,
-          'LOGIN_BAN_ERROR'
-        );
-
-      if (!user.active)
-        throw new AppError(
-          'You need to activate you account first!',
-          401,
-          'LOGIN_ACTIVE_ERROR'
-        );
-
-      done(null, user);
-    } catch (error) {
-      done(error);
-    }
+    if (!user) return done(null, false);
+    return done(null, user);
+  } catch (error) {
+    console.log('-----');
+    return done(error, false);
   }
-);
+});
 
 let googleClientRedirect =
   'http://127.0.0.1:3000/api/v1/users/auth/google/callback';
@@ -96,23 +77,21 @@ const googleStrategy = new GoogleStrategy(
   }
 );
 
-passport.use(localStrategy);
+passport.use(jwtStrategy);
 passport.use(googleStrategy);
 
-passport.serializeUser((user, done) => done(null, user._id.toString()));
+// passport.deserializeUser(async (userId, done) => {
+//   try {
+//     const user = await User.findById(userId).select('+passwordChangedAt');
 
-passport.deserializeUser(async (userId, done) => {
-  try {
-    const user = await User.findById(userId).select('+passwordChangedAt');
+//     if (
+//       !user ||
+//       (user.passwordChangedAt && user.lastLogin && user.changedPassword())
+//     )
+//       return done(null, false);
 
-    if (
-      !user ||
-      (user.passwordChangedAt && user.lastLogin && user.changedPassword())
-    )
-      return done(null, false);
-
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
+//     done(null, user);
+//   } catch (error) {
+//     done(error);
+//   }
+// });

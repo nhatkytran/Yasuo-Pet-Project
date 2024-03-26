@@ -1,3 +1,6 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const {
   AppError,
   Email,
@@ -8,7 +11,7 @@ const {
 
 const { User } = require('../models');
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 exports.signup = catchAsync(async (req, res) => {
   const { username, email, password, passwordConfirm } = req.body;
@@ -72,12 +75,36 @@ exports.signup = catchAsync(async (req, res) => {
 
 // passport.authenticate('local') verifyCallback function calls next(error)
 exports.login = catchAsync(async (req, res, next) => {
-  const { user } = req; // passport assigned user to req automatically
+  const { username, password } = req.body;
 
-  user.lastLogin = Date.now();
-  await user.save({ validateModifiedOnly: true });
+  if (!username || !password)
+    throw new AppError('Please provide username and password!', 400);
 
-  sendSuccess(res);
+  const user = await User.findOne({ username }).select('+password');
+
+  if (!user || !(await bcrypt.compare(password, user.password)))
+    throw new AppError(
+      'Incorrect username or password!',
+      401,
+      'LOGIN_AUTHENTICATION_ERROR'
+    );
+
+  if (user.ban)
+    throw new AppError('Your account has been banned!', 403, 'LOGIN_BAN_ERROR');
+
+  if (!user.active)
+    throw new AppError(
+      'You need to activate you account first!',
+      401,
+      'LOGIN_ACTIVE_ERROR'
+    );
+
+  const token = await jwt.sign({ id: user._id.toString() }, JWT_SECRET, {
+    algorithm: 'HS256',
+    expiresIn: 30 * 24 * 60 * 60,
+  });
+
+  sendSuccess(res, { metadata: { token } });
 });
 
 exports.loginGoogle = catchAsync(async (req, res, next) => {
