@@ -1,9 +1,10 @@
 // have '_' character --> normal text
 // have or don't have '-' character --> can become a class
 
-// export const ENV = 'development';
+// Test
+export const ENV = 'development';
 // export const BACKEND_URL = 'http://127.0.0.1:3000';
-export const ENV = 'production';
+// export const ENV = 'production';
 export const BACKEND_URL = 'https://yasuo-the-king.onrender.com';
 
 export const REM = 10;
