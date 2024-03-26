@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "start": "pm2-runtime start process.json",
+    "start": "NODE_ENV=production pm2-runtime start process.json",
     "dev": "NODE_ENV=development nodemon --inspect server.js",
     "devj": "NODE_ENV=development NODE_ENV_TEST=jest nodemon --inspect server.js",
     "prod": "NODE_ENV=production nodemon --inspect server.js",

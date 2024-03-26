@@ -81,7 +81,6 @@ app.enable('trust proxy');
 let corsOrigin;
 // When origin is string, it also allows 127.0.0.1:3000
 // Something went wrong when it is a function
-// Test
 if (NODE_ENV === 'development') corsOrigin = 'http://127.0.0.1:8080';
 else {
   const whilelist = [
