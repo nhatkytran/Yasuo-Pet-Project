@@ -4,6 +4,7 @@ const passport = require('passport');
 const {
   signup,
   login,
+  loginGoogleRedirect,
   loginGoogle,
   checkIsLoggedIn,
   protect,
@@ -44,9 +45,11 @@ userRouter.get(
 // error.oAuth = true
 userRouter.get(
   '/auth/google/callback',
-  passport.authenticate('google'),
-  loginGoogle
+  passport.authenticate('google', { session: false }),
+  loginGoogleRedirect
 );
+
+userRouter.get('/auth/google/login/:userID/:code', loginGoogle);
 
 userRouter.get('/checkIsLoggedIn', checkIsLoggedIn);
 

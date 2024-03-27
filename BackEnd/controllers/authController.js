@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
@@ -113,25 +114,63 @@ exports.login = catchAsync(async (req, res, next) => {
   sendSuccess(res, { metadata: { token } });
 });
 
-exports.loginGoogle = catchAsync(async (req, res, next) => {
+exports.loginGoogleRedirect = catchAsync(async (req, res, next) => {
   try {
     const { user } = req;
 
     // Send email can go wrong some times, no need to await here
     if (!user.lastLogin) new Email(user).sendWelcome({ oAuth: true });
 
-    user.lastLogin = Date.now();
+    const code = await user.createGoogleOAuthCode();
     await user.save({ validateModifiedOnly: true });
+
+    const queryURL = `user=${user.id}&code=${code}`;
 
     res.redirect(
       NODE_ENV === 'development'
-        ? 'http://127.0.0.1:8080'
-        : 'https://yasuo-the-king.netlify.app/'
+        ? `http://127.0.0.1:8080?${queryURL}`
+        : `https://yasuo-the-king.netlify.app?${queryURL}`
     );
   } catch (error) {
     error.oAuth = true;
     throw error;
   }
+});
+
+exports.loginGoogle = catchAsync(async (req, res, next) => {
+  const { userID, code } = req.params;
+
+  if (!userID || !code)
+    throw new AppError(
+      "Please provide user's id and Google authentication code.",
+      400
+    );
+
+  const user = await User.findById(userID).select('+googleOAuthCode');
+
+  if (!user) throw new AppError('User not found!', 404);
+
+  const hashedCode = crypto.createHash('sha256').update(code).digest('hex');
+  const [userHashedCode, timeout] = user.googleOAuthCode.split('.');
+
+  if (hashedCode !== userHashedCode || Date.now() >= Number.parseInt(timeout))
+    throw new AppError(
+      'Google authentication code is invalid or expired!',
+      401
+    );
+
+  const token = await jwt.sign({ id: user._id.toString() }, JWT_SECRET, {
+    algorithm: 'HS256',
+    expiresIn: 30 * 24 * 60 * 60,
+  });
+
+  const { iat } = await jwt.verify(token, JWT_SECRET, { algorithm: 'HS256' });
+
+  user.lastLogin = new Date(iat * 1000);
+  user.googleOAuthCode = undefined;
+  await user.save({ validateModifiedOnly: true });
+
+  sendSuccess(res, { metadata: { token } });
 });
 
 exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {

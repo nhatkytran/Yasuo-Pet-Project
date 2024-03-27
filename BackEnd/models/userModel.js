@@ -20,6 +20,7 @@ const schema = new mongoose.Schema({
     validate: [validator.isEmail, 'Please provide a valid email!'],
   },
   googleID: { type: String },
+  googleOAuthCode: { type: String, select: false },
   active: { type: Boolean, default: false },
   activateToken: { type: String, select: false },
   activateTokenAt: { type: Date, select: false },
@@ -90,6 +91,15 @@ schema.methods.createForgotPasswordToken = function () {
   this.forgotPasswordTokenAt = Date.now() + 2 * 60 * 1000;
 
   return token;
+};
+
+schema.methods.createGoogleOAuthCode = function () {
+  const { token: code, hashedToken: hashedCode } = createTokenAndHash({
+    randomBytes: 6,
+  });
+
+  this.googleOAuthCode = `${hashedCode}.${Date.now() + 2 * 60 * 1000}`;
+  return code;
 };
 
 const cltName = 'users';
