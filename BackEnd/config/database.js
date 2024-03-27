@@ -15,8 +15,6 @@ const DATABASE_DB = createDB(DATABASE, {
   '<DATABASE_COLLECTION_NAME>': DATABASE_COLLECTION_YASUO,
 });
 
-console.log(DATABASE_DB);
-
 mongoose
   .set('strictQuery', true)
   .connect(DATABASE_DB, { useNewUrlParser: true, useUnifiedTopology: true })

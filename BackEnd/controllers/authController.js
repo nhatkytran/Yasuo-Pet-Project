@@ -1,12 +1,14 @@
 const bcrypt = require('bcrypt');
+const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
 const {
   AppError,
   Email,
+  authenticationError,
   catchAsync,
-  sendSuccess,
   isStrongPassword,
+  sendSuccess,
 } = require('../utils');
 
 const { User } = require('../models');
@@ -73,7 +75,6 @@ exports.signup = catchAsync(async (req, res) => {
   sendSuccess(res, { metadata: { user } });
 });
 
-// passport.authenticate('local') verifyCallback function calls next(error)
 exports.login = catchAsync(async (req, res, next) => {
   const { username, password } = req.body;
 
@@ -104,6 +105,11 @@ exports.login = catchAsync(async (req, res, next) => {
     expiresIn: 30 * 24 * 60 * 60,
   });
 
+  const { iat } = await jwt.verify(token, JWT_SECRET, { algorithm: 'HS256' });
+
+  user.lastLogin = new Date(iat * 1000);
+  await user.save({ validateModifiedOnly: true });
+
   sendSuccess(res, { metadata: { token } });
 });
 
@@ -130,22 +136,44 @@ exports.loginGoogle = catchAsync(async (req, res, next) => {
 
 exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
   if (!req.isAuthenticated())
-    throw new AppError('You are not logged in yet!', 401, '');
+    throw new AppError('You are not logged in yet!', 401);
 
   sendSuccess(res);
 });
 
-// catchAsync here to handle error better
-exports.protect = catchAsync(async (req, res, next) => {
-  if (!req.isAuthenticated())
-    throw new AppError(
-      'Please login to get access!',
-      401,
-      'AUTHENTICATION_ERROR'
-    );
+exports.protect = (req, res, next) => {
+  passport.authenticate(
+    'jwt',
+    { session: false },
+    (errorStrategy, user, errorToken) => {
+      // errorStrategy -> errors thrown by the strategy
+      // errorToken -> errors like invalid token, expired
 
-  next();
-});
+      if (errorToken) {
+        if (errorToken.name === 'TokenExpiredError')
+          return next(
+            authenticationError('Token has expired! Please login again.')
+          );
+
+        if (errorToken.name === 'JsonWebTokenError')
+          return next(
+            authenticationError('Invalid token! Please login again.')
+          );
+
+        return next(errorToken);
+      }
+
+      // Handled by strategy
+      // 1. User does no longer exist
+      // 2. User changed password after
+      // 3. User did issue new jwt
+      if (errorStrategy) return next(errorStrategy);
+
+      req.user = user;
+      next();
+    }
+  )(req, res, next);
+};
 
 exports.logout = catchAsync(async (req, res, next) =>
   req.logout(error =>

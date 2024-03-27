@@ -65,10 +65,8 @@ schema.pre('save', async function (next) {
 
 schema.methods.changedPassword = function () {
   if (this.passwordChangedAt) {
-    const loginTimestamp = parseInt(this.lastLogin.getTime() / 1000);
-    const passwordChangedTimestamp = parseInt(
-      this.passwordChangedAt.getTime() / 1000
-    );
+    const loginTimestamp = this.lastLogin.getTime();
+    const passwordChangedTimestamp = this.passwordChangedAt.getTime();
 
     return loginTimestamp < passwordChangedTimestamp;
   }

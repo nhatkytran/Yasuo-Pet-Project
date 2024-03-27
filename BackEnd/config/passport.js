@@ -2,7 +2,7 @@ const passport = require('passport');
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
 const { Strategy: JWTStrategy, ExtractJwt } = require('passport-jwt');
 
-const { AppError } = require('../utils');
+const { authenticationError } = require('../utils');
 const { User } = require('../models');
 
 const {
@@ -21,17 +21,25 @@ const jwtOptions = {
 
 const jwtStrategy = new JWTStrategy(jwtOptions, async (payload, done) => {
   try {
-    console.log(2222);
-    console.log(payload);
+    const user = await User.findById(payload.id).select('+passwordChangedAt');
 
-    return done(null, false);
+    if (!user)
+      throw authenticationError(
+        'The user belongs to this token does not longer exist!'
+      );
 
-    const user = await User.findById(payload.id);
+    if (user.lastLogin.getTime() > payload.iat * 1000)
+      throw authenticationError(
+        'User recently issued new token! Please sign in again.'
+      );
 
-    if (!user) return done(null, false);
+    if (user.changedPassword())
+      throw authenticationError(
+        'User recently changed password! Please sign in again.'
+      );
+
     return done(null, user);
   } catch (error) {
-    console.log('-----');
     return done(error, false);
   }
 });
@@ -79,19 +87,3 @@ const googleStrategy = new GoogleStrategy(
 
 passport.use(jwtStrategy);
 passport.use(googleStrategy);
-
-// passport.deserializeUser(async (userId, done) => {
-//   try {
-//     const user = await User.findById(userId).select('+passwordChangedAt');
-
-//     if (
-//       !user ||
-//       (user.passwordChangedAt && user.lastLogin && user.changedPassword())
-//     )
-//       return done(null, false);
-
-//     done(null, user);
-//   } catch (error) {
-//     done(error);
-//   }
-// });

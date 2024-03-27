@@ -110,56 +110,6 @@ app.use(
   })
 );
 
-// Test
-app.get(
-  '/api/protected',
-  (req, res, next) => {
-    passport.authenticate(
-      'jwt',
-      { session: false },
-      (errorStrategy, user, errorToken) => {
-        // errorStrategy -> errors thrown by the strategy
-        // errorToken -> errors like invalid token, expired
-
-        // console.log(1111);
-        // console.log(error);
-        // console.log('###', err);
-
-        // if (error) {
-        //   if (error.name === 'JsonWebTokenError') {
-        //     return next(
-        //       new AppError(
-        //         'Invalid token! Please login again.',
-        //         401,
-        //         'AUTHENTICATION_ERROR'
-        //       )
-        //     );
-        //   }
-
-        //   return next(error);
-        // }
-
-        if (!user)
-          return next(
-            new AppError(
-              'The user belongs to this token does not longer exist!',
-              401,
-              'AUTHENTICATION_ERROR'
-            )
-          );
-
-        req.user = user;
-        next();
-      }
-    )(req, res, next);
-  },
-  (req, res) => {
-    console.log(req.user);
-    console.log(req.isAuthenticated());
-    res.json({ message: 'Access granted!' });
-  }
-);
-
 // Support Jest Authentication testing
 if (NODE_ENV_TEST === 'jest') require('./config/jest')(app);
 
