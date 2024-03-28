@@ -11,6 +11,7 @@ const {
   AppError,
   Email,
   catchAsync,
+  hashToken,
   isStrongPassword,
   sendSuccess,
 } = require('../utils');
@@ -107,11 +108,8 @@ exports.getActivateCode = catchAsync(async (req, res, next) => {
 });
 
 exports.activateAccount = catchAsync(async (req, res, next) => {
-  const { token } = req.body;
-  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-
   const user = await User.findOne({
-    activateToken: hashedToken,
+    activateToken: hashToken(req.body.token),
     activateTokenAt: { $gt: Date.now() },
   });
 
@@ -219,9 +217,8 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
       400
     );
 
-  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
   const user = await User.findOne({
-    forgotPasswordToken: hashedToken,
+    forgotPasswordToken: hashToken(token),
     forgotPasswordTokenAt: { $gt: Date.now() },
   });
 

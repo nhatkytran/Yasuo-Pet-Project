@@ -24,23 +24,17 @@ const jwtStrategy = new JWTStrategy(jwtOptions, async (payload, done) => {
     const user = await User.findById(payload.id).select('+passwordChangedAt');
 
     if (!user)
-      throw authenticationError(
-        'The user belongs to this token does not longer exist!'
-      );
+      throw new Error('The user belongs to this token does not longer exist!');
 
     if (user.lastLogin.getTime() > payload.iat * 1000)
-      throw authenticationError(
-        'User recently issued new token! Please sign in again.'
-      );
+      throw new Error('User recently issued new token! Please sign in again.');
 
     if (user.changedPassword())
-      throw authenticationError(
-        'User recently changed password! Please sign in again.'
-      );
+      throw new Error('User recently changed password! Please sign in again.');
 
     return done(null, user);
   } catch (error) {
-    return done(error, false);
+    return done(authenticationError(error.message || ''), false);
   }
 });
 

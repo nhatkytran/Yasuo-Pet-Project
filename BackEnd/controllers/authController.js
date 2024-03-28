@@ -1,20 +1,20 @@
-const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
 
 const {
   AppError,
   Email,
   authenticationError,
   catchAsync,
+  hashToken,
   isStrongPassword,
   sendSuccess,
+  signJWT,
 } = require('../utils');
 
 const { User } = require('../models');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { NODE_ENV } = process.env;
 
 exports.signup = catchAsync(async (req, res) => {
   const { username, email, password, passwordConfirm } = req.body;
@@ -101,12 +101,7 @@ exports.login = catchAsync(async (req, res, next) => {
       'LOGIN_ACTIVE_ERROR'
     );
 
-  const token = await jwt.sign({ id: user._id.toString() }, JWT_SECRET, {
-    algorithm: 'HS256',
-    expiresIn: 30 * 24 * 60 * 60,
-  });
-
-  const { iat } = await jwt.verify(token, JWT_SECRET, { algorithm: 'HS256' });
+  const [token, { iat }] = await signJWT(user);
 
   user.lastLogin = new Date(iat * 1000);
   await user.save({ validateModifiedOnly: true });
@@ -150,7 +145,7 @@ exports.loginGoogle = catchAsync(async (req, res, next) => {
 
   if (!user) throw new AppError('User not found!', 404);
 
-  const hashedCode = crypto.createHash('sha256').update(code).digest('hex');
+  const hashedCode = hashToken(code);
   const [userHashedCode, timeout] = user.googleOAuthCode.split('.');
 
   if (hashedCode !== userHashedCode || Date.now() >= Number.parseInt(timeout))
@@ -159,12 +154,7 @@ exports.loginGoogle = catchAsync(async (req, res, next) => {
       401
     );
 
-  const token = await jwt.sign({ id: user._id.toString() }, JWT_SECRET, {
-    algorithm: 'HS256',
-    expiresIn: 30 * 24 * 60 * 60,
-  });
-
-  const { iat } = await jwt.verify(token, JWT_SECRET, { algorithm: 'HS256' });
+  const [token, { iat }] = await signJWT(user);
 
   user.lastLogin = new Date(iat * 1000);
   user.googleOAuthCode = undefined;
@@ -199,7 +189,7 @@ exports.protect = (req, res, next) => {
             authenticationError('Invalid token! Please login again.')
           );
 
-        return next(errorToken);
+        return next(authenticationError(errorToken.message));
       }
 
       // Handled by strategy
