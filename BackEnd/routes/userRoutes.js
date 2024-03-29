@@ -8,7 +8,6 @@ const {
   loginGoogle,
   checkIsLoggedIn,
   protect,
-  logout,
 } = require('../controllers/authController');
 
 const {
@@ -51,8 +50,6 @@ userRouter.get(
 
 userRouter.get('/auth/google/login/:userID/:code', loginGoogle);
 
-userRouter.get('/checkIsLoggedIn', checkIsLoggedIn);
-
 userRouter.post('/activateCode', getActivateCode);
 userRouter.post('/activate', activateAccount);
 
@@ -61,9 +58,14 @@ userRouter.post('/forgotUsername', forgotUsername);
 userRouter.post('/forgotPassword', forgotPassword);
 userRouter.post('/resetPassword', resetPassword);
 
+userRouter.get(
+  '/checkout/:userID/:state/:skinIndexParam/:skinReceiptParam?',
+  getCheckoutState
+);
+
 userRouter.use(protect);
 
-userRouter.get('/logout', logout);
+userRouter.get('/checkIsLoggedIn', checkIsLoggedIn);
 
 userRouter.post(
   '/changeAvatar',
@@ -79,10 +81,5 @@ userRouter.get('/me', getMe);
 userRouter.post('/solo', sendSolo);
 
 userRouter.get('/checkoutSession/:skinIndex', getCheckoutSession);
-
-userRouter.get(
-  '/checkout/:state/:skinIndexParam/:skinReceiptParam?',
-  getCheckoutState
-);
 
 module.exports = userRouter;

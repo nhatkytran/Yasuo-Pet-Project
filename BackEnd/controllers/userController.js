@@ -278,13 +278,7 @@ exports.changePassword = catchAsync(async (req, res, next) => {
   user.password = newPassword;
   await user.save({ validateModifiedOnly: true });
 
-  req.logout(error => {
-    error && console.error(error);
-
-    sendSuccess(res, {
-      metadata: { message: 'Change password successfully!' },
-    });
-  });
+  sendSuccess(res, { metadata: { message: 'Change password successfully!' } });
 });
 
 const multerStorage = multer.memoryStorage();
@@ -353,6 +347,7 @@ exports.changePhoto = catchAsync(async (req, res, next) => {
 });
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+  const userID = req.user._id.toString();
   const skinIndex = Number.parseInt(req.params.skinIndex);
 
   const [data] = await Skins.find().cacheRedis();
@@ -363,7 +358,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const baseUrl = `${req.protocol}://${req.get('host')}`;
 
   const actionUrl = state =>
-    `${baseUrl}/api/v1/users/checkout/${state}/${skinIndex}`;
+    `${baseUrl}/api/v1/users/checkout/${userID}/${state}/${skinIndex}`;
 
   // successUrl is also monkey patched in Webhook
   // 2 situations: have skinReceiptParam and do not
@@ -477,12 +472,14 @@ exports.webhookCheckout = async (req, res) => {
 
 exports.getCheckoutState = async (req, res, next) => {
   try {
-    const { state, skinIndexParam, skinReceiptParam } = req.params;
+    const { userID, state, skinIndexParam, skinReceiptParam } = req.params;
 
     const skinIndex = Number.parseInt(skinIndexParam);
     const skinReceipt = skinReceiptParam ? `#${skinReceiptParam}` : '';
 
-    const user = req.user;
+    const user = await User.findById(userID);
+    if (!user) throw new AppError('User not found!', 404);
+
     let skinObject;
 
     if (skinReceiptParam)

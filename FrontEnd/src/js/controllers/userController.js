@@ -8,11 +8,17 @@ import {
   ERROR_ABORT_CODE,
 } from '../config';
 
-import { AppError, catchAsync, isPasswordValid, kickout } from '../utils';
+import {
+  AppError,
+  authErrorShouldKickout,
+  catchAsync,
+  isPasswordValid,
+  kickout,
+} from '../utils';
 
 import store from '../models/store';
-import userService from '../models/features/user/userService';
 import { ACTIONS } from '../models/features/user/reducer';
+import userService from '../models/features/user/userService';
 import authService from '../models/features/auth/authService';
 
 import ModalContentController from './modalContentController';
@@ -328,6 +334,7 @@ class UserController extends ModalContentController {
 
       this.#UserView.accountSigninActionDisplay({ state: CONTENT });
       this.#resetAccountSigninSubmitKit();
+      authService.logout();
 
       kickout({
         createToast: this.#ToastView.createToast,

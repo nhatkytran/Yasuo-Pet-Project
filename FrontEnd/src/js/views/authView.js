@@ -342,7 +342,7 @@ class AuthView {
       documentCursor = 'wait';
       bodyStyle = `pointer-events: none; filter: brightness(0.4); opacity: 0.8;`;
     }
-    if (state === CONTENT || state === ERROR) {
+    if (state === CONTENT) {
       documentCursor = 'default';
       bodyStyle = `pointer-events: unset; filter: unset; opacity: unset;`;
     }

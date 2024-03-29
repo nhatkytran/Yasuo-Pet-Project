@@ -35,6 +35,18 @@ const { mainFunc: login, abortFunc: loginAbort } = postRoute(
 const loginSocial = social =>
   (window.location.href = `${BACKEND_URL}${usersRoute(`auth/${social}`)}`);
 
+// Google Authentication -> ?user=<userID>&code=<code>
+// catchAsync
+const checkAuthGoogle = async () => {
+  try {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const userID = urlSearchParams.get('user');
+    const code = urlSearchParams.get('code');
+
+    if (!userID || !code) throw new Error();
+  } catch (error) {}
+};
+
 const checkIsLoggedIn = async () => {
   try {
     await axiosInstance.get('/api/v1/users/checkIsLoggedIn');
@@ -46,7 +58,7 @@ const checkIsLoggedIn = async () => {
 
 // Sign-out //////////
 
-const logout = async () => await axiosInstance.get(usersRoute('logout'));
+const logout = () => localStorage.removeItem('ytk_jwt');
 
 // Activate //////////
 

@@ -39,7 +39,7 @@ const {
 
 const globalErrorHandler = require('./controllers/errorController');
 const { webhookCheckout } = require('./controllers/userController');
-const { AppError, catchAsync } = require('./utils');
+const { AppError } = require('./utils');
 
 const { NODE_ENV, NODE_ENV_TEST } = process.env;
 

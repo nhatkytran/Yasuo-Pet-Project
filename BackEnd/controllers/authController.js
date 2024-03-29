@@ -163,13 +163,6 @@ exports.loginGoogle = catchAsync(async (req, res, next) => {
   sendSuccess(res, { metadata: { token } });
 });
 
-exports.checkIsLoggedIn = catchAsync(async (req, res, next) => {
-  if (!req.isAuthenticated())
-    throw new AppError('You are not logged in yet!', 401);
-
-  sendSuccess(res);
-});
-
 exports.protect = (req, res, next) => {
   passport.authenticate(
     'jwt',
@@ -204,10 +197,6 @@ exports.protect = (req, res, next) => {
   )(req, res, next);
 };
 
-exports.logout = catchAsync(async (req, res, next) =>
-  req.logout(error =>
-    error
-      ? next(new AppError("Couldn't log out! Please try again later.", 500))
-      : sendSuccess(res)
-  )
+exports.checkIsLoggedIn = catchAsync(async (req, res, next) =>
+  sendSuccess(res)
 );

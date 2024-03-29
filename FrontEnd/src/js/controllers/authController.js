@@ -86,6 +86,8 @@ class AuthController extends ModalContentController {
 
       super.open(this.#handleOpenModal, this.#AuthView.serverRunningOpen);
 
+      //
+
       const isLoggedIn = await authService.checkIsLoggedIn();
 
       // Sometimes fetch too fast, so we need to wait a while for the modal open completely
@@ -103,7 +105,7 @@ class AuthController extends ModalContentController {
             ANIMATION_TIMEOUT
           );
         },
-        ENV === 'development' ? ANIMATION_TIMEOUT * 2 : 10000
+        ENV === 'development' ? ANIMATION_TIMEOUT * 2 : 7000
       );
 
       if (isLoggedIn) {
@@ -167,6 +169,7 @@ class AuthController extends ModalContentController {
       this.#loginLoading = true;
       this.#AuthView.loginActionDisplay({ state: LOADING });
 
+      // jwt is saved by axios instance
       await authService.login({
         username: this.#loginUsername,
         password: this.#loginPassword,
@@ -240,27 +243,20 @@ class AuthController extends ModalContentController {
 
   // Sign-out //////////
 
-  handleLogout = catchAsync({
-    filename,
-    onProcess: async () => {
-      this.#AuthView.logoutActionDisplay(LOADING);
+  handleLogout = () => {
+    this.#AuthView.logoutActionDisplay(LOADING);
+    authService.logout();
 
-      await authService.logout();
-
+    setTimeout(() => {
       this.#AuthView.logoutSuccessSignal();
       this.#AuthView.logoutActionDisplay(CONTENT);
       this.#AuthView.logoutSuccess();
-
       this.#ToastView.createToast({
         ...store.state.toast[TOAST_SUCCESS],
         content: 'See you later.',
       });
-    },
-    onError: () => {
-      this.#AuthView.logoutActionDisplay(ERROR);
-      this.#ToastView.createToast(store.state.toast[TOAST_FAIL]);
-    },
-  });
+    }, ANIMATION_TIMEOUT);
+  };
 
   // Activate //////////
 

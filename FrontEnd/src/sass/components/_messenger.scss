@@ -11,8 +11,6 @@
   @include square-dimension(4rem);
 
   @media only screen and (max-width: $px1040) {
-    right: 1rem;
-    bottom: 1rem;
     @include square-dimension(3rem);
   }
 
