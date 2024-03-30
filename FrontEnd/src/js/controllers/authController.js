@@ -86,7 +86,9 @@ class AuthController extends ModalContentController {
 
       super.open(this.#handleOpenModal, this.#AuthView.serverRunningOpen);
 
-      //
+      if (await authService.checkAuthGoogle())
+        return (window.location.href =
+          window.location.origin + window.location.pathname);
 
       const isLoggedIn = await authService.checkIsLoggedIn();
 

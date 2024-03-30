@@ -43,8 +43,17 @@ const checkAuthGoogle = async () => {
     const userID = urlSearchParams.get('user');
     const code = urlSearchParams.get('code');
 
-    if (!userID || !code) throw new Error();
-  } catch (error) {}
+    if (!userID || !code) throw new Error('Please provide userID and code!');
+
+    // axiosInstance takes care of saving jwt
+    await axiosInstance.get(
+      `/api/v1/users/auth/google/login/${userID}/${code}`
+    );
+
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 const checkIsLoggedIn = async () => {
@@ -113,6 +122,7 @@ const authService = {
   login,
   loginAbort,
   loginSocial,
+  checkAuthGoogle,
   checkIsLoggedIn,
   logout,
   activateGetCode,
