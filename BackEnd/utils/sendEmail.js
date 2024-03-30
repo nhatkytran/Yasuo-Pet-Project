@@ -122,7 +122,7 @@ class Email {
     const { code, skinname } = options;
 
     await this.send({
-      template: 'forgotPassword',
+      template: 'purchasedSkin',
       subject: 'Yasuo The King! ',
       username: this.username,
       skinname,

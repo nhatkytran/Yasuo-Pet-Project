@@ -211,7 +211,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   if (!token || !newPassword)
     throw new Error('Please provide token and newPassword!', 400);
 
-  if (isStrongPassword(newPassword))
+  if (!isStrongPassword(newPassword))
     throw new AppError(
       'Password must contain at least 8 characters (1 uppercase, 1 lowercase, 1 number, 1 symbol)',
       400
