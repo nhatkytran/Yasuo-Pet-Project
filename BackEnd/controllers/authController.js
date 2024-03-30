@@ -14,7 +14,7 @@ const {
 
 const { User } = require('../models');
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV, NODE_ENV_TEST } = process.env;
 
 exports.signup = catchAsync(async (req, res) => {
   const { username, email, password, passwordConfirm } = req.body;
@@ -170,6 +170,9 @@ exports.protect = (req, res, next) => {
     (errorStrategy, user, errorToken) => {
       // errorStrategy -> errors thrown by the strategy
       // errorToken -> errors like invalid token, expired
+
+      // There's a middleware in test mode -> check app.js
+      if (NODE_ENV_TEST === 'jest' && req.user) return next();
 
       if (errorToken) {
         if (errorToken.name === 'TokenExpiredError')

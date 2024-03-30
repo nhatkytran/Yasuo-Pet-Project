@@ -111,6 +111,7 @@ app.use(
 );
 
 // Support Jest Authentication testing
+// Also setup next() in protect funciton
 if (NODE_ENV_TEST === 'jest') require('./config/jest')(app);
 
 (async () => {
