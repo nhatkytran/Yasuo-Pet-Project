@@ -36,7 +36,7 @@ class WarningController {
       if (declineModalAbort) declineModalAbort.abort();
     };
 
-    const acceptHandler = () => {
+    const acceptHandler = index => {
       if (isOpening || isClosing) return;
       isClosing = true;
 
@@ -67,7 +67,7 @@ class WarningController {
 
       this.registerEvents(
         [acceptAbort, declineAbort, declineModalAbort],
-        [acceptHandler, closeHandler, closeHandler]
+        [acceptHandler.bind(this, index), closeHandler, closeHandler]
       );
       this.open(accept(index));
 
