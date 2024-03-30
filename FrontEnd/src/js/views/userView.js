@@ -133,7 +133,8 @@ class UserView {
     const socials = ['google', 'facebook', 'github', 'apple'];
 
     nameUI = username.split('.');
-    if (socials.includes(nameUI.at(-1))) nameUI = nameUI.slice(0, -1);
+    if (socials.includes(nameUI[nameUI.length - 1]))
+      nameUI = nameUI.slice(0, -1);
 
     nameUI = nameUI.join('.').replaceAll(' ', '');
     if (nameUI.length > 10) nameUI = nameUI.slice(0, 10) + '...';

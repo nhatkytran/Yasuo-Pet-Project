@@ -30,7 +30,8 @@ class ToastView {
     const markup = this.#generateToastMarkup(data, isToastLoading);
     this.#toastWrapper.insertAdjacentHTML('beforeend', markup);
     this.#arrageToasts();
-    const element = [...$$('.toast')].at(-1);
+    const toasts = [...$$('.toast')];
+    const element = toasts[toasts.length - 1];
     setTimeout(() => this.clear(element), CLEAR_TOAST_TIMEOUT);
   };
 

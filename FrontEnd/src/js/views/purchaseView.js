@@ -37,9 +37,7 @@ class PurchaseView {
 
   #skinName = $_($('.pur-intro__content-text'), 'h2');
   #skinYear = $('.pur-intro__content-footer-time');
-  #skinCollection = [
-    ...$$_($('.pur-intro__content-footer-info-collection'), 'span'),
-  ].at(-1);
+  #skinCollection;
   #skinDetaislWrapper = $('.pur-article__text');
   #skinTagsWrapper = $('.pur-article__tag-wrapper');
   #skinVideoWrapper = $('.pur-article__video-wrapper');
@@ -50,6 +48,14 @@ class PurchaseView {
     start: 'fade-in-500',
     end: 'fade-out-480',
   });
+
+  constructor() {
+    const skinCollections = [
+      ...$$_($('.pur-intro__content-footer-info-collection'), 'span'),
+    ];
+
+    this.#skinCollection = skinCollections[skinCollections.length - 1];
+  }
 
   #handleContent = (skinData, skinIndex, skinRelatesData) => {
     const {

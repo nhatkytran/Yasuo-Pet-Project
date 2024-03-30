@@ -3,7 +3,7 @@ const AutoPrefixer = require('autoprefixer');
 module.exports = {
   plugins: [
     AutoPrefixer({
-      overrideBrowserslist: ['>1%'],
+      overrideBrowserslist: ['> 0.25%'],
     }),
   ],
 };

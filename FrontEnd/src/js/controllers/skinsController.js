@@ -73,7 +73,7 @@ class SkinsController {
         prevLeftIndex = leftIndex;
       }
       if (side === LEFT) {
-        const rightIndex = rightIndices.at(-1);
+        const rightIndex = rightIndices[rightIndices.length - 1];
         optionsAdition = { rightIndex };
         prevRightIndex = rightIndex;
       }
