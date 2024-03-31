@@ -354,3 +354,5 @@ splitChunks: {
     },
   },
 }
+
+*** Inform webpack about the manifest.webmanifest file and ensure it is included in your build, you need to configure webpack to handle webmanifest files

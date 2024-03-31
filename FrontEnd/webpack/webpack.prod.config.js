@@ -1,6 +1,9 @@
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
+const { mainCwd } = require('./utils');
 
 // const glob = require('glob');
 // const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
@@ -71,5 +74,10 @@ module.exports = merge(common, {
     // new PurgeCSSPlugin({
     //   paths: glob.sync(mainCwd('/src/**/*'), { nodir: true }),
     // }),
+    new CopyPlugin({
+      patterns: [
+        { from: mainCwd('manifest.webmanifest'), to: mainCwd('dist') },
+      ],
+    }),
   ],
 });
