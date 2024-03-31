@@ -110,7 +110,7 @@ class AuthController extends ModalContentController {
             ANIMATION_TIMEOUT
           );
         },
-        ENV === 'development' ? ANIMATION_TIMEOUT * 2 : 7000
+        ENV === 'development' ? ANIMATION_TIMEOUT * 2 : 5000
       );
 
       if (isLoggedIn) {
