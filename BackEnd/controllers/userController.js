@@ -321,7 +321,7 @@ exports.deleteOldUserPhoto = async (req, res, next) => {
 
     // Delete photo on Cloudinary
     // https://res.cloudinary.com/dxo1gnffi/image/upload/v1711353587/qjkcdmlpxrvhtkexevy3.jpg
-    if (req.user.photo !== '/img/default.png') {
+    if (req.user.photo !== '/img/users/default.png') {
       const cloudinaryPublicID = req.user.photo.split('/').at(-1).split('.')[0];
       await cloudinaryDestroyer(cloudinaryPublicID);
     }

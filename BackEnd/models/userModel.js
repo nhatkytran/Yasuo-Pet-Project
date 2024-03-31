@@ -26,7 +26,7 @@ const schema = new mongoose.Schema({
   activateTokenAt: { type: Date, select: false },
   ban: { type: Boolean, default: false },
   lastLogin: { type: Date },
-  photo: { type: String, default: '/img/default.png' },
+  photo: { type: String, default: '/img/users/default.png' },
   // Don't validate password here (login using Google doesn't need password)
   password: { type: String, select: false },
   passwordConfirm: { type: String },
