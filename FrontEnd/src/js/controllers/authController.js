@@ -1,3 +1,5 @@
+import isUaWebView from 'is-ua-webview';
+
 import {
   ENV,
   ANIMATION_TIMEOUT,
@@ -12,6 +14,7 @@ import {
 } from '../config';
 
 import {
+  capitalizeWordsInSentence,
   catchAsync,
   isActivateCodeValid,
   isEmailValid,
@@ -214,6 +217,15 @@ class AuthController extends ModalContentController {
   });
 
   handleLoginSocial = social => {
+    // Open link directly in app like Zalo -> 403: disallowed_useragent error
+    if (isUaWebView(window.navigator.userAgent))
+      return this.#ToastView.createToast({
+        ...store.state.toast[TOAST_FAIL],
+        content: `Please use browsers like Chrome, Safari, Firefox,... to sign in with ${capitalizeWordsInSentence(
+          social
+        )}`,
+      });
+
     if (['facebook', 'github', 'apple'].includes(social)) return;
     authService.loginSocial(social);
   };

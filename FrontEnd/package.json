@@ -37,6 +37,7 @@
   "dependencies": {
     "axios": "^1.6.0",
     "cropperjs": "^1.6.1",
+    "is-ua-webview": "^1.1.2",
     "redux": "^4.2.1",
     "validator": "^13.11.0"
   }
