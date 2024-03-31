@@ -236,7 +236,6 @@ class SubwebView {
   }
 
   replayVideoUI() {
-    console.log(this.#trailerVideo.currentTime / this.#trailerVideo.duration);
     this.#displayControlVideoState(VIDEO_STATE_REPLAY);
     this.#displayTrailerContent(ADD);
     this.#trailerImageWrapper.style.zIndex = '3';

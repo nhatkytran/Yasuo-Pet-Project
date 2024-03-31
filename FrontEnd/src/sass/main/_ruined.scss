@@ -47,13 +47,13 @@
     margin: 0 auto 0;
     position: relative;
 
-    @media only screen and (max-width: $px440) {
+    @media only screen and (max-width: $px640) {
       width: calc(100% - 4rem);
       height: 60rem;
     }
-    @media only screen and (max-width: $px340) {
+    @media only screen and (max-width: $px440) {
       width: calc(100% - 4rem);
-      height: 46rem;
+      height: 45rem;
     }
   }
 

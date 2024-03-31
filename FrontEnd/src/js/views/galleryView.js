@@ -1,4 +1,12 @@
-import { BACKEND_URL, ADD, REMOVE, CONTENT, LOADING, ERROR } from '../config';
+import {
+  BACKEND_URL,
+  REM,
+  ADD,
+  REMOVE,
+  CONTENT,
+  LOADING,
+  ERROR,
+} from '../config';
 
 import {
   $,
@@ -20,6 +28,17 @@ class GalleryView {
   #galleryLoading = $('.gallery__loading');
   #galleryError = $('.gallery__error');
   #galleryErrorButton = $_(this.#galleryError, 'button');
+
+  constructor() {
+    const setGalleryHeight = () => {
+      const gallery = $('.gallery');
+      const galleryHeight = gallery.getBoundingClientRect().width * 0.46;
+      gallery.style.height = `${galleryHeight / REM}rem`;
+    };
+
+    setGalleryHeight();
+    window.addEventListener('resize', setGalleryHeight);
+  }
 
   displayContent(state) {
     classRemove(

@@ -288,7 +288,6 @@ class UserView {
       this.#informationAvatarButtonSubmit.classList.remove('active');
       classRemove(ADD, this.#informationAvatarButtonCancel);
 
-      console.log(this.#informationAvatarMainImageSrc);
       this.#appendImage(
         this.#userAvatarWrapper,
         this.#informationAvatarMainImageSrc

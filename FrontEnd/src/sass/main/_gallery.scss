@@ -66,7 +66,9 @@
 
 .gallery {
   width: 100%;
-  padding-top: 46%;
+  height: 0;
+  // height = width * 46% -> set by JS
+  // padding-top: 46%; -> This solution does not work on Ipad
   position: relative;
 
   &__loading {
