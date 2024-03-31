@@ -156,7 +156,9 @@ class SkinsView {
   }
 
   addExploreSkinsHandler(handler) {
-    this.#exploreDesktop.addEventListener('click', handler);
+    [this.#exploreDesktop, this.#exploreMobile].forEach(btn =>
+      btn.addEventListener('click', handler)
+    );
   }
 }
 

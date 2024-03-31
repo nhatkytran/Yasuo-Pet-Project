@@ -587,9 +587,6 @@
   &__img-container {
     border-radius: 50%;
     overflow: hidden;
-    display: inline-table; // Fix bug on Safari
-    align-items: center;
-    justify-content: center;
     filter: brightness(0.8);
     @include square-dimension(5rem);
 

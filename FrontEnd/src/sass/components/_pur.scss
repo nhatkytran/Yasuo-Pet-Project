@@ -1,5 +1,6 @@
 .pur {
   height: 100vh;
+  overflow-x: hidden;
   overflow-y: scroll;
   @include scroll-bar(#211e1f, 0.4rem);
 

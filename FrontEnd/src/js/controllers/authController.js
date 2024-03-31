@@ -97,21 +97,15 @@ class AuthController extends ModalContentController {
 
       // Sometimes fetch too fast, so we need to wait a while for the modal open completely
       // And we also want user see page loading effect
-      setTimeout(
-        () => {
-          super.close(
-            this.#handleCloseModal,
-            this.#AuthView.serverRunningClose
-          );
+      setTimeout(() => {
+        super.close(this.#handleCloseModal, this.#AuthView.serverRunningClose);
 
-          // Wait for server-running animation
-          setTimeout(
-            () => this.#ToastView.createToast(store.state.toast[TOAST_WELCOME]),
-            ANIMATION_TIMEOUT
-          );
-        },
-        ENV === 'development' ? ANIMATION_TIMEOUT * 2 : 5000
-      );
+        // Wait for server-running animation
+        setTimeout(
+          () => this.#ToastView.createToast(store.state.toast[TOAST_WELCOME]),
+          ANIMATION_TIMEOUT
+        );
+      }, ANIMATION_TIMEOUT * 2);
 
       if (isLoggedIn) {
         this.#AuthView.loginSuccess();
