@@ -63,23 +63,24 @@ userRouter.get(
   getCheckoutState
 );
 
-userRouter.use(protect);
+// userRouter.use(protect); // Can cause unexpected errors
 
-userRouter.get('/checkIsLoggedIn', checkIsLoggedIn);
+userRouter.get('/checkIsLoggedIn', protect, checkIsLoggedIn);
 
 userRouter.post(
   '/changeAvatar',
+  protect,
   uploadUserPhoto,
   resizeUserPhoto,
   deleteOldUserPhoto,
   changePhoto
 );
 
-userRouter.post('/changePassword', changePassword);
+userRouter.post('/changePassword', protect, changePassword);
 
-userRouter.get('/me', getMe);
-userRouter.post('/solo', sendSolo);
+userRouter.get('/me', protect, getMe);
+userRouter.post('/solo', protect, sendSolo);
 
-userRouter.get('/checkoutSession/:skinIndex', getCheckoutSession);
+userRouter.get('/checkoutSession/:skinIndex', protect, getCheckoutSession);
 
 module.exports = userRouter;
